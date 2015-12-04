@@ -77,16 +77,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.5.1",
+            "version": "v1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "2b9cec5a5e722010cbebc91713d4c11eaa064d5e"
+                "reference": "47c7128262da274f590ae6f86eb137a7a64e82af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/2b9cec5a5e722010cbebc91713d4c11eaa064d5e",
-                "reference": "2b9cec5a5e722010cbebc91713d4c11eaa064d5e",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/47c7128262da274f590ae6f86eb137a7a64e82af",
+                "reference": "47c7128262da274f590ae6f86eb137a7a64e82af",
                 "shasum": ""
             },
             "require": {
@@ -143,7 +143,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2015-11-02 18:35:48"
+            "time": "2015-12-03 10:50:37"
         },
         {
             "name": "doctrine/collections",
@@ -213,16 +213,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "v2.5.1",
+            "version": "v2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "0009b8f0d4a917aabc971fb089eba80e872f83f9"
+                "reference": "311001fd9865a4d0d59efff4eac6d7dcb3f5270c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/0009b8f0d4a917aabc971fb089eba80e872f83f9",
-                "reference": "0009b8f0d4a917aabc971fb089eba80e872f83f9",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/311001fd9865a4d0d59efff4eac6d7dcb3f5270c",
+                "reference": "311001fd9865a4d0d59efff4eac6d7dcb3f5270c",
                 "shasum": ""
             },
             "require": {
@@ -239,7 +239,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6.x-dev"
+                    "dev-master": "2.5.x-dev"
                 }
             },
             "autoload": {
@@ -282,7 +282,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2015-08-31 13:00:22"
+            "time": "2015-12-04 12:49:42"
         },
         {
             "name": "doctrine/dbal",
@@ -357,16 +357,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "a5b3ba908ba68f3e14e42762a7b940fde65ed7da"
+                "reference": "c4ffef2b2296e9d0179eb0b5248e5ae25c9bba3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/a5b3ba908ba68f3e14e42762a7b940fde65ed7da",
-                "reference": "a5b3ba908ba68f3e14e42762a7b940fde65ed7da",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/c4ffef2b2296e9d0179eb0b5248e5ae25c9bba3b",
+                "reference": "c4ffef2b2296e9d0179eb0b5248e5ae25c9bba3b",
                 "shasum": ""
             },
             "require": {
@@ -431,7 +431,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2015-11-04 21:33:02"
+            "time": "2015-11-16 17:11:46"
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
@@ -952,16 +952,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "19f765b66c6fbb56ee3b11bc16d52e38eebdc295"
+                "reference": "a208865a5aeffc2dbbef2a5b3409887272d93f32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/19f765b66c6fbb56ee3b11bc16d52e38eebdc295",
-                "reference": "19f765b66c6fbb56ee3b11bc16d52e38eebdc295",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/a208865a5aeffc2dbbef2a5b3409887272d93f32",
+                "reference": "a208865a5aeffc2dbbef2a5b3409887272d93f32",
                 "shasum": ""
             },
             "require": {
@@ -996,7 +996,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2015-11-10 00:45:41"
+            "time": "2015-12-01 02:52:15"
         },
         {
             "name": "psr/log",
