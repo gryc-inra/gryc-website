@@ -8,10 +8,10 @@ parameters:
     database_user:     grycii
     database_password: ~
 
-    mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_transport:  gmail
+    mailer_host:       ~
+    mailer_user:       mgm.agroparistech
+    mailer_password:   nL83Cer8
 
     # A secret key that's used to generate certain security-related tokens
     secret:            p7wfRcjk8aU9WnLP26SpA3p8wB8Cpy5E8LkU26YvH9Kdn8E5N48H333i8cH8cLuV
