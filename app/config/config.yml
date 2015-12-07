@@ -77,6 +77,8 @@ fos_user:
         address:                mgm.gestion@gmail.com
         sender_name:            GRYC
     registration:
+        form:
+            type:               AppBundle\Form\RegistrationType
         confirmation:
             enabled:            true
             from_email:
@@ -87,3 +89,6 @@ fos_user:
             from_email:
                 address:        mgm.gestion@gmail.com
                 sender_name:    GRYC Resetting
+    profile:
+        form:
+            type:               AppBundle\Form\ProfileType
