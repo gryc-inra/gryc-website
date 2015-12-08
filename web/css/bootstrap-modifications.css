@@ -1,4 +1,4 @@
-/* Sticky footer styles
+/* Page-body styles
 -------------------------------------------------- */
 html {
   position: relative;
@@ -11,16 +11,6 @@ body {
   padding-bottom: 10px;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 100px;
-  padding-top: 10px;
-  background-color: #527EB1;
-  color: #FFF;
-}
 
 /* Header
 -------------------------------------------------- */
@@ -35,3 +25,23 @@ header {
   background: -moz-linear-gradient(right, #FFFFFF, #527EB1); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
 }
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 100px;
+  padding-top: 10px;
+  background-color: #527EB1;
+  color: #FFFFFF;
+}
+
+footer a {
+  color: #FFFFFF;
+  text-decoration: underline dashed;
+}
+

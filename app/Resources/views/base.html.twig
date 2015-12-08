@@ -31,7 +31,7 @@
   </head>
 
   <body>
-    <header class="header">
+    <header>
       <div id="logo">
         <img src="{{ asset('images/GRYC_logo_beta_v2.png') }}" alt="GRYC" />
       </div>
@@ -75,7 +75,7 @@
       {% block body %}{% endblock %}
     </div>
 
-    <footer class="footer">
+    <footer>
       <div class="container-fluid">
         <div class="row">
           <div class="col-xs-4">
@@ -83,9 +83,9 @@
           </div>
 
           <div class="col-xs-4 text-center">
-          Copyright &copy; INRA 2013-2015 - Publication director: Cécile Neuvéglise<BR>
-          Developer and administrator: Hugo Devillers<BR>
-          Last Update: 23-JUL-2015
+          Copyright &copy; INRA 2013-{{ 'now'|date('Y') }} - Publication director: Cécile Neuvéglise<br>
+          Developer and administrator: Hugo Devillers<br>
+          Last Update: 23-JUL-2015<br>
           </div>
 
           <div class="col-xs-4 text-right">
