@@ -24,19 +24,19 @@ class User extends BaseUser
      * @ORM\Column(name="first_name", type="string", length=255)
      * @Assert\NotBlank(message="Please enter your first name.", groups={"Registration", "Profile"})
      */
-    protected $firstName;
+    private $firstName;
 
     /**
      * @ORM\Column(name="last_name", type="string", length=255)
      * @Assert\NotBlank(message="Please enter your last name.", groups={"Registration", "Profile"})
      */
-    protected $lastName;
+    private $lastName;
 
     /**
      * @ORM\Column(name="company", type="string", length=255)
      * @Assert\NotBlank(message="Please enter your company's name.", groups={"Registration", "Profile"})
      */
-    protected $company;
+    private $company;
 
     public function __construct()
     {
