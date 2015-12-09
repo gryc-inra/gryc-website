@@ -45,3 +45,9 @@ footer a {
   text-decoration: underline dashed;
 }
 
+/* Red * after required label
+-------------------------------------------------- */
+.control-label.required:after {
+    content: " *";
+    color: red;
+}
