@@ -1,48 +1,48 @@
 /* Page-body styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 100px;
-  padding-bottom: 10px;
+    /* Margin bottom by footer height */
+    margin-bottom: 100px;
+    padding-bottom: 10px;
 }
 
 
 /* Header
 -------------------------------------------------- */
 header {
-  /* Set the fixed height of the header here */
-  height: 134px;
-  padding: 10px;
-  /* Set the background of the header here */
-  background: #527EB1; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(left, #FFFFFF , #527EB1); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(right, #FFFFFF, #527EB1); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(right, #FFFFFF, #527EB1); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
+    /* Set the fixed height of the header here */
+    height: 134px;
+    padding: 10px;
+    /* Set the background of the header here */
+    background: #527EB1; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, #FFFFFF , #527EB1); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #FFFFFF, #527EB1); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #FFFFFF, #527EB1); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
 }
 
 
 /* Sticky footer styles
 -------------------------------------------------- */
 footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 100px;
-  padding-top: 10px;
-  background-color: #527EB1;
-  color: #FFFFFF;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 100px;
+    padding-top: 10px;
+    background-color: #527EB1;
+    color: #FFFFFF;
 }
 
 footer a {
-  color: #FFFFFF;
-  text-decoration: underline dashed;
+    color: #FFFFFF;
+    text-decoration: underline dashed;
 }
 
 /* Red * after required label
