@@ -11,7 +11,6 @@ body {
     padding-bottom: 10px;
 }
 
-
 /* Header
 -------------------------------------------------- */
 header {
@@ -26,16 +25,16 @@ header {
     background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
 }
 
-
 /* Sticky footer styles
 -------------------------------------------------- */
 footer {
     position: absolute;
+    overflow: auto;
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 100px;
-    padding-top: 10px;
+    padding: 10px;
     background-color: #527EB1;
     color: #FFFFFF;
 }
