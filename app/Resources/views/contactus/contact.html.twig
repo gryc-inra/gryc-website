@@ -1,0 +1,10 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Contact us - {{ parent() }}{% endblock %}
+
+{% block body %}
+<h2>Contact us</h2>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
