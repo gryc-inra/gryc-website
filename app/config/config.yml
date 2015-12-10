@@ -40,6 +40,14 @@ twig:
     form_themes:
         - bootstrap_3_horizontal_layout.html.twig
 
+# Assetic configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ AppBundle ]
+    filters:
+        cssrewrite: ~
+
 # Doctrine Configuration
 doctrine:
     dbal:
