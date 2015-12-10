@@ -42,6 +42,7 @@ class ContactUsController extends Controller
             $em->flush();
 
             $this->addFlash('success', 'Your message has been submitted.');
+            $this->get('app.mailer')->sendConfirmationContactEmailMessage($contactus);
 
             return $this->redirectToRoute('homepage');
         }
