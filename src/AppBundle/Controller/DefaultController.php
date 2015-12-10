@@ -14,8 +14,14 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-        ));
+        return $this->render('default/index.html.twig');
+    }
+
+    /**
+     * @Route("/privacy-policy", name="privacy-policy")
+     */
+    public function privacyPolicyAction(Request $request)
+    {
+        return $this->render('default/privacy-policy.html.twig');
     }
 }
