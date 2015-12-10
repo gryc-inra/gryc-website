@@ -51,3 +51,12 @@ footer a {
     content: " *";
     color: red;
 }
+
+/* Flash bags
+-------------------------------------------------- */
+.alert-dismissible {
+    position: fixed;
+    top: 200px;
+    left: 10px;
+    z-index: 10;
+}
