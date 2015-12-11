@@ -60,6 +60,12 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
+                        {# Si l'utilisateur est un administrateur #}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li><a href="{{ path('contact_us_homepage') }}">Messages <span class="badge">{{ render(controller("AppBundle:ContactUs:numberMessage")) }}</span></a></li>
+                        {% endif %}
+
+                        {# Si l'utilisateur est connecté #}
                         {% if app.user %}
                             <li><a href="{{ path("fos_user_profile_show") }}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
                             <li><a href="{{ path("fos_user_security_logout") }}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
@@ -121,7 +127,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <a href="{{ path('contact') }}">Contact us</a>
+                        <a href="{{ path('contact_us') }}">Contact us</a>
                     </div>
 
                     <div class="col-md-3">

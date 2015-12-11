@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * ContactUsRepository
@@ -10,4 +11,28 @@ namespace AppBundle\Repository;
  */
 class ContactUsRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getMessages($page, $nbPerPage)
+    {
+        $query = $this
+            ->createQueryBuilder('m')
+            ->leftJoin('m.category', 'c')
+                ->addSelect('c')
+            ->orderBy('m.date', 'ASC')
+            ->getQuery();
+
+        $query
+            ->setFirstResult(($page-1)*$nbPerPage)
+            ->setMaxResults($nbPerPage);
+
+        return new Paginator($query, true);
+    }
+
+    public function getNumberMessages()
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->select('COUNT(m)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

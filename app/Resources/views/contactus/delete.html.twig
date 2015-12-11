@@ -1,0 +1,26 @@
+{# app/views/contactus/delete.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Delete a message - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Delete a message</h2>
+
+    <div class="alert alert-danger" role="alert">
+        <b>CAUTION !</b> You are about to delete a message, to have answered it. This action is irreversible.
+    </div>
+    <p>Are you sure you want delete this message ?</p>
+    {# On crée le formulaire mannuellement #}
+    <form action="{{ path('contact_us_delete', { 'id':message.id }) }}" method="post">
+        {# Générer le champ CSRF #}
+        {{ form_rest(form) }}
+
+        {# On propose de continuer ou de revenir en arrière #}
+        <a class="btn btn-success" href="{{ path('contact_us_homepage') }}">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            <b>Cancel !</b> Come back to the messages list
+        </a>
+        <input class="btn btn-danger" type="submit" value="Delete"/>
+    </form>
+{% endblock %}

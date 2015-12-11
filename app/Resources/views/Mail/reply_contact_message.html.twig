@@ -1,0 +1,13 @@
+<h3>Reply about your message: {{ answer.subject }}</h3>
+<p>{{ reply.message|nl2br }}</p>
+
+<hr>
+
+<p style="text-decoration: underline;">Summary of your message</p>
+
+<p>
+    <span style="text-decoration: underline;">Category:</span> {{ answer.category.name }}<br>
+    <span style="text-decoration: underline;">Subject:</span> {{ answer.subject }}<br>
+    <span style="text-decoration: underline;">Message:</span><br>
+    {{ answer.message|nl2br }}
+</p>

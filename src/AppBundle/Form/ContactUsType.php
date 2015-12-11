@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ContactUsType extends AbstractType
 {
@@ -32,7 +32,11 @@ class ContactUsType extends AbstractType
                 'placeholder' => 'Choose a category',
             ))
             ->add('subject')
-            ->add('message')
+            ->add('message', TextareaType::class, array(
+                'attr' => array(
+                    'rows' => 20,
+                )
+            ))
         ;
     }
     

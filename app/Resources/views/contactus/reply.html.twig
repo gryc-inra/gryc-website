@@ -1,0 +1,19 @@
+{# app/Ressources/views/contactus/reply.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Reply to a message - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Reply to a message</h2>
+
+    <div style="background-color: #f0f0f0;">
+        <h3>Question:</h3>
+        <p><u>Category:</u> {{ message.category.name }}</p>
+        <p><u>Subject:</u> {{ message.subject }}</p>
+        <p><u>Message:</u><br>
+        {{ message.message|nl2br }}</p>
+    </div>
+
+    {{ form(form) }}
+{% endblock %}
