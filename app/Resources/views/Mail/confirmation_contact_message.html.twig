@@ -1,13 +1,21 @@
-Hi {{ contactMessage.firstName }} {{ contactMessage.lastName }},
-Thank you for your interest in GRYC.
-We received your message, and we are going to treat it as quickly as possible.
+<p>
+    Hi {{ contactMessage.firstName }} {{ contactMessage.lastName }},<br>
+    Thank you for your interest in GRYC.<br>
+    We received your message, and we are going to treat it as quickly as possible.
+</p>
 
-Best regards,
-The GRYC Team
+<p>
+    Best regards,<br>
+    The GRYC Team
+</p>
 
--------------------
+<hr>
 
-Category: {{ contactMessage.Category.Name }}
-Subject: {{ contactMessage.Subject }}
-Message:
-{{ contactMessage.Message }}
+<p style="text-decoration: underline;">Summary of your message</p>
+
+<p>
+    <span style="text-decoration: underline;">Category:</span> {{ contactMessage.Category.Name }}<br>
+    <span style="text-decoration: underline;">Subject:</span> {{ contactMessage.Subject }}<br>
+    <span style="text-decoration: underline;">Message:</span><br>
+    {{ contactMessage.Message|nl2br }}
+</p>
