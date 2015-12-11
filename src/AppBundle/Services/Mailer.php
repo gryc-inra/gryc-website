@@ -33,7 +33,7 @@ class Mailer
             ->setSubject($subject)
             ->setBody($body)
             ->setCharset('utf-8')
-            ->setContentType('text/plain');
+            ->setContentType('text/html');
 
         $this->mailer->send($message);
     }
