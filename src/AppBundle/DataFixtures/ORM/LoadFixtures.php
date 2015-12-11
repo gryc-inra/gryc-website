@@ -56,7 +56,7 @@ class LoadModule extends AbstractFixture implements ContainerAwareInterface
         //  ContactUs Categories  //
         //------------------------//
 
-        $categoriesName = array('Account question', 'Bug signalement', 'Ask informations');
+        $categoriesName = array('Account', 'Bug report', 'Informations request', 'Other (not listed)');
 
         foreach ($categoriesName as $categoryName) {
             $category = new ContactUsCategory();
