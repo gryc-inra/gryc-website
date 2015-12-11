@@ -2,10 +2,13 @@
 
 namespace AppBundle\Form;
 
+use Doctrine\DBAL\Types\TextType;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class ContactUsType extends AbstractType
 {
@@ -21,7 +24,12 @@ class ContactUsType extends AbstractType
             ->add('email')
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle:ContactUsCategory',
-                'choice_label' => 'name'
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('m')
+                        ->orderBy('m.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'placeholder' => 'Choose a category',
             ))
             ->add('subject')
             ->add('message')
