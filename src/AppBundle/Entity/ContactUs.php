@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * ContactUs
+ * ContactUs.
  *
  * @ORM\Table(name="contact_us")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactUsRepository")
@@ -77,14 +77,13 @@ class ContactUs
      */
     private $category;
 
-
     public function __construct()
     {
         $this->date = new \DateTime();
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -94,7 +93,7 @@ class ContactUs
     }
 
     /**
-     * Set firstName
+     * Set firstName.
      *
      * @param string $firstName
      *
@@ -108,7 +107,7 @@ class ContactUs
     }
 
     /**
-     * Get firstName
+     * Get firstName.
      *
      * @return string
      */
@@ -118,7 +117,7 @@ class ContactUs
     }
 
     /**
-     * Set lastName
+     * Set lastName.
      *
      * @param string $lastName
      *
@@ -132,7 +131,7 @@ class ContactUs
     }
 
     /**
-     * Get lastName
+     * Get lastName.
      *
      * @return string
      */
@@ -142,7 +141,7 @@ class ContactUs
     }
 
     /**
-     * Set email
+     * Set email.
      *
      * @param string $email
      *
@@ -156,7 +155,7 @@ class ContactUs
     }
 
     /**
-     * Get email
+     * Get email.
      *
      * @return string
      */
@@ -166,7 +165,7 @@ class ContactUs
     }
 
     /**
-     * Set subject
+     * Set subject.
      *
      * @param string $subject
      *
@@ -180,7 +179,7 @@ class ContactUs
     }
 
     /**
-     * Get subject
+     * Get subject.
      *
      * @return string
      */
@@ -190,7 +189,7 @@ class ContactUs
     }
 
     /**
-     * Set message
+     * Set message.
      *
      * @param string $message
      *
@@ -204,7 +203,7 @@ class ContactUs
     }
 
     /**
-     * Get message
+     * Get message.
      *
      * @return string
      */
@@ -214,7 +213,7 @@ class ContactUs
     }
 
     /**
-     * Set date
+     * Set date.
      *
      * @param \DateTime $date
      *
@@ -228,7 +227,7 @@ class ContactUs
     }
 
     /**
-     * Get date
+     * Get date.
      *
      * @return \DateTime
      */
@@ -238,7 +237,7 @@ class ContactUs
     }
 
     /**
-     * Set category
+     * Set category.
      *
      * @param \ContactUsCategory $category
      *
@@ -252,7 +251,7 @@ class ContactUs
     }
 
     /**
-     * Get category
+     * Get category.
      *
      * @return \ContactUsCategory
      */

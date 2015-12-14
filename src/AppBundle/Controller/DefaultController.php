@@ -22,6 +22,6 @@ class DefaultController extends Controller
      */
     public function privacyPolicyAction(Request $request)
     {
-        return $this->render('default/privacy-policy.html.twig');
+        return $this->render('default/privacyPolicy.html.twig');
     }
 }

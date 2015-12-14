@@ -16,8 +16,8 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class ContactUsController
- * @package AppBundle\Controller
+ * Class ContactUsController.
+ *
  * @Route("/contact")
  */
 class ContactUsController extends Controller
@@ -35,13 +35,9 @@ class ContactUsController extends Controller
             $contactus->setEmail($user->getEmailCanonical());
         }
 
-
         $form = $this->createForm(ContactUsType::class, $contactus);
         $form->add('save', SubmitType::class, array(
             'label' => 'Send message',
-            'attr' => array(
-                'class' => 'btn btn-default'
-            )
         ));
 
         $form->handleRequest($request);
@@ -57,6 +53,7 @@ class ContactUsController extends Controller
 
             return $this->redirectToRoute('homepage');
         }
+
         return $this->render('contactus\contact.html.twig', array(
             'form' => $form->createView(),
         ));
@@ -78,7 +75,7 @@ class ContactUsController extends Controller
             ->getRepository('AppBundle:ContactUs')
             ->getMessages($page, $nbPerPage);
 
-        $nbPages = ceil(count($listMessages)/$nbPerPage);
+        $nbPages = ceil(count($listMessages) / $nbPerPage);
 
         if ($page > $nbPages && $page != 1) {
             throw $this->createNotFoundException("This page doesn't exist.");
@@ -87,7 +84,7 @@ class ContactUsController extends Controller
         return $this->render('contactus\index.html.twig', array(
             'listMessages' => $listMessages,
             'nbPages' => $nbPages,
-            'page' => $page
+            'page' => $page,
         ));
     }
 

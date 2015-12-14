@@ -45,67 +45,74 @@ class User extends BaseUser
     }
 
     /**
-     * Set firstName
+     * Set firstName.
      *
      * @param string $firstName
      *
      * @return User
      */
-    public function setFirstName($firstName) {
+    public function setFirstName($firstName)
+    {
         $this->firstName = $firstName;
+
         return $this;
     }
 
     /**
-     * Get firstName
+     * Get firstName.
      *
      * @return string
      */
-    public function getFirstName() {
+    public function getFirstName()
+    {
         return $this->firstName;
     }
 
     /**
-     * Set lastNAme
+     * Set lastNAme.
      *
      * @param string $lastName
      *
      * @return User
      */
-
-    public function setLastName($lastName) {
+    public function setLastName($lastName)
+    {
         $this->lastName = $lastName;
+
         return $this;
     }
 
     /**
-     * Get lastName
+     * Get lastName.
      *
      * @return string
      */
-    public function getLastName() {
+    public function getLastName()
+    {
         return $this->lastName;
     }
 
     /**
-     * Set company
+     * Set company.
      *
      * @param string $company
      *
      * @return User
      */
-
-    public function setCompany($company) {
+    public function setCompany($company)
+    {
         $this->company = $company;
+
         return $this;
     }
 
     /**
-     * Get company
+     * Get company.
      *
      * @return string
      */
-    public function getCompany() {
+    public function getCompany()
+    {
         return $this->company;
     }
 }

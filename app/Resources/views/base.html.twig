@@ -156,9 +156,13 @@
             <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
             <!-- End Cookie Consent plugin -->
 
+            <script src="{{ asset('js/auto-dismiss-alert.js') }}"></script>
+
             {% javascripts 'js/auto-dismiss-alert.js' %}
-                <script src="{{ asset_url }}"></script>
+            <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
+
+
         {% endblock %}
     </body>
 </html>

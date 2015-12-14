@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ContactUsCategory
+ * ContactUsCategory.
  *
  * @ORM\Table(name="contact_us_category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactUsCategoryRepository")
@@ -28,9 +28,8 @@ class ContactUsCategory
      */
     private $name;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -40,7 +39,7 @@ class ContactUsCategory
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -54,7 +53,7 @@ class ContactUsCategory
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -63,4 +62,3 @@ class ContactUsCategory
         return $this->name;
     }
 }
-

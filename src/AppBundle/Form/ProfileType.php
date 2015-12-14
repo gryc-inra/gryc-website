@@ -25,4 +25,3 @@ class ProfileType extends AbstractType
         return 'app_user_profile';
     }
 }
-

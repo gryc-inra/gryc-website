@@ -11,6 +11,7 @@ services:
         class: Twig_Extensions_Extension_Text
         tags:
             - { name: twig.extension }
+
     app.mailer:
         class: AppBundle\Services\Mailer
         arguments: ["@mailer", "@templating"]

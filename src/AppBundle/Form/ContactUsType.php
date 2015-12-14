@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form;
 
-use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,7 +13,7 @@ class ContactUsType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -24,7 +23,7 @@ class ContactUsType extends AbstractType
             ->add('email')
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle:ContactUsCategory',
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('m')
                         ->orderBy('m.name', 'ASC');
                 },
@@ -35,18 +34,18 @@ class ContactUsType extends AbstractType
             ->add('message', TextareaType::class, array(
                 'attr' => array(
                     'rows' => 20,
-                )
+                ),
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\ContactUs'
+            'data_class' => 'AppBundle\Entity\ContactUs',
         ));
     }
 }
