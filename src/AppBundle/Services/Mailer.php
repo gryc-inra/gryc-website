@@ -49,12 +49,12 @@ class Mailer
         $this->sendEmailMessage($to, $from, $subject, $body);
     }
 
-    public function sendReplyContactEmailMessage(ContactUs $answer, $reply)
+    public function sendReplyContactEmailMessage(ContactUs $question, $reply, $fromName, $fromMail)
     {
-        $to = $answer->getEmail();
-        $from = array($reply['email'] => $reply['name']);
+        $to = $question->getEmail();
+        $from = array($fromMail => $fromName);
         $subject = 'Reply about your message';
-        $body = $this->templating->render('mail/replyContactMessage.html.twig', array('answer' => $answer, 'reply' => $reply));
+        $body = $this->templating->render('mail/replyContactMessage.html.twig', array('question' => $question, 'reply' => $reply));
 
         $this->sendEmailMessage($to, $from, $subject, $body);
     }
