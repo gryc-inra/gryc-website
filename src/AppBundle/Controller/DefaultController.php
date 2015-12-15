@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  *
  * @author Mathieu Piot (mathieu.piot[at]agroparistech.fr)
  *
- * @Route("/contact")
+ * @Route("/")
  */
 class DefaultController extends Controller
 {
