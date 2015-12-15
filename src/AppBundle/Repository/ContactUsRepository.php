@@ -12,6 +12,9 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class ContactUsRepository extends \Doctrine\ORM\EntityRepository
 {
+    /*
+     * Compter les objets, et récupérer les objets souhaités
+     */
     public function getMessages($page, $nbPerPage)
     {
         $query = $this
@@ -28,6 +31,7 @@ class ContactUsRepository extends \Doctrine\ORM\EntityRepository
         return new Paginator($query, true);
     }
 
+    // Compter tout les objets présents dans la base
     public function getNumberMessages()
     {
         return $this

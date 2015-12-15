@@ -17,7 +17,9 @@
                 </tr>
             </thead>
             <tbody>
+                {# On vérifie si on a des messages à afficher #}
                 {% if listMessages is not empty %}
+                    {# On fait une boucle sur l'ensemble des messages, et on les affichent ligne par ligne #}
                     {% for message in listMessages %}
                         <tr>
                             <td>{{ loop.index }}</td>
@@ -31,6 +33,7 @@
                             </td>
                         </tr>
                     {% endfor %}
+                {# Si il n'y a pas de messages à afficher, on indique qu'il n'y a pas de messages #}
                 {% else %}
                     <td colspan="4" class='text-center'>There is no message.</td>
                 {% endif %}
@@ -38,6 +41,7 @@
         </table>
     </div>
 
+    {# Si le nombre de pages est suppérieur à 1, on affiche la pagination #}
     {% if nbPages > 1 %}
         <div class="center">
             <ul class="pagination">

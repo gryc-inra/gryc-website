@@ -57,8 +57,10 @@ class LoadModule extends AbstractFixture implements ContainerAwareInterface
         //  ContactUs Categories  //
         //------------------------//
 
+        // Définir les catégories dans un array
         $categoriesName = array('Account', 'Bug report', 'Informations request', 'Other (not listed)');
 
+        // Pour chaque ligne, on crée un objet ContactUsCategory et on défini les attributs, puis on persiste
         foreach ($categoriesName as $categoryName) {
             $category = new ContactUsCategory();
             $category->setName($categoryName);
@@ -68,6 +70,7 @@ class LoadModule extends AbstractFixture implements ContainerAwareInterface
             $this->setReference('category-'.$categoryName, $category);
         }
 
+        // A la fin, on fait une unique requête pour tout persister en base
         $manager->flush();
     }
 }

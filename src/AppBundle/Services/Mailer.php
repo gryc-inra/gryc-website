@@ -1,11 +1,22 @@
 <?php
 // src/AppBundle/Services/Mailer.php
-
+/**
+ * Gestion des contacts visiteur/équipe.
+ *
+ * @copyright 2015 BimLip
+ */
 namespace AppBundle\Services;
 
 use AppBundle\Entity\ContactUs;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
+/**
+ * Service Mailer, permettant d'envoyer les mails.
+ *
+ * @author Mathieu Piot (mathieu.piot[at]agroparistech.fr)
+ *
+ * @Route("/contact")
+ */
 class Mailer
 {
     protected $mailer;
@@ -20,6 +31,8 @@ class Mailer
     }
 
     /**
+     * Fonction principale d'envois de mail, défini les attributs de SwiftMailer.
+     *
      * @param string $to
      * @param string $subject
      * @param string $body
@@ -38,7 +51,11 @@ class Mailer
 
         $this->mailer->send($message);
     }
-
+    /**
+     * Envoi un mail de confirmation de réception d'un message à un visiteur.
+     *
+     * @param \ContactUs $contactMessage
+     */
     public function sendConfirmationContactEmailMessage(ContactUs $contactMessage)
     {
         $to = $contactMessage->getEmail();
@@ -48,7 +65,14 @@ class Mailer
 
         $this->sendEmailMessage($to, $from, $subject, $body);
     }
-
+    /**
+     * Envoi d'un mail de réponse à une question posée par un visiteur.
+     *
+     * @param \ContactUs question
+     * @param array reply
+     * @param string fromName
+     * @param string fromMail
+     */
     public function sendReplyContactEmailMessage(ContactUs $question, $reply, $fromName, $fromMail)
     {
         $to = $question->getEmail();
