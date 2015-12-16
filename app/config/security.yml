@@ -24,6 +24,14 @@ security:
 
             logout:       true
             anonymous:    true
+            remember_me:
+                secret:   %secret%
+                lifetime: 604800 #1week in seconds
+                path:     /
+                # by default, the feature is enabled by checking a
+                # checkbox in the login form (see below), uncomment the
+                # following line to always enable it.
+                #always_remember_me: true
         
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
