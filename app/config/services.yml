@@ -7,18 +7,6 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    session.handler.pdo:
-        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
-        public:    false
-        arguments:
-            - 'mysql:host=%database_host%;port=%database_port%;dbname=%database_name%'
-            - { db_username: '%database_user%', db_password: '%database_password%' }
-
-    twig.extension.text:
-        class: Twig_Extensions_Extension_Text
-        tags:
-            - { name: twig.extension }
-
     app.mailer:
         class: AppBundle\Services\Mailer
         arguments: ["@mailer", "@templating"]
