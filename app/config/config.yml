@@ -116,3 +116,24 @@ fos_user:
     profile:
         form:
             type:               AppBundle\Form\ProfileType
+
+#FOSElasticaBundle
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        app:
+            types:
+                user:
+                    mappings:
+                        username: ~
+                        firstName: ~
+                        lastName: ~
+                        email: ~
+                    persistence:
+                        driver: orm
+                        model: AppBundle\Entity\User
+                        provider: ~
+                        listener:
+                            immediate: ~
+                        finder: ~
