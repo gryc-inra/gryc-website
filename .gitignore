@@ -1,5 +1,5 @@
 /app/config/parameters.yml
-!/bin/
+/bin/
 /build/
 /composer.phar
 /vendor/
@@ -10,3 +10,4 @@
 !var/sessions/.gitkeep
 /phpunit.xml
 .idea
+nbproject/
