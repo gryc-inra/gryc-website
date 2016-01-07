@@ -892,12 +892,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "32513b8c0a25fc9365f979cd6b6cad905af96c9d"
+                "reference": "e1240aa80435c6c332e85e51ad29b2e32a4c6d36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/32513b8c0a25fc9365f979cd6b6cad905af96c9d",
-                "reference": "32513b8c0a25fc9365f979cd6b6cad905af96c9d",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/e1240aa80435c6c332e85e51ad29b2e32a4c6d36",
+                "reference": "e1240aa80435c6c332e85e51ad29b2e32a4c6d36",
                 "shasum": ""
             },
             "require": {
@@ -967,7 +967,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2015-11-24 04:59:46"
+            "time": "2016-01-07 04:53:55"
         },
         {
             "name": "friendsofsymfony/user-bundle",
