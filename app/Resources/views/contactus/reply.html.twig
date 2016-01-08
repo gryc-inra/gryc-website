@@ -4,6 +4,8 @@
 
 {% block title %}Reply to a message - {{ parent() }}{% endblock %}
 
+{% block breadcrumb %}{{ parent() }} <li><a href="{{ path('contact_us_homepage') }}">Messages list</a></li> <li>Reply to the message: {{ message.subject }}</li>{% endblock %}
+
 {% block body %}
     <h2>Reply to a message</h2>
 

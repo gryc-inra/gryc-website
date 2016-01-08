@@ -2,6 +2,8 @@
 
 {% block title %}Contact us - {{ parent() }}{% endblock %}
 
+{% block breadcrumb %}{{ parent() }} <li>Contact us</li>{% endblock %}
+
 {% block body %}
 <h2>Contact us</h2>
     {{ form_start(form) }}

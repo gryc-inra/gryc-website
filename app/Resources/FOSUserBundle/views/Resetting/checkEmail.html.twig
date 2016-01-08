@@ -2,6 +2,10 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% block title %}Email verification - {{ parent() }}{% endblock %}
+
+{% block breadcrumb %}{{ parent() }} <li>Email verification</li>{% endblock %}
+
 {% block fos_user_content %}
 <p>
 {{ 'resetting.check_email'|trans({'%email%': email}) }}

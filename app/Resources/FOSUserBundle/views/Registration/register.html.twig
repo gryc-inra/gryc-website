@@ -1,5 +1,9 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
+{% block title %}Sign up - {{ parent() }}{% endblock %}
+
+{% block breadcrumb %}{{ parent() }} <li>Sign up</li>{% endblock %}
+
 {% block fos_user_content %}
 {% include "FOSUserBundle:Registration:register_content.html.twig" %}
 {% endblock fos_user_content %}

@@ -4,6 +4,8 @@
 
 {% block title %}Liste des messages - {{ parent() }}{% endblock %}
 
+{% block breadcrumb %}{{ parent() }} <li>Messages list</li>{% endblock %}
+
 {% block body %}
     <h2>Messages list</h2>
     <div class="table-responsive">
