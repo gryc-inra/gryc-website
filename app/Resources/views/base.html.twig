@@ -14,9 +14,9 @@
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
             <!-- Optional theme -->
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-            <link rel="stylesheet" href="{{ asset('css/bootstrap-modifications.css') }}" />
 
-            {% stylesheets 'css/bootstrap-modifications.css' filter='cssrewrite' %}
+            {% stylesheets 'css/bootstrap-modifications.css'
+                filter='uglifycss' filter='cssrewrite'  output='css/compiled/app.css' %}
                 <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
         {% endblock %}
@@ -157,12 +157,11 @@
             <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
             <!-- End Cookie Consent plugin -->
 
-            <script src="{{ asset('js/auto-dismiss-alert.js') }}"></script>
-
-            {% javascripts 'js/auto-dismiss-alert.js' %}
-            <script src="{{ asset_url }}"></script>
+            {% javascripts
+                'js/auto-dismiss-alert.js'
+            filter='uglifyjs2' output='js/compiled/app.js' %}
+                <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
-
 
         {% endblock %}
     </body>
