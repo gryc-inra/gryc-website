@@ -4,7 +4,7 @@
 
 {% block title %}Delete a message - {{ parent() }}{% endblock %}
 
-{% block breadcrumb %}{{ parent() }} <li><a href="{{ path('contact_us_homepage') }}">Messages list</a></li> <li>Delete message: {{ message.subject }}</li>{% endblock %}
+{% block breadcrumb %}{{ parent() }} <li><a href="{{ path('contact_us_homepage') }}">Messages list</a></li> <li class="active">Delete message: {{ message.subject }}</li>{% endblock %}
 
 {% block body %}
     <h2>Delete a message</h2>
