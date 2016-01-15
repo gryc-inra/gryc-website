@@ -39,13 +39,18 @@ fos_elastica:
             types:
                 user:
                     mappings:
-                        username: ~
-                        firstName: ~
-                        lastName:
-                            boost: 6
+                        username:
                             index_analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
-                        email: ~
+                        firstName:
+                            index_analyzer : custom_index_analyzer
+                            search_analyzer : custom_search_analyzer
+                        lastName:
+                            index_analyzer : custom_index_analyzer
+                            search_analyzer : custom_search_analyzer
+                        email:
+                            index_analyzer : custom_index_analyzer
+                            search_analyzer : custom_search_analyzer
                     persistence:
                         driver: orm
                         model: AppBundle\Entity\User
