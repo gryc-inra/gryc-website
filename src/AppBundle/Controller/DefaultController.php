@@ -43,20 +43,4 @@ class DefaultController extends Controller
     {
         return $this->render('default/privacyPolicy.html.twig');
     }
-    
-    /**
-     * @Route("/search/{keyword}", name="search")
-     */
-    public function searchAction($keyword)
-    {
-
-        $repositoryManager = $this->container->get('fos_elastica.manager');
-        $repository = $repositoryManager->getRepository('AppBundle:User');
-        $results = $repository->findWithCustomQuery($keyword);
-
-        return $this->render('default\search.html.twig', array(
-            'keyword' => $keyword,
-            'results' => $results,
-        ));
-    }
 }
