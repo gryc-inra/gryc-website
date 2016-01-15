@@ -5,6 +5,7 @@ fos_elastica:
     indexes:
         app:
             client: default
+            finder: ~
             settings:
                 index:
                     analysis:
@@ -49,5 +50,6 @@ fos_elastica:
                         driver: orm
                         model: AppBundle\Entity\User
                         provider: ~
-                        listener: ~
                         finder: ~
+                        listener: ~
+                        repository: AppBundle\SearchRepository\UserRepository

@@ -49,11 +49,11 @@ class DefaultController extends Controller
      */
     public function searchAction($keyword)
     {
-        $finder = $this->container->get('fos_elastica.finder.app.user');
-        $results = $finder->find($keyword);
-        
-        dump($results);
-               
+
+        $repositoryManager = $this->container->get('fos_elastica.manager');
+        $repository = $repositoryManager->getRepository('AppBundle:User');
+        $results = $repository->findWithCustomQuery($keyword);
+
         return $this->render('default\search.html.twig', array(
             'keyword' => $keyword,
             'results' => $results,
