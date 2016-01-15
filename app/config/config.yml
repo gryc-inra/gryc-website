@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: elasticsearch.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -116,24 +117,3 @@ fos_user:
     profile:
         form:
             type:               AppBundle\Form\ProfileType
-
-#FOSElasticaBundle
-fos_elastica:
-    clients:
-        default: { host: localhost, port: 9200 }
-    indexes:
-        app:
-            types:
-                user:
-                    mappings:
-                        username: ~
-                        firstName: ~
-                        lastName: ~
-                        email: ~
-                    persistence:
-                        driver: orm
-                        model: AppBundle\Entity\User
-                        provider: ~
-                        listener:
-                            immediate: ~
-                        finder: ~
