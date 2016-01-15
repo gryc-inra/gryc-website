@@ -1,0 +1,19 @@
+{# app/Ressources/views/search/quickSearchResults.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{%block title %}
+    Search Results - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h2>Results for "<i>{{ search }}</i>"</h2>
+    
+    {% if results is not empty %}
+        {% for result in results %}
+            {{ result.id }} - {{ result.firstName }} {{ result.lastName }} - {{ result.emailCanonical }}<br>
+        {% endfor %}
+    {% else %}
+        <p>There is no result.</p>
+    {% endif %}
+{% endblock %}

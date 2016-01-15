@@ -1,0 +1,62 @@
+#FOSElasticaBundle
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        app:
+            client: default
+            finder: ~
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            custom_index_analyzer :
+                                type     :    custom
+                                tokenizer:    nGram
+                                #filter   :    [stopwords, asciifolding ,lowercase, snowball, elision, worddelimiter]
+                                filter   :    [stopwords, asciifolding ,lowercase, elision, worddelimiter]
+                            custom_search_analyzer :
+                                type     :    custom
+                                tokenizer:    standard
+                                #filter   :    [stopwords, asciifolding ,lowercase, snowball, elision, worddelimiter]
+                                filter   :    [stopwords, asciifolding ,lowercase, elision, worddelimiter]
+                        tokenizer:
+                            nGram:
+                                type:     nGram
+                                min_gram: 3
+                                max_gram: 20
+                        filter:
+                            #snowball:
+                            #    type:     snowball
+                            #    language: English
+                            elision:
+                                type:     elision
+                                articles: [l, m, t, qu, n, s, j, d]
+                            stopwords:
+                                type:      stop
+                                stopwords: [_english_]
+                                ignore_case : true
+                            worddelimiter :
+                                type:      word_delimiter
+            types:
+                user:
+                    mappings:
+                        username:
+                            index_analyzer : custom_index_analyzer
+                            search_analyzer : custom_search_analyzer
+                        firstName:
+                            index_analyzer : custom_index_analyzer
+                            search_analyzer : custom_search_analyzer
+                        lastName:
+                            index_analyzer : custom_index_analyzer
+                            search_analyzer : custom_search_analyzer
+                        email:
+                            index_analyzer : custom_index_analyzer
+                            search_analyzer : custom_search_analyzer
+                    persistence:
+                        driver: orm
+                        model: AppBundle\Entity\User
+                        provider: ~
+                        finder: ~
+                        listener: ~
+                        repository: AppBundle\SearchRepository\UserRepository
