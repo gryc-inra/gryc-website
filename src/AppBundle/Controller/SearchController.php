@@ -11,29 +11,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class SearchController extends Controller
 {
-    public function quickSearchFormAction()
-    {
-        $form = $this->createForm(QuickSearchType::class, null, array(
-            'action' => $this->generateUrl('quick-search'),
-        ));
-        $form->add('submit', SubmitType::class);
-
-        return $this->render('search/quickSearchForm.html.twig', array(
-            'form' => $form->createView(),
-        ));
-    }
-
     /**
-     * @route("/quick-search", name="quick-search")
-     * @Method("POST")
+     * @Route("/quick-search/{search}", name="quick-search")
      */
-    public function quickSearchAction(Request $request)
+    public function quickSearchAction($search)
     {
-        $data = $request->request->get('quick_search');
-
-        if ($data['search'] !== null) {
-            $search = $data['search'];
-
             $repositoryManager = $this->container->get('fos_elastica.manager');
             $repository = $repositoryManager->getRepository('AppBundle:User');
             $results = $repository->findWithCustomQuery($search);
@@ -42,6 +24,5 @@ class SearchController extends Controller
                 'search' => $search,
                 'results' => $results,
             ));
-        }
     }
 }

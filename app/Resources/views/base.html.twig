@@ -93,7 +93,15 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        {{ render(controller("AppBundle:Search:quickSearchForm")) }}
+                        <form id="quick-search-form" class="navbar-form navbar-left" role="search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Quick Search">
+                                <span class="input-group-btn">
+                                    <button id="quick-search-submit" class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
+                                </span>
+                            </div>
+
+                        </form>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -192,6 +200,7 @@
 
             {% javascripts
                 'js/auto-dismiss-alert.js'
+                'js/quick-search.js'
             filter='uglifyjs2' output='js/compiled/app.js' %}
                 <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
