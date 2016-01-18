@@ -7,7 +7,7 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 100px;
+    margin-bottom: 120px;
     padding-bottom: 10px;
 }
 
@@ -30,11 +30,11 @@ header {
 -------------------------------------------------- */
 footer {
     position: absolute;
-    overflow: auto;
+    /*overflow: auto;*/
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
-    height: 100px;
+    height: 120px;
     padding: 10px;
     background-color: #527EB1;
     color: #FFFFFF;
