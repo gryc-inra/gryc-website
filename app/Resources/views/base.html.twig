@@ -32,39 +32,6 @@
     </head>
 
     <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    {# Si l'utilisateur est un administrateur #}
-                    {% if is_granted('ROLE_ADMIN') %}
-                        {% set nbMessages =  render(controller("AppBundle:ContactUs:numberMessage")) %}
-                        <li><a href="{{ path('contact_us_homepage') }}">{% if nbMessages > 1 %}Messages{% else %}Message{% endif %} <span class="badge">{{ nbMessages }}</span></a></li>
-                    {% endif %}
-
-                    {# Si l'utilisateur est connecté #}
-                    {% if app.user %}
-                        <li><a href="{{ path("fos_user_profile_show") }}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                        <li><a href="{{ path("fos_user_security_logout") }}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
-                    {% else %}
-                        <li><a href="{{ path("fos_user_security_login") }}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
-                        <li><a href="{{ path("fos_user_registration_register") }}"><span class="glyphicon glyphicon-pencil"></span> Sign up</a></li>
-                    {% endif %}
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div>
-    </nav>
-
         <header>
             <div id="logo">
                 <a href="{{ path('homepage') }}"><img src="{{ asset('images/GRYC_logo_beta_v2.png') }}" alt="GRYC" /></a>
@@ -73,7 +40,7 @@
 
         <!-- Navbar -->
         <nav class="navbar navbar-default">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
@@ -102,6 +69,21 @@
                             </div>
 
                         </form>
+
+                        {# Si l'utilisateur est un administrateur #}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            {% set nbMessages =  render(controller("AppBundle:ContactUs:numberMessage")) %}
+                            <li><a href="{{ path('contact_us_homepage') }}">{% if nbMessages > 1 %}Messages{% else %}Message{% endif %} <span class="badge">{{ nbMessages }}</span></a></li>
+                        {% endif %}
+
+                        {# Si l'utilisateur est connecté #}
+                        {% if app.user %}
+                            <li><a href="{{ path("fos_user_profile_show") }}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                            <li><a href="{{ path("fos_user_security_logout") }}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                        {% else %}
+                            <li><a href="{{ path("fos_user_security_login") }}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
+                            <li><a href="{{ path("fos_user_registration_register") }}"><span class="glyphicon glyphicon-pencil"></span> Sign up</a></li>
+                        {% endif %}
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -180,7 +162,7 @@
                     </div>
 
                     <div class="col-md-3 text-right">
-                        <a href="http://genolevures.org/" alt="iGenoLevures" target="_blank"><img src="{{ asset('images/igenolevure.png') }}" alt="iGenoLevures" height="80px"/></a>
+                        <a href="http://igenolevures.org/" alt="iGenoLevures" target="_blank"><img src="{{ asset('images/igenolevure.png') }}" alt="iGenoLevures" height="80px"/></a>
                     </div>
                 </div>
             </div><!-- /Container-Fluid -->
