@@ -17,7 +17,6 @@ header {
     /* Set the fixed height of the header here */
     height: 134px;
     padding: 10px;
-    margin-top: -20px;
     /* Set the background of the header here */
     background: #527EB1; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(left, #FFFFFF , #527EB1); /* For Safari 5.1 to 6.0 */
