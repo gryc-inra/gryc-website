@@ -1,14 +1,12 @@
-/* Page-body styles
+/* Body
 -------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
+html, body {
+    height:100%;
+    width: 100%;
 }
 
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 120px;
-    padding-bottom: 10px;
+    display: table;
 }
 
 /* Header
@@ -25,18 +23,19 @@ header {
     background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
 }
 
-/* Sticky footer styles
+/* Sticky footer
 -------------------------------------------------- */
 footer {
-    position: absolute;
-    /*overflow: auto;*/
-    bottom: 0;
-    width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 120px;
-    padding: 10px;
+    display: table-row;
+    height: 1px;
     background-color: #527EB1;
     color: #FFFFFF;
+}
+
+footer .container-fluid {
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 footer a {
