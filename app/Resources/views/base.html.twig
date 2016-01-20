@@ -7,6 +7,8 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
         <title>{% block title %}GRYC{% endblock %}</title>
+        {% block metaDescription %}
+        {% endblock %}
 
         {% block stylesheets %}
             <!-- Bootstrap -->
@@ -60,16 +62,6 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <form id="quick-search-form" class="navbar-form navbar-left" role="search">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Quick Search">
-                                <span class="input-group-btn">
-                                    <button id="quick-search-submit" class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
-                                </span>
-                            </div>
-
-                        </form>
-
                         {# Si l'utilisateur est un administrateur #}
                         {% if is_granted('ROLE_ADMIN') %}
                             {% set nbMessages =  render(controller("AppBundle:ContactUs:numberMessage")) %}
@@ -85,6 +77,15 @@
                             <li><a href="{{ path("fos_user_registration_register") }}"><span class="glyphicon glyphicon-pencil"></span> Sign up</a></li>
                         {% endif %}
                     </ul>
+
+                    <form id="quick-search-form" class="navbar-form navbar-right">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Quick Search">
+                            <span class="input-group-btn">
+                                <button id="quick-search-submit" class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
+                            </span>
+                        </div>
+                    </form>
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
@@ -144,7 +145,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-3">
-                        <a href="http://www.inra.fr" alt="INRA" target="_blank"><img src="{{ asset('images/INRA.png') }}" alt="INRA" height="80px"/></a>
+                        <a href="http://www.inra.fr" target="_blank"><img src="{{ asset('images/INRA.png') }}" alt="INRA" height="80"/></a>
                     </div>
 
                     <div class="col-md-3">
@@ -162,7 +163,7 @@
                     </div>
 
                     <div class="col-md-3 text-right">
-                        <a href="http://igenolevures.org/" alt="iGenoLevures" target="_blank"><img src="{{ asset('images/igenolevure.png') }}" alt="iGenoLevures" height="80px"/></a>
+                        <a href="http://igenolevures.org/" target="_blank"><img src="{{ asset('images/igenolevure.png') }}" alt="iGenoLevures" height="80"/></a>
                     </div>
                 </div>
             </div><!-- /Container-Fluid -->
