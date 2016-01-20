@@ -120,3 +120,9 @@ fos_user:
     profile:
         form:
             type:               AppBundle\Form\ProfileType
+
+# ReCaptcha
+ewz_recaptcha:
+    public_key:  6Lcc7BUTAAAAABb9Is1kA-wkEF9MAzu3NmxbJj_2
+    private_key: 6Lcc7BUTAAAAAG9jSw9yIs0A_zfM7eUxQAz6MVtd
+    locale_key:  %kernel.default_locale%

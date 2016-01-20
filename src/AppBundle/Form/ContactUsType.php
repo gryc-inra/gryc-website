@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
 class ContactUsType extends AbstractType
 {
@@ -34,8 +36,12 @@ class ContactUsType extends AbstractType
             ->add('message', TextareaType::class, array(
                 'attr' => array(
                     'rows' => 20,
-                ),
-            ))
+                )))
+            ->add('recaptcha', EWZRecaptchaType::class, array(
+                'mapped'      => false,
+                'constraints' => array(
+                    new RecaptchaTrue()
+                )))
         ;
     }
 
