@@ -5,6 +5,8 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
 class RegistrationType extends AbstractType
 {
@@ -14,9 +16,17 @@ class RegistrationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName');
-        $builder->add('lastName');
-        $builder->add('company');
+        $builder
+            ->add('firstName')
+            ->add('lastName')
+            ->add('company')
+            ->add('recaptcha', EWZRecaptchaType::class, array(
+                'mapped'      => false,
+                'constraints' => array(
+                    new RecaptchaTrue()
+                )))
+        ;
+
     }
 
     public function getParent()
