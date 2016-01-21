@@ -36,12 +36,12 @@ class ContactUsType extends AbstractType
             ->add('message', TextareaType::class, array(
                 'attr' => array(
                     'rows' => 20,
-                )))
+                ), ))
             ->add('recaptcha', EWZRecaptchaType::class, array(
-                'mapped'      => false,
+                'mapped' => false,
                 'constraints' => array(
-                    new RecaptchaTrue()
-                )))
+                    new RecaptchaTrue(),
+                ), ))
         ;
     }
 
