@@ -8,3 +8,4 @@
 !var/logs/.gitkeep
 !var/sessions/.gitkeep
 /phpunit.xml
+docker-compose.yml

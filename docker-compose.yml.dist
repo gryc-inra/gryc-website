@@ -1,0 +1,30 @@
+front:
+    image: nginx:1.9
+    ports:
+        - "8081:80"
+    links:
+        - "engine:engine"
+    volumes:
+        - ".:/home/docker:ro"
+        - "./docker/front/default.conf:/etc/nginx/conf.d/default.conf:ro"
+
+engine:
+    build: ./docker/engine/
+    volumes:
+        - ".:/home/docker:rw"
+        - "./docker/engine/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro"
+    links:
+        - "db:db"
+        - "search:search"
+    working_dir: "/home/docker"
+
+db:
+    image: mariadb:10.1
+    environment:
+        - "MYSQL_ROOT_PASSWORD=8rVcQ5Aw8tJ3Q9JU636ytWTcuuL625ig9cT"
+        - "MYSQL_USER=grycii"
+        - "MYSQL_PASSWORD=8rVcQ5Aw8tJ3Q9JU636ytWTcuuL625ig9cT"
+        - "MYSQL_DATABASE=grycii"
+
+search:
+    image: elasticsearch:1.7
