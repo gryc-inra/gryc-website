@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Error 403 - {{ parent() }}
+{% endblock %}
+
+{% block metaTags %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb %}{{ parent() }} <li class="active">Error 403 !</li>{% endblock %}
+
+{% block body %}
+    <div class="text-center row">
+        <div class="col-md-4">
+            <img src="{{ asset('images/ghost-403-error.svg') }}" alt="Pacman eats ghosts" width="350" />
+        </div>
+
+        <div class="col-md-6">
+            <span style="font-size: 10em">403</span>
+            <h1 style="font-size: 4em">You shall not pass !</h1>
+            <h2>Damn fool, this is a restricted area.</h2>
+        </div>
+    </div>
+{% endblock %}
