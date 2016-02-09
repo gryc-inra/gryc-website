@@ -33,13 +33,16 @@ class AddCladeCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('<info>Add a clade</info>');
+        // Créer le helper
         $helper = $this->getHelper('question');
-
-        $clade = new Clade();
 
         do
         {
+            // On crée l'objet à remplir
+            $clade = new Clade();
+
+            // On demande à l'utilisateur des informations pour hydrater l'objet
+
             // CladeName
             if ($input->getArgument('name')) {
                 $clade->setName($input->getArgument('name'));
@@ -60,26 +63,29 @@ class AddCladeCommand extends ContainerAwareCommand
             $isMainCladeQuestion = new ConfirmationQuestion("\nIs it a Main Clade ? (y/N)\n", false);
             $clade->setMainClade($helper->ask($input, $output, $isMainCladeQuestion));
 
-
-            // Resume
+            // On fait un résumé des données récupérées
             $userData = "Clade name:\t" . $clade->getName() . "\n";
             $userData .= ($clade->getMainClade()) ? "Main clade:\tYes\n" : "Main clade:\tNo\n";
             $userData .= "Description:\n" . $clade->getDescription() . "\n";
 
             $output->writeln("\n".$userData);
 
-            // User Confirmation before flush it
-            $confirmQuestion = new ConfirmationQuestion('Is it correct ? (y/N)', false);
+            // On demande à l'utilisateur si les données sont bonnes ou pas
+            $confirmQuestion = new ConfirmationQuestion("Is it correct ? (y/N)\n", false);
+            // Si les données ne sont pas bonnes, on recommence la boucle
+            // On supprime les arguments, pour poser la question à l'utilisateur
+            // On détruit l'objet Clade
             if (!$helper->ask($input, $output, $confirmQuestion)) {
                 $confirm = false;
                 $input->setArgument('name', null);
                 $input->setArgument('description', null);
+                unset($clade);
             } else {
                 $confirm = true;
             }
         } while (!$confirm);
 
-        // Persist and flush
+        // On persiste l'objet
         $em = $this->getContainer()->get('doctrine')->getManager();
         $em->persist($clade);
         $em->flush();

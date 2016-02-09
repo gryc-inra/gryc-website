@@ -72,14 +72,14 @@ class Species
     /**
      * @var string
      *
-     * @ORM\Column(name="mitoCode", type="integer", length=255, unique=true)
+     * @ORM\Column(name="mitoCode", type="integer", length=255)
      */
     private $mitoCode;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="synonymes", type="string", nullable=true)
+     * @ORM\Column(name="synonymes", type="array", nullable=true)
      */
     private $synonymes;
 
@@ -90,6 +90,10 @@ class Species
      */
     private $description;
 
+    public function __construct()
+    {
+        $this->synonymes = array();
+    }
 
     /**
      * Get id
@@ -294,15 +298,62 @@ class Species
     }
 
     /**
-     * Set synonymes
+     * Add synonym
      *
-     * @param string $synonymes
+     * @param string $synonym
+     *
+     * @return Species
+     */
+    public function addSynonym($synonym)
+    {
+        if (!in_array($synonym, $this->synonymes, true)) {
+            $this->synonymes[] = $synonym;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove synonym
+     *
+     * @param string $synonym
+     *
+     * @return Species
+     */
+    public function removeSynonym($synonym)
+    {
+        if (false !== $key = array_search($synonym, $this->synonymes, true)) {
+            unset($this->synonymes[$key]);
+            $this->synonymes = array_values($this->synonymes);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Empty synonymes
+     *
+     * @return Species
+     */
+    public function emptySynonymes()
+    {
+        $this->synonymes = array();
+
+        return $this;
+    }
+
+    /**
+     * Set synonymes
      *
      * @return Species
      */
     public function setSynonymes($synonymes)
     {
-        $this->synonymes = $synonymes;
+        $this->synonymes = array();
+
+        foreach ($synonymes as $synonym) {
+            $this->addSynonym($synonym);
+        }
 
         return $this;
     }
@@ -310,7 +361,7 @@ class Species
     /**
      * Get synonymes
      *
-     * @return string
+     * @return array
      */
     public function getSynonymes()
     {
@@ -341,4 +392,3 @@ class Species
         return $this->description;
     }
 }
-

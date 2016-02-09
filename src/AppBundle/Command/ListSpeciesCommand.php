@@ -5,6 +5,7 @@ namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,7 +29,7 @@ class ListSpeciesCommand extends ContainerAwareCommand
 
         if (empty($listSpecies)) {
             $table->setRows(array(
-                array(new TableCell('There is no species', array('colspan' => 4))),
+                array(new TableCell('There is no species', array('colspan' => 3))),
             ));
         } else {
             foreach($listSpecies as $species) {
