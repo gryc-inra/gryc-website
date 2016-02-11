@@ -62,6 +62,7 @@ class AddSpeciesCommand extends ContainerAwareCommand
             foreach ($clades as $clade) {
                 if ($speciesCladeResponse === $clade->getName()) {
                     $species->setClade($clade);
+                    break;
                 }
             }
 
@@ -74,7 +75,7 @@ class AddSpeciesCommand extends ContainerAwareCommand
                 $crawler = new Crawler($xmlString);
 
                 // On vérifie si l'ID renseigné retourne un contenu XML valide (ici c'est un peu moche, car si c'est vide il retourne un saut de ligne...)
-                if ("\n" !== $crawler->filterXPath('//TaxaSet')->text()) {
+                if (0 !== $crawler->filterXPath('//TaxaSet/Taxon')->count()) {
                     // Si le contenu XML retourne un rang: species
                     if ("species" === $crawler->filterXPath('//TaxaSet/Taxon/Rank')->text()) {
                         // On hydrate notre objet Species
@@ -88,8 +89,8 @@ class AddSpeciesCommand extends ContainerAwareCommand
                         $species->setLineage($crawler->filterXPath('//TaxaSet/Taxon/Lineage')->text());
 
                         // Si il y a un DOM Synonym, alors on extrait les synonymes et les ajoutes à l'objet
-                        if ($crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->text()) {
-                            // On filtre sur le DOM Synonym, et on exécute un Closure qui retourne le contenu de chacun (liste des synonymes
+                        if (0 !== $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->count()) {
+                            // On filtre sur le DOM Synonym, et on exécute un Closure qui retourne le contenu de chacun (liste des synonymes)
                             $synonymes = $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->each(function (Crawler $node, $i) {
                                 return $node->text();
                             });
@@ -139,9 +140,7 @@ class AddSpeciesCommand extends ContainerAwareCommand
                 $synonymes = $helper->ask($input, $output, $synonymesQuestion);
                 if ($synonymes) {
                     $synonymes = explode("; ", $synonymes);
-                    foreach ($synonymes as $synonym) {
-                        $species->addSynonym($synonym);
-                    }
+                    $species->setSynonymes($synonymes);
                 }
             }
 

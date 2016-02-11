@@ -129,9 +129,7 @@ class EditSpeciesCommand extends ContainerAwareCommand
         $species->setTaxId($speciesTaxId);
         $species->emptySynonymes();
         if ($speciesSynonymes) {
-            foreach ($speciesSynonymes as $synonym) {
-                $species->addSynonym($synonym);
-            }
+            $species->setSynonymes($speciesSynonymes);
         }
 
         // On persiste l'objet
