@@ -32,7 +32,7 @@ class ListSpeciesCommand extends ContainerAwareCommand
                 array(new TableCell('There is no species', array('colspan' => 3))),
             ));
         } else {
-            foreach($listSpecies as $species) {
+            foreach ($listSpecies as $species) {
                 $table->addRow(array($species->getId(), $species->getGenus(), $species->getSpecies()));
             }
         }

@@ -40,7 +40,7 @@ class EditSpeciesCommand extends ContainerAwareCommand
             $listCladeCommandInput = new ArrayInput(array('command' => 'bio:species:list'));
             $listCladeCommand->run($listCladeCommandInput, $output);
 
-            // On demande à l'utilisateur quel clade il veut modifier
+            // On demande à l'utilisateur quelle espèce il veut modifier
             $cladeIdQuestion = new Question("\nPlease enter the ID of the species:\n");
             // On récupère l'espèce
             $input->setArgument('speciesId', $helper->ask($input, $output, $cladeIdQuestion));
@@ -51,61 +51,95 @@ class EditSpeciesCommand extends ContainerAwareCommand
         do {
             // On propose à l'utilisateur de modifier les champs
 
-            // Genus
-            $genusQuestion = new Question("\nPlease enter the genus of the species: (actual value: " . $species->getGenus() . ")\n", $species->getGenus());
-            $speciesGenus = $helper->ask($input, $output, $genusQuestion);
-
-            // Species
-            $speciesQuestion = new Question("\nPlease enter the name of the species: (actual value: " . $species->getSpecies() . ")\n", $species->getSpecies());
-            $speciesSpecies = $helper->ask($input, $output, $speciesQuestion);
-
             // Scientificname
-            $scientificNameQuestion = new Question("\nPlease enter the scientific name of the species: (actual value: " . $species->getScientificName() . ")\n", $species->getScientificName());
+            $scientificNameQuestion = new Question("\nPlease enter the scientific name of the species: (actual value: ".$species->getScientificName().")\n", $species->getScientificName());
+            $scientificNameQuestion->setValidator(function ($answer) {
+                if (!preg_match('#^[A-Z][a-z]*\s[a-z]*$#', $answer)) { // Or is_int()
+                    throw new \RuntimeException(
+                        'The scientific name have not the goot pattern ! (eg: "Candida albicans")'
+                    );
+                }
+
+                return $answer;
+            });
             $speciesScientificName = $helper->ask($input, $output, $scientificNameQuestion);
 
+            // On utilise le nom scientifique pour déduire le genre et l'espèce
+            $scientificNameExploded = explode(' ', $speciesScientificName);
+            $speciesGenus = $scientificNameExploded[0];
+            $speciesSpecies = $scientificNameExploded[1];
+
             // Lineage
-            $lineageQuestion = new Question("\nPlease enter the lineage of the species: (actual value: " . $species->getLineage() . ")\n", $species->getLineage());
+            $lineageQuestion = new Question("\nPlease enter the lineage of the species: (actual value: ".$species->getLineage().")\n", $species->getLineage());
             $speciesLineage = $helper->ask($input, $output, $lineageQuestion);
 
             // geneticCode
-            $geneticCodeQuestion = new Question("\nPlease enter the genetic code of the species: (actual value: " . $species->getgeneticCode() . ")\n", $species->getGeneticCode());
+            $geneticCodeQuestion = new Question("\nPlease enter the genetic code of the species: (actual value: ".$species->getgeneticCode().")\n", $species->getGeneticCode());
+            $geneticCodeQuestion->setValidator(function ($answer) {
+                if (!is_int($answer)) {
+                    throw new \RuntimeException(
+                        'The mito code may be an integer.'
+                    );
+                }
+
+                return $answer;
+            });
             $speciesGeneticCode = $helper->ask($input, $output, $geneticCodeQuestion);
 
             // mitoCode
-            $mitoCodeQuestion = new Question("\nPlease enter the mito code of the species: (actual value: " . $species->getMitoCode() . ")\n", $species->getMitoCode());
+            $mitoCodeQuestion = new Question("\nPlease enter the mito code of the species: (actual value: ".$species->getMitoCode().")\n", $species->getMitoCode());
+            $mitoCodeQuestion->setValidator(function ($answer) {
+                if (!is_int($answer)) {
+                    throw new \RuntimeException(
+                        'The mito code may be an integer.'
+                    );
+                }
+
+                return $answer;
+            });
             $speciesMitoCode = $helper->ask($input, $output, $mitoCodeQuestion);
 
             // Synonymes
             $synonymes = implode('; ', $species->getSynonymes());
-            $synonymesQuestion = new Question("\nPlease enter synonymes of the species: (use \"; \" as separator)(actual value: " . $synonymes . ")\n", $synonymes);
+            $synonymesQuestion = new Question("\nPlease enter synonymes of the species: (use \"; \" as separator)(actual value: ".$synonymes.")\n", $synonymes);
+            // On crée un validateur, qui vérifié que le la liste est correctement formatée
+            $synonymesQuestion->setValidator(function ($answer) {
+                if (!preg_match('#^([a-zA-Z0-9]*;\s)*[a-zA-Z0-9]*[^; ]$|^\s*$#', $answer)) {
+                    throw new \RuntimeException(
+                        'The list have not the goot pattern ! (eg: "synonyme 1; synonyme 2; synonyme 3; [...]; last synonyme")'
+                    );
+                }
+
+                return $answer;
+            });
             $speciesSynonymes = $helper->ask($input, $output, $synonymesQuestion);
-            $speciesSynonymes = explode("; ", $speciesSynonymes);
+            $speciesSynonymes = explode('; ', $speciesSynonymes);
 
             // Description
-            $descriptionQuestion = new Question("\nPlease enter the description of the species: (actual value: " . $species->getDescription() . ")\n", $species->getDescription());
+            $descriptionQuestion = new Question("\nPlease enter the description of the species: (actual value: ".$species->getDescription().")\n", $species->getDescription());
             $speciesDescription = $helper->ask($input, $output, $descriptionQuestion);
 
             // TaxId
-            $taxIdQuestion = new Question("\nPlease enter the TaxId of the species: (actual value: " . $species->getTaxId() . ")\n", $species->getTaxId());
+            $taxIdQuestion = new Question("\nPlease enter the TaxId of the species: (actual value: ".$species->getTaxId().")\n", $species->getTaxId());
             $speciesTaxId = $helper->ask($input, $output, $taxIdQuestion);
 
             // On fait un résumé des données récupérées
-            $userData = "Scientific name:\t" . $speciesScientificName . "\n";
-            $userData .= "Species:\t\t" . $speciesSpecies . "\n";
-            $userData .= "Genus:\t\t\t" . $speciesGenus . "\n";
-            $userData .= "Lineage:\t\t" . $speciesLineage . "\n";
-            $userData .= "Genetic Code:\t\t" . $speciesGeneticCode . "\n";
-            $userData .= "Mito Code:\t\t" . $speciesMitoCode . "\n";
+            $userData = "Scientific name:\t".$speciesScientificName."\n";
+            $userData .= "Species:\t\t".$speciesSpecies."\n";
+            $userData .= "Genus:\t\t\t".$speciesGenus."\n";
+            $userData .= "Lineage:\t\t".$speciesLineage."\n";
+            $userData .= "Genetic Code:\t\t".$speciesGeneticCode."\n";
+            $userData .= "Mito Code:\t\t".$speciesMitoCode."\n";
             $userData .= "Synonymes:\n";
             if ($speciesSynonymes) {
                 foreach ($speciesSynonymes as $synonym) {
-                    $userData .= "\t\t\t* " . $synonym . "\n";
+                    $userData .= "\t\t\t* ".$synonym."\n";
                 }
             }
-            $userData .= "Description:\t\t" . $speciesDescription . "\n";
-            $userData .= "TaxId:\t\t\t" . $speciesTaxId . "\n";
+            $userData .= "Description:\t\t".$speciesDescription."\n";
+            $userData .= "TaxId:\t\t\t".$speciesTaxId."\n";
 
-            $output->writeln("\n" . $userData);
+            $output->writeln("\n".$userData);
 
             // On demande à l'utilisateur si les données sont bonnes ou pas
             $confirmQuestion = new ConfirmationQuestion("Is it correct ? (y/N)\n", false);

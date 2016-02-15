@@ -32,7 +32,7 @@ class ListCladeCommand extends ContainerAwareCommand
                 array(new TableCell('There is no clade', array('colspan' => 4))),
             ));
         } else {
-            foreach($listClades as $clade) {
+            foreach ($listClades as $clade) {
                 $table->addRow(array($clade->getId(), $clade->getName(), $clade->getDescription(), $clade->isMainCladeToString()));
             }
         }

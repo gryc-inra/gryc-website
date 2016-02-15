@@ -48,26 +48,43 @@ class EditCladeCommand extends ContainerAwareCommand
 
         $clade = $em->getRepository('AppBundle:Clade')->findOneById($input->getArgument('cladeId'));
 
-        do
-        {
+        do {
             // On propose à l'utilisateur de modifier les champs
 
             // CladeName
-            $cladeNameQuestion = new Question("\nPlease enter the name of the clade: (actual value: " . $clade->getName() . ")\n", $clade->getName());
+            $cladeNameQuestion = new Question("\nPlease enter the name of the clade: (actual value: ".$clade->getName().")\n", $clade->getName());
+            $cladeNameQuestion->setValidator(function ($answer) {
+                if (!preg_match('#[A-Z][a-z]*$#', $answer)) {
+                    throw new \RuntimeException(
+                        'The name have not the goot pattern ! (eg: "Candida")'
+                    );
+                }
+
+                return $answer;
+            });
             $cladeName = $helper->ask($input, $output, $cladeNameQuestion);
 
             // CladeDescription
-            $cladeDescriptionQuestion = new Question("\nPlease enter the description of the clade: (actual value: " . $clade->getDescription() . ")\n", $clade->getDescription());
+            $cladeDescriptionQuestion = new Question("\nPlease enter the description of the clade: (actual value: ".$clade->getDescription().")\n", $clade->getDescription());
+            $cladeDescriptionQuestion->setValidator(function ($answer) {
+                if (empty($answer)) {
+                    throw new \RuntimeException(
+                        'The description can\'t be empty !'
+                    );
+                }
+
+                return $answer;
+            });
             $cladeDescription = $helper->ask($input, $output, $cladeDescriptionQuestion);
 
             // MainClade
-            $isMainCladeQuestion = new ConfirmationQuestion("\nIs it a Main Clade ? (y/n) (actual value: " . $clade->getMainClade() . ")\n", $clade->getMainClade());
+            $isMainCladeQuestion = new ConfirmationQuestion("\nIs it a Main Clade ? (y/n) (actual value: ".(($clade->getMainClade()) ? 'y' : 'n').")\n", $clade->getMainClade());
             $cladeMainClade = $helper->ask($input, $output, $isMainCladeQuestion);
 
             // On fait un résumé des données récupérées
-            $userData = "Clade name:\t" . $cladeName . "\n";
+            $userData = "Clade name:\t".$cladeName."\n";
             $userData .= ($cladeMainClade) ? "Main clade:\tYes\n" : "Main clade:\tNo\n";
-            $userData .= "Description:\n" . $cladeDescription . "\n";
+            $userData .= "Description:\n".$cladeDescription."\n";
 
             $output->writeln("\n".$userData);
 
