@@ -21,12 +21,11 @@ class RegistrationType extends AbstractType
             ->add('lastName')
             ->add('company')
             ->add('recaptcha', EWZRecaptchaType::class, array(
-                'mapped'      => false,
+                'mapped' => false,
                 'constraints' => array(
-                    new RecaptchaTrue()
-                )))
+                    new RecaptchaTrue(),
+                ), ))
         ;
-
     }
 
     public function getParent()

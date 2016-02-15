@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadModule extends AbstractFixture implements ContainerAwareInterface
+class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
 {
     private $container;
 
@@ -20,7 +20,6 @@ class LoadModule extends AbstractFixture implements ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-
         //---------//
         //  Users  //
         //---------//

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Species
+ * Species.
  *
  * @ORM\Table(name="species")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SpeciesRepository")
@@ -96,7 +96,7 @@ class Species
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -106,7 +106,7 @@ class Species
     }
 
     /**
-     * Set clade
+     * Set clade.
      *
      * @param Clade $clade
      *
@@ -120,7 +120,7 @@ class Species
     }
 
     /**
-     * Get clade
+     * Get clade.
      *
      * @return Clade
      */
@@ -130,7 +130,7 @@ class Species
     }
 
     /**
-     * Set scientificName
+     * Set scientificName.
      *
      * @param string $scientificName
      *
@@ -144,7 +144,7 @@ class Species
     }
 
     /**
-     * Get scientificName
+     * Get scientificName.
      *
      * @return string
      */
@@ -154,7 +154,7 @@ class Species
     }
 
     /**
-     * Set species
+     * Set species.
      *
      * @param string $species
      *
@@ -168,7 +168,7 @@ class Species
     }
 
     /**
-     * Get species
+     * Get species.
      *
      * @return string
      */
@@ -178,7 +178,7 @@ class Species
     }
 
     /**
-     * Set genus
+     * Set genus.
      *
      * @param string $genus
      *
@@ -192,7 +192,7 @@ class Species
     }
 
     /**
-     * Get genus
+     * Get genus.
      *
      * @return string
      */
@@ -202,7 +202,7 @@ class Species
     }
 
     /**
-     * Set lineage
+     * Set lineage.
      *
      * @param string $lineage
      *
@@ -216,7 +216,7 @@ class Species
     }
 
     /**
-     * Get lineage
+     * Get lineage.
      *
      * @return string
      */
@@ -226,9 +226,9 @@ class Species
     }
 
     /**
-     * Set taxid
+     * Set taxid.
      *
-     * @param integer $taxid
+     * @param int $taxid
      *
      * @return Species
      */
@@ -240,7 +240,7 @@ class Species
     }
 
     /**
-     * Get taxid
+     * Get taxid.
      *
      * @return int
      */
@@ -250,9 +250,9 @@ class Species
     }
 
     /**
-     * Set geneticCode
+     * Set geneticCode.
      *
-     * @param integer $geneticCode
+     * @param int $geneticCode
      *
      * @return Species
      */
@@ -264,7 +264,7 @@ class Species
     }
 
     /**
-     * Get geneticCode
+     * Get geneticCode.
      *
      * @return int
      */
@@ -274,7 +274,7 @@ class Species
     }
 
     /**
-     * Set mitoCode
+     * Set mitoCode.
      *
      * @param string $mitoCode
      *
@@ -288,9 +288,9 @@ class Species
     }
 
     /**
-     * Get mitoCode
+     * Get mitoCode.
      *
-     * @return integer
+     * @return int
      */
     public function getMitoCode()
     {
@@ -298,7 +298,7 @@ class Species
     }
 
     /**
-     * Add synonym
+     * Add synonym.
      *
      * @param string $synonym
      *
@@ -314,7 +314,7 @@ class Species
     }
 
     /**
-     * Remove synonym
+     * Remove synonym.
      *
      * @param string $synonym
      *
@@ -331,7 +331,7 @@ class Species
     }
 
     /**
-     * Empty synonymes
+     * Empty synonymes.
      *
      * @return Species
      */
@@ -343,7 +343,7 @@ class Species
     }
 
     /**
-     * Set synonymes
+     * Set synonymes.
      *
      * @return Species
      */
@@ -359,7 +359,7 @@ class Species
     }
 
     /**
-     * Get synonymes
+     * Get synonymes.
      *
      * @return array
      */
@@ -369,7 +369,7 @@ class Species
     }
 
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -383,7 +383,7 @@ class Species
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */

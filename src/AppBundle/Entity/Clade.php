@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Clade
+ * Clade.
  *
  * @ORM\Table(name="clade")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CladeRepository")
@@ -42,9 +42,8 @@ class Clade
      */
     private $mainClade;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -54,7 +53,7 @@ class Clade
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -68,7 +67,7 @@ class Clade
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -78,7 +77,7 @@ class Clade
     }
 
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -92,7 +91,7 @@ class Clade
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -102,9 +101,9 @@ class Clade
     }
 
     /**
-     * Set mainClade
+     * Set mainClade.
      *
-     * @param boolean $mainClade
+     * @param bool $mainClade
      *
      * @return Clade
      */
@@ -116,7 +115,7 @@ class Clade
     }
 
     /**
-     * Get mainClade
+     * Get mainClade.
      *
      * @return bool
      */
@@ -125,6 +124,11 @@ class Clade
         return $this->mainClade;
     }
 
+    /**
+     * isMainCladeToString.
+     *
+     * @return string
+     */
     public function isMainCladeToString()
     {
         if ($this->mainClade) {
@@ -134,4 +138,3 @@ class Clade
         }
     }
 }
-
