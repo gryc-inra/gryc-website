@@ -28,7 +28,10 @@ class ImportDbXrefCommand extends ContainerAwareCommand
         // DbXref persistés
         $persistDbxref = array();
 
-        $crawler = new Crawler(file_get_contents('test.html'));
+        // On initialise le Crawler
+        $crawler = new Crawler();
+        $crawler->addHtmlContent(file_get_contents(self::NCBI_DB_XREF_LIST));
+
         // On compte le nombre de <tr> présent dans le tableau qui nous intéresse
         $nbRows = $crawler->filter('#maincontent > .col1 > table > tbody > tr')->count();
 
@@ -37,7 +40,7 @@ class ImportDbXrefCommand extends ContainerAwareCommand
             // Si il y a un <td> dans le <tr> (on compte le nombre d'enfants dans le <tr>, si il y en a plus que 0, alors il y a des <td>)
             if (0 !== $crawler->filter('#maincontent > .col1 > table > tbody > tr')->eq($i)->children()->count()) {
                 // Si il y a du contenu dans le <td> (on extrait le texte présent sur le premier élément de l'enfant du <tr>, donc si il y a du texte dans le premier <td>)
-                if ('' !== trim($crawler->filter('#maincontent > .col1 > table > tbody > tr')->eq($i)->children()->eq(0)->text())) {
+                if (!empty(trim($crawler->filter('#maincontent > .col1 > table > tbody > tr')->eq($i)->children()->eq(0)->text(), chr(0xC2).chr(0xA0).chr(0x0A)))) {
                     // On crée un nouvel objet
                     $dbxref = new Dbxref();
 
@@ -81,7 +84,6 @@ class ImportDbXrefCommand extends ContainerAwareCommand
                 }
             }
         }
-
         // On flush les données persistés
         $em->flush();
 
