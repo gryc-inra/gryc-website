@@ -12,6 +12,8 @@
 ##1. How to install the project ?
 Install docker: https://docs.docker.com/engine/installation/
 
+Go in the project directory.
+
 Setfacl on the var folder:
 
     setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX var
@@ -22,16 +24,22 @@ Create your own docker-compose.yml, you can edit it (eg: edit ports):
     cp docker-compose.yml.dist docker-compose.yml
     vi docker-compose.yml
 
-To run docker, there are 2 ways:
-1. run it in console and keep it in (you see logs in the terminal)
+**Nb: All *docker*, *docker-compose* command, may be use in root and *docker-compose* executed in the project directory.**
 
-    `docker-compose up`
+Now, you need to download and make images and create the containers (use this command only the first time):
+
+    docker-compose up
     
-2. start it as a daemon
+At the end, images were downloaded and make, containers were started. If you want quit, you need use: Ctrl + C.
 
-    `docker-compose up -d`
+In general to start, stop, restart services, use:
 
-Now, you have 4 service installed and started:
+    docker-compose start
+    docker-compose stop
+    docker-compose restart
+
+Now, you have 4 services installed and started:
+
 1. NginX
 2. PHP-fpm
 3. MariaDb
@@ -47,7 +55,7 @@ Before use Symfony you need prepare somethings:
     bin/console doctrine:schema:create
     bin/console doctrine:fixtures:load
     bin/console fos:elastica:populate
-    bin/console cache:clear --env=prod
+    bin/console cache:clear
 
 ----------------
 
