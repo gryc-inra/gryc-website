@@ -1,4 +1,4 @@
-FROM php:7.0-fpm
+FROM php:7-fpm
 MAINTAINER Mathieu Piot <mathieu.piot@agroparistech.fr>
 
 RUN apt-get update \
