@@ -6,7 +6,7 @@ parameters:
     database_port:     3306
     database_name:     grycii
     database_user:     grycii
-    database_password: 8rVcQ5Aw8tJ3Q9JU636ytWTcuuL625ig9cT
+    database_password: grycii
 
     mailer_transport:  gmail
     mailer_host:       ~

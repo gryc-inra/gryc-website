@@ -21,9 +21,9 @@ engine:
 db:
     image: mariadb:10.1
     environment:
-        - "MYSQL_ROOT_PASSWORD=8rVcQ5Aw8tJ3Q9JU636ytWTcuuL625ig9cT"
+        - "MYSQL_ROOT_PASSWORD=grycii"
         - "MYSQL_USER=grycii"
-        - "MYSQL_PASSWORD=8rVcQ5Aw8tJ3Q9JU636ytWTcuuL625ig9cT"
+        - "MYSQL_PASSWORD=grycii"
         - "MYSQL_DATABASE=grycii"
 
 search:
