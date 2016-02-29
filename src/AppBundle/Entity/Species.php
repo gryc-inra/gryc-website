@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -90,9 +91,15 @@ class Species
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="species", cascade={"persist"})
+     */
+    private $strains;
+
     public function __construct()
     {
         $this->synonymes = array();
+        $this->strains = new ArrayCollection();
     }
 
     /**
@@ -390,5 +397,18 @@ class Species
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function addStrain(Strain $strain)
+    {
+        $this->strains[] = $strain;
+        $strain->setSpecies($this);
+
+        return $this;
+    }
+
+    public function removeStrain(Strain $strain)
+    {
+        $this->strains->removeElement($strain);
     }
 }
