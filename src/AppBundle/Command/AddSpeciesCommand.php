@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -15,135 +16,208 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class AddSpeciesCommand extends ContainerAwareCommand
 {
+    // This constant contain  the url to the ncbi taxon api
     const NCBI_TAXONOMY_API_LINK = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=taxonomy&id=';
+
+    /**
+     * @var array Clade
+     */
+    private $cladeList = array();
+
+    /**
+     * @var array Species
+     */
+    private $speciesList = array();
 
     protected function configure()
     {
         $this
             ->setName('bio:species:add')
             ->setDescription('Add a species')
-            ->addArgument(
-                'ncbi',
-                InputArgument::OPTIONAL,
-                'NCBI taxonomy ID'
-            )
-        ;
+            ->setDefinition(array(
+                new InputArgument('clade', InputArgument::REQUIRED, 'Name of the clade'),
+                new InputArgument('scientific-name', InputArgument::REQUIRED, 'The scientific name of the species'),
+                new InputArgument('genus', InputArgument::REQUIRED, 'The genus of the species'),
+                new InputArgument('species', InputArgument::REQUIRED, 'The name of the species'),
+                new InputArgument('lineages', InputArgument::REQUIRED, 'The lineages of the species'),
+                new InputArgument('genetic-code', InputArgument::REQUIRED, 'The genetic code of the species'),
+                new InputArgument('mito-code', InputArgument::REQUIRED, 'The mito code of the species'),
+                new InputArgument('description', InputArgument::REQUIRED, 'The description of the species'),
+                new InputArgument('synonymes', InputArgument::OPTIONAL, 'Synonymes of the species'),
+                new InputOption('taxid', null, InputOption::VALUE_OPTIONAL, 'Give the TaxID to autofill the Species'),
+            ))
+            ->setHelp(<<<EOT
+The <info>bio:species:add</info> command creates a species:
+  <info>bin/console bio:species:add</info>
+This interactive shell will ask you all informations on the species and on witch clade you want link the species.
+You can alternatively specify the clade as argument:
+  <info>bin/console bio:species:add Yarrowia</info>
+You can use an autofill option via the taxid flag:
+  <info>bin/console bio:species:add --taxid 4952</info>
+EOT
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    // Here, prepare some variables used later and some control on the command line argument
+    protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        // Appeller la commande bio:clade:list, pour donner à l'utilisateur une liste des clades
-        $listCladeCommand = $this->getApplication()->find('bio:clade:list');
-        $listCladeCommandInput = new ArrayInput(array('command' => 'bio:clade:list'));
-        $listCladeCommand->run($listCladeCommandInput, $output);
+        parent::initialize($input, $output);
 
-        // Créer le helper
-        $helper = $this->getHelper('question');
-
-        // Récupérer les clades dans la base de données
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $clades = $em->getRepository('AppBundle:Clade')->findAll();
 
-        // On récupère les noms des clades et on les met dans un array
-        $cladesName = array();
+        // Retrieve all clades stocked in the database
+        $clades = $em->getRepository('AppBundle:Clade')->findAll();
         foreach ($clades as $clade) {
-            $cladesName[] = $clade->getName();
+            $this->cladeList[$clade->getName()] = $clade;
         }
 
-        do {
-            // Créer l'objet Species, à remplir
-            $species = new Species();
+        // Idem, but for the species
+        $species = $em->getRepository('AppBundle:Species')->findAll();
+        foreach ($species as $specy) {
+            $this->speciesList[$specy->getScientificName()] = $specy;
+        }
 
-            // On demande à l'utilisateur sur quel clade il veut lier l'espèce
-            $speciesCladeQuestion = new Question("Please enter the name of a clade:\n");
-            $speciesCladeQuestion->setAutocompleterValues($cladesName);
-            // On crée un validateur, qui vérifié que le nom entré par l'utilisateur est bien un choix possible
-            $speciesCladeQuestion->setValidator(function ($answer) use ($cladesName) {
-                if (!in_array($answer, $cladesName)) {
-                    throw new \RuntimeException(
-                        'The clade doesn\'t exist !'
-                    );
-                }
+        // If the user give the clade name in the command line, verify if it exists, if yes put the clade object in the clade argument
+        if ($input->getArgument('clade')) {
+            if (!in_array($input->getArgument('clade'), array_keys($this->cladeList))) {
+                throw new \RuntimeException(
+                    'The clade doesn\'t exist !'
+                );
+            }
+            $input->setArgument('clade', $this->cladeList[$input->getArgument('clade')]);
+        }
 
-                return $answer;
-            });
-            $speciesCladeResponse = $helper->ask($input, $output, $speciesCladeQuestion);
-            // On récupère l'objet à partir du nom choisi
-            foreach ($clades as $clade) {
-                if ($speciesCladeResponse === $clade->getName()) {
-                    $species->setClade($clade);
-                    break;
-                }
+        // If the user give a name to the new species in the command line, verify the 'pattern' of the name and that no species with the same name doesn't already exists
+        if ($answer = $input->getArgument('scientific-name')) {
+            if (!preg_match('#^[A-Z][a-z]* [a-z]*$#', $answer)) {
+                throw new \RuntimeException(
+                    'The scientific name have not the goot pattern ! (eg: "Candida albicans")'
+                );
             }
 
-            // Si l'utilisateur renseigne un TaxId, on va faire une requête sur le NCBI, pour hydrater notre objet
-            if ($input->getArgument('ncbi')) {
-                // On récupère le contenu de la page de l'API
-                $xmlString = file_get_contents(self::NCBI_TAXONOMY_API_LINK.$input->getArgument('ncbi'));
+            if (array_key_exists($answer, $this->speciesList)) {
+                throw new \RuntimeException(
+                    'This species already exists !'
+                );
+            }
+        }
 
-                // On crée un Crawler sur le contenu Xml
-                $crawler = new Crawler($xmlString);
+        // If the user use the taxid option
+        if ($input->getOption('taxid')) {
+            // Retrieve the page content (xml code)
+            $xmlString = file_get_contents(self::NCBI_TAXONOMY_API_LINK.$input->getOption('taxid'));
 
-                // On vérifie si l'ID renseigné retourne un contenu XML valide (ici c'est un peu moche, car si c'est vide il retourne un saut de ligne...)
-                if (0 !== $crawler->filterXPath('//TaxaSet/Taxon')->count()) {
-                    // Si le contenu XML retourne un rang: species
-                    if ('species' === $crawler->filterXPath('//TaxaSet/Taxon/Rank')->text()) {
-                        // On hydrate notre objet Species
-                        $species->setTaxid($crawler->filterXPath('//TaxaSet/Taxon/TaxId')->text());
-                        $species->setScientificName($crawler->filterXPath('//TaxaSet/Taxon/ScientificName')->text());
-                        $scientificNameExploded = explode(' ', $crawler->filterXPath('//TaxaSet/Taxon/ScientificName')->text());
-                        $species->setGenus($scientificNameExploded[0]);
-                        $species->setSpecies($scientificNameExploded[1]);
-                        $species->setGeneticCode($crawler->filterXPath('//TaxaSet/Taxon/GeneticCode/GCId')->text());
-                        $species->setMitoCode($crawler->filterXPath('//TaxaSet/Taxon/MitoGeneticCode/MGCId')->text());
-                        $species->setLineage($crawler->filterXPath('//TaxaSet/Taxon/Lineage')->text());
+            // Create a crawler and give the xml code to it
+            $crawler = new Crawler($xmlString);
 
-                        // Si il y a un DOM Synonym, alors on extrait les synonymes et les ajoutes à l'objet
-                        if (0 !== $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->count()) {
-                            // On filtre sur le DOM Synonym, et on exécute un Closure qui fait un addSynonyme() sur chaque itération
-                            $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->each(function (Crawler $node, $i) use ($species) {
-                                $species->addSynonym($node->text());
-                            });
-                        }
-                    } else {
-                        $output->writeln('<error>This ID doesn\'t match on a species.</error>');
+            // Count the number of taxon tag, if different of 0 there are contents, else the document is empty, it's because the Taxon Id doesn't exists
+            if (0 !== $crawler->filterXPath('//TaxaSet/Taxon')->count()) {
+                // If the tag Rank contain 'species', the Id match on a species, else, it's not correct.
+                if ('species' === $crawler->filterXPath('//TaxaSet/Taxon/Rank')->text()) {
+                    // Use the crawler to crawl the document and fill the arguments
+                    $input->setArgument('scientific-name', $crawler->filterXPath('//TaxaSet/Taxon/ScientificName')->text());
 
-                        return;
+                    // Here control if the scientific name exist in the species list, we can't have 2 species with the same scientific name (Genus and species)
+                    if (array_key_exists($input->getArgument('scientific-name'), $this->speciesList)) {
+                        throw new \RuntimeException(
+                            'This species already exists !'
+                        );
+                    }
+
+                    $input->setArgument('genetic-code', $crawler->filterXPath('//TaxaSet/Taxon/GeneticCode/GCId')->text());
+                    $input->setArgument('mito-code', $crawler->filterXPath('//TaxaSet/Taxon/MitoGeneticCode/MGCId')->text());
+                    $input->setArgument('lineages', explode('; ', $crawler->filterXPath('//TaxaSet/Taxon/Lineage')->text()));
+
+                    // He re count the number of synonym tag, if the count is different to 0, there are synonymes
+                    if (0 !== $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->count()) {
+                        // Use a closure on the tag Synonym to extract all synonymes and fill an array
+                        $synonymes = $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->each(function (Crawler $node, $i) {
+                            return $node->text();
+                        });
+                        $input->setArgument('synonymes', $synonymes);
                     }
                 } else {
-                    $output->writeln('<error>This ID doesn\'t exist.</error>');
-
-                    return;
+                    throw new \RuntimeException(
+                        'This ID doesn\'t match on a species.'
+                    );
                 }
+            } else {
+                throw new \RuntimeException(
+                    'This ID doesn\'t exist.'
+                );
             }
-            // Sinon, l'utilisateur ne renseigne pas de TaxId, alors on rempli tout manuellement
-            else {
-                // Scientificname
-                $scientificNameQuestion = new Question("\nPlease enter the scientific name of the species:\n");
-                $scientificNameQuestion->setValidator(function ($answer) {
-                    if (!preg_match('#^[A-Z][a-z]*\s[a-z]*$#', $answer)) { // Or is_int()
+        }
+    }
+
+    // Here we prepare the question to the user, if he doesn't give all the arguments in the command line
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        parent::interact($input, $output);
+
+        do {
+            $questions = array();
+
+            if (!$input->getArgument('clade')) {
+                // List all the persisted clades, call the bio:clade:list command to do it
+                $listCladeCommand = $this->getApplication()->find('bio:clade:list');
+                $listCladeCommandInput = new ArrayInput(array('command' => 'bio:clade:list'));
+                $listCladeCommand->run($listCladeCommandInput, $output);
+
+                $question = new Question('Please enter the name of a clade: ');
+                $question->setAutocompleterValues(array_keys($this->cladeList));
+                // Verify that the name of the clade is an existing clade, if yes return the clade object
+                $question->setValidator(function ($answer) {
+                    if (!in_array($answer, array_keys($this->cladeList))) {
+                        throw new \RuntimeException(
+                            'The clade doesn\'t exist !'
+                        );
+                    }
+
+                    return $this->cladeList[$answer];
+                });
+                $questions['clade'] = $question;
+            }
+
+            if (!$input->getArgument('scientific-name')) {
+                $question = new Question('Please enter the scientific name of the species: ');
+                // Control that the scientific name have a good pattern and doesn't already exist
+                $question->setValidator(function ($answer) {
+                    if (!preg_match('#^[A-Z][a-z]* [a-z]*$#', $answer)) {
                         throw new \RuntimeException(
                             'The scientific name have not the goot pattern ! (eg: "Candida albicans")'
                         );
                     }
 
+                    if (array_key_exists($answer, $this->speciesList)) {
+                        throw new \RuntimeException(
+                          'This species already exists !'
+                        );
+                    }
+
                     return $answer;
                 });
-                $species->setScientificName($helper->ask($input, $output, $scientificNameQuestion));
+                $questions['scientific-name'] = $question;
+            }
 
-                // On utilise le nom scientifique pour déduire le genre et l'espèce
-                $scientificNameExploded = explode(' ', $species->getScientificName());
-                $species->setGenus($scientificNameExploded[0]);
-                $species->setSpecies($scientificNameExploded[1]);
+            if (!$input->getArgument('lineages')) {
+                $question = new Question('Please enter lineages of the species (use "; " as separator): ');
+                // Verify the list is correctly formated
+                $question->setValidator(function ($answer) {
+                    if (!preg_match('#^([a-zA-Z0-9 ]*; )*[a-zA-Z0-9 ]*[^; ]$#', $answer)) {
+                        throw new \RuntimeException(
+                            'The list have not the goot pattern ! (eg: "lineage 1; lineage 2; lineage 3; [...]; last lineage")'
+                        );
+                    }
 
-                // Lineage
-                $lineageQuestion = new Question("\nPlease enter the lineage of the species:\n");
-                $species->setLineage($helper->ask($input, $output, $lineageQuestion));
+                    return explode('; ', $answer);
+                });
+                $questions['lineages'] = $question;
+            }
 
-                // geneticCode
-                $geneticCodeQuestion = new Question("\nPlease enter the genetic code of the species: (default: 1)\n", 1);
-                $geneticCodeQuestion->setValidator(function ($answer) {
-                    if (!is_int($answer)) {
+            if (!$input->getArgument('genetic-code')) {
+                $question = new Question('Please enter the genetic code of the species (default: 1): ', 1);
+                $question->setValidator(function ($answer) {
+                    if (0 === (int) $answer) {
                         throw new \RuntimeException(
                             'The mito code may be an integer.'
                         );
@@ -151,12 +225,13 @@ class AddSpeciesCommand extends ContainerAwareCommand
 
                     return $answer;
                 });
-                $species->setGeneticCode($helper->ask($input, $output, $geneticCodeQuestion));
+                $questions['genetic-code'] = $question;
+            }
 
-                // mitoCode
-                $mitoCodeQuestion = new Question("\nPlease enter the mito code of the species: (default: 3)\n", 3);
-                $mitoCodeQuestion->setValidator(function ($answer) {
-                    if (!is_int($answer)) {
+            if (!$input->getArgument('mito-code')) {
+                $question = new Question('Please enter the mito code of the species (default: 3): ', 3);
+                $question->setValidator(function ($answer) {
+                    if (0 === (int) $answer) {
                         throw new \RuntimeException(
                             'The mito code may be an integer.'
                         );
@@ -164,67 +239,92 @@ class AddSpeciesCommand extends ContainerAwareCommand
 
                     return $answer;
                 });
-                $species->setMitoCode($helper->ask($input, $output, $mitoCodeQuestion));
+                $questions['mito-code'] = $question;
+            }
 
-                // Synonymes
-                $synonymesQuestion = new Question("\nPlease enter synonymes of the species: (use \"; \" as separator)(default: null)\n", null);
-                // On crée un validateur, qui vérifié que le la liste est correctement formatée
-                $synonymesQuestion->setValidator(function ($answer) {
-                    if (!preg_match('#^([a-zA-Z0-9]*;\s)*[a-zA-Z0-9]*[^; ]$|^\s*$#', $answer)) {
+            if (!$input->getArgument('synonymes')) {
+                $question = new Question('Please enter synonymes of the species (use "; " as separator)(default: null): ', null);
+                // Verify the list is correctly formated
+                $question->setValidator(function ($answer) {
+                    if (!preg_match('#^([a-zA-Z0-9 ]*; )*[a-zA-Z0-9 ]*[^; ]$|^\s*$#', $answer)) {
                         throw new \RuntimeException(
                             'The list have not the goot pattern ! (eg: "synonyme 1; synonyme 2; synonyme 3; [...]; last synonyme")'
                         );
                     }
 
-                    return $answer;
+                    return explode('; ', $answer);
                 });
-                $synonymes = $helper->ask($input, $output, $synonymesQuestion);
-                if ($synonymes) {
-                    $synonymes = explode('; ', $synonymes);
-                    $species->setSynonymes($synonymes);
-                }
+                $questions['synonymes'] = $question;
             }
 
-            // Ici, on retrouve les champs communs, qui sont nécessaires pour le mode manuel, et auto avec l'API
-
-            // Description
-            $descriptionQuestion = new Question("\nPlease enter the description of the species: (default: null)\n", null);
-            $species->setDescription($helper->ask($input, $output, $descriptionQuestion));
-
-            // On fait un résumé des données récupérées
-            $userData = "Clade:\t\t\t".$species->getClade()->getName()."\n";
-            $userData .= "Scientific name:\t".$species->getScientificName()."\n";
-            $userData .= "Genus:\t\t\t".$species->getGenus()."\n";
-            $userData .= "Species:\t\t".$species->getSpecies()."\n";
-            $userData .= "Lineage:\t\t".$species->getLineage()."\n";
-            $userData .= "Genetic Code:\t\t".$species->getGeneticCode()."\n";
-            $userData .= "Mito Code:\t\t".$species->getMitoCode()."\n";
-            $userData .= "Synonymes:\n";
-            if (null !== $species->getSynonymes()) {
-                foreach ($species->getSynonymes() as $synonym) {
-                    $userData .= "\t\t\t* ".$synonym."\n";
-                }
+            if (!$input->getArgument('description')) {
+                $question = new Question('Please enter the description of the species (default: null): ', null);
+                $questions['description'] = $question;
             }
-            $userData .= "Description:\t\t".$species->getDescription()."\n";
-            $userData .= "TaxId:\t\t\t".$species->getTaxid()."\n";
 
-            $output->writeln("\n".$userData);
+            foreach ($questions as $name => $question) {
+                $answer = $this->getHelper('question')->ask($input, $output, $question);
+                $input->setArgument($name, $answer);
+            }
 
-            // On demande à l'utilisateur si les données sont bonnes ou pas
-            $confirmQuestion = new ConfirmationQuestion("Is it correct ? (y/N)\n", false);
-            // Si les données ne sont pas bonnes, on recommence la boucle
-            // On supprime l'argument NCBI, pour remplir manuellement les champs
-            // On détruit l'objet Species
-            if (!$helper->ask($input, $output, $confirmQuestion)) {
+            // Explode the scientific name to retrieve: genus and species
+            $scientificNameExploded = explode(' ', $input->getArgument('scientific-name'));
+            $input->setArgument('genus', $scientificNameExploded[0]);
+            $input->setArgument('species', $scientificNameExploded[1]);
+
+            // Ask to the user if he is sure of his answers.
+            $output->writeln(array(
+                '',
+                'Summary:',
+                'Clade: '.$input->getArgument('clade')->getName(),
+                'Scientific name: '.$input->getArgument('scientific-name'),
+                'Genus: '.$input->getArgument('genus'),
+                'Species: '.$input->getArgument('species'),
+                'Lineages: '.implode('; ', $input->getArgument('lineages')),
+                'Genetic Code: '.$input->getArgument('genetic-code'),
+                'Mito Code: '.$input->getArgument('mito-code'),
+                'Synonymes: '.implode('; ', $input->getArgument('synonymes')),
+                'Description: '.$input->getArgument('description'),
+                'TaxId: '.$input->getOption('taxid'),
+            ));
+
+            $confirmQuestion = new ConfirmationQuestion('<question>Is it correct ? (y/N)</question> ', false);
+
+            if (!$this->getHelper('question')->ask($input, $output, $confirmQuestion)) {
+                $input->setArgument('clade', null);
+                $input->setArgument('scientific-name', null);
+                $input->setArgument('genus', null);
+                $input->setArgument('species', null);
+                $input->setArgument('lineages', null);
+                $input->setArgument('genetic-code', null);
+                $input->setArgument('mito-code', null);
+                $input->setArgument('synonymes', null);
+                $input->setArgument('description', null);
+                $input->setOption('taxid', null);
                 $confirm = false;
-                $input->setArgument('ncbi', null);
-                unset($species);
             } else {
                 $confirm = true;
             }
         } while (!$confirm);
+    }
 
-        // On persiste l'objet
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        // Create the Species object and set all the attributes
+        $species = new Species();
+        $species->setClade($input->getArgument('clade'));
+        $species->setScientificName($input->getArgument('scientific-name'));
+        $species->setGenus($input->getArgument('genus'));
+        $species->setSpecies($input->getArgument('species'));
+        $species->setLineages($input->getArgument('lineages'));
+        $species->setGeneticCode($input->getArgument('genetic-code'));
+        $species->setMitoCode($input->getArgument('mito-code'));
+        $species->setSynonymes($input->getArgument('synonymes'));
+        $species->setDescription($input->getArgument('description'));
+        $species->setTaxid($input->getOption('taxid'));
+
+        // Persist and flush the object in the database
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $em->persist($species);
         $em->flush();
 

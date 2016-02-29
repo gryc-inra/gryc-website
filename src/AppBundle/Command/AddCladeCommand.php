@@ -18,7 +18,7 @@ class AddCladeCommand extends ContainerAwareCommand
     /**
      * @var array Clade
      */
-    private $clades;
+    private $clades = array();
 
     protected function configure()
     {

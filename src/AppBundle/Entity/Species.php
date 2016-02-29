@@ -50,11 +50,11 @@ class Species
     private $genus;
 
     /**
-     * @var string
+     * @var array
      *
-     * @ORM\Column(name="lineage", type="string", length=255)
+     * @ORM\Column(name="lineages", type="array")
      */
-    private $lineage;
+    private $lineages;
 
     /**
      * @var int
@@ -78,7 +78,7 @@ class Species
     private $mitoCode;
 
     /**
-     * @var string
+     * @var array
      *
      * @ORM\Column(name="synonymes", type="array", nullable=true)
      */
@@ -99,6 +99,7 @@ class Species
     public function __construct()
     {
         $this->synonymes = array();
+        $this->lineages = array();
         $this->strains = new ArrayCollection();
     }
 
@@ -209,15 +210,64 @@ class Species
     }
 
     /**
-     * Set lineage.
+     * Add lineage.
      *
      * @param string $lineage
      *
      * @return Species
      */
-    public function setLineage($lineage)
+    public function addLineage($lineage)
     {
-        $this->lineage = $lineage;
+        if (!empty($lineage) and !in_array($lineage, $this->lineages, true)) {
+            $this->lineages[] = $lineage;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove lineage.
+     *
+     * @param string $lineage
+     *
+     * @return Species
+     */
+    public function removeLineage($lineage)
+    {
+        if (false !== $key = array_search($lineage, $this->lineages, true)) {
+            unset($this->lineages[$key]);
+            $this->lineages = array_values($this->lineages);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set lineages.
+     *
+     * @param array $lineages
+     *
+     * @return Species
+     */
+    public function setLineages($lineages)
+    {
+        $this->lineages = array();
+
+        foreach ($lineages as $lineage) {
+            $this->addLineage($lineage);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Empty synonymes.
+     *
+     * @return Species
+     */
+    public function emptyLineages()
+    {
+        $this->lineages = array();
 
         return $this;
     }
@@ -225,11 +275,11 @@ class Species
     /**
      * Get lineage.
      *
-     * @return string
+     * @return array
      */
-    public function getLineage()
+    public function getLineages()
     {
-        return $this->lineage;
+        return $this->lineages;
     }
 
     /**
@@ -313,7 +363,7 @@ class Species
      */
     public function addSynonym($synonym)
     {
-        if (!in_array($synonym, $this->synonymes, true)) {
+        if (!empty($synonym) and !in_array($synonym, $this->synonymes, true)) {
             $this->synonymes[] = $synonym;
         }
 
