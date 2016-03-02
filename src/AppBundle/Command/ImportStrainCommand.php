@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 class ImportStrainCommand extends ContainerAwareCommand
@@ -76,6 +77,13 @@ class ImportStrainCommand extends ContainerAwareCommand
         });
 
         $this->species = $this->getHelper('question')->ask($input, $output, $question);
+
+        $confirmQuestion = new ConfirmationQuestion('<question>Do you confirm the importation ? (y/N)</question> ', false);
+        if (!$this->getHelper('question')->ask($input, $output, $confirmQuestion)) {
+            throw new \RuntimeException(
+                '<error>Importation aborted !</error>'
+            );
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -103,6 +111,7 @@ class ImportStrainCommand extends ContainerAwareCommand
         foreach ($data['chromosome'] as $chromosomeData) {
             $dnaSequence = new DnaSequence();
             $dnaSequence->setDna($chromosomeData['DnaSequence']['seq']);
+            //$dnaSequence->setDna('AATTCCGG');
             // The array in the json haven't key, but the positions in the array is:
             // A, C, G, T, N, other.
             $letterCountKeys = array('A', 'C', 'G', 'T', 'N', 'other');
@@ -114,6 +123,14 @@ class ImportStrainCommand extends ContainerAwareCommand
                 $chromosome->setAccession($chromosomeData['accession']);
             }
             $chromosome->setDescription($chromosomeData['description']);
+
+            if (null !== $chromosomeData['keywords']) {
+                // In the Json file the last keyword have a "." at the end, remove it.
+                end($chromosomeData['keywords']);
+                $chromosomeData['keywords'][key($chromosomeData['keywords'])] = trim(end($chromosomeData['keywords']), ".");
+                reset($chromosomeData['keywords']);
+            }
+
             $chromosome->setKeywords($chromosomeData['keywords']);
             $chromosome->setProjectId($chromosomeData['projectId']);
             $chromosome->setDateCreated(new \DateTime($chromosomeData['dateCreated']));
