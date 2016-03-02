@@ -449,6 +449,12 @@ class Species
         return $this->description;
     }
 
+    /**
+     * Add strain.
+     *
+     * @param Strain $strain
+     * @return $this
+     */
     public function addStrain(Strain $strain)
     {
         $this->strains[] = $strain;
@@ -457,8 +463,23 @@ class Species
         return $this;
     }
 
+    /**
+     * Remove strain.
+     *
+     * @param Strain $strain
+     */
     public function removeStrain(Strain $strain)
     {
         $this->strains->removeElement($strain);
+    }
+
+    /**
+     * Get strain.
+     *
+     * @return Strain|ArrayCollection
+     */
+    public function getStrains()
+    {
+        return $this->strains;
     }
 }
