@@ -10,4 +10,19 @@ namespace AppBundle\Repository;
  */
 class StrainRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getStrainWithSpeciesAndChromosomes($name)
+    {
+        $query = $this
+            ->createQueryBuilder('strain')
+            ->where('strain.name = :name')
+            ->setParameter('name', $name)
+            ->leftJoin('strain.species', 'species')
+                ->addSelect('species')
+            ->leftJoin('strain.chromosomes', 'c')
+                ->addSelect('c')
+                ->orderBy('c.name', 'ASC')
+            ->getQuery();
+
+        return $query->getSingleResult();
+    }
 }

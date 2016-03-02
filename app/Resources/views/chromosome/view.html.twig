@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ chromosome.strain.species.scientificname }} {{ chromosome.strain.name }} {{ chromosome.name }}
+{% endblock %}
+
+{% block metaTags %}
+    {{ parent() }}
+    {% if chromosome.description is not null %}
+        <meta name="description" content="{{ chromosome.description }}" />
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('species_list') }}">Species</a></li>
+    <li><a href="{{ path('species_view', { 'scientificname': chromosome.strain.species.scientificname }) }}"><i>{{ chromosome.strain.species.scientificname }}</i></a></li>
+    <li><a href="{{ path('strain_view', { 'species': chromosome.strain.species.scientificname, 'name': chromosome.strain.name }) }}">{{ chromosome.strain.name }}</a></li>
+    <li class="active">{{ chromosome.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1>{{ chromosome.name }}</h1>
+    <p>{{ chromosome.description }}</p>
+    <div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Informations</div>
+            <div class="panel-body">
+                <p>Accessions: {{ chromosome.accessions|join('; ') }}</p>
+                <p>Keywords:</p>
+                    <ul>
+                        {% if chromosome.keywords is not null %}
+                            {% for keyword in chromosome.keywords %}
+                                <li>{{ keyword|capitalize }}</li>
+                            {% endfor %}
+                        {% else %}
+                            <li>There is not keyword.</li>
+                        {% endif %}
+                    </ul>
+                <p>Project Id: {{ chromosome.projectId }}</p>
+                <p>Created: {{ chromosome.dateCreated|date('Y-m-d') }}</p>
+                <p>{{ chromosome.numCreated }}</p>
+                <p>Released: {{ chromosome.dateReleased|date('Y-m-d') }}</p>
+                <p>{{ chromosome.numReleased }}</p>
+                <p>Version: {{ chromosome.numVersion is null ? "No version number" : chromosome.numVersion }}</p>
+
+                <p>Length: {{ chromosome.length|number_format }}</p>
+                <p>G/C: {{ chromosome.gc|round(2) }}</p>
+                <p>Number of CDS: {{ chromosome.cdsCount|number_format }}</p>
+                <p>{{ chromosome.mitochondrial == false ? "No mitochondrial" : "Mitochondrial" }}</p>
+                <p>Comment: {{ chromosome.comment }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

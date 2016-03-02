@@ -10,4 +10,31 @@ namespace AppBundle\Repository;
  */
 class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * Select all or a specific species with strains
+     */
+    public function getSpeciesWithStrains($scientificname = null)
+    {
+        $query = $this
+            ->createQueryBuilder('species')
+            ->leftJoin('species.strains', 'strain')
+                ->addSelect('strain')
+        ;
+
+        if (null !== $scientificname) {
+            return $query
+                ->where('species.scientificName = :scientificname')
+                ->setParameter('scientificname', $scientificname)
+                ->getQuery()
+                ->getOneOrNullResult();
+
+        } else {
+            return $query
+                ->orderBy('species.scientificName', 'ASC')
+                ->getQuery()
+                ->getResult();
+        }
+    }
+
 }

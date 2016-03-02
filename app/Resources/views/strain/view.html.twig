@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ strain.species.scientificname }} {{ strain.name }}
+{% endblock %}
+
+{% block metaTags %}
+    {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }} <li><a href="{{ path('species_list') }}">Species</a></li> <li><a href="{{ path('species_view', { scientificname: strain.species.scientificname }) }}"><i>{{ strain.species.scientificname }}</i></a></li> <li class="active">{{ strain.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1><i>{{ strain.species.scientificname }}</i> {{ strain.name }}</h1>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">General</div>
+                <div class="panel-body">
+                    <p>Species: <a href="{{ path('species_view', {'scientificname': strain.species.scientificname }) }}"><i>{{ strain.species.scientificname }}</i></a></p>
+                    <p>Synonymes:</p>
+                    <ul>
+                        {% if strain.synonymes is not null %}
+                            {% for synonyme in strain.synonymes %}
+                                <li>{{ synonyme|capitalize }}</li>
+                            {% endfor %}
+                        {% else %}
+                            <li>There is not synonyme.</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">Genomes informations</div>
+                <div class="panel-body">
+                    <p>Status: <b style="color:{{ 'complete' == strain.status|lower ? 'green' : 'orange' }};">{{ strain.status }}</b></p>
+                    <p>Total length: {{ strain.length|number_format }}</p>
+                    <p>Number of CDS: {{ strain.cdsCount|number_format }}</p>
+                    <p>Number of chromosomes: {{ strain.chromosomes|length }}</p>
+                    <p>G/C: {{ strain.gc|round(2) }}</p>
+
+                    {# Calculate and define all variables used in the design of the schema #}
+                    {% set maxChromosomeLength = 0 %}
+                    {% for chromosome in strain.chromosomes %}
+                        {% if chromosome.length > maxChromosomeLength %}
+                            {% set maxChromosomeLength = chromosome.length %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% set objectWidth, legendSpace, barHeight, barRadius, xPadding, yPadding, legendVerticalStart, barVerticalStart = 740, 130, 15, 4, 10, 10, 44, 32.5 %}
+                    {% set maxSizeLegend = (maxChromosomeLength/10**6)|round(0, 'ceil') %}
+                    {% set legendJump = (objectWidth - legendSpace - xPadding) / maxSizeLegend %}
+                    {% set height = 3 * yPadding + (strain.chromosomes|length) * 2 * barHeight %}
+
+                    <div class="hidden-xs" style="overflow;scroll;overflow-y: hidden;">
+                        <figure>
+                            <svg width="{{ objectWidth }}" height="{{ height }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                <line x1="{{ legendSpace }}" x2="{{ objectWidth - xPadding }}" y1="{{ yPadding }}" y2="{{ yPadding }}" style="stroke:rgb(0,0,0);stroke-width:1"></line>
+
+                                {% for i in 0..maxSizeLegend %}
+                                    {% set x = legendSpace + (legendJump * i) %}
+
+                                    <line x1="{{ x }}" x2="{{ x }}" y1="{{ yPadding }}" y2="{{ height - yPadding }}" style="stroke:rgb(200,200,200);stroke-width:1"></line>
+                                    <line x1="{{ x }}" x2="{{ x }}" y1="{{ yPadding }}" y2="{{ yPadding + 5 }}" style="stroke:rgb(0,0,0);stroke-width:1"></line>
+                                    <text font-size="12" x="{{ x - 10 }}" y="25">{{ i }}M</text>
+                                {% endfor %}
+
+                                {% for chromosome in strain.chromosomes %}
+                                    <a xlink:href="{{ path('chromosome_view', { 'species': strain.species.scientificname, 'strain': strain.name, 'name': chromosome.name }) }}">
+                                        <text font-size="12" x="{{ xPadding }}" y="{{ legendVerticalStart + (barHeight * 2 * loop.index0) }}">{{ chromosome.name }}</text>
+                                        <rect width="{{ (chromosome.length / 10**6) * legendJump }}" height="{{ barHeight }}"  x="{{ legendSpace }}" y="{{ barVerticalStart + (barHeight * 2 * loop.index0) }}" rx="{{ barRadius }}" ry="{{ barRadius }}" style="fill:#FFAAAA;stroke:#FFAAAA;fill-opacity:0.5">
+                                            <title> {{ chromosome.length|number_format }} Nucleotides</title>
+                                        </rect>
+                                    </a>
+                                {% endfor %}
+                            </svg>
+                            <figcaption class="text-center">Size of the chromosomes<br><i>You can access the chromosomes by clicking on names or bars</i></figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default visible-xs">
+                <div class="panel-heading">Chromosomes</div>
+                <ul class="list-group">
+                    {% for chromosome in strain.chromosomes %}
+                        <li class="list-group-item"><a href="{{ path('chromosome_view', { 'species': strain.species.scientificname, 'strain': strain.name, 'name': chromosome.name }) }}">{{ chromosome.name }}</a></li>
+                    {% endfor %}
+                    <ul>
+            </div>
+        </div>
+
+        {#
+
+        #}
+    </div>
+{% endblock %}

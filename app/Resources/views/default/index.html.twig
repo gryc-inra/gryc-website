@@ -27,29 +27,10 @@ The yeast genomes database - {{ parent() }}
 <h2>Available species</h2>
 <p>The current release of GRYC contains the following species/strains of yeast:</p>
 <ul>
-    <li>Arxula adeninivorans LS3</li>
-    <li>Candida albicans SC5314</li>
-    <li>Candida glabrata CBS 138</li>
-    <li>Candida parapsilosis CDC 317</li>
-    <li>Cyberlindnera fabianii YJS4271</li>
-    <li>Debaryomyces hansenii CBS 767</li>
-    <li>Eremothecium gossypii ATCC 10895</li>
-    <li>Kazachstania naganishii CBS 8797</li>
-    <li>Kluyveromyces lactis CBS 2359</li>
-    <li>Kuraishia capsulata CBS 1993</li>
-    <li>Lachancea kluyveri CBS 3082</li>
-    <li>Lachancea thermotolerans CBS 6340</li>
-    <li>Millerozyma farinosa CBS 7064</li>
-    <li>Nakaseomyces bacillisporus CBS 7720</li>
-    <li>Nakaseomyces bracarensis CBS 10154</li>
-    <li>Nakaseomyces castellii CBS 4332</li>
-    <li>Nakaseomyces delphensis CBS 2170</li>
-    <li>Nakaseomyces nivariensis CBS 9983</li>
-    <li>Naumovozyma castellii CBS 4309</li>
-    <li>Saccharomyces cerevisiae S288c</li>
-    <li>Tetrapisispora blattae CBS 6284</li>
-    <li>Yarrowia lipolytica CLIB122</li>
-    <li>Zygosaccharomyces bailii CBS 680</li>
-    <li>Zygosaccharomyces rouxii CBS 732</li>
+    {% for species in speciesList %}
+        {% for strain in species.strains %}
+            <li>{{ species.scientificname }} {{ strain.name }}</li>
+        {% endfor %}
+    {% endfor %}
 </ul>
 {% endblock %}

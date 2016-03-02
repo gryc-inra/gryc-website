@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ species.scientificname }}
+{% endblock %}
+
+{% block metaTags %}
+    {{ parent() }}
+    {% if species.description is not null %}
+        <meta name="description" content="{{ species.description }}" />
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }} <li><a href="{{ path('species_list') }}">Species</a></li> <li class="active"><i>{{ species.scientificname }}</i></li>
+{% endblock %}
+
+{% block body %}
+    <h1><i>{{ species.scientificname }}</i></h1>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">General informations</div>
+                <div class="panel-body">
+                    <p>Genus: <i>{{ species.genus }}</i></p>
+                    <p>Species: <i>{{ species.species }}</i></p>
+                    {% if species.taxid is not null %}
+                        <p>TaxId: <a target="_blank" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ species.taxid }}">{{ species.taxid }}</a></p>
+                    {% endif %}
+                    <p>Synonymes:</p>
+                        <ul>
+                            {% if species.synonymes is not null %}
+                                    {% for synonyme in species.synonymes %}
+                                        <li>{{ synonyme|capitalize }}</li>
+                                    {% endfor %}
+                            {% else %}
+                                <li>There is not synonyme.</li>
+                            {% endif %}
+                        </ul>
+                    <p>Lineage:</p>
+                        <ul>
+                            {% for lineage in species.lineages %}
+                                <li>{{ lineage|capitalize }}</li>
+                            {% endfor %}
+                        </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Genetics informations</div>
+                <div class="panel-body">
+                    <p>Genetic code: {{ species.geneticCode }}</p>
+                    <p>Mitochondrial code: {{ species.mitoCode }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Strains</div>
+                <ul class="list-group">
+                    {% for strain in species.strains %}
+                        <li class="list-group-item"><a href="{{ path('strain_view', {'species': species.scientificname, 'name': strain.name }) }}">{{ strain.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% if species.description is not null %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Description</div>
+                    <div class="panel-body">
+                        {{ species.description|raw }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
