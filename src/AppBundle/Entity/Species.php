@@ -218,7 +218,7 @@ class Species
      */
     public function addLineage($lineage)
     {
-        if (!empty($lineage) and !in_array($lineage, $this->lineages, true)) {
+        if (!empty($lineage) && !in_array($lineage, $this->lineages, true)) {
             $this->lineages[] = $lineage;
         }
 
@@ -363,7 +363,7 @@ class Species
      */
     public function addSynonym($synonym)
     {
-        if (!empty($synonym) and !in_array($synonym, $this->synonymes, true)) {
+        if (!empty($synonym) && !in_array($synonym, $this->synonymes, true)) {
             $this->synonymes[] = $synonym;
         }
 

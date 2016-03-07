@@ -30,10 +30,6 @@ class UserRepository extends Repository
         $fieldQuery4->setFieldParam('email', 'analyzer', 'custom_search_analyzer');
         $boolQuery->addShould($fieldQuery4);
 
-        //$tagsQuery = new \Elastica\Query\Terms();
-        //$tagsQuery->setTerms('tags', array('tag1', 'tag2'));
-        //$boolQuery->addShould($tagsQuery);
-
         // build $query with Elastica objects
         return $this->find($boolQuery);
     }

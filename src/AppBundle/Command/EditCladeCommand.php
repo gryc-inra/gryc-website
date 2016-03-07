@@ -73,7 +73,7 @@ EOT
         }
 
         // If the user give a new name in the command line, control that name doesn't already exist
-        if (array_key_exists($input->getArgument('name'), $this->cladeList) and $input->getArgument('name') !== $input->getArgument('clade')->getName()) {
+        if (array_key_exists($input->getArgument('name'), $this->cladeList) && $input->getArgument('name') !== $input->getArgument('clade')->getName()) {
             throw new \RuntimeException(
                 'This clade already exists !'
             );
@@ -126,7 +126,7 @@ EOT
                         );
                     }
 
-                    if (array_key_exists($answer, $this->cladeList) and $answer !== $input->getArgument('clade')->getName()) {
+                    if (array_key_exists($answer, $this->cladeList) && $answer !== $input->getArgument('clade')->getName()) {
                         throw new \RuntimeException(
                             'This clade already exists !'
                         );

@@ -126,7 +126,7 @@ class Strain
      */
     public function addSynonym($synonym)
     {
-        if (!empty($synonym) and !in_array($synonym, $this->synonymes, true)) {
+        if (!empty($synonym) && !in_array($synonym, $this->synonymes, true)) {
             $this->synonymes[] = $synonym;
         }
 

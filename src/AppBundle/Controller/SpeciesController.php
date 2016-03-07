@@ -7,7 +7,6 @@
  */
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Species;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
