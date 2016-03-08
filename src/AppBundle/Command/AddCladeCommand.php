@@ -76,13 +76,7 @@ EOT
             $questions = array();
             $cladeQuestions = new CladeQuestions($input, $this->clades);
 
-            if (!$input->getArgument('name')) {
-                $questions['name'] = $cladeQuestions->getNameQuestion();
-            }
-
-            if (!$input->getArgument('description')) {
-                $questions['description'] = $cladeQuestions->getDescriptionQuestion();
-            }
+            $questions = $cladeQuestions->ask($questions);
 
             // We do a loop on on the questions, and ask it to the user
             foreach ($questions as $name => $question) {

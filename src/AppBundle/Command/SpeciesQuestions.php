@@ -8,14 +8,12 @@ use Symfony\Component\Console\Question\Question;
 class SpeciesQuestions
 {
     private $species;
-    private $speciesList;
     private $cladeList;
     private $input;
 
-    public function __construct($input, $speciesList, $cladeList, $species = null)
+    public function __construct($input, $cladeList, $species = null)
     {
         $this->species = $species;
-        $this->speciesList = $speciesList;
         $this->input = $input;
         $this->cladeList = $cladeList;
     }
@@ -209,5 +207,34 @@ class SpeciesQuestions
         } else {
             return false;
         }
+    }
+
+    public function ask(array $questions)
+    {
+        if (!$this->input->getArgument('scientific-name')) {
+            $questions['scientific-name'] = $this->getScientificNameQuestion();
+        }
+
+        if (!$this->input->getArgument('lineages')) {
+            $questions['lineages'] = $this->getLineageQuestion();
+        }
+
+        if (!$this->input->getArgument('genetic-code')) {
+            $questions['genetic-code'] = $this->getGeneticCodeQuestion();
+        }
+
+        if (!$this->input->getArgument('mito-code')) {
+            $questions['mito-code'] = $this->getMitoCodeQuestion();
+        }
+
+        if (!$this->input->getArgument('synonymes')) {
+            $questions['synonymes'] = $this->getSynonymesQuestion();
+        }
+
+        if (!$this->input->getArgument('description')) {
+            $questions['description'] = $this->getDescriptionQuestion();
+        }
+
+        return $questions;
     }
 }

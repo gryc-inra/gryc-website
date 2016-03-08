@@ -99,4 +99,17 @@ class CladeQuestions
             return false;
         }
     }
+
+    public function ask($questions)
+    {
+        if (!$this->input->getArgument('name')) {
+            $questions['name'] = $this->getNameQuestion();
+        }
+
+        if (!$this->input->getArgument('description')) {
+            $questions['description'] = $this->getDescriptionQuestion();
+        }
+
+        return $questions;
+    }
 }

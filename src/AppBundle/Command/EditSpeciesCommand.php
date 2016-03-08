@@ -3,7 +3,6 @@
 
 namespace Grycii\AppBundle\Command;
 
-use Grycii\AppBundle\Entity\Species;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -89,7 +88,7 @@ EOT
             $answer = $this->getHelper('question')->ask($input, $output, $question);
             $this->species = $answer;
 
-            $speciesQuestions = new SpeciesQuestions($input, $this->speciesList, $this->cladeList, $this->species);
+            $speciesQuestions = new SpeciesQuestions($input, $this->cladeList, $this->species);
 
             if (!$input->getArgument('clade')) {
                 // List all the persisted clades, call the bio:clade:list command to do it
@@ -100,33 +99,7 @@ EOT
                 $questions['clade'] = $speciesQuestions->getCladeQuestion();
             }
 
-            if (!$input->getArgument('scientific-name')) {
-                $questions['scientific-name'] = $speciesQuestions->getScientificNameQuestion();
-            }
-
-            if (!$input->getArgument('lineages')) {
-                $questions['lineages'] = $speciesQuestions->getLineageQuestion();
-            }
-
-            if (!$input->getArgument('genetic-code')) {
-                $questions['genetic-code'] = $speciesQuestions->getGeneticCodeQuestion();
-            }
-
-            if (!$input->getArgument('mito-code')) {
-                $questions['mito-code'] = $speciesQuestions->getMitoCodeQuestion();
-            }
-
-            if (!$input->getArgument('taxid')) {
-                $questions['taxid'] = $speciesQuestions->getTaxIdQuestion();
-            }
-
-            if (!$input->getArgument('synonymes')) {
-                $questions['synonymes'] = $speciesQuestions->getSynonymesQuestion();
-            }
-
-            if (!$input->getArgument('description')) {
-                $questions['description'] = $speciesQuestions->getDescriptionQuestion();
-            }
+            $questions = $speciesQuestions->ask($questions);
 
             foreach ($questions as $name => $question) {
                 $answer = $this->getHelper('question')->ask($input, $output, $question);

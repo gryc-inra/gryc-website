@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\DomCrawler\Crawler;
 
 class AddSpeciesCommand extends ContainerAwareCommand
@@ -144,7 +143,7 @@ EOT
     {
         do {
             $questions = array();
-            $speciesQuestions = new SpeciesQuestions($input, $this->speciesList, $this->cladeList);
+            $speciesQuestions = new SpeciesQuestions($input, $this->cladeList);
 
             if (!$input->getArgument('clade')) {
                 // List all the persisted clades, call the bio:clade:list command to do it
@@ -155,29 +154,7 @@ EOT
                 $questions['clade'] = $speciesQuestions->getCladeQuestion();
             }
 
-            if (!$input->getArgument('scientific-name')) {
-                $questions['scientific-name'] = $speciesQuestions->getScientificNameQuestion();
-            }
-
-            if (!$input->getArgument('lineages')) {
-                $questions['lineages'] = $speciesQuestions->getLineageQuestion();
-            }
-
-            if (!$input->getArgument('genetic-code')) {
-                $questions['genetic-code'] = $speciesQuestions->getGeneticCodeQuestion();
-            }
-
-            if (!$input->getArgument('mito-code')) {
-                $questions['mito-code'] = $speciesQuestions->getMitoCodeQuestion();
-            }
-
-            if (!$input->getArgument('synonymes')) {
-                $questions['synonymes'] = $speciesQuestions->getSynonymesQuestion();
-            }
-
-            if (!$input->getArgument('description')) {
-                $questions['description'] = $speciesQuestions->getDescriptionQuestion();
-            }
+            $questions = $speciesQuestions->ask($questions);
 
             foreach ($questions as $name => $question) {
                 $answer = $this->getHelper('question')->ask($input, $output, $question);

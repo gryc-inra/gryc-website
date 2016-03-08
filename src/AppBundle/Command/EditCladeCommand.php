@@ -3,7 +3,6 @@
 
 namespace Grycii\AppBundle\Command;
 
-use Grycii\AppBundle\Entity\Clade;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -109,14 +108,7 @@ EOT
             $this->clade = $input->getArgument('clade');
 
             $cladeQuestions = new CladeQuestions($input, $this->cladeList, $this->clade);
-
-            if (!$input->getArgument('name')) {
-                $questions['name'] = $cladeQuestions->getNameQuestion();
-            }
-
-            if (!$input->getArgument('description')) {
-                $questions['description'] = $cladeQuestions->getDescriptionQuestion();
-            }
+            $questions = $cladeQuestions->ask($questions);
 
             // Loop on the questions
             foreach ($questions as $name => $question) {
