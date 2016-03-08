@@ -1,9 +1,9 @@
 <?php
 // src/AppBundle/Command/EditSpeciesCommand.php
 
-namespace AppBundle\Command;
+namespace Grycii\AppBundle\Command;
 
-use AppBundle\Entity\Species;
+use Grycii\AppBundle\Entity\Species;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;

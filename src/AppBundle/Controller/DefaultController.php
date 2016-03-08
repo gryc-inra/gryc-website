@@ -4,7 +4,7 @@
  *
  * @copyright 2015 BimLip
  */
-namespace AppBundle\Controller;
+namespace Grycii\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;

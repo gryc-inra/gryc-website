@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace Grycii\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * ContactUs.
  *
  * @ORM\Table(name="contact_us")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactUsRepository")
+ * @ORM\Entity(repositoryClass="Grycii\AppBundle\Repository\ContactUsRepository")
  */
 class ContactUs
 {
@@ -73,7 +73,7 @@ class ContactUs
     /**
      * @var \stdClass
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ContactUsCategory")
+     * @ORM\ManyToOne(targetEntity="Grycii\AppBundle\Entity\ContactUsCategory")
      */
     private $category;
 

@@ -1,17 +1,20 @@
 <?php
 // src/AppBundle/Controller/ContactUsController.php
 
-namespace AppBundle\Controller;
+namespace Grycii\AppBundle\Controller;
 
-use AppBundle\Entity\ContactUs;
-use AppBundle\Form\Type\ContactUsType;
-use AppBundle\Form\Type\ContactUsReplyType;
+use Grycii\AppBundle\Entity\ContactUs;
+use Grycii\AppBundle\Form\Type\ContactUsType;
+use Grycii\AppBundle\Form\Type\ContactUsReplyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+/**
+ * @Route("/contact")
+ */
 class ContactUsController extends Controller
 {
     /**

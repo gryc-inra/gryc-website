@@ -1,7 +1,7 @@
 <?php
 // src/AppBundle/Command/ListSpeciesCommand.php
 
-namespace AppBundle\Command;
+namespace Grycii\AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;

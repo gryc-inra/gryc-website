@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace Grycii\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ContactUsCategory.
  *
  * @ORM\Table(name="contact_us_category")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactUsCategoryRepository")
+ * @ORM\Entity(repositoryClass="Grycii\AppBundle\Repository\ContactUsCategoryRepository")
  */
 class ContactUsCategory
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Repository;
+namespace Grycii\AppBundle\Repository;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 

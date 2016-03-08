@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace Grycii\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Dbxref.
  *
  * @ORM\Table(name="dbxref")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\DbxrefRepository")
+ * @ORM\Entity(repositoryClass="Grycii\AppBundle\Repository\DbxrefRepository")
  */
 class Dbxref
 {

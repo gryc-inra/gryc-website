@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle;
+namespace Grycii\AppBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

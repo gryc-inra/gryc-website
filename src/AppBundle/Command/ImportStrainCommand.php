@@ -1,11 +1,11 @@
 <?php
 // src/AppBundle/Command/ImportStrainCommand.php
 
-namespace AppBundle\Command;
+namespace Grycii\AppBundle\Command;
 
-use AppBundle\Entity\Chromosome;
-use AppBundle\Entity\DnaSequence;
-use AppBundle\Entity\Strain;
+use Grycii\AppBundle\Entity\Chromosome;
+use Grycii\AppBundle\Entity\DnaSequence;
+use Grycii\AppBundle\Entity\Strain;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;

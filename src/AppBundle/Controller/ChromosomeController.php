@@ -5,7 +5,7 @@
  *
  * @copyright 2016 DivY
  */
-namespace AppBundle\Controller;
+namespace Grycii\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

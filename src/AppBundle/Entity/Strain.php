@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace Grycii\AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Strain.
  *
  * @ORM\Table(name="strain")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\StrainRepository")
+ * @ORM\Entity(repositoryClass="Grycii\AppBundle\Repository\StrainRepository")
  */
 class Strain
 {
@@ -67,12 +67,12 @@ class Strain
     /**
      * @var Chromosome
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Chromosome", mappedBy="strain", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Grycii\AppBundle\Entity\Chromosome", mappedBy="strain", cascade={"persist"})
      */
     private $chromosomes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="strains")
+     * @ORM\ManyToOne(targetEntity="Grycii\AppBundle\Entity\Species", inversedBy="strains")
      * @ORM\JoinColumn(nullable=false)
      */
     private $species;

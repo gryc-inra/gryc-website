@@ -93,13 +93,13 @@ swiftmailer:
 fos_user:
     db_driver:                  orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name:              main
-    user_class:                 AppBundle\Entity\User
+    user_class:                 Grycii\AppBundle\Entity\User
     from_email:
         address:                mgm.gestion@gmail.com
         sender_name:            GRYC
     registration:
         form:
-            type:               AppBundle\Form\Type\RegistrationType
+            type:               Grycii\AppBundle\Form\Type\RegistrationType
         confirmation:
             enabled:            true
             from_email:
@@ -112,7 +112,7 @@ fos_user:
                 sender_name:    GRYC Resetting
     profile:
         form:
-            type:               AppBundle\Form\Type\ProfileType
+            type:               Grycii\AppBundle\Form\Type\ProfileType
 
 # ReCaptcha
 ewz_recaptcha:

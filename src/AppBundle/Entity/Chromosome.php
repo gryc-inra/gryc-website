@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace Grycii\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Chromosome.
  *
  * @ORM\Table(name="chromosome")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ChromosomeRepository")
+ * @ORM\Entity(repositoryClass="Grycii\AppBundle\Repository\ChromosomeRepository")
  */
 class Chromosome
 {
@@ -129,7 +129,7 @@ class Chromosome
     /**
      * @var Strain
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Strain", inversedBy="chromosomes")
+     * @ORM\ManyToOne(targetEntity="Grycii\AppBundle\Entity\Strain", inversedBy="chromosomes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $strain;
@@ -137,7 +137,7 @@ class Chromosome
     /**
      * @var DnaSequence
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\DnaSequence", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Grycii\AppBundle\Entity\DnaSequence", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $dnaSequence;
