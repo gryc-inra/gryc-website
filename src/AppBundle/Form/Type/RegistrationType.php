@@ -1,7 +1,7 @@
 <?php
-// src/AppBundle/Form/RegistrationType.php
+// src/AppBundle/Form/Type/RegistrationType.php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

@@ -99,7 +99,7 @@ fos_user:
         sender_name:            GRYC
     registration:
         form:
-            type:               AppBundle\Form\RegistrationType
+            type:               AppBundle\Form\Type\RegistrationType
         confirmation:
             enabled:            true
             from_email:
@@ -112,7 +112,7 @@ fos_user:
                 sender_name:    GRYC Resetting
     profile:
         form:
-            type:               AppBundle\Form\ProfileType
+            type:               AppBundle\Form\Type\ProfileType
 
 # ReCaptcha
 ewz_recaptcha:

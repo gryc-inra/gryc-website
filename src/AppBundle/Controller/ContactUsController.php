@@ -1,37 +1,20 @@
 <?php
 // src/AppBundle/Controller/ContactUsController.php
-/**
- * Gestion des contacts visiteur/équipe.
- *
- * @copyright 2015 BimLip
- */
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\ContactUs;
-use AppBundle\Form\ContactUsType;
-use AppBundle\Form\ContactUsReplyType;
+use AppBundle\Form\Type\ContactUsType;
+use AppBundle\Form\Type\ContactUsReplyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-/**
- * Classe gérant la partie ContactezNous du site, formulaire pour le visiteur, envoi des mails, et réponses par l'équipe du site.
- *
- * @author Mathieu Piot (mathieu.piot[at]agroparistech.fr)
- *
- * @Route("/contact")
- */
 class ContactUsController extends Controller
 {
     /**
-     * Génère le formulaire de contact pour le client, et traite le dit formulaire:
-     * - ajout du message en base de données
-     * - envoi d'un mail de confirmation au visiteur.
-     *
-     * @return view
-     *
      * @Route("/", name="contact_us")
      */
     public function contactAction(Request $request)
@@ -76,13 +59,6 @@ class ContactUsController extends Controller
     }
 
     /**
-     * Liste tout les messages présent dans la base de données, et donc en attente d'une réponse.
-     * Propose des actions:
-     * - répondre au message
-     * - supprimer le message.
-     *
-     * @return view
-     *
      * @Route("/list/{page}", name="contact_us_homepage", defaults={"page": 1}, requirements={"page": "\d*"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -118,11 +94,6 @@ class ContactUsController extends Controller
     }
 
     /**
-     * Page de demande de confirmation de suppression d'un message.
-     * Si l'utilisateur confirme, suppression du message de la base de données.
-     *
-     * @return view
-     *
      * @Route("/delete/{id}", name="contact_us_delete", requirements={"id": "\d+"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -154,13 +125,6 @@ class ContactUsController extends Controller
     }
 
     /**
-     * Génère un formulaire de réponse à un message reçu:
-     * - génération du squelette de la réponse
-     * - formulaire de réponse
-     * - envoi la réponse par email et supprime le message de la base de données.
-     *
-     * @return view
-     *
      * @Route("/reply/{id}", name="contact_us_reply", requirements={"id": "\d+"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -211,11 +175,6 @@ class ContactUsController extends Controller
         ));
     }
 
-    /*
-     * Retourne le nombre de messages présents dans la base de données.
-     *
-     * @return view
-     */
     public function numberMessageAction()
     {
         // Compter le nombe de message dans la base de données
