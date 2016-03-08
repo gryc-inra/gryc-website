@@ -14,7 +14,7 @@ parameters:
     mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            ~
+    secret:            D5FVf4x287uhLrX4ActL27T4GFtszxKN889RWtmy862s94WYMLj4YUx9L6dmzm757Lk5rWWW4tX6mtQ2K4ks
 
     recaptcha_public_key:    ~
     recaptcha_private_key:   ~

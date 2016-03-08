@@ -2,7 +2,7 @@
     "name": "mpiot/grycii",
     "license": "proprietary",
     "type": "project",
-    "description:": "A yeast genome database website.",
+    "description": "A yeast genome database website.",
     "autoload": {
         "psr-4": { "": "src/" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
