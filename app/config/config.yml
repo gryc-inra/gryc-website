@@ -116,7 +116,6 @@ fos_user:
 
 # ReCaptcha
 ewz_recaptcha:
-    public_key:  6Lcc7BUTAAAAABb9Is1kA-wkEF9MAzu3NmxbJj_2
-    private_key: 6Lcc7BUTAAAAAG9jSw9yIs0A_zfM7eUxQAz6MVtd
+    public_key:  %recaptcha_public_key%
+    private_key: %recaptcha_private_key%
     locale_key:  %kernel.default_locale%
-
