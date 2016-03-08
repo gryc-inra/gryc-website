@@ -11,19 +11,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class EditCladeCommand extends ContainerAwareCommand
 {
     // Those attributes contain all the clade in the database and the clade before edition
-    /**
-     * @var array Clade
-     */
     private $cladeList;
-
-    /**
-     * @var Clade
-     */
     private $clade;
 
     protected function configure()
@@ -116,40 +108,14 @@ EOT
             // - if the user doesn't give the argument in the command line, we have ask him which clade he wants editing previously
             $this->clade = $input->getArgument('clade');
 
+            $cladeQuestions = new CladeQuestions($input, $this->cladeList, $this->clade);
+
             if (!$input->getArgument('name')) {
-                $question = new Question("\nPlease enter the name of the clade: (actual value: ".$this->clade->getName().")\n", $this->clade->getName());
-                // Control that name have a good pattern and doesn't already exist
-                $question->setValidator(function ($answer) use ($input) {
-                    if (!preg_match('#[A-Z][a-z]*$#', $answer)) {
-                        throw new \RuntimeException(
-                            'The name have not the goot pattern ! (eg: "Candida")'
-                        );
-                    }
-
-                    if (array_key_exists($answer, $this->cladeList) && $answer !== $input->getArgument('clade')->getName()) {
-                        throw new \RuntimeException(
-                            'This clade already exists !'
-                        );
-                    }
-
-                    return $answer;
-                });
-                $questions['name'] = $question;
+                $questions['name'] = $cladeQuestions->getNameQuestion();
             }
 
             if (!$input->getArgument('description')) {
-                $question = new Question("\nPlease enter the description of the clade: (actual value: ".$this->clade->getDescription().")\n", $this->clade->getDescription());
-                // Just verify the description isn't empty
-                $question->setValidator(function ($answer) {
-                    if (empty($answer)) {
-                        throw new \RuntimeException(
-                            'The description can\'t be empty !'
-                        );
-                    }
-
-                    return $answer;
-                });
-                $questions['description'] = $question;
+                $questions['description'] = $cladeQuestions->getDescriptionQuestion();
             }
 
             // Loop on the questions
@@ -159,17 +125,9 @@ EOT
             }
 
             // Ask to the user if he is sure of his answers.
-            $output->writeln(array(
-                '',
-                'Summary:',
-                'Name: '.$input->getArgument('name'),
-                'Description: '.$input->getArgument('description'),
-            ));
-            $output->writeln('Main clade: '.(($input->getOption('main-clade')) ? 'Yes' : 'No'));
+            $output->writeln($cladeQuestions->getSummary());
 
-            $confirmQuestion = new ConfirmationQuestion('<question>Is it correct ? (y/N)</question> ', false);
-
-            if (!$this->getHelper('question')->ask($input, $output, $confirmQuestion)) {
+            if (!$this->getHelper('question')->ask($input, $output, $cladeQuestions->getConfirmationQuestion())) {
                 $confirm = false;
                 $input->setArgument('name', null);
                 $input->setArgument('description', null);
