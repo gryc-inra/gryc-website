@@ -7,6 +7,7 @@ front:
     volumes:
         - ".:/home/docker:ro"
         - "./docker/front/default.conf:/etc/nginx/conf.d/default.conf:ro"
+        - "./docker/front/nginx.conf:/etc/nginx/nginx.conf:ro"
 
 engine:
     build: ./docker/engine/
