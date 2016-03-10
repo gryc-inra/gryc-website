@@ -55,8 +55,8 @@ fos_elastica:
                             search_analyzer : custom_search_analyzer
                     persistence:
                         driver: orm
-                        model: AppBundle\Entity\User
+                        model: Grycii\AppBundle\Entity\User
                         provider: ~
                         finder: ~
                         listener: ~
-                        repository: AppBundle\SearchRepository\UserRepository
+                        repository: Grycii\AppBundle\SearchRepository\UserRepository
