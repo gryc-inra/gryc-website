@@ -91,7 +91,6 @@
         </nav>
 
         <div class="container">
-
             {# On affiche tous les messages flash dont le nom est « success » #}
             {% for flash_message in app.session.flashbag.get('success') %}
                 <div class="alert alert-success alert-dismissible" role="alert" data-toggle="auto-dismiss">
@@ -124,21 +123,14 @@
                 </div>
             {% endfor %}
 
-            <div class="row">
-                <div class="col-md-12">
-                    <ol class="breadcrumb">
-                        {% block breadcrumb %}
-                            <li><a href="{{ path('homepage') }}">Home</a></li>
-                        {% endblock %}
-                    </ol>
-                </div>
-            </div>
+            <ol class="breadcrumb">
+                {% block breadcrumb %}
+                    <li><a href="{{ path('homepage') }}">Home</a></li>
+                {% endblock %}
+            </ol>
 
-            <div class="row">
-                <div id="content" class="col-md-12">
-                    {% block body %}{% endblock %}
-                </div>
-            </div>
+            {% block body %}
+            {% endblock %}
         </div>
 
         <footer class="footer">
