@@ -52,12 +52,13 @@ twig:
 assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
+    node:            /usr/bin/nodejs
     filters:
         cssrewrite: ~
         uglifyjs2:
-            bin: /var/www/grycii/app/Resources/node_modules/.bin/uglifyjs
+            bin: /home/docker/app/Resources/node_modules/.bin/uglifyjs
         uglifycss:
-            bin: /var/www/grycii/app/Resources/node_modules/.bin/uglifycss
+            bin: /home/docker/app/Resources/node_modules/.bin/uglifycss
 
 # Doctrine Configuration
 doctrine:
