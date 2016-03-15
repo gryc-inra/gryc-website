@@ -31,6 +31,7 @@
                             <li>There is not synonyme.</li>
                         {% endif %}
                     </ul>
+                    <p><a class="btn btn-primary" href="{{ path('strain_download', { 'species': strain.species.scientificname, 'name': strain.name }) }}" role="button"><span class="glyphicon glyphicon-download"></span> Download</a></p>
                 </div>
             </div>
         </div>
@@ -95,9 +96,16 @@
                     <ul>
             </div>
         </div>
+    </div>
 
-        {#
-
-        #}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Downloads</div>
+                <div class="panel-body">
+                    {% include ':strain:dowloadBlock.html.twig' %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

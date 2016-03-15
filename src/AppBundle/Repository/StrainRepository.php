@@ -25,4 +25,22 @@ class StrainRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getSingleResult();
     }
+
+    public function getStrainWithFlatFiles($name)
+    {
+        $query = $this
+            ->createQueryBuilder('strain')
+                ->where('strain.name = :name')
+                ->setParameter('name', $name)
+            ->leftJoin('strain.chromosomes', 'chromosomes')
+                ->addSelect('chromosomes')
+                ->orderBy('chromosomes.name', 'ASC')
+            ->leftJoin('chromosomes.flatFiles', 'flatFiles')
+                ->addSelect('flatFiles')
+            ->leftJoin('strain.species', 'species')
+                ->addSelect('species')
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

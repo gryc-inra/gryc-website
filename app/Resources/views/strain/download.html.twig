@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ strain.species.scientificname }} {{ strain.name }}
+{% endblock %}
+
+{% block metaTags %}
+    {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('species_list') }}">Species</a></li>
+    <li><a href="{{ path('species_view', { 'scientificname': strain.species.scientificname }) }}"><i>{{ strain.species.scientificname }}</i></a></li>
+    <li><a href="{{ path('strain_view', { 'species': strain.species.scientificname, 'name': strain.name }) }}">{{ strain.name }}</a></li>
+    <li class="active">Dowload</li>
+{% endblock %}
+
+{% block body %}
+    <h1><i>{{ strain.species.scientificname }}</i> {{ strain.name }}</h1>
+
+
+                <div class="table-responsive">
+                    {% include ':strain:dowloadBlock.html.twig' %}
+                </div>
+
+
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace Grycii\AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -143,12 +144,18 @@ class Chromosome
     private $dnaSequence;
 
     /**
+     * @ORM\OneToMany(targetEntity="Grycii\AppBundle\Entity\FlatFile", mappedBy="chromosome", cascade={"persist"})
+     */
+    private $flatFiles;
+
+    /**
      * Chromosome constructor.
      */
     public function __construct()
     {
         $this->accessions = array();
         $this->keywords = array();
+        $this->flatFiles = new ArrayCollection();
     }
 
     /**
@@ -661,5 +668,42 @@ class Chromosome
     public function getDnaSequence()
     {
         return $this->dnaSequence;
+    }
+
+    /**
+     * Add FlatFile
+     *
+     * @param FlatFile $flatFile
+     * @return $this
+     */
+    public function addFlatFile(FlatFile $flatFile)
+    {
+        $this->flatFiles[] = $flatFile;
+        $flatFile->setChromosome($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove FlatFile
+     *
+     * @param FlatFile $flatFile
+     * @return $this
+     */
+    public function removeFlatFile(FlatFile $flatFile)
+    {
+        $this->flatFiles->removeElement($flatFile);
+
+        return $this;
+    }
+
+    /**
+     * Get FlatFile
+     *
+     * @return ArrayCollection
+     */
+    public function getFlatFiles()
+    {
+        return $this->flatFiles;
     }
 }

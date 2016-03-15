@@ -10,22 +10,16 @@ namespace Grycii\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-/**
- * Classe gérant la partie souche.
- *
- * @author Mathieu Piot (mathieu.piot[at]agroparistech.fr)
- *
- * @Route("species/{species}")
- */
 class StrainController extends Controller
 {
     /**
-     * @Route("/{name}", name="strain_view")
+     * @Route("species/{species}/{name}", name="strain_view")
      */
     public function viewAction($name)
     {
         $em = $this->getDoctrine()->getManager();
-        $strain = $em->getRepository('AppBundle:Strain')->getStrainWithSpeciesAndChromosomes($name);
+        //$strain = $em->getRepository('AppBundle:Strain')->getStrainWithSpeciesAndChromosomes($name);
+        $strain = $em->getRepository('AppBundle:Strain')->getStrainWithFlatFiles($name);
 
         // If there are no strain
         if ($strain === null) {
@@ -34,6 +28,24 @@ class StrainController extends Controller
 
         return $this->render('strain/view.html.twig', array(
             'strain' => $strain,
+        ));
+    }
+
+    /**
+     * @Route("download/{species}/{name}", name="strain_download")
+     */
+    public function dowloadAction($name)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $strain = $em->getRepository('AppBundle:Strain')->getStrainWithFlatFiles($name);
+
+        // If there is no strain
+        if (null === $strain) {
+            throw $this->createNotFoundException('This strain doesn\'t exists.');
+        }
+
+        return $this->render('strain/download.html.twig', array(
+            'strain' => $strain
         ));
     }
 }

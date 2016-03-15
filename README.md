@@ -18,8 +18,8 @@ Go in the project directory.
 
 Setfacl on the var folder:
 
-    setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX var
-    setfacl -dR -m u:www-data:rwX -m u:`whoami`:rwX var
+    setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX var protected-files/temp
+    setfacl -dR -m u:www-data:rwX -m u:`whoami`:rwX var protected-files/temp
 
 Create your own docker-compose.yml, you can edit it (eg: edit ports):
 
