@@ -2,11 +2,6 @@
 -------------------------------------------------- */
 html, body {
     height:100%;
-    width: 100%;
-}
-
-body {
-    display: table;
 }
 
 /* Header
@@ -23,29 +18,27 @@ header {
     background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
 }
 
-/* Content
--------------------------------------------------- */
-#content {
-    margin-bottom: 10px;
-}
-
 /* Sticky footer
 -------------------------------------------------- */
 footer {
-    display: table-row;
-    height: 1px;
-    background-color: #527EB1;
     color: #FFFFFF;
-}
-
-footer .container-fluid {
-    height: auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    background-color: #527EB1;
+    padding: 17px 0 17px 0;
 }
 
 footer a {
     color: #FFFFFF;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -63px;
+}
+
+.push {
+    height: 63px;
 }
 
 /* Red * after required label
