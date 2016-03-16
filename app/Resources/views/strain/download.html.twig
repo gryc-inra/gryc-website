@@ -19,10 +19,5 @@
 {% block body %}
     <h1><i>{{ strain.species.scientificname }}</i> {{ strain.name }}</h1>
 
-
-                <div class="table-responsive">
-                    {% include ':strain:dowloadBlock.html.twig' %}
-                </div>
-
-
+    {% include ':strain:dowloadBlock.html.twig' %}
 {% endblock %}
