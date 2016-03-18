@@ -1,7 +1,7 @@
 <?php
 // src/AppBundle/Command/EditCladeCommand.php
 
-namespace Grycii\AppBundle\Command;
+namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;

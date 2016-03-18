@@ -5,9 +5,9 @@
  *
  * @copyright 2015 BimLip
  */
-namespace Grycii\AppBundle\Services;
+namespace AppBundle\Services;
 
-use Grycii\AppBundle\Entity\ContactUs;
+use AppBundle\Entity\ContactUs;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 /**

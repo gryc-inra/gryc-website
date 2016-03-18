@@ -1,6 +1,6 @@
 <?php
 
-namespace Grycii\AppBundle\Command;
+namespace AppBundle\Command;
 
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;

@@ -4,7 +4,7 @@
     "type": "project",
     "description": "A yeast genome database website.",
     "autoload": {
-        "psr-4": { "Grycii\\": "src/" },
+        "psr-4": { "": "src/" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "autoload-dev": {

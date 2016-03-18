@@ -1,6 +1,6 @@
 <?php
 
-namespace Grycii\AppBundle\Form\Type;
+namespace AppBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
@@ -51,7 +51,7 @@ class ContactUsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Grycii\AppBundle\Entity\ContactUs',
+            'data_class' => 'AppBundle\Entity\ContactUs',
         ));
     }
 }

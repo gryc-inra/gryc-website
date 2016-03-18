@@ -1,7 +1,7 @@
 <?php
 // src/AppBundle/Command/ListCladeCommand.php
 
-namespace Grycii\AppBundle\Command;
+namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;

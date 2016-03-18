@@ -1,9 +1,9 @@
 <?php
 // src/AppBundle/Command/AddCladeCommand.php
 
-namespace Grycii\AppBundle\Command;
+namespace AppBundle\Command;
 
-use Grycii\AppBundle\Entity\Clade;
+use AppBundle\Entity\Clade;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

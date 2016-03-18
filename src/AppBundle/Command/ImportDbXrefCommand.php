@@ -1,9 +1,9 @@
 <?php
 // src/AppBundle/Command/ImportDbXrefCommand.php
 
-namespace Grycii\AppBundle\Command;
+namespace AppBundle\Command;
 
-use Grycii\AppBundle\Entity\Dbxref;
+use AppBundle\Entity\Dbxref;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

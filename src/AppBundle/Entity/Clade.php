@@ -1,6 +1,6 @@
 <?php
 
-namespace Grycii\AppBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Clade.
  *
  * @ORM\Table(name="clade")
- * @ORM\Entity(repositoryClass="Grycii\AppBundle\Repository\CladeRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CladeRepository")
  */
 class Clade
 {

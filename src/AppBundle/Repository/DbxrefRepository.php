@@ -1,6 +1,6 @@
 <?php
 
-namespace Grycii\AppBundle\Repository;
+namespace AppBundle\Repository;
 
 /**
  * DbxrefRepository.

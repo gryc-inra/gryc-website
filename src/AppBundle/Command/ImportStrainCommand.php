@@ -1,13 +1,13 @@
 <?php
 // src/AppBundle/Command/ImportStrainCommand.php
 
-namespace Grycii\AppBundle\Command;
+namespace AppBundle\Command;
 
-use Grycii\AppBundle\Entity\Chromosome;
-use Grycii\AppBundle\Entity\DnaSequence;
-use Grycii\AppBundle\Entity\FlatFile;
-use Grycii\AppBundle\Entity\Strain;
-use Proxies\__CG__\Grycii\AppBundle\Entity\File;
+use AppBundle\Entity\Chromosome;
+use AppBundle\Entity\DnaSequence;
+use AppBundle\Entity\FlatFile;
+use AppBundle\Entity\Strain;
+use Proxies\__CG__\AppBundle\Entity\File;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;

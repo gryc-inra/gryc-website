@@ -1,6 +1,6 @@
 <?php
 
-namespace Grycii\AppBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * DnaSequence.
  *
  * @ORM\Table(name="dna_sequence")
- * @ORM\Entity(repositoryClass="Grycii\AppBundle\Repository\DnaSequenceRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DnaSequenceRepository")
  */
 class DnaSequence
 {
