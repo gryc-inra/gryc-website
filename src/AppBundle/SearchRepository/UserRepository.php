@@ -1,6 +1,6 @@
 <?php
 
-namespace Grycii\AppBundle\SearchRepository;
+namespace AppBundle\SearchRepository;
 
 use FOS\ElasticaBundle\Repository;
 

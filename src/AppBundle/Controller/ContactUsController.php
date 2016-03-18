@@ -1,11 +1,11 @@
 <?php
 // src/AppBundle/Controller/ContactUsController.php
 
-namespace Grycii\AppBundle\Controller;
+namespace AppBundle\Controller;
 
-use Grycii\AppBundle\Entity\ContactUs;
-use Grycii\AppBundle\Form\Type\ContactUsType;
-use Grycii\AppBundle\Form\Type\ContactUsReplyType;
+use AppBundle\Entity\ContactUs;
+use AppBundle\Form\Type\ContactUsType;
+use AppBundle\Form\Type\ContactUsReplyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

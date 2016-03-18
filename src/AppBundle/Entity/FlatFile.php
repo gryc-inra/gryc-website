@@ -1,12 +1,12 @@
 <?php
 
-namespace Grycii\AppBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Grycii\AppBundle\Repository\FlatFileRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FlatFileRepository")
  */
 class FlatFile extends CopiedFile
 {
@@ -32,7 +32,7 @@ class FlatFile extends CopiedFile
     private $format;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Grycii\AppBundle\Entity\Chromosome", inversedBy="flatFiles")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Chromosome", inversedBy="flatFiles")
      */
     private $chromosome;
 

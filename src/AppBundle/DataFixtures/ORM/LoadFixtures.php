@@ -1,9 +1,9 @@
 <?php
 // src/AppBundle/DataFixtures/ORM/LoadFixtures.php
 
-namespace Grycii\AppBundle\DataFixtures\ORM;
+namespace AppBundle\DataFixtures\ORM;
 
-use Grycii\AppBundle\Entity\ContactUsCategory;
+use AppBundle\Entity\ContactUsCategory;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;

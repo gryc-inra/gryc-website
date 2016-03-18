@@ -1,6 +1,6 @@
 <?php
 
-namespace Grycii\AppBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Chromosome.
  *
  * @ORM\Table(name="chromosome")
- * @ORM\Entity(repositoryClass="Grycii\AppBundle\Repository\ChromosomeRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ChromosomeRepository")
  */
 class Chromosome
 {
@@ -130,7 +130,7 @@ class Chromosome
     /**
      * @var Strain
      *
-     * @ORM\ManyToOne(targetEntity="Grycii\AppBundle\Entity\Strain", inversedBy="chromosomes")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Strain", inversedBy="chromosomes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $strain;
@@ -138,13 +138,13 @@ class Chromosome
     /**
      * @var DnaSequence
      *
-     * @ORM\OneToOne(targetEntity="Grycii\AppBundle\Entity\DnaSequence", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\DnaSequence", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $dnaSequence;
 
     /**
-     * @ORM\OneToMany(targetEntity="Grycii\AppBundle\Entity\FlatFile", mappedBy="chromosome", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FlatFile", mappedBy="chromosome", cascade={"persist"})
      */
     private $flatFiles;
 
