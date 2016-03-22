@@ -10,3 +10,9 @@ services:
     app.mailer:
         class: AppBundle\Services\Mailer
         arguments: ["@mailer", "@templating"]
+
+    app.twig_extension:
+        class: AppBundle\Twig\SlugifyExtension
+        public: false
+        tags:
+          - { name: twig.extension }
