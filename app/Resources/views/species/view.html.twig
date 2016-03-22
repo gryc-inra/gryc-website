@@ -6,8 +6,10 @@
 
 {% block metaTags %}
     {{ parent() }}
-    {% if species.description is not null %}
-        <meta name="description" content="{{ species.description }}" />
+    {% if species.seos is not null %}
+        {% for seo in species.seos %}
+            <meta name="{{ seo.name }}" content="{{ seo.content }}" />
+        {% endfor %}
     {% endif %}
 {% endblock %}
 

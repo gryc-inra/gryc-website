@@ -145,8 +145,14 @@ class Chromosome
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\FlatFile", mappedBy="chromosome", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $flatFiles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Seo", mappedBy="chromosome", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $seos;
 
     /**
      * Chromosome constructor.
@@ -156,6 +162,7 @@ class Chromosome
         $this->accessions = array();
         $this->keywords = array();
         $this->flatFiles = new ArrayCollection();
+        $this->seos = new ArrayCollection();
     }
 
     /**
@@ -705,5 +712,38 @@ class Chromosome
     public function getFlatFiles()
     {
         return $this->flatFiles;
+    }
+
+    /**
+     * Add Seo
+     *
+     * @param Seo $seo
+     */
+    public function addSeo(Seo $seo)
+    {
+        $this->seos[] = $seo;
+        $seo->setChromosome($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove Seo
+     *
+     * @param Seo $seo
+     */
+    public function removeSeo(Seo $seo)
+    {
+        $this->seos->removeElement($seo);
+    }
+
+    /**
+     * Get Seo
+     *
+     * @return ArrayCollection
+     */
+    public function getSeos()
+    {
+        return $this->seos;
     }
 }

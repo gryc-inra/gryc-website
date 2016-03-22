@@ -68,6 +68,7 @@ class Strain
      * @var Chromosome
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Chromosome", mappedBy="strain", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $chromosomes;
 
@@ -77,10 +78,16 @@ class Strain
      */
     private $species;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Seo", mappedBy="strain", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $seos;
+
     public function __construct()
     {
         $this->synonymes = array();
         $this->chromosomes = new ArrayCollection();
+        $this->seos = new ArrayCollection();
     }
 
     /**
@@ -345,5 +352,38 @@ class Strain
     public function getSpecies()
     {
         return $this->species;
+    }
+
+    /**
+     * Add Seo
+     *
+     * @param Seo $seo
+     */
+    public function addSeo(Seo $seo)
+    {
+        $this->seos[] = $seo;
+        $seo->setStrain($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove Seo
+     *
+     * @param Seo $seo
+     */
+    public function removeSeo(Seo $seo)
+    {
+        $this->seos->removeElement($seo);
+    }
+
+    /**
+     * Get Seo
+     *
+     * @return ArrayCollection
+     */
+    public function getSeos()
+    {
+        return $this->seos;
     }
 }

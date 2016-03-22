@@ -1,11 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ strain.species.scientificname }} {{ strain.name }}
+    Genome of {{ strain.species.scientificname }} {{ strain.name }}
 {% endblock %}
 
 {% block metaTags %}
     {{ parent() }}
+    {% if strain.seos is not null %}
+        {% for seo in strain.seos %}
+            <meta name="{{ seo.name }}" content="{{ seo.content }}" />
+        {% endfor %}
+    {% endif %}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -13,7 +18,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1><i>{{ strain.species.scientificname }}</i> {{ strain.name }}</h1>
+    <h1>Genome of <i>{{ strain.species.scientificname }}</i> {{ strain.name }}</h1>
 
     <div class="row">
         <div class="col-md-3">

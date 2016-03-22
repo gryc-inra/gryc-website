@@ -96,11 +96,17 @@ class Species
      */
     private $strains;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Seo", mappedBy="species", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $seos;
+
     public function __construct()
     {
         $this->synonymes = array();
         $this->lineages = array();
         $this->strains = new ArrayCollection();
+        $this->seos = new ArrayCollection();
     }
 
     /**
@@ -481,5 +487,38 @@ class Species
     public function getStrains()
     {
         return $this->strains;
+    }
+
+    /**
+     * Add Seo
+     *
+     * @param Seo $seo
+     */
+    public function addSeo(Seo $seo)
+    {
+        $this->seos[] = $seo;
+        $seo->setSpecies($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove Seo
+     *
+     * @param Seo $seo
+     */
+    public function removeSeo(Seo $seo)
+    {
+        $this->seos->removeElement($seo);
+    }
+
+    /**
+     * Get Seo
+     *
+     * @return ArrayCollection
+     */
+    public function getSeos()
+    {
+        return $this->seos;
     }
 }

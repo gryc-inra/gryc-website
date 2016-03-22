@@ -13,6 +13,8 @@ class ChromosomeRepository extends \Doctrine\ORM\EntityRepository
     public function getChromosomeWithStrainAndSpecies($name) {
         $query = $this
             ->createQueryBuilder('c')
+            ->leftJoin('c.seos', 'seos')
+                ->addSelect('seos')
             ->leftJoin('c.strain', 'strain')
                 ->addSelect('strain')
             ->leftJoin('strain.species', 'species')

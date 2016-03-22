@@ -26,6 +26,8 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
             return $query
                 ->where('species.scientificName = :scientificname')
                 ->setParameter('scientificname', $scientificname)
+                ->leftJoin('species.seos', 'seos')
+                    ->addSelect('seos')
                 ->getQuery()
                 ->getOneOrNullResult();
 

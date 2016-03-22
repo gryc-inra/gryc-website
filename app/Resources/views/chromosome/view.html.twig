@@ -6,8 +6,10 @@
 
 {% block metaTags %}
     {{ parent() }}
-    {% if chromosome.description is not null %}
-        <meta name="description" content="{{ chromosome.description }}" />
+    {% if chromosome.seos is not null %}
+        {% for seo in chromosome.seos %}
+            <meta name="{{ seo.name }}" content="{{ seo.content }}" />
+        {% endfor %}
     {% endif %}
 {% endblock %}
 

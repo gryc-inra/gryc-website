@@ -39,6 +39,8 @@ class StrainRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('flatFiles')
             ->leftJoin('strain.species', 'species')
                 ->addSelect('species')
+            ->leftJoin('strain.seos', 'seos')
+                ->addSelect('seos')
             ->getQuery();
 
         return $query->getOneOrNullResult();
