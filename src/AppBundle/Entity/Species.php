@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Species.
@@ -100,6 +101,12 @@ class Species
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Seo", mappedBy="species", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $seos;
+
+    /**
+     * @Gedmo\Slug(fields={"scientificName"})
+     * @ORM\Column(name="slug", type="string", length=128, unique=true)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -520,5 +527,29 @@ class Species
     public function getSeos()
     {
         return $this->seos;
+    }
+
+    /**
+     * Set slug.
+     *
+     * @param string $slug
+     *
+     * @return Species
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

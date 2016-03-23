@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Chromosome.
@@ -153,6 +154,12 @@ class Chromosome
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Seo", mappedBy="chromosome", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $seos;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=128, unique=true)
+     */
+    private $slug;
 
     /**
      * Chromosome constructor.
@@ -745,5 +752,29 @@ class Chromosome
     public function getSeos()
     {
         return $this->seos;
+    }
+
+    /**
+     * Set slug.
+     *
+     * @param string $slug
+     *
+     * @return Species
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

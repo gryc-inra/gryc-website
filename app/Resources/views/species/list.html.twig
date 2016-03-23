@@ -18,7 +18,7 @@
     <ul>
         {% for species in speciesList %}
             {% set nbStrains = species.strains|length %}
-            <li><a href="{{ path('species_view', { scientificname: species.scientificname }) }}"><i>{{ species.scientificname }}</i></a> ({{ nbStrains }} {{ nbStrains > 1 ? "strains" : "strain" }})</li>
+            <li><a href="{{ path('species_view', { 'speciesSlug': species.slug }) }}"><i>{{ species.scientificname }}</i></a> ({{ nbStrains }} {{ nbStrains > 1 ? "strains" : "strain" }})</li>
         {% endfor %}
     </ul>
 {% endblock %}

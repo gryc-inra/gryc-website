@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }} <li><a href="{{ path('species_list') }}">Species</a></li> <li><a href="{{ path('species_view', { scientificname: strain.species.scientificname }) }}"><i>{{ strain.species.scientificname }}</i></a></li> <li class="active">{{ strain.name }}</li>
+    {{ parent() }} <li><a href="{{ path('species_list') }}">Species</a></li> <li><a href="{{ path('species_view', { 'speciesSlug': strain.species.slug }) }}"><i>{{ strain.species.scientificname }}</i></a></li> <li class="active">{{ strain.name }}</li>
 {% endblock %}
 
 {% block body %}
@@ -25,7 +25,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">General</div>
                 <div class="panel-body">
-                    <p>Species: <a href="{{ path('species_view', {'scientificname': strain.species.scientificname }) }}"><i>{{ strain.species.scientificname }}</i></a></p>
+                    <p>Species: <a href="{{ path('species_view', {'speciesSlug': strain.species.slug }) }}"><i>{{ strain.species.scientificname }}</i></a></p>
                     <p>Synonymes:</p>
                     <ul>
                         {% if strain.synonymes is not null %}
@@ -36,7 +36,6 @@
                             <li>There is not synonyme.</li>
                         {% endif %}
                     </ul>
-                    <p><a class="btn btn-primary" href="{{ path('strain_download', { 'species': strain.species.scientificname, 'name': strain.name }) }}" role="button"><span class="glyphicon glyphicon-download"></span> Download</a></p>
                 </div>
             </div>
         </div>
@@ -78,7 +77,7 @@
                                 {% endfor %}
 
                                 {% for chromosome in strain.chromosomes %}
-                                    <a xlink:href="{{ path('chromosome_view', { 'species': strain.species.scientificname, 'strain': strain.name, 'name': chromosome.name }) }}">
+                                    <a xlink:href="{{ path('chromosome_view', { 'slug': chromosome.slug }) }}">
                                         <text font-size="12" x="{{ xPadding }}" y="{{ legendVerticalStart + (barHeight * 2 * loop.index0) }}">{{ chromosome.name }}</text>
                                         <rect width="{{ (chromosome.length / 10**6) * legendJump }}" height="{{ barHeight }}"  x="{{ legendSpace }}" y="{{ barVerticalStart + (barHeight * 2 * loop.index0) }}" rx="{{ barRadius }}" ry="{{ barRadius }}" style="fill:#FFAAAA;stroke:#FFAAAA;fill-opacity:0.5">
                                             <title> {{ chromosome.length|number_format }} Nucleotides</title>
@@ -96,7 +95,7 @@
                 <div class="panel-heading">Chromosomes</div>
                 <ul class="list-group">
                     {% for chromosome in strain.chromosomes %}
-                        <li class="list-group-item"><a href="{{ path('chromosome_view', { 'species': strain.species.scientificname, 'strain': strain.name, 'name': chromosome.name }) }}">{{ chromosome.name }}</a></li>
+                        <li class="list-group-item"><a href="{{ path('chromosome_view', { 'slug': chromosome.slug }) }}">{{ chromosome.name }}</a></li>
                     {% endfor %}
                     <ul>
             </div>

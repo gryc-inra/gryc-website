@@ -10,12 +10,12 @@ namespace AppBundle\Repository;
  */
 class StrainRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getStrainWithSpeciesAndChromosomes($name)
+    public function getStrainWithSpeciesAndChromosomes($slug)
     {
         $query = $this
             ->createQueryBuilder('strain')
-            ->where('strain.name = :name')
-            ->setParameter('name', $name)
+            ->where('strain.slug = :slug')
+            ->setParameter('slug', $slug)
             ->leftJoin('strain.species', 'species')
                 ->addSelect('species')
             ->leftJoin('strain.chromosomes', 'c')
@@ -26,12 +26,12 @@ class StrainRepository extends \Doctrine\ORM\EntityRepository
         return $query->getSingleResult();
     }
 
-    public function getStrainWithFlatFiles($name)
+    public function getStrainWithFlatFiles($slug)
     {
         $query = $this
             ->createQueryBuilder('strain')
-                ->where('strain.name = :name')
-                ->setParameter('name', $name)
+                ->where('strain.slug = :slug')
+                ->setParameter('slug', $slug)
             ->leftJoin('strain.chromosomes', 'chromosomes')
                 ->addSelect('chromosomes')
                 ->orderBy('chromosomes.name', 'ASC')

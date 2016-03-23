@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class ChromosomeRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getChromosomeWithStrainAndSpecies($name) {
+    public function getChromosomeWithStrainAndSpecies($slug) {
         $query = $this
             ->createQueryBuilder('c')
             ->leftJoin('c.seos', 'seos')
@@ -19,8 +19,8 @@ class ChromosomeRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('strain')
             ->leftJoin('strain.species', 'species')
                 ->addSelect('species')
-            ->where('c.name = :name')
-                ->setParameter('name', $name)
+            ->where('c.slug = :slug')
+                ->setParameter('slug', $slug)
             ->getQuery();
 
         return $query->getOneOrNullResult();

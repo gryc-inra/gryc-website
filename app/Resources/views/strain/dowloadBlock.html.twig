@@ -26,9 +26,7 @@
                                 {% if flatFile.molType == 'nuc' %}
                                     <a href="
                                     {{ asset(path('file_downloadFlatFile', {
-                                        'species': chromosome.strain.species.scientificname,
-                                        'strain': chromosome.strain.name,
-                                        'chromosome': chromosome.name,
+                                        'chromosomeName': chromosome.name,
                                         'featureType': flatFile.featureType,
                                         'molType': flatFile.molType,
                                         'format': flatFile.format
@@ -37,9 +35,7 @@
                                 {% elseif flatFile.molType == 'pro' %}
                                     <a href="
                                     {{ asset(path('file_downloadFlatFile', {
-                                        'species': chromosome.strain.species.scientificname,
-                                        'strain': chromosome.strain.name,
-                                        'chromosome': chromosome.name,
+                                        'chromosomeName': chromosome.name,
                                         'featureType': flatFile.featureType,
                                         'molType': flatFile.molType,
                                         'format': flatFile.format
@@ -55,9 +51,7 @@
                                 {% if flatFile.format == 'fsa' %}
                                     <a href="
                                     {{ asset(path('file_downloadFlatFile', {
-                                        'species': chromosome.strain.species.scientificname,
-                                        'strain': chromosome.strain.name,
-                                        'chromosome': chromosome.name,
+                                        'chromosomeName': chromosome.name,
                                         'featureType': flatFile.featureType,
                                         'molType': flatFile.molType,
                                         'format': flatFile.format
@@ -66,9 +60,7 @@
                                 {% elseif flatFile.format == 'embl' %}
                                     <a href="
                                     {{ asset(path('file_downloadFlatFile', {
-                                        'species': chromosome.strain.species.scientificname,
-                                        'strain': chromosome.strain.name,
-                                        'chromosome': chromosome.name,
+                                        'chromosomeName': chromosome.name,
                                         'featureType': flatFile.featureType,
                                         'molType': flatFile.molType,
                                         'format': flatFile.format
@@ -92,8 +84,7 @@
                 <td>
                     <a href="
                         {{ asset(path('file_downloadZipFlatFile', {
-                        'species': strain.species.scientificname,
-                        'strain': strain.name,
+                        'strainName': strain.name,
                         'featureType': 'cds',
                         'molType': 'nuc',
                         'format': 'fsa'
@@ -101,8 +92,7 @@
                     "><img src="{{ asset('images/down_targz.png') }}" alt="All CDS Nucleotides Fasta" /></a>
                     <a href="
                         {{ asset(path('file_downloadZipFlatFile', {
-                        'species': strain.species.scientificname,
-                        'strain': strain.name,
+                        'strainName': strain.name,
                         'featureType': 'cds',
                         'molType': 'pro',
                         'format': 'fsa'
@@ -112,8 +102,7 @@
                 <td>
                     <a href="
                         {{ asset(path('file_downloadZipFlatFile', {
-                        'species': strain.species.scientificname,
-                        'strain': strain.name,
+                        'strainName': strain.name,
                         'featureType': 'chromosome',
                         'molType': 'nuc',
                         'format': 'embl'
@@ -121,8 +110,7 @@
                     "><img src="{{ asset('images/down_targz.png') }}" alt="All Chromosome Fasta" /></a>
                     <a href="
                         {{ asset(path('file_downloadZipFlatFile', {
-                        'species': strain.species.scientificname,
-                        'strain': strain.name,
+                        'strainName': strain.name,
                         'featureType': 'chromosome',
                         'molType': 'nuc',
                         'format': 'fsa'

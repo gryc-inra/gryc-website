@@ -15,17 +15,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  *
  * @author Mathieu Piot (mathieu.piot[at]agroparistech.fr)
  *
- * @Route("species/{species}/{strain}")
+ * @Route("chromosome")
  */
 class ChromosomeController extends Controller
 {
     /**
-     * @Route("/{name}", name="chromosome_view")
+     * @Route("/{slug}", name="chromosome_view")
      */
-    public function viewAction($name)
+    public function viewAction($slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $chromosome = $em->getRepository('AppBundle:Chromosome')->getChromosomeWithStrainAndSpecies($name);
+        $chromosome = $em->getRepository('AppBundle:Chromosome')->getChromosomeWithStrainAndSpecies($slug);
 
         // If there are no chromosome
         if ($chromosome === null) {

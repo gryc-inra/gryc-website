@@ -9,36 +9,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+/**
+ * Class FileController
+ * @route("/files")
+ */
 class FileController extends Controller
 {
     /**
-     * @Route("files/{species}/{strain}/{featureType}/{molType}/{chromosome}.{format}", name="file_downloadFlatFile")
+     * @Route("/{strainName}-{featureType}-{molType}-{format}.zip", name="file_downloadZipFlatFile")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function downloadFlatFileAction(Request $request, $featureType, $molType, $chromosome, $format)
+    public function  downloadZipFlatFileAction(Request $request, $strainName, $featureType, $molType, $format)
     {
         $em = $this->getDoctrine()->getManager();
-        $file = $em->getRepository('AppBundle:FlatFile')->findOneByFeatureMolChromosomeFormat($featureType, $molType, $chromosome, $format);
-
-        $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
-        $request->headers->set('X-Accel-Mapping', '/home/docker/protected-files/=/protected_files/');
-
-        BinaryFileResponse::trustXSendfileTypeHeader();
-        $response = new BinaryFileResponse($file->getAbsolutePath());
-        $response->headers->set('Content-Disposition', 'attachment;filename="'.$chromosome.'-'.$featureType.'-'.$molType.'.'.$format.'"');
-        $response->headers->set('Cache-Control', 'private');
-
-        return $response;
-    }
-
-    /**
-     * @Route("files/{species}/{strain}/{featureType}-{molType}-{format}.zip", name="file_downloadZipFlatFile")
-     * @Security("is_granted('ROLE_ADMIN')")
-     */
-    public function  downloadZipFlatFileAction(Request $request, $strain, $featureType, $molType, $format)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $files = $em->getRepository('AppBundle:FlatFile')->findByStrainFeatureMolFormat($strain, $featureType, $molType, $format);
+        $files = $em->getRepository('AppBundle:FlatFile')->findByStrainFeatureMolFormat($strainName, $featureType, $molType, $format);
 
         $zipname = $this->get('kernel')->getRootDir().'/../protected-files/temp/'.uniqid().'.zip';
 
@@ -48,7 +32,7 @@ class FileController extends Controller
 
         if ($zip->open($zipname,\ZipArchive::CREATE)) {
             foreach ($files as $file) {
-                $zip->addFile($file->getAbsolutePath(), $file->getChromosome()->getName() . '-' . $featureType . $molType . '.' . $format);
+                $zip->addFile($file->getAbsolutePath(), $file->getChromosome()->getName().'-'.$featureType.'-'.$molType.'.'.$format);
             }
             $zip->close();
         } else {
@@ -60,10 +44,30 @@ class FileController extends Controller
 
         // Here we don't use the X-Accel-Redirect, because the file isn't static, we delete it just after PHP make it, and nginx take it in charge
         $response = new BinaryFileResponse($zipname);
-        $response->headers->set('Content-Disposition', 'attachment;filename="'.$strain.'-'.$featureType.'-'.$molType.'-'.$format.'.zip"');
+        $response->headers->set('Content-Disposition', 'attachment;filename="'.$strainName.'-'.$featureType.'-'.$molType.'-'.$format.'.zip"');
         $response->headers->set('Cache-Control', 'private');
         // Delete the file
         $response->deleteFileAfterSend(true);
+
+        return $response;
+    }
+
+    /**
+     * @Route("/{chromosomeName}-{featureType}-{molType}.{format}", name="file_downloadFlatFile")
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function downloadFlatFileAction(Request $request, $chromosomeName, $featureType, $molType, $format)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $file = $em->getRepository('AppBundle:FlatFile')->findOneByFeatureMolChromosomeFormat($featureType, $molType, $chromosomeName, $format);
+
+        $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
+        $request->headers->set('X-Accel-Mapping', '/home/docker/protected-files/=/protected_files/');
+
+        BinaryFileResponse::trustXSendfileTypeHeader();
+        $response = new BinaryFileResponse($file->getAbsolutePath());
+        $response->headers->set('Content-Disposition', 'attachment;filename="'.$chromosomeName.'-'.$featureType.'-'.$molType.'.'.$format.'"');
+        $response->headers->set('Cache-Control', 'private');
 
         return $response;
     }

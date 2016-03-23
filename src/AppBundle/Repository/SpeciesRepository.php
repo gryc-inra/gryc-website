@@ -14,7 +14,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
     /**
      * Select all or a specific species with strains
      */
-    public function getSpeciesWithStrains($scientificname = null)
+    public function getSpeciesWithStrains($slug = null)
     {
         $query = $this
             ->createQueryBuilder('species')
@@ -22,10 +22,10 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('strain')
         ;
 
-        if (null !== $scientificname) {
+        if (null !== $slug) {
             return $query
-                ->where('species.scientificName = :scientificname')
-                ->setParameter('scientificname', $scientificname)
+                ->where('species.slug = :slug')
+                ->setParameter('slug', $slug)
                 ->leftJoin('species.seos', 'seos')
                     ->addSelect('seos')
                 ->getQuery()

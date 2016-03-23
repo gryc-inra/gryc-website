@@ -20,24 +20,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class SpeciesController extends Controller
 {
     /**
-     * @Route("/{scientificname}", name="species_view")
-     */
-    public function viewAction($scientificname)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $species = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains($scientificname);
-
-        // If there are no species
-        if ($species === null) {
-            throw $this->createNotFoundException("This species doesn't exists.");
-        }
-
-        return $this->render('species/view.html.twig', array(
-            'species' => $species,
-        ));
-    }
-
-    /**
      * @Route("/", name="species_list")
      */
     public function listAction()
@@ -47,6 +29,24 @@ class SpeciesController extends Controller
 
         return $this->render('species/list.html.twig', array(
             'speciesList' => $speciesList,
+        ));
+    }
+
+    /**
+     * @Route("/{speciesSlug}", name="species_view")
+     */
+    public function viewAction($speciesSlug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $species = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains($speciesSlug);
+
+        // If there are no species
+        if ($species === null) {
+            throw $this->createNotFoundException("This species doesn't exists.");
+        }
+
+        return $this->render('species/view.html.twig', array(
+            'species' => $species,
         ));
     }
 }

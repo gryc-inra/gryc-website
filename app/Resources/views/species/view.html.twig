@@ -65,7 +65,7 @@
                 <div class="panel-heading">Strains</div>
                 <ul class="list-group">
                     {% for strain in species.strains %}
-                        <li class="list-group-item"><a href="{{ path('strain_view', {'species': species.scientificname, 'name': strain.name }) }}">{{ strain.name }}</a></li>
+                        <li class="list-group-item"><a href="{{ path('strain_view', {'speciesSlug': species.slug, 'strainSlug': strain.slug }) }}">{{ strain.name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
