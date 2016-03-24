@@ -6,23 +6,29 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * Class FileController
+ * Class FileController.
+ * 
  * @route("/files")
  */
 class FileController extends Controller
 {
     /**
      * @Route("/{strainName}-{featureType}-{molType}-{format}.zip", name="file_downloadZipFlatFile")
-     * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function  downloadZipFlatFileAction(Request $request, $strainName, $featureType, $molType, $format)
+    public function downloadZipFlatFileAction($strainName, $featureType, $molType, $format)
     {
         $em = $this->getDoctrine()->getManager();
+        $strain = $em->getRepository('AppBundle:Strain')->findOneByName($strainName);
         $files = $em->getRepository('AppBundle:FlatFile')->findByStrainFeatureMolFormat($strainName, $featureType, $molType, $format);
+
+        if (null === $strain) {
+            throw $this->createNotFoundException("This strain doen't exists.");
+        }
+
+        $this->denyAccessUnlessGranted('VIEW', $strain);
 
         $zipname = $this->get('kernel')->getRootDir().'/../protected-files/temp/'.uniqid().'.zip';
 
@@ -30,7 +36,7 @@ class FileController extends Controller
             throw new \Exception('The zip file can\'t be create.');
         }
 
-        if ($zip->open($zipname,\ZipArchive::CREATE)) {
+        if ($zip->open($zipname, \ZipArchive::CREATE)) {
             foreach ($files as $file) {
                 $zip->addFile($file->getAbsolutePath(), $file->getChromosome()->getName().'-'.$featureType.'-'.$molType.'.'.$format);
             }
@@ -54,12 +60,17 @@ class FileController extends Controller
 
     /**
      * @Route("/{chromosomeName}-{featureType}-{molType}.{format}", name="file_downloadFlatFile")
-     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function downloadFlatFileAction(Request $request, $chromosomeName, $featureType, $molType, $format)
     {
         $em = $this->getDoctrine()->getManager();
         $file = $em->getRepository('AppBundle:FlatFile')->findOneByFeatureMolChromosomeFormat($featureType, $molType, $chromosomeName, $format);
+
+        if (null === $file) {
+            throw $this->createNotFoundException("Ce fichier n'existe pas.");
+        }
+
+        $this->denyAccessUnlessGranted('VIEW', $file->getChromosome()->getStrain());
 
         $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
         $request->headers->set('X-Accel-Mapping', '/home/docker/protected-files/=/protected_files/');

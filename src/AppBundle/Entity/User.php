@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -38,10 +39,15 @@ class User extends BaseUser
      */
     private $company;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Strain", inversedBy="authorizedUsers")
+     */
+    private $authorizedStrains;
+
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->authorizedStrains = new ArrayCollection();
     }
 
     /**
@@ -114,5 +120,22 @@ class User extends BaseUser
     public function getCompany()
     {
         return $this->company;
+    }
+
+    public function addAuthorizedStrain(Strain $strain)
+    {
+        $this->authorizedStrains[] = $strain;
+
+        return $this;
+    }
+
+    public function removeAuthorizedStrain(Strain $strain)
+    {
+        $this->authorizedStrains->removeElement($strain);
+    }
+
+    public function getAuthorizedStrains()
+    {
+        return $this->authorizedStrains;
     }
 }

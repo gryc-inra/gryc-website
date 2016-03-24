@@ -466,6 +466,7 @@ class Species
      * Add strain.
      *
      * @param Strain $strain
+     * 
      * @return $this
      */
     public function addStrain(Strain $strain)
@@ -497,7 +498,7 @@ class Species
     }
 
     /**
-     * Add Seo
+     * Add Seo.
      *
      * @param Seo $seo
      */
@@ -510,7 +511,7 @@ class Species
     }
 
     /**
-     * Remove Seo
+     * Remove Seo.
      *
      * @param Seo $seo
      */
@@ -520,7 +521,7 @@ class Species
     }
 
     /**
-     * Get Seo
+     * Get Seo.
      *
      * @return ArrayCollection
      */

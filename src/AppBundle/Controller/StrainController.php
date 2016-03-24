@@ -1,31 +1,26 @@
 <?php
 // src/AppBundle/Controller/StrainController.php
-/**
- * Gestion des souches.
- *
- * @copyright 2016 DivY
- */
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Strain;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class StrainController extends Controller
 {
     /**
      * @Route("species/{speciesSlug}/{strainSlug}", name="strain_view")
+     * @ParamConverter("strain", class="AppBundle:Strain", options={
+     *     "repository_method": "getStrainWithFlatFiles",
+     *     "mapping": {"strainSlug": "slug"},
+     *     "map_method_signature" = true
+     * })
+     * @Security("is_granted('VIEW', strain)")
      */
-    public function viewAction($strainSlug)
+    public function viewAction(Strain $strain)
     {
-        $em = $this->getDoctrine()->getManager();
-        //$strain = $em->getRepository('AppBundle:Strain')->getStrainWithSpeciesAndChromosomes($name);
-        $strain = $em->getRepository('AppBundle:Strain')->getStrainWithFlatFiles($strainSlug);
-
-        // If there are no strain
-        if ($strain === null) {
-            throw $this->createNotFoundException("This strain doesn't exists.");
-        }
-
         return $this->render('strain/view.html.twig', array(
             'strain' => $strain,
         ));

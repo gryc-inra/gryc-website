@@ -1,37 +1,29 @@
 <?php
 // src/AppBundle/Controller/ChromosomeController.php
-/**
- * Gestion des chromosomes.
- *
- * @copyright 2016 DivY
- */
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Chromosome;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * Classe gérant la partie chromosome.
- *
- * @author Mathieu Piot (mathieu.piot[at]agroparistech.fr)
- *
  * @Route("chromosome")
  */
 class ChromosomeController extends Controller
 {
     /**
      * @Route("/{slug}", name="chromosome_view")
+     * @ParamConverter("chromosome", class="AppBundle:Chromosome", options={
+     *     "repository_method" = "getChromosomeWithStrainAndSpecies",
+     *     "mapping": {"slug": "slug"},
+     *     "map_method_signature" = true
+     * })
+     * @Security("is_granted('VIEW', chromosome.getStrain())")
      */
-    public function viewAction($slug)
+    public function viewAction(Chromosome $chromosome)
     {
-        $em = $this->getDoctrine()->getManager();
-        $chromosome = $em->getRepository('AppBundle:Chromosome')->getChromosomeWithStrainAndSpecies($slug);
-
-        // If there are no chromosome
-        if ($chromosome === null) {
-            throw $this->createNotFoundException("This chromosome doesn't exists.");
-        }
-
         return $this->render('chromosome/view.html.twig', array(
            'chromosome' => $chromosome,
         ));

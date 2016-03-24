@@ -90,11 +90,22 @@ class Strain
      */
     private $slug;
 
+    /**
+     * @ORM\Column(name="public", type="boolean")
+     */
+    private $public = false;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="authorizedStrains")
+     */
+    private $authorizedUsers;
+
     public function __construct()
     {
         $this->synonymes = array();
         $this->chromosomes = new ArrayCollection();
         $this->seos = new ArrayCollection();
+        $this->authorizedUsers = new ArrayCollection();
     }
 
     /**
@@ -362,7 +373,7 @@ class Strain
     }
 
     /**
-     * Add Seo
+     * Add Seo.
      *
      * @param Seo $seo
      */
@@ -375,7 +386,7 @@ class Strain
     }
 
     /**
-     * Remove Seo
+     * Remove Seo.
      *
      * @param Seo $seo
      */
@@ -385,7 +396,7 @@ class Strain
     }
 
     /**
-     * Get Seo
+     * Get Seo.
      *
      * @return ArrayCollection
      */
@@ -416,5 +427,95 @@ class Strain
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set public.
+     * 
+     * @param bool $bool
+     *
+     * @return $this
+     */
+    public function setPublic(bool $bool)
+    {
+        $this->public = $bool;
+
+        return $this;
+    }
+
+    /**
+     * Get public.
+     * 
+     * @return bool
+     */
+    public function getPublic()
+    {
+        return $this->public;
+    }
+
+    /**
+     * Is public?
+     * 
+     * @return bool
+     */
+    public function isPublic()
+    {
+        return $this->public;
+    }
+
+    /**
+     * Is private?
+     * 
+     * @return bool
+     */
+    public function isPrivate()
+    {
+        return !$this->public;
+    }
+
+    /**
+     * Add authorized user.
+     *
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function addAuthorizedUser(User $user)
+    {
+        $this->authorizedUsers[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove authorized user.
+     *
+     * @param User $user
+     */
+    public function removeAuthorizedUser(User $user)
+    {
+        $this->authorizedUsers->removeElement($user);
+    }
+
+    /**
+     * Get authorized users.
+     *
+     * @return ArrayCollection
+     */
+    public function getAuthorizedUsers()
+    {
+        return $this->authorizedUsers;
+    }
+
+    /**
+     * Is authorized user ?
+     *
+     * @param User $user
+     * 
+     * @return bool
+     */
+    public function isAuthorizedUser(User $user = null)
+    {
+        return $this->authorizedUsers->contains($user);
     }
 }

@@ -1,9 +1,5 @@
 <?php
-/**
- * Pages statiques du site.
- *
- * @copyright 2015 BimLip
- */
+
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,7 +26,7 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $species = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains();
+        $species = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains(null, $this->getUser());
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(

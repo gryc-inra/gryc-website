@@ -16,3 +16,9 @@ services:
         public: false
         tags:
           - { name: twig.extension }
+
+    app.strain_voter:
+        class: AppBundle\Security\StrainVoter
+        tags:
+          - { name: security.voter }
+        public: false

@@ -29,8 +29,17 @@ The yeast genomes database - {{ parent() }}
 <ul>
     {% for species in speciesList %}
         {% for strain in species.strains %}
-            <li>{{ species.scientificname }} {{ strain.name }}</li>
+            {% if strain.isAuthorizedUser(app.user) %}
+                <li>{{ species.scientificname }} {{ strain.name }} <span style="color:red;">*</span></li>
+            {% else %}
+                <li>{{ species.scientificname }} {{ strain.name }}</li>
+            {% endif %}
         {% endfor %}
     {% endfor %}
 </ul>
+
+{% if app.user %}
+    <p><span style="color:red;">*</span>: Private strains</p>
+{% endif %}
+
 {% endblock %}

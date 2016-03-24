@@ -1,20 +1,12 @@
 <?php
 // src/AppBundle/Controller/SpeciesController.php
-/**
- * Gestion des espèces.
- *
- * @copyright 2016 DivY
- */
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Species;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * Classe gérant la partie espèce.
- *
- * @author Mathieu Piot (mathieu.piot[at]agroparistech.fr)
- *
  * @Route("/species")
  */
 class SpeciesController extends Controller
@@ -25,7 +17,7 @@ class SpeciesController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $speciesList = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains();
+        $speciesList = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains(null, $this->getUser());
 
         return $this->render('species/list.html.twig', array(
             'speciesList' => $speciesList,
@@ -38,11 +30,10 @@ class SpeciesController extends Controller
     public function viewAction($speciesSlug)
     {
         $em = $this->getDoctrine()->getManager();
-        $species = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains($speciesSlug);
+        $species = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains($speciesSlug, $this->getUser());
 
-        // If there are no species
-        if ($species === null) {
-            throw $this->createNotFoundException("This species doesn't exists.");
+        if (null === $species) {
+            throw $this->createNotFoundException("This species doen't exists.");
         }
 
         return $this->render('species/view.html.twig', array(
