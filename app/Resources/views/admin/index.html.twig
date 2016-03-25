@@ -1,0 +1,22 @@
+{# app/Ressources/views/admin/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Administration
+{% endblock %}
+
+{% block metaTags %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Administration</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Administration</h1>
+    <ul>
+        <li><a href="{{ path('user_list') }}">Manage users</a></li>
+    </ul>
+{% endblock %}

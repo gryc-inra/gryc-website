@@ -63,16 +63,22 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            {# Si l'utilisateur est un administrateur #}
-                            {% if is_granted('ROLE_ADMIN') %}
-                                {% set nbMessages =  render(controller("AppBundle:ContactUs:numberMessage")) %}
-                                <li><a href="{{ path('contact_us_homepage') }}">{% if nbMessages > 1 %}Messages{% else %}Message{% endif %} <span class="badge">{{ nbMessages }}</span></a></li>
-                            {% endif %}
-
                             {# Si l'utilisateur est connecté #}
                             {% if app.user %}
-                                <li><a href="{{ path("fos_user_profile_show") }}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                                <li><a href="{{ path("fos_user_security_logout") }}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.username }} <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        {# Si l'utilisateur est un administrateur #}
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <li><a href="{{ path('admin_index') }}"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
+                                            {% set nbMessages =  render(controller("AppBundle:ContactUs:numberMessage")) %}
+                                            <li><a href="{{ path('contact_us_homepage') }}"><span class="glyphicon glyphicon-envelope"></span> {% if nbMessages > 1 %}Messages{% else %}Message{% endif %} <span class="badge">{{ nbMessages }}</span></a></li>
+                                            <li role="separator" class="divider"></li>
+                                        {% endif %}
+                                        <li><a href="{{ path("fos_user_profile_show") }}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                                        <li><a href="{{ path("fos_user_security_logout") }}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                                    </ul>
+                                </li>
                             {% else %}
                                 <li><a href="{{ path("fos_user_security_login") }}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
                                 <li><a href="{{ path("fos_user_registration_register") }}"><span class="glyphicon glyphicon-pencil"></span> Sign up</a></li>

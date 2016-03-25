@@ -1,0 +1,46 @@
+{# app/Ressources/views/admin/user/list.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    User management
+{% endblock %}
+
+{% block metaTags %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li class="active">User management</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Users</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>User name</th>
+                <th>Email</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>
+                        <a href="{{ path('user_edit', { 'usernameCanonical': user.usernameCanonical }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
