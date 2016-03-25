@@ -26,6 +26,7 @@ class AdminUserType extends AbstractType
                 'expanded' => false,
                 'multiple' => true,
                 'group_by' => 'Species.scientificName',
+                'required' => false,
             ))
         ;
     }
