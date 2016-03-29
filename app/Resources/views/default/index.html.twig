@@ -29,7 +29,7 @@ The yeast genomes database - {{ parent() }}
 <ul>
     {% for species in speciesList %}
         {% for strain in species.strains %}
-            {% if strain.isAuthorizedUser(app.user) %}
+            {% if strain.isAuthorizedUser(app.user) and false == strain.public %}
                 <li>{{ species.scientificname }} {{ strain.name }} <span style="color:red;">*</span></li>
             {% else %}
                 <li>{{ species.scientificname }} {{ strain.name }}</li>
