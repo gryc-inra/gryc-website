@@ -33,6 +33,8 @@ class AdminUserController extends Controller
      */
     public function editRightsAction(Request $request, User $user)
     {
+        $species = $this->getDoctrine()->getManager()->getRepository('AppBundle:Species')->getSpeciesWithStrains(null, null);
+
         $form = $this->createForm(AdminUserRightsType::class, $user);
         $form->add('save', SubmitType::class);
 
@@ -49,6 +51,7 @@ class AdminUserController extends Controller
 
         return $this->render('admin/user/edit-rights.html.twig', array(
             'user' => $user,
+            'speciesList' => $species,
             'form' => $form->createView(),
         ));
     }

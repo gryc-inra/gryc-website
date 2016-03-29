@@ -14,16 +14,14 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('strains')
         ;
 
-        // Select all public strains
-        $query->where('strains.public = true');
-
-        // If a user is connected recover his strains
+        // If a user is connected recover his strains and public strains
         if (null !== $user) {
             $query
                 ->leftJoin('strains.authorizedUsers', 'users')
-                ->addSelect('users')
+                    ->addSelect('users')
+                ->where('strains.public = true')
                 ->orWhere('users = :user')
-                ->setParameter('user', $user)
+                    ->setParameter('user', $user)
             ;
         }
 
@@ -31,7 +29,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
         if (null !== $slug) {
             $query
                 ->andWhere('species.slug = :slug')
-                ->setParameter('slug', $slug)
+                    ->setParameter('slug', $slug)
                 ->leftJoin('species.seos', 'seos')
                     ->addSelect('seos')
             ;

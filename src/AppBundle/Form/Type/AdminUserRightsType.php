@@ -6,6 +6,8 @@ use AppBundle\Repository\StrainRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdminUserRightsType extends AbstractType
@@ -15,17 +17,9 @@ class AdminUserRightsType extends AbstractType
         $builder
             ->add('authorizedStrains', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Strain',
-                'query_builder' => function (StrainRepository $sr) {
-                    return $sr->createQueryBuilder('strain')
-                        ->leftJoin('strain.species', 'species')
-                            ->addSelect('species')
-                        ->orderBy('species.scientificName')
-                        ->addOrderBy('strain.name');
-                },
                 'choice_label' => 'name',
-                'expanded' => false,
+                'expanded' => true,
                 'multiple' => true,
-                'group_by' => 'Species.scientificName',
                 'required' => false,
             ))
         ;

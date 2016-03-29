@@ -20,7 +20,30 @@
     <div class="panel panel-default">
         <div class="panel-heading"><h2>{{ user.username }} <small>{{ user.firstName }} {{ user.lastName }}</small></h2></div>
         <div class="panel-body">
-            {{ form(form) }}
+            {{ form_start(form) }}
+            <div id="admin_user_rights">
+                {{ form_errors(form) }}
+                <div class="form-group">
+                    {% for species in speciesList %}
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <fieldset>
+                                <legend>{{ species.scientificName }}</legend>
+                                    {% for strain in species.strains %}
+                                        {% set key = strain.id %}
+                                        {% if strain.isPublic %}
+                                            {{ form_widget(form.authorizedStrains[key], {'disabled': true}) }}
+                                        {% else %}
+                                            {{ form_widget(form.authorizedStrains[key]) }}
+                                        {% endif %}
+                                    {% endfor %}
+                            </fieldset>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {{ form_rest(form) }}
+            </div>
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}
