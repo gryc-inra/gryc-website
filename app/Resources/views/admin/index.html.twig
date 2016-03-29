@@ -16,7 +16,13 @@
 
 {% block body %}
     <h1>Administration</h1>
-    <ul>
-        <li><a href="{{ path('user_list') }}">Manage users</a></li>
-    </ul>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">User management</h3>
+        </div>
+        <div class="list-group">
+            <a href="{{ path('user_list') }}" class="list-group-item">Rights management</a>
+        </div>
+    </div>
 {% endblock %}

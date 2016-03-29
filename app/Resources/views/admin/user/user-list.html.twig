@@ -1,4 +1,4 @@
-{# app/Ressources/views/admin/user/list.html.twig #}
+{# app/Ressources/views/admin/user/user-list.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -36,8 +36,7 @@
                     <td>{{ user.firstName }}</td>
                     <td>{{ user.lastName }}</td>
                     <td>
-                        <a href="{{ path('user_edit', { 'usernameCanonical': user.usernameCanonical }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        <a href="{{ path('user_rights_edit', { 'usernameCanonical': user.usernameCanonical }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit rights</a>
                     </td>
                 </tr>
             {% endfor %}
