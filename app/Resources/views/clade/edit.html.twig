@@ -1,0 +1,23 @@
+{# app/Ressources/views/clade/edit.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Edit the clade: {{ clade.name }}
+{% endblock %}
+
+{% block metaTags %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li><a href="{{ path('clades_list') }}">Clade management</a></li>
+    <li class="active">Edit the clade: {{ clade.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Edit the clade: {{ clade.name }}</h1>
+
+    {{ form(form) }}
+{% endblock %}

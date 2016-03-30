@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Clade.
@@ -25,6 +26,8 @@ class Clade
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\Length(min=2)
+     * @Assert\Regex("#^[A-Z]#")
      */
     private $name;
 
@@ -32,6 +35,7 @@ class Clade
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     * @Assert\NotNull()
      */
     private $description;
 
@@ -41,6 +45,11 @@ class Clade
      * @ORM\Column(name="mainClade", type="boolean")
      */
     private $mainClade;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="clade", cascade={"remove"})
+     */
+    private $species;
 
     /**
      * Get id.
@@ -136,5 +145,10 @@ class Clade
         } else {
             return 'No';
         }
+    }
+
+    public function getSpecies()
+    {
+        return $this->species;
     }
 }

@@ -45,4 +45,17 @@ class StrainRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getOneOrNullResult();
     }
+
+    public function getStrainsWithSpecies()
+    {
+        $query = $this
+            ->createQueryBuilder('strain')
+            ->leftJoin('strain.species', 'species')
+                ->addSelect('species')
+            ->orderBy('species.scientificName', 'ASC')
+            ->addOrderBy('strain.name', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

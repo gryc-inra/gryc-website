@@ -139,13 +139,13 @@ class Chromosome
     /**
      * @var DnaSequence
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\DnaSequence", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\DnaSequence", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $dnaSequence;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FlatFile", mappedBy="chromosome", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FlatFile", mappedBy="chromosome", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $flatFiles;
@@ -685,9 +685,10 @@ class Chromosome
     }
 
     /**
-     * Add FlatFile
+     * Add FlatFile.
      *
      * @param FlatFile $flatFile
+     * 
      * @return $this
      */
     public function addFlatFile(FlatFile $flatFile)
@@ -699,9 +700,10 @@ class Chromosome
     }
 
     /**
-     * Remove FlatFile
+     * Remove FlatFile.
      *
      * @param FlatFile $flatFile
+     *
      * @return $this
      */
     public function removeFlatFile(FlatFile $flatFile)
@@ -712,7 +714,7 @@ class Chromosome
     }
 
     /**
-     * Get FlatFile
+     * Get FlatFile.
      *
      * @return ArrayCollection
      */
@@ -722,7 +724,7 @@ class Chromosome
     }
 
     /**
-     * Add Seo
+     * Add Seo.
      *
      * @param Seo $seo
      */
@@ -735,7 +737,7 @@ class Chromosome
     }
 
     /**
-     * Remove Seo
+     * Remove Seo.
      *
      * @param Seo $seo
      */
@@ -745,7 +747,7 @@ class Chromosome
     }
 
     /**
-     * Get Seo
+     * Get Seo.
      *
      * @return ArrayCollection
      */

@@ -14,7 +14,9 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }} <li><a href="{{ path('species_list') }}">Species</a></li> <li class="active"><i>{{ species.scientificname }}</i></li>
+    {{ parent() }}
+    <li><a href="{{ path('species_homepage') }}">Species</a></li>
+    <li class="active"><i>{{ species.scientificname }}</i></li>
 {% endblock %}
 
 {% block body %}

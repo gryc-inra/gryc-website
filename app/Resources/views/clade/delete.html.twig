@@ -1,0 +1,63 @@
+{# app/Ressources/views/clade/delete.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Delete the clade: {{ clade.name }}
+{% endblock %}
+
+{% block metaTags %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li><a href="{{ path('clades_list') }}">Clade management</a></li>
+    <li class="active">Delete the clade: {{ clade.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Delete the clade: {{ clade.name }}</h1>
+
+    {% if clade.species|length > 0 %}
+        <div class="alert alert-danger" role="alert">
+            <b>CAUTION !</b> You are about to delete a clade !<br>
+                The following species are linked on this clade:
+                <ul>
+                    {% for species in clade.species %}
+                        <li>{{ species.scientificname }}</li>
+                    {% endfor %}
+                </ul>
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            <b>CAUTION !</b> You are about to delete a clade !<br>
+            The following species are linked on this clade:
+            <ul>
+                    <li>No species linked on this clade</li>
+            </ul>
+        </div>
+    {% endif %}
+
+
+    <p>Are you sure you want to delete the clade :"<b>{{ clade.name }}</b>" ?</p>
+
+    <p style="color: red;">Nb: I you delete a clade with species in, ALL species, strains, chromosomes and files will be deleted too !</p>
+
+    <p>Type this to confirm: "I confirm the deletion"</p>
+
+    <form action="{{ path('clade_delete', {'id': clade.id}) }}" method="post">
+
+        {{ form_row(form.confirm) }}
+        <div class="btn-group" role="group">
+            <a href="{{ path('clades_list') }}" class="btn btn-default" >
+                <i class="glyphicon glyphicon-chevron-left"></i>
+                Back
+            </a>
+            <input type="submit" value="I'm sure, DELETE IT" class="btn btn-danger" />
+        </div>
+
+        {{ form_rest(form) }}
+    </form>
+
+{% endblock %}

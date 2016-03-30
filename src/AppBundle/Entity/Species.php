@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Species.
@@ -24,7 +25,7 @@ class Species
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Clade")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Clade", inversedBy="species")
      * @ORM\JoinColumn(nullable=false)
      */
     private $clade;
@@ -33,22 +34,25 @@ class Species
      * @var string
      *
      * @ORM\Column(name="scientificName", type="string", length=255, unique=true)
+     * @Assert\Regex("#^[A-Z][a-z]* [a-z]*$#", message="The scientific name is in two word, the first begin with a capital letter and the second word is in small letters. (eg: Saccharomyces cerevisiae)")
      */
     private $scientificName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="species", type="string", length=255, unique=true)
+     * @ORM\Column(name="genus", type="string", length=255)
+     * @Assert\Regex("#^[A-Z][a-z]*$#", message="The genus begin with a capital letter. (eg: Saccharomyces)")
      */
-    private $species;
+    private $genus;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="genus", type="string", length=255)
+     * @ORM\Column(name="species", type="string", length=255, unique=true)
+     * @Assert\Regex("#^[a-z]*$#", message="The species is in small letters. (eg: cerevisiae)")
      */
-    private $genus;
+    private $species;
 
     /**
      * @var array
@@ -93,7 +97,7 @@ class Species
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="species", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="species", cascade={"persist", "remove"})
      */
     private $strains;
 
@@ -110,6 +114,8 @@ class Species
 
     public function __construct()
     {
+        $this->mitoCode = 3;
+        $this->geneticCode = 1;
         $this->synonymes = array();
         $this->lineages = array();
         $this->strains = new ArrayCollection();

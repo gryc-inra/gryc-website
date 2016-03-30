@@ -15,7 +15,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('species_list') }}">Species</a></li>
+    <li><a href="{{ path('species_homepage') }}">Species</a></li>
     <li><a href="{{ path('species_view', { 'speciesSlug': chromosome.strain.species.slug }) }}"><i>{{ chromosome.strain.species.scientificname }}</i></a></li>
     <li><a href="{{ path('strain_view', { 'speciesSlug': chromosome.strain.species.slug, 'strainSlug': chromosome.strain.slug }) }}">{{ chromosome.strain.name }}</a></li>
     <li class="active">{{ chromosome.name }}</li>

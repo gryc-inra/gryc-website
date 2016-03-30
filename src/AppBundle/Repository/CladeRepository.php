@@ -10,4 +10,16 @@ namespace AppBundle\Repository;
  */
 class CladeRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getCladesWithSpecies()
+    {
+        $query = $this
+            ->createQueryBuilder('clade')
+            ->leftJoin('clade.species', 'species')
+                ->addSelect('species')
+            ->orderBy('clade.name', 'ASC')
+            ->getQuery()
+        ;
+
+        return $query->getResult();
+    }
 }

@@ -68,7 +68,7 @@ class Strain
     /**
      * @var Chromosome
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Chromosome", mappedBy="strain", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Chromosome", mappedBy="strain", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $chromosomes;
@@ -470,7 +470,25 @@ class Strain
      */
     public function isPrivate()
     {
-        return !$this->public;
+        return !$this->isPublic();
+    }
+
+    public function isPublicToString()
+    {
+        if ($this->isPublic()) {
+            return 'yes';
+        } else {
+            return 'no';
+        }
+    }
+
+    public function isPrivateToString()
+    {
+        if ($this->isPrivate()) {
+            return 'yes';
+        } else {
+            return 'no';
+        }
     }
 
     /**

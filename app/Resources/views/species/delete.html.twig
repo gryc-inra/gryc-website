@@ -1,0 +1,63 @@
+{# app/Ressources/views/species/delete.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Delete the species: {{ species.scientificname }}
+{% endblock %}
+
+{% block metaTags %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li><a href="{{ path('species_list') }}">Clade management</a></li>
+    <li class="active">Delete the species: {{ species.scientificname }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Delete the species: {{ species.scientificname }}</h1>
+
+    {% if species.strains|length > 0 %}
+        <div class="alert alert-danger" role="alert">
+            <b>CAUTION !</b> You are about to delete a species !<br>
+                The following strains are linked on this species:
+                <ul>
+                    {% for strain in species.strains %}
+                        <li>{{ species.scientificname }} {{ strain.name }}</li>
+                    {% endfor %}
+                </ul>
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            <b>CAUTION !</b> You are about to delete a species !<br>
+            The following strains are linked on this species:
+            <ul>
+                    <li>No strain linked on this species</li>
+            </ul>
+        </div>
+    {% endif %}
+
+
+    <p>Are you sure you want to delete the species :"<b>{{ species.scientificname }}</b>" ?</p>
+
+    <p style="color: red;">Nb: I you delete a species with strain in, ALL strain, chromosomes and files will be deleted too !</p>
+
+    <p>Type this to confirm: "I confirm the deletion"</p>
+
+    <form action="{{ path('species_delete', {'id': species.id}) }}" method="post">
+
+        {{ form_row(form.confirm) }}
+        <div class="btn-group" role="group">
+            <a href="{{ path('species_list') }}" class="btn btn-default" >
+                <i class="glyphicon glyphicon-chevron-left"></i>
+                Back
+            </a>
+            <input type="submit" value="I'm sure, DELETE IT" class="btn btn-danger" />
+        </div>
+
+        {{ form_rest(form) }}
+    </form>
+
+{% endblock %}

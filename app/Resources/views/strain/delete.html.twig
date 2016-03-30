@@ -1,0 +1,46 @@
+{# app/Ressources/views/species/delete.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Delete the strain: {{ strain.species.scientificname }}
+{% endblock %}
+
+{% block metaTags %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li><a href="{{ path('strain_list') }}">strain management</a></li>
+    <li class="active">Delete the strain: {{ strain.species.scientificname }} {{ strain.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Delete the strain: {{ strain.species.scientificname }} {{ strain.name }}</h1>
+
+    <div class="alert alert-warning" role="alert">
+        <b>CAUTION !</b> You are about to delete a strain !<br>
+    </div>
+
+    <p>Are you sure you want to delete the strain :"<b>{{ strain.species.scientificname }} {{ strain.name }}</b>" ?</p>
+
+    <p style="color: red;">Nb: I you delete a strain ALL strain, chromosomes and files will be deleted too !</p>
+
+    <p>Type this to confirm: "I confirm the deletion"</p>
+
+    <form action="{{ path('strain_delete', {'id': strain.id}) }}" method="post">
+
+        {{ form_row(form.confirm) }}
+        <div class="btn-group" role="group">
+            <a href="{{ path('strain_list') }}" class="btn btn-default" >
+                <i class="glyphicon glyphicon-chevron-left"></i>
+                Back
+            </a>
+            <input type="submit" value="I'm sure, DELETE IT" class="btn btn-danger" />
+        </div>
+
+        {{ form_rest(form) }}
+    </form>
+
+{% endblock %}

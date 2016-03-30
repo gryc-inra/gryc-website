@@ -10,7 +10,8 @@ namespace AppBundle\Repository;
  */
 class ChromosomeRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getChromosomeWithStrainAndSpecies($slug) {
+    public function getChromosomeWithStrainAndSpecies($slug)
+    {
         $query = $this
             ->createQueryBuilder('c')
             ->leftJoin('c.seos', 'seos')

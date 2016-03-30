@@ -1,24 +1,50 @@
+{# app/Ressources/views/species/list.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    List of the species on GRYC
+    Species management
 {% endblock %}
 
 {% block metaTags %}
-    {{ parent() }}
-    <meta name="description" content="the list of all the species in the database." />
+    <meta name="robots" content="noindex">
 {% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }} <li class="active">Species</li>
+    {{ parent() }}
+    <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li class="active">Species management</li>
 {% endblock %}
 
 {% block body %}
-    <h1>List of the available species</h1>
-    <ul>
-        {% for species in speciesList %}
-            {% set nbStrains = species.strains|length %}
-            <li><a href="{{ path('species_view', { 'speciesSlug': species.slug }) }}"><i>{{ species.scientificname }}</i></a> ({{ nbStrains }} {{ nbStrains > 1 ? "strains" : "strain" }})</li>
-        {% endfor %}
-    </ul>
+    <h1>Species</h1>
+
+    <p>
+        <a class="btn btn-success" href="{{ path('species_add') }}"><span class="glyphicon glyphicon-plus"></span> Add</a>
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Scientific name</th>
+                <th>Number of strains</th>
+                <th>Clade</th>
+                <th>Actions</th>
+            </tr>
+            {% for species in speciesList %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ species.scientificname }}</td>
+                    <td>{{ species.strains|length }}</td>
+                    <td>{{ species.clade.name }}</td>
+                    <td>
+                        <div class="btn-group btn-group-xs" role="group">
+                            <a class="btn btn-warning" href="{{ path('species_edit', { 'id': species.id }) }}" ><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                            <a class="btn btn-danger" href="{{ path('species_delete', { 'id': species.id }) }}" {{ (species.strains|length > 0) ? 'disabled'  }}><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

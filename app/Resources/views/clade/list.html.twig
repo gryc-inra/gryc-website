@@ -1,0 +1,52 @@
+{# app/Ressources/views/clade/list.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Clade management
+{% endblock %}
+
+{% block metaTags %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li class="active">Clade management</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Clades</h1>
+
+    <p>
+        <a class="btn btn-success" href="{{ path('clade_add') }}"><span class="glyphicon glyphicon-plus"></span> Add</a>
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Main clade ?</th>
+                <th>Number of species</th>
+                <th>Actions</th>
+            </tr>
+            {% for clade in clades %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ clade.name }}</td>
+                    <td>{{ clade.description }}</td>
+                    <td>{{ clade.isMainCladeToString }}</td>
+                    <td>{{ clade.species|length }}</td>
+                    <td>
+                        <div class="btn-group btn-group-xs" role="group">
+                            <a class="btn btn-warning" href="{{ path('clade_edit', { 'id': clade.id }) }}"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                            <a class="btn btn-danger" href="{{ path('clade_delete', { 'id': clade.id }) }}" {{ (clade.species|length > 0) ? 'disabled' }}><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
