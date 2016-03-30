@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FlatFileRepository")
@@ -37,7 +36,7 @@ class FlatFile extends CopiedFile
     private $chromosome;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -47,7 +46,7 @@ class FlatFile extends CopiedFile
     }
 
     /**
-     * Set molType
+     * Set molType.
      *
      * @param string $molType
      *
@@ -61,7 +60,7 @@ class FlatFile extends CopiedFile
     }
 
     /**
-     * Get molType
+     * Get molType.
      *
      * @return string
      */
@@ -71,7 +70,7 @@ class FlatFile extends CopiedFile
     }
 
     /**
-     * Set featureType
+     * Set featureType.
      *
      * @param string $featureType
      *
@@ -85,7 +84,7 @@ class FlatFile extends CopiedFile
     }
 
     /**
-     * Get featureType
+     * Get featureType.
      *
      * @return string
      */
@@ -95,9 +94,9 @@ class FlatFile extends CopiedFile
     }
 
     /**
-     * Set format
+     * Set format.
      *
-     * @param string $format
+     * @param string $format.
      *
      * @return FlatFile
      */
@@ -109,7 +108,7 @@ class FlatFile extends CopiedFile
     }
 
     /**
-     * Get format
+     * Get format.
      *
      * @return string
      */
@@ -119,7 +118,7 @@ class FlatFile extends CopiedFile
     }
 
     /**
-     * Set Chromosome
+     * Set Chromosome.
      *
      * @param Chromosome $chromosome
      *
@@ -133,7 +132,7 @@ class FlatFile extends CopiedFile
     }
 
     /**
-     * Get Chromosome
+     * Get Chromosome.
      *
      * @return Chromosome
      */

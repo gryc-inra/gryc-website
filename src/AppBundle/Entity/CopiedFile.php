@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -40,9 +39,9 @@ class CopiedFile
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -50,9 +49,10 @@ class CopiedFile
     }
 
     /**
-     * Set path
+     * Set path.
      *
      * @param string $path
+     *
      * @return File
      */
     public function setPath($path)
@@ -63,7 +63,7 @@ class CopiedFile
     }
 
     /**
-     * Get path
+     * Get path.
      *
      * @return string
      */
@@ -87,7 +87,7 @@ class CopiedFile
     }
 
     /**
-     * Get file
+     * Get file.
      */
     public function getFileSystemPath()
     {
@@ -95,7 +95,7 @@ class CopiedFile
     }
 
     /**
-     * Get absolute path
+     * Get absolute path.
      *
      * @return null|string
      */
@@ -105,7 +105,7 @@ class CopiedFile
     }
 
     /**
-     * Get upload root dir
+     * Get upload root dir.
      *
      * @return string
      */
@@ -116,7 +116,7 @@ class CopiedFile
     }
 
     /**
-     * Get upload dir
+     * Get upload dir.
      *
      * @return string
      */
@@ -153,8 +153,8 @@ class CopiedFile
         if (null !== $this->tempPath) {
             $oldFile = $this->getUploadRootDir().'/'.$this->tempPath;
 
-            if ($this->fs->exists($oldFile)) {
-                $this->fs->remove($oldFile);
+            if (file_exists($oldFile)) {
+                unlink($oldFile);
             }
         }
 
@@ -174,8 +174,8 @@ class CopiedFile
      */
     public function removeUpload()
     {
-        if ($this->fs->exists($this->tempPath)) {
-            $this->fs->remove($this->tempPath);
+        if (file_exists($this->tempPath)) {
+            unlink($this->tempPath);
         }
     }
 }

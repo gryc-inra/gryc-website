@@ -1,15 +1,11 @@
 ![GrycII](./web/images/GRYC_logo_beta_v2.png)
 # GRYC - Readme
 
-------------
-
 ### Summary
 1. How to install the project ?
 2. How to control your code syntax ?
 3. Follow the best practice
 4. Use Xdebug
-
-------------
 
 ## 1. How to install the project ?
 Install docker: https://docs.docker.com/engine/installation/
@@ -18,8 +14,8 @@ Go in the project directory.
 
 Setfacl on the var folder:
 
-    setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX var protected-files/temp
-    setfacl -dR -m u:www-data:rwX -m u:`whoami`:rwX var protected-files/temp
+    setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX var protected-files
+    setfacl -dR -m u:www-data:rwX -m u:`whoami`:rwX var protected-files
 
 Create your own docker-compose.yml, you can edit it (eg: edit ports):
 
@@ -59,12 +55,8 @@ Before use Symfony you need prepare somethings:
     bin/console fos:elastica:populate
     bin/console cache:clear
 
-----------------
-
 ## 2. Follow the best practice
 There is a **beautiful** guide about the best practice :) You can find it on the [Symfony Documentation - Best Practice](http://symfony.com/doc/current/best_practices/index.html).
-
-----------------
 
 ## 3. How to control your code syntax ?
 For a better structure of the code, we use Coding standards: PSR-0, PSR-1, PSR-2 and PSR-4.
@@ -73,15 +65,13 @@ You can found some informations on [the synfony documentation page](http://symfo
 There is a usefull program named php-cs-fixer, that permit you to control your code. You can install it by following [the program's documentation](https://github.com/FriendsOfPHP/PHP-CS-Fixer).
 
 Some usefull command:
-1. List files with mistakes
+List files with mistakes
 
-    `php-cs-fixer fix src --dry-run`
+    php-cs-fixer fix src --dry-run
     
-2. View difference beetween your code and the corected code
+View difference beetween your code and the corected code
 
-    `cat foo.php | php-cs-fixer fix --diff -`
-    
-----------------
+    cat src/file.php | php-cs-fixer fix --diff -
 
 ## 4. Use Xdebug
 Xdebug is a powerfull tool to debug your code: eg: if you set a breakpoint in your code, PHP stop on the breakpoint and wait, you can see all variables and call functions in PHPStorm.
