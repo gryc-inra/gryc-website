@@ -1,10 +1,6 @@
 <?php
 // src/AppBundle/Services/Mailer.php
-/**
- * Gestion des contacts visiteur/équipe.
- *
- * @copyright 2015 BimLip
- */
+
 namespace AppBundle\Services;
 
 use AppBundle\Entity\ContactUs;

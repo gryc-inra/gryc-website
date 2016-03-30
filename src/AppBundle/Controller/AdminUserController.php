@@ -63,9 +63,9 @@ class AdminUserController extends Controller
     {
         $form = $this->createForm(AdminUserRolesType::class, $user);
         $form->add('save', SubmitType::class);
-        
+
         $form->handleRequest($request);
-        
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
@@ -74,7 +74,7 @@ class AdminUserController extends Controller
 
             return $this->redirectToRoute('user_list');
         }
-        
+
         return $this->render('admin/user/edit-roles.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),

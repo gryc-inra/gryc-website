@@ -7,7 +7,6 @@ use AppBundle\Entity\Chromosome;
 use AppBundle\Entity\DnaSequence;
 use AppBundle\Entity\FlatFile;
 use AppBundle\Entity\Strain;
-use Proxies\__CG__\AppBundle\Entity\File;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,8 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class ImportStrainCommand extends ContainerAwareCommand
 {
@@ -156,7 +153,7 @@ class ImportStrainCommand extends ContainerAwareCommand
             if (null !== $chromosomeData['keywords']) {
                 // In the Json file the last keyword have a "." at the end, remove it.
                 end($chromosomeData['keywords']);
-                $chromosomeData['keywords'][key($chromosomeData['keywords'])] = trim(end($chromosomeData['keywords']), ".");
+                $chromosomeData['keywords'][key($chromosomeData['keywords'])] = trim(end($chromosomeData['keywords']), '.');
                 reset($chromosomeData['keywords']);
             }
 

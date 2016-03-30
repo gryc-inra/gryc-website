@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Seo
+ * Seo.
  *
  * @ORM\Entity
  * @ORM\Table(name="seo")
@@ -51,7 +51,7 @@ class Seo
     private $chromosome;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -61,7 +61,7 @@ class Seo
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -75,7 +75,7 @@ class Seo
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -85,7 +85,7 @@ class Seo
     }
 
     /**
-     * Set content
+     * Set content.
      *
      * @param string $content
      *
@@ -99,7 +99,7 @@ class Seo
     }
 
     /**
-     * Get content
+     * Get content.
      *
      * @return string
      */
@@ -109,7 +109,7 @@ class Seo
     }
 
     /**
-     * Set strain
+     * Set strain.
      *
      * @param Strain $strain
      *
@@ -123,7 +123,7 @@ class Seo
     }
 
     /**
-     * Get strain
+     * Get strain.
      *
      * @return Strain
      */
@@ -133,7 +133,7 @@ class Seo
     }
 
     /**
-     * Set species
+     * Set species.
      *
      * @param Species $species
      *
@@ -147,7 +147,7 @@ class Seo
     }
 
     /**
-     * Get species
+     * Get species.
      *
      * @return Species
      */
@@ -157,7 +157,7 @@ class Seo
     }
 
     /**
-     * Set chromosome
+     * Set chromosome.
      *
      * @param Chromosome $species
      *
@@ -171,7 +171,7 @@ class Seo
     }
 
     /**
-     * Get Chromosome
+     * Get Chromosome.
      *
      * @return Species
      */
