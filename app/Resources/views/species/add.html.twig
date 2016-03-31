@@ -19,7 +19,23 @@
 {% block body %}
     <h1>Add a species</h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+
+    <div id="taxid">
+        <div class="form-group">
+            {{ form_label(form.taxid) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.taxid) }}
+            </div>
+            <div class="col-sm-1">
+                <a href="#" class="btn btn-info btn-sm" id="taxid-send"><span class=" glyphicon glyphicon-refresh"></span></a>
+            </div>
+        </div>
+    </div>
+
+    {{ form_rest(form)}}
+
+    {{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
@@ -31,7 +47,7 @@
             var $container = $('div#species_synonymes');
 
             // On ajoute un lien pour ajouter une nouvelle catégorie
-            var $addLink = $('<a href="#" id="add_synonym" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a synonym</a>');
+            var $addLink = $('<p><a href="#" id="add_synonym" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a synonym</a></p>');
             $container.prepend($addLink);
 
             // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
@@ -60,7 +76,7 @@
                 // - le texte "__name__label__" qu'il contient par le label du champ
                 // - le texte "__name__" qu'il contient par le numéro du champ
                 var $prototype = $($container.attr('data-prototype')
-                        .replace(/__name__label__/g, index)
+                        .replace(/__name__label__/g, '')
                         .replace(/__name__/g, index));
 
                 // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
@@ -97,7 +113,7 @@
             var $container = $('div#species_lineages');
 
             // On ajoute un lien pour ajouter une nouvelle catégorie
-            var $addLink = $('<a href="#" id="add_synonym" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a lineage</a>');
+            var $addLink = $('<p><a href="#" id="add_lineage" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a lineage</a></p>');
             $container.prepend($addLink);
 
             // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
@@ -126,7 +142,7 @@
                 // - le texte "__name__label__" qu'il contient par le label du champ
                 // - le texte "__name__" qu'il contient par le numéro du champ
                 var $prototype = $($container.attr('data-prototype')
-                        .replace(/__name__label__/g, index)
+                        .replace(/__name__label__/g, '')
                         .replace(/__name__/g, index));
 
                 // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
@@ -152,6 +168,65 @@
                     $prototype.remove();
                     e.preventDefault(); // évite qu'un # apparaisse dans l'URL
                     return false;
+                });
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#taxid-send").click(function (e) {
+                // To prevent a # in the URL
+                e.preventDefault();
+
+                var taxid = $("#species_taxid").val();
+
+                if (taxid.length > 0)
+                    var url = "{{ path('species_getjson', { 'taxid': 'taxid-change' }) }}";
+                    url = url.replace('taxid-change', taxid);
+
+                    $.ajax({
+                        url: url,
+                        dataType: 'json',
+                        beforeSend: function() {
+                            $("body").css("cursor", "progress");
+                            // Remove previous error messages
+                            $("div#taxid > .form-group").removeClass("has-error");
+                            $("div#taxid > .form-group > .col-sm-9 > .help-block").remove();
+                        },
+                        success: function (data) {
+                            if ("error" in data) {
+                                $("div#taxid > .form-group").addClass("has-error");
+                                $("div#taxid > .form-group > .col-sm-9").append("<span class='help-block'><ul class='list-unstyled'><li><span class='glyphicon glyphicon-exclamation-sign'></span> "+ data.error +"</li> </ul></span>");
+                            } else {
+                                populate(data);
+                            }
+                        },
+                        complete: function () {
+                            $("body").css("cursor", "default");
+                        }
+                    });
+            });
+
+            function populate(data) {
+                $.each(data, function(key, value){
+                    // If this is a lineages or synonymes array, create fields before
+                    if (key == 'synonymes' || key == 'lineages') {
+                        // Create fields
+                        for(i = 1; i < value.length; i++) {
+                            if (key == 'synonymes')
+                                $('#add_synonym').get(0).click();
+                            else
+                                $('#add_lineage').get(0).click();
+                        }
+
+                        // Hydrate the fields
+                        $.each(value, function(subkey, subvalue){
+                            $(' #species_'+key+'_'+subkey).val(subvalue);
+                        });
+                    } else {
+                        $(' #species_'+key).val(value);
+                    }
                 });
             }
         });
