@@ -1,7 +1,7 @@
 <?php
-//src/Twig/SlugifyExtension.php
+// src/AppBundle/Utils/SlugifyExtension.php
 
-namespace AppBundle\Twig;
+namespace AppBundle\Utils;
 
 class SlugifyExtension extends \Twig_Extension
 {

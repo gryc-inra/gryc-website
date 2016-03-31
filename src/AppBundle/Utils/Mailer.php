@@ -1,7 +1,7 @@
 <?php
-// src/AppBundle/Services/Mailer.php
+// src/AppBundle/Utils/Mailer.php
 
-namespace AppBundle\Services;
+namespace AppBundle\Utils;
 
 use AppBundle\Entity\ContactUs;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
