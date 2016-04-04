@@ -72,8 +72,6 @@
                                         {# Si l'utilisateur est un administrateur #}
                                         {% if is_granted('ROLE_ADMIN') %}
                                             <li><a href="{{ path('admin_index') }}"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
-                                            {% set nbMessages =  render(controller("AppBundle:ContactUs:numberMessage")) %}
-                                            <li><a href="{{ path('contact_us_homepage') }}"><span class="glyphicon glyphicon-envelope"></span> {% if nbMessages > 1 %}Messages{% else %}Message{% endif %} <span class="badge">{{ nbMessages }}</span></a></li>
                                             <li role="separator" class="divider"></li>
                                         {% endif %}
                                         <li><a href="{{ path("fos_user_profile_show") }}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
