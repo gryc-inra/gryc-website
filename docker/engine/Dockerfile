@@ -13,3 +13,5 @@ RUN docker-php-ext-enable \
         xdebug \
         apcu
 RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/local/bin --filename=composer && chmod +x /usr/local/bin/composer
+RUN npm install -g uglify-js
+RUN npm install -g uglifycss
