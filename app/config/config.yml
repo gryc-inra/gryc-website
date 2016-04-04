@@ -52,7 +52,6 @@ twig:
 assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
-    write_to:       '%kernel.root_dir%/../web/compiled/'
     node:           /usr/bin/nodejs
     filters:
         cssrewrite: ~

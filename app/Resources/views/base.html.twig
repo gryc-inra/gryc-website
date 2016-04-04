@@ -20,7 +20,7 @@
 
             {% stylesheets
               'css/bootstrap-modifications.css'
-            filter='?uglifycss' filter='cssrewrite' %}
+            filter='?uglifycss' filter='cssrewrite' output='css/compiled/app.css' %}
                 <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
         {% endblock %}
@@ -189,7 +189,7 @@
             {% javascripts
               'js/auto-dismiss-alert.js'
               'js/quick-search.js'
-            filter='?uglifyjs2' %}
+            filter='?uglifyjs2' output='js/compiled/app.js' %}
                 <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
 

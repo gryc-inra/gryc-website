@@ -21,9 +21,6 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-/web/compiled/*
-!/web/compiled/css
-/web/compiled/css/*
-!/web/compiled/js
-/web/compiled/js/*
+/web/css/compiled/*
+/web/js/compiled/*
 docker-compose.yml
