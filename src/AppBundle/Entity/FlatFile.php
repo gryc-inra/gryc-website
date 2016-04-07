@@ -5,11 +5,16 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * The flat files, linked by chromosomes.
+ *
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FlatFileRepository")
  */
 class FlatFile extends CopiedFile
 {
     /**
+     * The molecule type.
+     * Eg: nuc or prot.
+     * 
      * @var string
      *
      * @ORM\Column(name="molType", type="string", length=255)
@@ -17,6 +22,9 @@ class FlatFile extends CopiedFile
     private $molType;
 
     /**
+     * The feature type.
+     * Eg: CDS, Chromosome or Orf.
+     * 
      * @var string
      *
      * @ORM\Column(name="featureType", type="string", length=255)
@@ -24,6 +32,9 @@ class FlatFile extends CopiedFile
     private $featureType;
 
     /**
+     * The file format.
+     * Eg: embl or fasta.
+     * 
      * @var string
      *
      * @ORM\Column(name="format", type="string", length=255)
@@ -31,6 +42,10 @@ class FlatFile extends CopiedFile
     private $format;
 
     /**
+     * The concerned chromosome.
+     * 
+     * @var Chromosome
+     * 
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Chromosome", inversedBy="flatFiles")
      */
     private $chromosome;
@@ -52,7 +67,7 @@ class FlatFile extends CopiedFile
      *
      * @return FlatFile
      */
-    public function setMolType($molType)
+    public function setMolType(string $molType)
     {
         $this->molType = $molType;
 
@@ -76,7 +91,7 @@ class FlatFile extends CopiedFile
      *
      * @return FlatFile
      */
-    public function setFeatureType($featureType)
+    public function setFeatureType(string $featureType)
     {
         $this->featureType = $featureType;
 
@@ -96,11 +111,11 @@ class FlatFile extends CopiedFile
     /**
      * Set format.
      *
-     * @param string $format.
+     * @param string $format
      *
      * @return FlatFile
      */
-    public function setFormat($format)
+    public function setFormat(string $format)
     {
         $this->format = $format;
 
@@ -141,12 +156,22 @@ class FlatFile extends CopiedFile
         return $this->chromosome;
     }
 
+    /**
+     * Get the upload root directory.
+     * 
+     * @return string
+     */
     protected function getUploadRootDir()
     {
         // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
         return __DIR__.'/../../../protected-files/'.$this->getUploadDir();
     }
 
+    /**
+     * Get the upload directory.
+     * 
+     * @return string
+     */
     protected function getUploadDir()
     {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche

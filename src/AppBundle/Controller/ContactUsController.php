@@ -13,11 +13,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
+ * "Contact us" controller.
+ *
  * @Route("/contact")
  */
 class ContactUsController extends Controller
 {
     /**
+     * Display a contact form for the visitor.
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/", name="contact_us")
      */
     public function contactAction(Request $request)
@@ -62,6 +70,12 @@ class ContactUsController extends Controller
     }
 
     /**
+     * List all messages posted by visitors.
+     *
+     * @param $page
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/list/{page}", name="contact_us_homepage", defaults={"page": 1}, requirements={"page": "\d*"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -97,6 +111,13 @@ class ContactUsController extends Controller
     }
 
     /**
+     * Delete a message.
+     *
+     * @param ContactUs $message
+     * @param Request   $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/delete/{id}", name="contact_us_delete", requirements={"id": "\d+"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -128,6 +149,18 @@ class ContactUsController extends Controller
     }
 
     /**
+     * @Route("/reply/{id}", name="contact_us_reply", requirements={"id": "\d+"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+
+    /**
+     * Reply to a message.
+     *
+     * @param ContactUs $message
+     * @param Request   $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/reply/{id}", name="contact_us_reply", requirements={"id": "\d+"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -178,6 +211,11 @@ class ContactUsController extends Controller
         ));
     }
 
+    /**
+     * Count the number of messages.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function numberMessageAction()
     {
         // Compter le nombe de message dans la base de données

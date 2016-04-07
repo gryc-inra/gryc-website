@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ContactUs
 {
     /**
+     * Id in the database.
+     *
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -23,6 +25,8 @@ class ContactUs
     private $id;
 
     /**
+     * The user first name.
+     *
      * @var string
      *
      * @ORM\Column(name="firstName", type="string", length=255)
@@ -31,6 +35,8 @@ class ContactUs
     private $firstName;
 
     /**
+     * The user last name.
+     *
      * @var string
      *
      * @ORM\Column(name="lastName", type="string", length=255)
@@ -39,6 +45,8 @@ class ContactUs
     private $lastName;
 
     /**
+     * The user email.
+     *
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
@@ -47,6 +55,8 @@ class ContactUs
     private $email;
 
     /**
+     * The message subject.
+     *
      * @var string
      *
      * @ORM\Column(name="subject", type="string", length=255)
@@ -55,6 +65,8 @@ class ContactUs
     private $subject;
 
     /**
+     * The message content.
+     *
      * @var string
      *
      * @ORM\Column(name="message", type="text")
@@ -63,6 +75,8 @@ class ContactUs
     private $message;
 
     /**
+     * The question date.
+     *
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
@@ -71,12 +85,17 @@ class ContactUs
     private $date;
 
     /**
-     * @var \stdClass
+     * The category.
+     *
+     * @var ContactUsCategory
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ContactUsCategory")
      */
     private $category;
 
+    /**
+     * ContactUs constructor.
+     */
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -99,7 +118,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setFirstName($firstName)
+    public function setFirstName(string $firstName)
     {
         $this->firstName = $firstName;
 
@@ -123,7 +142,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setLastName($lastName)
+    public function setLastName(string $lastName)
     {
         $this->lastName = $lastName;
 
@@ -147,7 +166,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setEmail($email)
+    public function setEmail(string $email)
     {
         $this->email = $email;
 
@@ -171,7 +190,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setSubject($subject)
+    public function setSubject(string $subject)
     {
         $this->subject = $subject;
 
@@ -195,7 +214,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setMessage($message)
+    public function setMessage(string $message)
     {
         $this->message = $message;
 
@@ -219,7 +238,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setDate($date)
+    public function setDate(\DateTime $date)
     {
         $this->date = $date;
 
@@ -239,7 +258,7 @@ class ContactUs
     /**
      * Set category.
      *
-     * @param \ContactUsCategory $category
+     * @param ContactUsCategory $category
      *
      * @return ContactUs
      */
@@ -253,7 +272,7 @@ class ContactUs
     /**
      * Get category.
      *
-     * @return \ContactUsCategory
+     * @return ContactUsCategory
      */
     public function getCategory()
     {

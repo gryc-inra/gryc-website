@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Seo
 {
     /**
+     * The ID in the database.
+     *
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -22,6 +24,9 @@ class Seo
     private $id;
 
     /**
+     * The name attribut.
+     * <meta name="" content="" />.
+     *
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -29,6 +34,9 @@ class Seo
     private $name;
 
     /**
+     * The content attribut.
+     * <meta name="" content="" />.
+     *
      * @var string
      *
      * @ORM\Column(name="content", type="text")
@@ -36,16 +44,31 @@ class Seo
     private $content;
 
     /**
+     * The concerned strain.
+     * Strain or Species or Chromosome.
+     *
+     * @var Strain
+     * 
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Strain", inversedBy="seos")
      */
     private $strain;
 
     /**
+     * The concerned species.
+     * Species or Strain or Chromosome.
+     * 
+     * @var Species
+     * 
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="seos")
      */
     private $species;
 
     /**
+     * The concerned chromosome.
+     * Chromosome or Strain or Species.
+     *
+     * @var Chromosome
+     * 
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Chromosome", inversedBy="seos")
      */
     private $chromosome;
@@ -67,7 +90,7 @@ class Seo
      *
      * @return Seo
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -91,7 +114,7 @@ class Seo
      *
      * @return Seo
      */
-    public function setContent($content)
+    public function setContent(string $content)
     {
         $this->content = $content;
 

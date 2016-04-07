@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Clade
 {
     /**
+     * The ID in the database.
+     * 
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -23,6 +26,8 @@ class Clade
     private $id;
 
     /**
+     * The name of the clade.
+     * 
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
@@ -32,6 +37,8 @@ class Clade
     private $name;
 
     /**
+     * The description of the clade.
+     * 
      * @var string
      *
      * @ORM\Column(name="description", type="text")
@@ -40,6 +47,9 @@ class Clade
     private $description;
 
     /**
+     * Is it a main clade ?
+     * true -> yes, false -> no.
+     * 
      * @var bool
      *
      * @ORM\Column(name="mainClade", type="boolean")
@@ -47,9 +57,21 @@ class Clade
     private $mainClade;
 
     /**
+     * A collection of species in this clade.
+     * 
+     * @var Species|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="clade", cascade={"remove"})
      */
     private $species;
+
+    /**
+     * Clade constructor.
+     */
+    public function __construct()
+    {
+        $this->species = new ArrayCollection();
+    }
 
     /**
      * Get id.
@@ -68,7 +90,7 @@ class Clade
      *
      * @return Clade
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -92,7 +114,7 @@ class Clade
      *
      * @return Clade
      */
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
 
@@ -116,7 +138,7 @@ class Clade
      *
      * @return Clade
      */
-    public function setMainClade($mainClade)
+    public function setMainClade(bool $mainClade)
     {
         $this->mainClade = $mainClade;
 
@@ -147,6 +169,11 @@ class Clade
         }
     }
 
+    /**
+     * Get species.
+     *
+     * @return Species|ArrayCollection
+     */
     public function getSpecies()
     {
         return $this->species;

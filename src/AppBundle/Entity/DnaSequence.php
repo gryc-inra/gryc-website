@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class DnaSequence
 {
     /**
+     * The ID in the database.
+     * 
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -22,6 +24,8 @@ class DnaSequence
     private $id;
 
     /**
+     * The number of letters in the sequence.
+     * 
      * @var array
      *
      * @ORM\Column(name="letterCount", type="array")
@@ -29,6 +33,8 @@ class DnaSequence
     private $letterCount;
 
     /**
+     * The DNA sequence.
+     * 
      * @var string
      *
      * @ORM\Column(name="dna", type="text")
@@ -52,7 +58,7 @@ class DnaSequence
      *
      * @return DnaSequence
      */
-    public function setLetterCount($letterCount)
+    public function setLetterCount(array $letterCount)
     {
         $this->letterCount = $letterCount;
 
@@ -76,7 +82,7 @@ class DnaSequence
      *
      * @return DnaSequence
      */
-    public function setDna($dna)
+    public function setDna(string $dna)
     {
         $this->dna = $dna;
 

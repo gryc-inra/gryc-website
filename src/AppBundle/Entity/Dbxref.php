@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Dbxref
 {
     /**
+     * The ID in the database.
+     * 
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -22,6 +24,8 @@ class Dbxref
     private $id;
 
     /**
+     * The name of the dbxref.
+     * 
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
@@ -29,6 +33,8 @@ class Dbxref
     private $name;
 
     /**
+     * The description.
+     * 
      * @var string
      *
      * @ORM\Column(name="description", type="text")
@@ -36,6 +42,8 @@ class Dbxref
     private $description;
 
     /**
+     * The pattern of the DBXREF.
+     * 
      * @var string
      *
      * @ORM\Column(name="pattern", type="string", length=255, unique=true)
@@ -43,6 +51,8 @@ class Dbxref
     private $pattern;
 
     /**
+     * The URL.
+     * 
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255)
@@ -50,6 +60,8 @@ class Dbxref
     private $url;
 
     /**
+     * The source.
+     * 
      * @var string
      *
      * @ORM\Column(name="source", type="string", length=255)
@@ -73,7 +85,7 @@ class Dbxref
      *
      * @return Dbxref
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -97,7 +109,7 @@ class Dbxref
      *
      * @return Dbxref
      */
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
 
@@ -121,7 +133,7 @@ class Dbxref
      *
      * @return Dbxref
      */
-    public function setPattern($pattern)
+    public function setPattern(string $pattern)
     {
         $this->pattern = $pattern;
 
@@ -145,7 +157,7 @@ class Dbxref
      *
      * @return Dbxref
      */
-    public function setUrl($url)
+    public function setUrl(string $url)
     {
         $this->url = $url;
 
@@ -169,7 +181,7 @@ class Dbxref
      *
      * @return Dbxref
      */
-    public function setSource($source)
+    public function setSource(string $source)
     {
         $this->source = $source;
 

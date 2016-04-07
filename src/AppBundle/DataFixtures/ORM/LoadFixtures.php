@@ -9,6 +9,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Load Fixtures.
+ * Just fill the database with some data for development.
+ */
 class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
 {
     private $container;

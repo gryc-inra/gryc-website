@@ -9,12 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * The user entity.
+ *
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  */
 class User extends BaseUser
 {
     /**
+     * The ID in the database.
+     * 
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -22,28 +26,47 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * The first name of the user.
+     * 
+     * @var string
+     *
      * @ORM\Column(name="first_name", type="string", length=255)
      * @Assert\NotBlank(message="Please enter your first name.", groups={"Registration", "Profile"})
      */
     private $firstName;
 
     /**
+     * The last name of the user.
+     * 
+     * @var string
+     *
      * @ORM\Column(name="last_name", type="string", length=255)
      * @Assert\NotBlank(message="Please enter your last name.", groups={"Registration", "Profile"})
      */
     private $lastName;
 
     /**
+     * The company of the user.
+     * 
+     * @var string
+     *
      * @ORM\Column(name="company", type="string", length=255)
      * @Assert\NotBlank(message="Please enter your company's name.", groups={"Registration", "Profile"})
      */
     private $company;
 
     /**
+     * The authorized strains for this user.
+     * 
+     * @var Strain|ArrayCollection
+     *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Strain", inversedBy="authorizedUsers")
      */
     private $authorizedStrains;
 
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -57,7 +80,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setFirstName($firstName)
+    public function setFirstName(string $firstName)
     {
         $this->firstName = $firstName;
 
@@ -81,7 +104,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setLastName($lastName)
+    public function setLastName(string $lastName)
     {
         $this->lastName = $lastName;
 
@@ -105,7 +128,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setCompany($company)
+    public function setCompany(string $company)
     {
         $this->company = $company;
 
@@ -122,6 +145,13 @@ class User extends BaseUser
         return $this->company;
     }
 
+    /**
+     * Add an authorized strain.
+     *
+     * @param Strain $strain
+     * 
+     * @return $this
+     */
     public function addAuthorizedStrain(Strain $strain)
     {
         $this->authorizedStrains[] = $strain;
@@ -129,11 +159,21 @@ class User extends BaseUser
         return $this;
     }
 
+    /**
+     * Remove an authorized strain.
+     *
+     * @param Strain $strain
+     */
     public function removeAuthorizedStrain(Strain $strain)
     {
         $this->authorizedStrains->removeElement($strain);
     }
 
+    /**
+     * Get authorized strains.
+     *
+     * @return Strain|ArrayCollection
+     */
     public function getAuthorizedStrains()
     {
         return $this->authorizedStrains;

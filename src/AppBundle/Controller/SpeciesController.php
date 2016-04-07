@@ -13,11 +13,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Regex;
 
+/**
+ * Species controller.
+ */
 class SpeciesController extends Controller
 {
+    /**
+     * A constant that contain the api url.
+     */
     const NCBI_TAXONOMY_API_LINK = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=taxonomy&id=';
 
     /**
+     * List species authorized for the user.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/species", name="species_homepage")
      */
     public function indexAction()
@@ -31,6 +41,12 @@ class SpeciesController extends Controller
     }
 
     /**
+     * View a species.
+     *
+     * @param $speciesSlug
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/species/{speciesSlug}", name="species_view")
      */
     public function viewAction($speciesSlug)
@@ -48,6 +64,10 @@ class SpeciesController extends Controller
     }
 
     /**
+     * List all the species in the admin section.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/admin/species/list", name="species_list")
      */
     public function listAction()
@@ -61,6 +81,12 @@ class SpeciesController extends Controller
     }
 
     /**
+     * Add a species.
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/admin/species/add", name="species_add")
      */
     public function addAction(Request $request)
@@ -90,6 +116,13 @@ class SpeciesController extends Controller
     }
 
     /**
+     * Edit a species.
+     *
+     * @param Request $request
+     * @param Species $species
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/admin/species/{id}/edit", name="species_edit")
      */
     public function editAction(Request $request, Species $species)
@@ -117,6 +150,13 @@ class SpeciesController extends Controller
     }
 
     /**
+     * Delete a species.
+     *
+     * @param Request $request
+     * @param Species $species
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/admin/species/{id}/delete", name="species_delete")
      */
     public function deleteAction(Request $request, Species $species)
@@ -146,6 +186,13 @@ class SpeciesController extends Controller
     }
 
     /**
+     * Consult the ncbi taxonomy api, and return a json with the interesting data.
+     * Used in AddSpecies for the autocomplete method.
+     *
+     * @param $taxid
+     *
+     * @return JsonResponse
+     *
      * @Route("/admin/species/json/{taxid}", name="species_getjson", condition="request.isXmlHttpRequest()")
      */
     public function getJsonAction($taxid)

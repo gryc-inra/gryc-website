@@ -13,9 +13,18 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Regex;
 
+/**
+ * Strain controller.
+ */
 class StrainController extends Controller
 {
     /**
+     * View a strain.
+     *
+     * @param Strain $strain
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("species/{speciesSlug}/{strainSlug}", name="strain_view")
      * @ParamConverter("strain", class="AppBundle:Strain", options={
      *     "repository_method": "getStrainWithFlatFiles",
@@ -32,6 +41,10 @@ class StrainController extends Controller
     }
 
     /**
+     * List all the strains in the admin section.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/admin/strain/list", name="strain_list")
      */
     public function listAction()
@@ -45,6 +58,13 @@ class StrainController extends Controller
     }
 
     /**
+     * Edit a strain.
+     *
+     * @param Request $request
+     * @param Strain  $strain
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/admin/strain/{id}/edit", name="strain_edit")
      */
     public function editAction(Request $request, Strain $strain)
@@ -72,6 +92,13 @@ class StrainController extends Controller
     }
 
     /**
+     * Delete a strain.
+     *
+     * @param Request $request
+     * @param Strain  $strain
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/admin/strain/{id}/delete", name="strain_delete")
      */
     public function deleteAction(Request $request, Strain $strain)

@@ -11,11 +11,17 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
+ * Admin user management controller.
+ *
  * @Route("admin/user")
  */
 class AdminUserController extends Controller
 {
     /**
+     * List all users.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/list", name="user_list")
      */
     public function listAction()
@@ -29,6 +35,13 @@ class AdminUserController extends Controller
     }
 
     /**
+     * Edit user rights.
+     *
+     * @param Request $request
+     * @param User    $user
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/edit-rights/{usernameCanonical}", name="user_rights_edit")
      */
     public function editRightsAction(Request $request, User $user)
@@ -57,6 +70,13 @@ class AdminUserController extends Controller
     }
 
     /**
+     * Edit user roles.
+     *
+     * @param Request $request
+     * @param User    $user
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/edit-roles/{usernameCanonical}", name="user_roles_edit")
      */
     public function editRolesAction(Request $request, User $user)

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Chromosome.
+ * Chromosome entity.
  *
  * @ORM\Table(name="chromosome")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ChromosomeRepository")
@@ -15,6 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Chromosome
 {
     /**
+     * The ID in the database.
+     *
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -24,6 +26,8 @@ class Chromosome
     private $id;
 
     /**
+     * The name of the chromosome.
+     *
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -31,6 +35,8 @@ class Chromosome
     private $name;
 
     /**
+     * An array of accessions.
+     *
      * @var array
      *
      * @ORM\Column(name="accessions", type="array", nullable=true)
@@ -38,6 +44,8 @@ class Chromosome
     private $accessions;
 
     /**
+     * The chromosome description.
+     *
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255)
@@ -45,6 +53,8 @@ class Chromosome
     private $description;
 
     /**
+     * An array of keywords for the chromosome.
+     *
      * @var array
      *
      * @ORM\Column(name="keywords", type="array")
@@ -52,6 +62,8 @@ class Chromosome
     private $keywords;
 
     /**
+     * The project ID.
+     *
      * @var string
      *
      * @ORM\Column(name="projectId", type="string", length=255)
@@ -59,6 +71,8 @@ class Chromosome
     private $projectId;
 
     /**
+     * When the chromosome was created.
+     *
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreated", type="datetime")
@@ -66,6 +80,8 @@ class Chromosome
     private $dateCreated;
 
     /**
+     * The num created.
+     *
      * @var int
      *
      * @ORM\Column(name="numCreated", type="integer", nullable=true)
@@ -73,6 +89,8 @@ class Chromosome
     private $numCreated;
 
     /**
+     * When the chromosome was released.
+     *
      * @var \DateTime
      *
      * @ORM\Column(name="dateReleased", type="datetime")
@@ -80,6 +98,8 @@ class Chromosome
     private $dateReleased;
 
     /**
+     * The numReleased.
+     * 
      * @var int
      *
      * @ORM\Column(name="numReleased", type="integer", nullable=true)
@@ -87,6 +107,8 @@ class Chromosome
     private $numReleased;
 
     /**
+     * The version of the chromosome.
+     *
      * @var int
      *
      * @ORM\Column(name="numVersion", type="integer", nullable=true)
@@ -94,6 +116,8 @@ class Chromosome
     private $numVersion;
 
     /**
+     * The length of the chromosome.
+     *
      * @var int
      *
      * @ORM\Column(name="length", type="integer")
@@ -101,6 +125,8 @@ class Chromosome
     private $length;
 
     /**
+     * The G/C percent.
+     *
      * @var float
      *
      * @ORM\Column(name="gc", type="float")
@@ -108,6 +134,8 @@ class Chromosome
     private $gc;
 
     /**
+     * The number of CDS.
+     *
      * @var int
      *
      * @ORM\Column(name="cdsCount", type="integer")
@@ -115,6 +143,9 @@ class Chromosome
     private $cdsCount;
 
     /**
+     * Is it mitochondrial ?
+     * true -> yes, false -> no.
+     *
      * @var bool
      *
      * @ORM\Column(name="mitochondrial", type="boolean")
@@ -122,6 +153,8 @@ class Chromosome
     private $mitochondrial;
 
     /**
+     * A comment on this chromosome.
+     *
      * @var string
      *
      * @ORM\Column(name="comment", type="text")
@@ -129,6 +162,8 @@ class Chromosome
     private $comment;
 
     /**
+     * The strain that owned the chromosome.
+     *
      * @var Strain
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Strain", inversedBy="chromosomes")
@@ -137,6 +172,8 @@ class Chromosome
     private $strain;
 
     /**
+     * The DNA sequence of the chromosome.
+     *
      * @var DnaSequence
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\DnaSequence", cascade={"persist", "remove"})
@@ -145,17 +182,29 @@ class Chromosome
     private $dnaSequence;
 
     /**
+     * Flat files of the chromsomes.
+     *
+     * @var FlatFile|ArrayCollection
+     * 
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\FlatFile", mappedBy="chromosome", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $flatFiles;
 
     /**
+     * The seo linked on the chromosome.
+     *
+     * @var Seo|ArrayCollection
+     * 
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Seo", mappedBy="chromosome", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $seos;
 
     /**
+     * A slug for url.
+     *
+     * @var string
+     * 
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
      */
@@ -189,7 +238,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -213,7 +262,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function addAccession($accession)
+    public function addAccession(string $accession)
     {
         if (!empty($accession) && !in_array($accession, $this->accessions, true)) {
             $this->accessions[] = $accession;
@@ -225,11 +274,11 @@ class Chromosome
     /**
      * Remove accession.
      *
-     * @var string
+     * @param string $accession
      *
      * @return Chromosome
      */
-    public function removeAccession($accession)
+    public function removeAccession(string $accession)
     {
         if (false !== $key = array_search($accession, $this->accessions, true)) {
             unset($this->accessions[$key]);
@@ -258,7 +307,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setAccession($accessions)
+    public function setAccession(array $accessions)
     {
         foreach ($accessions as $accession) {
             $this->addAccession($accession);
@@ -284,7 +333,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
 
@@ -308,7 +357,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function addKeyword($keyword)
+    public function addKeyword(string $keyword)
     {
         if (!empty($keyword) && !in_array($keyword, $this->keywords)) {
             $this->keywords[] = $keyword;
@@ -320,11 +369,11 @@ class Chromosome
     /**
      * Remove keyword.
      *
-     * @var string
+     * @param string $keyword
      *
      * @return Chromosome
      */
-    public function removeKeyword($keyword)
+    public function removeKeyword(string $keyword)
     {
         if (false !== $key = array_search($keyword, $this->keywords)) {
             unset($this->keywords[$key]);
@@ -353,7 +402,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setKeywords($keywords)
+    public function setKeywords(array $keywords)
     {
         foreach ($keywords as $keyword) {
             $this->addKeyword($keyword);
@@ -379,7 +428,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setProjectId($projectId)
+    public function setProjectId(string $projectId)
     {
         $this->projectId = $projectId;
 
@@ -403,7 +452,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setDateCreated($dateCreated)
+    public function setDateCreated(\DateTime $dateCreated)
     {
         $this->dateCreated = $dateCreated;
 
@@ -427,7 +476,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setNumCreated($numCreated)
+    public function setNumCreated(int $numCreated)
     {
         $this->numCreated = $numCreated;
 
@@ -451,7 +500,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setDateReleased($dateReleased)
+    public function setDateReleased(\DateTime $dateReleased)
     {
         $this->dateReleased = $dateReleased;
 
@@ -475,7 +524,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setNumReleased($numReleased)
+    public function setNumReleased(int $numReleased)
     {
         $this->numReleased = $numReleased;
 
@@ -499,7 +548,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setNumVersion($numVersion)
+    public function setNumVersion(int $numVersion)
     {
         $this->numVersion = $numVersion;
 
@@ -523,7 +572,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setLength($length)
+    public function setLength(int $length)
     {
         $this->length = $length;
 
@@ -547,7 +596,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setGc($gc)
+    public function setGc(float $gc)
     {
         $this->gc = $gc;
 
@@ -571,7 +620,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setCdsCount($cdsCount)
+    public function setCdsCount(int $cdsCount)
     {
         $this->cdsCount = $cdsCount;
 
@@ -595,7 +644,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setMitochondrial($mitochondrial)
+    public function setMitochondrial(bool $mitochondrial)
     {
         $this->mitochondrial = $mitochondrial;
 
@@ -619,7 +668,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setComment($comment)
+    public function setComment(string $comment)
     {
         $this->comment = $comment;
 
@@ -716,7 +765,7 @@ class Chromosome
     /**
      * Get FlatFile.
      *
-     * @return ArrayCollection
+     * @return FlatFile|ArrayCollection
      */
     public function getFlatFiles()
     {
@@ -727,6 +776,8 @@ class Chromosome
      * Add Seo.
      *
      * @param Seo $seo
+     * 
+     * @return Chromosome
      */
     public function addSeo(Seo $seo)
     {
@@ -749,7 +800,7 @@ class Chromosome
     /**
      * Get Seo.
      *
-     * @return ArrayCollection
+     * @return Seo|ArrayCollection
      */
     public function getSeos()
     {
@@ -763,7 +814,7 @@ class Chromosome
      *
      * @return Species
      */
-    public function setSlug($slug)
+    public function setSlug(string $slug)
     {
         $this->slug = $slug;
 

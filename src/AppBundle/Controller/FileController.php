@@ -9,13 +9,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * Class FileController.
+ * File serving controller.
  * 
  * @route("/files")
  */
 class FileController extends Controller
 {
     /**
+     * Serve flat files in a zip.
+     * This method create and serve the file.
+     * 
+     * @param $strainName
+     * @param $featureType
+     * @param $molType
+     * @param $format
+     * 
+     * @return BinaryFileResponse
+     * 
+     * @throws \Exception
+     *
      * @Route("/{strainName}-{featureType}-{molType}-{format}.zip", name="file_downloadZipFlatFile")
      */
     public function downloadZipFlatFileAction($strainName, $featureType, $molType, $format)
@@ -59,6 +71,17 @@ class FileController extends Controller
     }
 
     /**
+     * Serve flat file.
+     * The method return a xaccel header, then nginx serve the file after control by the controller.
+     * 
+     * @param Request $request
+     * @param $chromosomeName
+     * @param $featureType
+     * @param $molType
+     * @param $format
+     * 
+     * @return BinaryFileResponse
+     * 
      * @Route("/{chromosomeName}-{featureType}-{molType}.{format}", name="file_downloadFlatFile")
      */
     public function downloadFlatFileAction(Request $request, $chromosomeName, $featureType, $molType, $format)

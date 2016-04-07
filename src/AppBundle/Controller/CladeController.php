@@ -13,11 +13,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Regex;
 
 /**
+ * Clade controller.
+ * 
  * @Route("/admin/clade")
  */
 class CladeController extends Controller
 {
     /**
+     * List all the clades.
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     * 
      * @Route("/list", name="clades_list")
      */
     public function listAction()
@@ -31,6 +37,12 @@ class CladeController extends Controller
     }
 
     /**
+     * Add a clade.
+     * 
+     * @param Request $request
+     * 
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * 
      * @Route("/add", name="clade_add")
      */
     public function addAction(Request $request)
@@ -60,6 +72,13 @@ class CladeController extends Controller
     }
 
     /**
+     * Edit a clade.
+     * 
+     * @param Request $request
+     * @param Clade   $clade
+     * 
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * 
      * @Route("/{id}/edit", name="clade_edit")
      */
     public function editAction(Request $request, Clade $clade)
@@ -90,6 +109,13 @@ class CladeController extends Controller
     }
 
     /**
+     * Delete a clade.
+     * 
+     * @param Request $request
+     * @param Clade   $clade
+     * 
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * 
      * @Route("/{id}/delete", name="clade_delete")
      */
     public function deleteAction(Request $request, Clade $clade)

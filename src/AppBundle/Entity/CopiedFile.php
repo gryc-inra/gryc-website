@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
+ * A general class inherit by other copied files.
+ *
  * @ORM\Entity
  * @ORM\Table(name="copiedFile")
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -16,6 +18,8 @@ use Symfony\Component\Filesystem\Filesystem;
 class CopiedFile
 {
     /**
+     * The ID in the database.
+     * 
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -23,16 +27,38 @@ class CopiedFile
     private $id;
 
     /**
+     * The path of the file on the server.
+     * 
+     * @var string
+     * 
      * @ORM\Column(name="path", type="string", length=255, unique=true)
      */
     private $path;
 
+    /**
+     * The path of the file on the system (befor import).
+     * 
+     * @var string
+     */
     private $fileSystemPath;
 
+    /**
+     * A temporaty path, before deletion.
+     * 
+     * @var string
+     */
     private $tempPath;
 
+    /**
+     * The filesystem object.
+     * 
+     * @var Filesystem
+     */
     private $fs;
 
+    /**
+     * CopiedFile constructor.
+     */
     public function __construct()
     {
         $this->fs = new Filesystem();
@@ -53,9 +79,9 @@ class CopiedFile
      *
      * @param string $path
      *
-     * @return File
+     * @return string
      */
-    public function setPath($path)
+    public function setPath(string $path)
     {
         $this->path = $path;
 
@@ -72,7 +98,12 @@ class CopiedFile
         return $this->path;
     }
 
-    public function setFileSystemPath($fileSystemPath)
+    /**
+     * Set fileSystemPath.
+     * 
+     * @param string $fileSystemPath
+     */
+    public function setFileSystemPath(string $fileSystemPath)
     {
         $this->fileSystemPath = $fileSystemPath;
 
@@ -128,6 +159,8 @@ class CopiedFile
     }
 
     /**
+     * Before persist or update.
+     *
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
@@ -141,6 +174,8 @@ class CopiedFile
     }
 
     /**
+     * After persist or update.
+     *
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
@@ -162,6 +197,8 @@ class CopiedFile
     }
 
     /**
+     * Before remove.
+     *
      * @ORM\PreRemove()
      */
     public function preRemoveUpload()
@@ -170,6 +207,8 @@ class CopiedFile
     }
 
     /**
+     * After remove.
+     *
      * @ORM\PostRemove()
      */
     public function removeUpload()

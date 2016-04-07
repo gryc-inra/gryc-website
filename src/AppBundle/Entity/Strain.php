@@ -15,6 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Strain
 {
     /**
+     * The ID in the database.
+     * 
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -24,6 +26,8 @@ class Strain
     private $id;
 
     /**
+     * The name of the strain.
+     * 
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
@@ -31,6 +35,8 @@ class Strain
     private $name;
 
     /**
+     * An array of synonymes.
+     * 
      * @var array
      *
      * @ORM\Column(name="synonymes", type="array")
@@ -38,6 +44,8 @@ class Strain
     private $synonymes;
 
     /**
+     * The length of the strain. (Total of chromosomes length).
+     * 
      * @var int
      *
      * @ORM\Column(name="length", type="integer")
@@ -45,6 +53,8 @@ class Strain
     private $length;
 
     /**
+     * The G/C percentage.
+     * 
      * @var float
      *
      * @ORM\Column(name="gc", type="float")
@@ -52,6 +62,9 @@ class Strain
     private $gc;
 
     /**
+     * The status of the strain.
+     * Eg: complete.
+     * 
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=255)
@@ -59,6 +72,8 @@ class Strain
     private $status;
 
     /**
+     * The number of CDS.
+     * 
      * @var int
      *
      * @ORM\Column(name="cdsCount", type="integer")
@@ -66,7 +81,9 @@ class Strain
     private $cdsCount;
 
     /**
-     * @var Chromosome
+     * The owned chromosomes.
+     * 
+     * @var Chromosome|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Chromosome", mappedBy="strain", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
@@ -74,32 +91,57 @@ class Strain
     private $chromosomes;
 
     /**
+     * The parent species.
+     * 
+     * @var Species
+     * 
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="strains")
      * @ORM\JoinColumn(nullable=false)
      */
     private $species;
 
     /**
+     * The Seo linked on the species.
+     * 
+     * @var Seo|ArrayCollection
+     * 
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Seo", mappedBy="strain", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $seos;
 
     /**
+     * The slug, for url.
+     * 
+     * @var string
+     * 
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
      */
     private $slug;
 
     /**
+     * Is the strain public ?
+     * Eg: true (public) or false (private).
+     * 
+     * @var bool
+     * 
      * @ORM\Column(name="public", type="boolean")
      */
     private $public = false;
 
     /**
+     * The authorized user.
+     * For private strains only.
+     * 
+     * @var User|ArrayCollection
+     * 
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="authorizedStrains")
      */
     private $authorizedUsers;
 
+    /**
+     * Strain constructor.
+     */
     public function __construct()
     {
         $this->synonymes = array();
@@ -125,7 +167,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -149,7 +191,7 @@ class Strain
      *
      * @return Species
      */
-    public function addSynonym($synonym)
+    public function addSynonym(string $synonym)
     {
         if (!empty($synonym) && !in_array($synonym, $this->synonymes, true)) {
             $this->synonymes[] = $synonym;
@@ -165,7 +207,7 @@ class Strain
      *
      * @return Species
      */
-    public function removeSynonym($synonym)
+    public function removeSynonym(string $synonym)
     {
         if (false !== $key = array_search($synonym, $this->synonymes, true)) {
             unset($this->synonymes[$key]);
@@ -194,7 +236,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setSynonymes($synonymes)
+    public function setSynonymes(array $synonymes)
     {
         foreach ($synonymes as $synonym) {
             $this->addSynonym($synonym);
@@ -220,7 +262,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setLength($length)
+    public function setLength(int $length)
     {
         $this->length = $length;
 
@@ -244,7 +286,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setGc($gc)
+    public function setGc(float $gc)
     {
         $this->gc = $gc;
 
@@ -268,7 +310,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
 
@@ -292,7 +334,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setCdsCount($cdsCount)
+    public function setCdsCount(int $cdsCount)
     {
         $this->cdsCount = $cdsCount;
 
@@ -376,6 +418,8 @@ class Strain
      * Add Seo.
      *
      * @param Seo $seo
+     * 
+     * @return Strain
      */
     public function addSeo(Seo $seo)
     {
@@ -398,7 +442,7 @@ class Strain
     /**
      * Get Seo.
      *
-     * @return ArrayCollection
+     * @return Seo|ArrayCollection
      */
     public function getSeos()
     {
@@ -412,7 +456,7 @@ class Strain
      *
      * @return Species
      */
-    public function setSlug($slug)
+    public function setSlug(string $slug)
     {
         $this->slug = $slug;
 
@@ -473,6 +517,11 @@ class Strain
         return !$this->isPublic();
     }
 
+    /**
+     * Return if the strain is public or no, in letter.
+     * 
+     * @return string
+     */
     public function isPublicToString()
     {
         if ($this->isPublic()) {
@@ -482,6 +531,11 @@ class Strain
         }
     }
 
+    /**
+     * Return if the strain is private or no, in letter.
+     *
+     * @return string
+     */
     public function isPrivateToString()
     {
         if ($this->isPrivate()) {
@@ -518,7 +572,7 @@ class Strain
     /**
      * Get authorized users.
      *
-     * @return ArrayCollection
+     * @return User|ArrayCollection
      */
     public function getAuthorizedUsers()
     {

@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class ContactUsCategory
 {
     /**
+     * The ID in the database.
+     * 
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -22,6 +24,8 @@ class ContactUsCategory
     private $id;
 
     /**
+     * The name of the category.
+     * 
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -45,7 +49,7 @@ class ContactUsCategory
      *
      * @return ContactUsCategory
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 

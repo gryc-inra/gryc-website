@@ -3,26 +3,23 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * Gestion des pages statiques du site.
- *
- * @author Mathieu Piot (mathieu.piot[at]agroparistech.fr)
+ * Static pages controller.
  *
  * @Route("/")
  */
 class DefaultController extends Controller
 {
     /**
-     * Page d'accueil du site.
+     * Homepage.
      *
-     * @return view
+     * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -35,13 +32,13 @@ class DefaultController extends Controller
     }
 
     /**
-     * Page sur la politique de confidentialité.
+     * Privacy policy page.
      *
-     * @return view
+     * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/privacy-policy", name="privacy-policy")
      */
-    public function privacyPolicyAction(Request $request)
+    public function privacyPolicyAction()
     {
         return $this->render('default/privacyPolicy.html.twig');
     }
