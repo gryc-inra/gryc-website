@@ -6,7 +6,7 @@ $(document).ready(function() {
     $('label[for^="species_synonymes_"]').text('');
 
     // On ajoute un lien pour ajouter une nouvelle catégorie
-    var $addLink = $('<p><a href="#" id="add_synonym" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a synonym</a></p>');
+    var $addLink = $('<a href="#" id="add_synonym" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a synonym</a>');
     $container.append($addLink);
 
     // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
@@ -74,7 +74,7 @@ $(document).ready(function() {
     $('label[for^="species_lineages_"]').text('');
 
     // On ajoute un lien pour ajouter une nouvelle catégorie
-    var $addLink = $('<p><a href="#" id="add_lineage" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a lineage</a></p>');
+    var $addLink = $('<a href="#" id="add_lineage" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a lineage</a>');
     $container.append($addLink);
 
     // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
