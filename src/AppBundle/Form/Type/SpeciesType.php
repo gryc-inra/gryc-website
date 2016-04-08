@@ -6,6 +6,8 @@ use AppBundle\Repository\CladeRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,7 +17,7 @@ class SpeciesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('taxid')
+            ->add('taxid', IntegerType::class)
             ->add('clade', EntityType::class, array(
                 'class' => 'AppBundle:Clade',
                 'choice_label' => 'name',
@@ -27,8 +29,8 @@ class SpeciesType extends AbstractType
             ->add('scientificName', TextType::class)
             ->add('genus', TextType::class)
             ->add('species', TextType::class)
-            ->add('geneticCode')
-            ->add('mitoCode')
+            ->add('geneticCode', IntegerType::class)
+            ->add('mitoCode', IntegerType::class)
             ->add('lineages', CollectionType::class, array(
                 'entry_type' => TextType::class,
                 'allow_add' => true,
@@ -40,7 +42,9 @@ class SpeciesType extends AbstractType
                 'allow_delete' => true,
                 'required' => false,
             ))
-            ->add('description')
+            ->add('description', TextareaType::class, array(
+                'required' => false
+            ))
         ;
     }
 

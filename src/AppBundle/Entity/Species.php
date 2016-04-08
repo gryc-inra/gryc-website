@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,6 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="species")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SpeciesRepository")
+ * @UniqueEntity(fields="scientificName", message="A species already exists with this scientific name.")
+ * @UniqueEntity(fields="species", message="A species already exists with this species name.")
  */
 class Species
 {
@@ -72,6 +75,7 @@ class Species
      * @var array
      *
      * @ORM\Column(name="lineages", type="array")
+     *
      */
     private $lineages;
 
@@ -81,6 +85,11 @@ class Species
      * @var int
      *
      * @ORM\Column(name="taxid", type="integer", nullable=true, unique=true)
+     *
+     * @Assert\Type(
+     *     type="integer",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
      */
     private $taxid;
 
@@ -90,15 +99,24 @@ class Species
      * @var int
      *
      * @ORM\Column(name="geneticCode", type="integer")
+     *
+     * @Assert\Type(
+     *     type="integer",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
      */
     private $geneticCode;
 
     /**
      * The mito code of the species.
      *
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="mitoCode", type="integer", length=255)
+     * @ORM\Column(name="mitoCode", type="integer")
+     * @Assert\Type(
+     *     type="integer",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
      */
     private $mitoCode;
 
@@ -200,7 +218,7 @@ class Species
      *
      * @return Species
      */
-    public function setScientificName(string $scientificName)
+    public function setScientificName($scientificName)
     {
         $this->scientificName = $scientificName;
 
@@ -224,7 +242,7 @@ class Species
      *
      * @return Species
      */
-    public function setSpecies(string $species)
+    public function setSpecies($species)
     {
         $this->species = $species;
 
@@ -248,7 +266,7 @@ class Species
      *
      * @return Species
      */
-    public function setGenus(string $genus)
+    public function setGenus($genus)
     {
         $this->genus = $genus;
 
@@ -272,7 +290,7 @@ class Species
      *
      * @return Species
      */
-    public function addLineage(string $lineage)
+    public function addLineage($lineage)
     {
         if (!empty($lineage) && !in_array($lineage, $this->lineages, true)) {
             $this->lineages[] = $lineage;
@@ -288,7 +306,7 @@ class Species
      *
      * @return Species
      */
-    public function removeLineage(string $lineage)
+    public function removeLineage($lineage)
     {
         if (false !== $key = array_search($lineage, $this->lineages, true)) {
             unset($this->lineages[$key]);
@@ -305,7 +323,7 @@ class Species
      *
      * @return Species
      */
-    public function setLineages(string $lineages)
+    public function setLineages($lineages)
     {
         $this->lineages = array();
 
@@ -345,7 +363,7 @@ class Species
      *
      * @return Species
      */
-    public function setTaxid(int $taxid)
+    public function setTaxid($taxid)
     {
         $this->taxid = $taxid;
 
@@ -369,7 +387,7 @@ class Species
      *
      * @return Species
      */
-    public function setGeneticCode(int $geneticCode)
+    public function setGeneticCode($geneticCode)
     {
         $this->geneticCode = $geneticCode;
 
@@ -389,11 +407,11 @@ class Species
     /**
      * Set mitoCode.
      *
-     * @param string $mitoCode
+     * @param int $mitoCode
      *
      * @return Species
      */
-    public function setMitoCode(string $mitoCode)
+    public function setMitoCode($mitoCode)
     {
         $this->mitoCode = $mitoCode;
 
@@ -417,7 +435,7 @@ class Species
      *
      * @return Species
      */
-    public function addSynonym(string $synonym)
+    public function addSynonym($synonym)
     {
         if (!empty($synonym) && !in_array($synonym, $this->synonymes, true)) {
             $this->synonymes[] = $synonym;
@@ -433,7 +451,7 @@ class Species
      *
      * @return Species
      */
-    public function removeSynonym(string $synonym)
+    public function removeSynonym($synonym)
     {
         if (false !== $key = array_search($synonym, $this->synonymes, true)) {
             unset($this->synonymes[$key]);
@@ -462,7 +480,7 @@ class Species
      * 
      * @return Species
      */
-    public function setSynonymes(array $synonymes)
+    public function setSynonymes($synonymes)
     {
         $this->synonymes = array();
 
@@ -490,7 +508,7 @@ class Species
      *
      * @return Species
      */
-    public function setDescription(string $description)
+    public function setDescription($description)
     {
         $this->description = $description;
 
@@ -582,7 +600,7 @@ class Species
      *
      * @return Species
      */
-    public function setSlug(string $slug)
+    public function setSlug($slug)
     {
         $this->slug = $slug;
 
