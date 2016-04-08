@@ -31,6 +31,9 @@
             // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
             var $container = $('div#species_synonymes');
 
+            // On supprime les labels
+            $('label[for^="species_synonymes_"]').text('');
+
             // On ajoute un lien pour ajouter une nouvelle catégorie
             var $addLink = $('<p><a href="#" id="add_synonym" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a synonym</a></p>');
             $container.append($addLink);
@@ -68,7 +71,7 @@
                 addDeleteLink($prototype);
 
                 // On ajoute le prototype modifié à la fin de la balise <div>
-                $container.append($prototype);
+                $('#add_synonym').before($prototype);
 
                 // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
                 index++;
@@ -98,14 +101,17 @@
             // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
             var $container = $('div#species_lineages');
 
+            // On supprime les labels
+            $('label[for^="species_lineages_"]').text('');
+
             // On ajoute un lien pour ajouter une nouvelle catégorie
             var $addLink = $('<p><a href="#" id="add_lineage" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a lineage</a></p>');
-            $container.prepend($addLink);
+            $container.append($addLink);
 
             // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
             $addLink.click(function(e) {
-                addLineage($container);
                 e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                addLineage($container);
                 return false;
             });
 
@@ -135,7 +141,7 @@
                 addDeleteLink($prototype);
 
                 // On ajoute le prototype modifié à la fin de la balise <div>
-                $container.append($prototype);
+                $('#add_lineage').before($prototype);
 
                 // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
                 index++;
