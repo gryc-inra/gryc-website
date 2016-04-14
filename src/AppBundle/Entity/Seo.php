@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Seo.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SeoRepository")
  * @ORM\Table(name="seo")
  */
 class Seo
@@ -62,16 +62,6 @@ class Seo
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="seos")
      */
     private $species;
-
-    /**
-     * The concerned chromosome.
-     * Chromosome or Strain or Species.
-     *
-     * @var Chromosome
-     * 
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Chromosome", inversedBy="seos")
-     */
-    private $chromosome;
 
     /**
      * Get id.
@@ -177,29 +167,5 @@ class Seo
     public function getSpecies()
     {
         return $this->species;
-    }
-
-    /**
-     * Set chromosome.
-     *
-     * @param Chromosome $species
-     *
-     * @return Seo
-     */
-    public function setChromosome(Chromosome $chromosome)
-    {
-        $this->chromosome = $chromosome;
-
-        return $this;
-    }
-
-    /**
-     * Get Chromosome.
-     *
-     * @return Species
-     */
-    public function getChromosome()
-    {
-        return $this->chromosome;
     }
 }

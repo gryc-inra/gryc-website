@@ -4,15 +4,6 @@
     {{ chromosome.strain.species.scientificname }} {{ chromosome.strain.name }} {{ chromosome.name }}
 {% endblock %}
 
-{% block metaTags %}
-    {{ parent() }}
-    {% if chromosome.seos is not null %}
-        {% for seo in chromosome.seos %}
-            <meta name="{{ seo.name }}" content="{{ seo.content }}" />
-        {% endfor %}
-    {% endif %}
-{% endblock %}
-
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('species_homepage') }}">Species</a></li>

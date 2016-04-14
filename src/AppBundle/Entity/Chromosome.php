@@ -192,15 +192,6 @@ class Chromosome
     private $flatFiles;
 
     /**
-     * The seo linked on the chromosome.
-     *
-     * @var Seo|ArrayCollection
-     * 
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Seo", mappedBy="chromosome", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $seos;
-
-    /**
      * A slug for url.
      *
      * @var string
@@ -770,41 +761,6 @@ class Chromosome
     public function getFlatFiles()
     {
         return $this->flatFiles;
-    }
-
-    /**
-     * Add Seo.
-     *
-     * @param Seo $seo
-     * 
-     * @return Chromosome
-     */
-    public function addSeo(Seo $seo)
-    {
-        $this->seos[] = $seo;
-        $seo->setChromosome($this);
-
-        return $this;
-    }
-
-    /**
-     * Remove Seo.
-     *
-     * @param Seo $seo
-     */
-    public function removeSeo(Seo $seo)
-    {
-        $this->seos->removeElement($seo);
-    }
-
-    /**
-     * Get Seo.
-     *
-     * @return Seo|ArrayCollection
-     */
-    public function getSeos()
-    {
-        return $this->seos;
     }
 
     /**
