@@ -44,4 +44,19 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
             return $query->getQuery()->getResult();
         }
     }
+    
+    public function findAllWithSeo()
+    {
+        $query = $this
+            ->createQueryBuilder('species')
+                ->leftJoin('species.strains', 'strains')
+                    ->addSelect('strains')
+                ->leftJoin('species.seos', 'species_seos')
+                    ->addSelect('species_seos')
+                ->leftJoin('strains.seos', 'strains_seos')
+                    ->addSelect('strains_seos')
+            ->getQuery();
+        
+        return $query->getResult();
+    }
 }

@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    SEO management
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li class="active">SEO management</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Search Engine Optimization management</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>Species</th>
+                <th>Strain</th>
+                <th>Chromosome</th>
+                <th>Number of SEO</th>
+                <th>Actions</th>
+            </tr>
+            {% for species in speciesList %}
+                {% set nbSeo = species.seos|length %}
+                <tr {{ (nbSeo < 1) ? 'class="danger"' : '' }}>
+                    <td><a href="{{ path('species_view', { 'speciesSlug': species.slug }) }}">{{ species.scientificname }}</a></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ nbSeo }}</td>
+                    <td>
+                        <a class="btn btn-xs btn-success" href="{{ path('seo_species', { 'slug': species.slug }) }}" ><span class="glyphicon glyphicon-plus"></span> Add SEO</a>
+                    </td>
+                </tr>
+                {% if species.strains|length > 0 %}
+                    {% for strain in species.strains %}
+                        {% set nbSeo = strain.seos|length %}
+                        <tr {{ (nbSeo < 1) ? 'class="danger"' : '' }}>
+                            <td></td>
+                            <td><a href="{{ path('strain_view', {'speciesSlug': strain.species.slug, 'strainSlug': strain.slug}) }}">{{ strain.name }}</a></td>
+                            <td></td>
+                            <td>{{ strain.seos|length }}</td>
+                            <td>
+                                <a class="btn btn-xs btn-success" href="{{ path('seo_strain', { 'slug': strain.slug }) }}" ><span class="glyphicon glyphicon-plus"></span> Add SEO</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td></td>
+                        <td>No strains</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

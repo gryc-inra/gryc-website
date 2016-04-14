@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    SEO strain
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li><a href="{{ path('seo_homepage') }}">SEO management</a></li>
+    <li class="active">SEO for {{ strain.species.scientificname }} {{ strain.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Search Engine Optimization management</h1>
+
+    {{ form(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/seo-collection.js') }}"></script>
+{% endblock %}
