@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Seo controller.
  *
  * @Route("/admin/seo")
- * @Security("is_granted('ROLE_ADMIN')")
  */
 class SeoController extends Controller
 {
