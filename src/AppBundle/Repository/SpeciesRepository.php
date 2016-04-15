@@ -15,14 +15,13 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
         ;
 
         // If a user is connected recover his strains and public strains
-        if (null !== $user) {
+        if (null === $slug && null !== $user && !$user->hasRole('ROLE_ADMIN')) {
             $query
                 ->leftJoin('strains.authorizedUsers', 'users')
-                    ->addSelect('users')
+                ->addSelect('users')
                 ->where('strains.public = true')
                 ->orWhere('users = :user')
-                    ->setParameter('user', $user)
-            ;
+                ->setParameter('user', $user);
         }
 
         // If we want one specific species
