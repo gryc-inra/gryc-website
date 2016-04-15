@@ -48,6 +48,10 @@ class StrainVoter extends Voter
                 if ($strain->isAuthorizedUser($user)) {
                     return true;
                 }
+
+                if ($user->hasRole('ROLE_ADMIN')) {
+                    return true;
+                }
             break;
         }
 
