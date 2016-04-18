@@ -39,6 +39,7 @@ class StrainType extends AbstractType
                 'disabled' => true,
             ))
             ->add('public')
+            ->add('typeStrain')
         ;
     }
 

@@ -67,7 +67,7 @@
                 <div class="panel-heading">Strains</div>
                 <ul class="list-group">
                     {% for strain in species.strains %}
-                        <li class="list-group-item"><a href="{{ path('strain_view', {'speciesSlug': species.slug, 'strainSlug': strain.slug }) }}">{{ strain.name }}</a></li>
+                        <li class="list-group-item"><a href="{{ path('strain_view', {'speciesSlug': species.slug, 'strainSlug': strain.slug }) }}">{{ strain.name }}</a> {{ (strain.isTypeStrain) ? '<acronym title="Type strain"><small style="color: #527EB1;">T</small></acronym>' }}</li>
                     {% endfor %}
                 </ul>
             </div>

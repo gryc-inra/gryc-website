@@ -140,6 +140,11 @@ class Strain
     private $authorizedUsers;
 
     /**
+     * @ORM\Column(name="typeStrain", type="boolean")
+     */
+    private $typeStrain = false;
+
+    /**
      * Strain constructor.
      */
     public function __construct()
@@ -167,7 +172,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
 
@@ -191,7 +196,7 @@ class Strain
      *
      * @return Species
      */
-    public function addSynonym(string $synonym)
+    public function addSynonym($synonym)
     {
         if (!empty($synonym) && !in_array($synonym, $this->synonymes, true)) {
             $this->synonymes[] = $synonym;
@@ -207,7 +212,7 @@ class Strain
      *
      * @return Species
      */
-    public function removeSynonym(string $synonym)
+    public function removeSynonym($synonym)
     {
         if (false !== $key = array_search($synonym, $this->synonymes, true)) {
             unset($this->synonymes[$key]);
@@ -236,7 +241,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setSynonymes(array $synonymes)
+    public function setSynonymes($synonymes)
     {
         foreach ($synonymes as $synonym) {
             $this->addSynonym($synonym);
@@ -262,7 +267,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setLength(int $length)
+    public function setLength($length)
     {
         $this->length = $length;
 
@@ -310,7 +315,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setStatus(string $status)
+    public function setStatus($status)
     {
         $this->status = $status;
 
@@ -334,7 +339,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setCdsCount(int $cdsCount)
+    public function setCdsCount($cdsCount)
     {
         $this->cdsCount = $cdsCount;
 
@@ -456,7 +461,7 @@ class Strain
      *
      * @return Species
      */
-    public function setSlug(string $slug)
+    public function setSlug($slug)
     {
         $this->slug = $slug;
 
@@ -480,7 +485,7 @@ class Strain
      *
      * @return $this
      */
-    public function setPublic(bool $bool)
+    public function setPublic($bool)
     {
         $this->public = $bool;
 
@@ -589,5 +594,53 @@ class Strain
     public function isAuthorizedUser(User $user = null)
     {
         return $this->authorizedUsers->contains($user);
+    }
+
+    /**
+     * Set type.
+     *
+     * @param bool $bool
+     *
+     * @return $this
+     */
+    public function setTypeStrain($bool)
+    {
+        $this->typeStrain = $bool;
+
+        return $this;
+    }
+
+    /**
+     * Get type.
+     *
+     * @return bool
+     */
+    public function getTypeStrain()
+    {
+        return $this->typeStrain;
+    }
+
+    /**
+     * Is a type strain?
+     *
+     * @return bool
+     */
+    public function isTypeStrain()
+    {
+        return $this->typeStrain;
+    }
+
+    /**
+     * Return if the strain is a type strain or not, in letter.
+     *
+     * @return string
+     */
+    public function isTypeStrainToString()
+    {
+        if ($this->isTypeStrain()) {
+            return 'yes';
+        } else {
+            return 'no';
+        }
     }
 }
