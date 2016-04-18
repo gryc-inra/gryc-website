@@ -36,6 +36,7 @@
                     <td>
                         <div class="btn-group btn-group-xs" role="group">
                             <a class="btn btn-warning" href="{{ path('strain_edit', { 'id': strain.id }) }}" ><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                            <a class="btn btn-info" href="{{ path('strain_user_rights', { 'id': strain.id }) }}" ><span class="glyphicon glyphicon-user"></span> User rights</a>
                             <a class="btn btn-danger" href="{{ path('strain_delete', { 'id': strain.id }) }}"><span class="glyphicon glyphicon-trash"></span> Delete</a>
                         </div>
                     </td>

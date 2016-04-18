@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    User's authorizations for {{ strain.name }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li class="active">User's authorizations for {{ strain.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1>User's authorizations for {{ strain.name }}</h1>
+
+    {{ form(form) }}
+{% endblock %}

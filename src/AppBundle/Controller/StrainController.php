@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Strain;
+use AppBundle\Form\Type\StrainRightsType;
 use AppBundle\Form\Type\StrainType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -125,5 +126,35 @@ class StrainController extends Controller
             'strain' => $strain,
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @route("/admin/strain/{id}/user-rights", name="strain_user_rights")
+     */
+    public function userRightsAction(Request $request, Strain $strain)
+    {
+        $form = $this->createForm(StrainRightsType::class, $strain);
+        $form->add('save', SubmitType::class, [
+            'label' => 'Valid the rights',
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('success', 'The user\'s rights for the strain '.$strain->getName().'were successfully edited.');
+
+            return $this->redirect('species_list');
+        }
+
+        return $this->render('strain/userRights.html.twig', [
+            'strain' => $strain,
+            'form' => $form->createView(),
+        ]);
     }
 }
