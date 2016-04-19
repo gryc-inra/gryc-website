@@ -147,9 +147,9 @@ class StrainController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The user\'s rights for the strain '.$strain->getName().'were successfully edited.');
+            $request->getSession()->getFlashBag()->add('success', 'The user\'s rights for the strain '.$strain->getName().' were successfully edited.');
 
-            return $this->redirect('species_list');
+            return $this->redirectToRoute('strain_list');
         }
 
         return $this->render('strain/userRights.html.twig', [
