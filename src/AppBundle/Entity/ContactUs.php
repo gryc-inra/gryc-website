@@ -118,7 +118,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setFirstName(string $firstName)
+    public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
 
@@ -142,7 +142,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setLastName(string $lastName)
+    public function setLastName($lastName)
     {
         $this->lastName = $lastName;
 
@@ -166,7 +166,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setEmail(string $email)
+    public function setEmail($email)
     {
         $this->email = $email;
 
@@ -190,7 +190,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setSubject(string $subject)
+    public function setSubject($subject)
     {
         $this->subject = $subject;
 
@@ -214,7 +214,7 @@ class ContactUs
      *
      * @return ContactUs
      */
-    public function setMessage(string $message)
+    public function setMessage($message)
     {
         $this->message = $message;
 

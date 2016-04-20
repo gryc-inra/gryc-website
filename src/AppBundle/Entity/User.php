@@ -80,7 +80,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setFirstName(string $firstName)
+    public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
 
@@ -104,7 +104,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setLastName(string $lastName)
+    public function setLastName($lastName)
     {
         $this->lastName = $lastName;
 
@@ -128,7 +128,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function setCompany(string $company)
+    public function setCompany($company)
     {
         $this->company = $company;
 

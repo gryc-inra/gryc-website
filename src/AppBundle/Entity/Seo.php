@@ -80,7 +80,7 @@ class Seo
      *
      * @return Seo
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
 
@@ -104,7 +104,7 @@ class Seo
      *
      * @return Seo
      */
-    public function setContent(string $content)
+    public function setContent($content)
     {
         $this->content = $content;
 

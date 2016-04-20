@@ -81,7 +81,7 @@ class CopiedFile
      *
      * @return string
      */
-    public function setPath(string $path)
+    public function setPath($path)
     {
         $this->path = $path;
 
@@ -103,7 +103,7 @@ class CopiedFile
      * 
      * @param string $fileSystemPath
      */
-    public function setFileSystemPath(string $fileSystemPath)
+    public function setFileSystemPath($fileSystemPath)
     {
         $this->fileSystemPath = $fileSystemPath;
 

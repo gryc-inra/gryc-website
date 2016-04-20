@@ -67,7 +67,7 @@ class FlatFile extends CopiedFile
      *
      * @return FlatFile
      */
-    public function setMolType(string $molType)
+    public function setMolType($molType)
     {
         $this->molType = $molType;
 
@@ -91,7 +91,7 @@ class FlatFile extends CopiedFile
      *
      * @return FlatFile
      */
-    public function setFeatureType(string $featureType)
+    public function setFeatureType($featureType)
     {
         $this->featureType = $featureType;
 
@@ -115,7 +115,7 @@ class FlatFile extends CopiedFile
      *
      * @return FlatFile
      */
-    public function setFormat(string $format)
+    public function setFormat($format)
     {
         $this->format = $format;
 

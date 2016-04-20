@@ -58,7 +58,7 @@ class DnaSequence
      *
      * @return DnaSequence
      */
-    public function setLetterCount(array $letterCount)
+    public function setLetterCount($letterCount)
     {
         $this->letterCount = $letterCount;
 
@@ -82,7 +82,7 @@ class DnaSequence
      *
      * @return DnaSequence
      */
-    public function setDna(string $dna)
+    public function setDna($dna)
     {
         $this->dna = $dna;
 

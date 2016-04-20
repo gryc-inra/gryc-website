@@ -85,7 +85,7 @@ class Dbxref
      *
      * @return Dbxref
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
 
@@ -109,7 +109,7 @@ class Dbxref
      *
      * @return Dbxref
      */
-    public function setDescription(string $description)
+    public function setDescription($description)
     {
         $this->description = $description;
 
@@ -133,7 +133,7 @@ class Dbxref
      *
      * @return Dbxref
      */
-    public function setPattern(string $pattern)
+    public function setPattern($pattern)
     {
         $this->pattern = $pattern;
 
@@ -157,7 +157,7 @@ class Dbxref
      *
      * @return Dbxref
      */
-    public function setUrl(string $url)
+    public function setUrl($url)
     {
         $this->url = $url;
 
@@ -181,7 +181,7 @@ class Dbxref
      *
      * @return Dbxref
      */
-    public function setSource(string $source)
+    public function setSource($source)
     {
         $this->source = $source;
 
