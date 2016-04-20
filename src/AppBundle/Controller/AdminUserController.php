@@ -46,7 +46,7 @@ class AdminUserController extends Controller
      */
     public function editRightsAction(Request $request, User $user)
     {
-        $species = $this->getDoctrine()->getManager()->getRepository('AppBundle:Species')->getSpeciesWithStrains(null, null);
+        $species = $this->getDoctrine()->getManager()->getRepository('AppBundle:Species')->getAllSpeciesWithAvailableStrains($this->getUser());
 
         $form = $this->createForm(AdminUserRightsType::class, $user);
         $form->add('save', SubmitType::class);

@@ -29,11 +29,13 @@ The yeast genomes database - {{ parent() }}
 <ul>
     {% for species in speciesList %}
         {% for strain in species.strains %}
-            {% if strain.isAuthorizedUser(app.user) and false == strain.public %}
-                <li>{{ species.scientificname }} {{ strain.name }} <span style="color:red;">*</span></li>
-            {% else %}
-                <li>{{ species.scientificname }} {{ strain.name }}</li>
-            {% endif %}
+                <li>
+                    <a href="{{ path('strain_view', { 'speciesSlug': species.slug, 'strainSlug': strain.slug }) }}">{{ species.scientificname }} {{ strain.name }}</a>
+                    {{ (strain.isTypeStrain) ? ' <abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}
+                    {% if false == strain.public %}
+                        <span style="color:red;">*</span>
+                    {% endif %}
+                </li>
         {% endfor %}
     {% endfor %}
 </ul>

@@ -66,9 +66,16 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Strains</div>
                 <ul class="list-group">
+                    {% set displayedStrain = 0 %}
                     {% for strain in species.strains %}
-                        <li class="list-group-item"><a href="{{ path('strain_view', {'speciesSlug': species.slug, 'strainSlug': strain.slug }) }}">{{ strain.name }}</a> {{ (strain.isTypeStrain) ? '<abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}</li>
+                        {% if is_granted('VIEW', strain) %}
+                            <li class="list-group-item"><a href="{{ path('strain_view', {'speciesSlug': species.slug, 'strainSlug': strain.slug }) }}">{{ strain.name }}</a> {{ (strain.isTypeStrain) ? '<abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}</li>
+                            {% set displayedStrain = displayedStrain + 1 %}
+                        {% endif %}
                     {% endfor %}
+                    {% if displayedStrain == 0 %}
+                    <li class="list-group-item">No strains available</li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

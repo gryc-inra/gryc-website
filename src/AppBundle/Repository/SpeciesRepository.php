@@ -6,44 +6,53 @@ use AppBundle\Entity\User;
 
 class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getSpeciesWithStrains($slug = null, User $user = null)
+    public function getAllSpeciesWithAvailableStrains(User $user = null)
     {
-        $query = $this
-            ->createQueryBuilder('species')
+        // At start, we recove all the species and all the strains (ADMIN rights)
+        $query = $this->createQueryBuilder('species')
             ->leftJoin('species.strains', 'strains')
                 ->addSelect('strains')
+            ->leftJoin('species.seos', 'seos')
+                ->addSelect('seos')
+            ->orderBy('species.scientificName', 'ASC')
+            ->orderBy('strains.name', 'ASC')
         ;
 
-        // If a user is connected recover his strains and public strains
-        if (null === $slug && null !== $user && !$user->hasRole('ROLE_ADMIN')) {
+        // If the user is connected and isn't an administrator
+        if (null !== $user && !$user->hasRole('ROLE_ADMIN'))
+        {
             $query
-                ->leftJoin('strains.authorizedUsers', 'users')
-                ->addSelect('users')
+                ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
+                    ->addSelect('authorizedUsers')
                 ->where('strains.public = true')
-                ->orWhere('users = :user')
-                ->setParameter('user', $user);
-        }
-
-        // If we want one specific species
-        if (null !== $slug) {
-            $query
-                ->andWhere('species.slug = :slug')
-                    ->setParameter('slug', $slug)
-                ->leftJoin('species.seos', 'seos')
-                    ->addSelect('seos')
+                ->orWhere('authorizedUsers = :user')
+                    ->setParameter('user', $user)
             ;
-
-            return $query->getQuery()->getOneOrNullResult();
-        // If we want list species
-        } else {
-            // Order the results
-            $query->orderBy('species.scientificName', 'ASC');
-
-            // Recover resultS
-            return $query->getQuery()->getResult();
         }
+        // If the user is not connected
+        elseif (null === $user) {
+            $query
+                ->where('strains.public = true')
+            ;
+        }
+
+        return $query->getQuery()->getResult();
     }
-    
+
+    public function getOneSpeciesWithStrains($slug, User $user = null)
+    {
+        $query = $this->createQueryBuilder('species')
+            ->where('species.slug = :slug')
+                ->setParameter('slug', $slug)
+            ->leftJoin('species.strains', 'strains')
+                ->addSelect('strains')
+            ->leftJoin('species.seos', 'seos')
+                ->addSelect('seos')
+        ;
+
+        return $query->getQuery()->getOneOrNullResult();
+    }
+
     public function findAllWithSeo()
     {
         $query = $this

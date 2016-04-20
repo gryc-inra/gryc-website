@@ -33,7 +33,7 @@ class SpeciesController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $speciesList = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains(null, $this->getUser());
+        $speciesList = $em->getRepository('AppBundle:Species')->getAllSpeciesWithAvailableStrains($this->getUser());
 
         return $this->render('species/index.html.twig', array(
             'speciesList' => $speciesList,
@@ -52,7 +52,7 @@ class SpeciesController extends Controller
     public function viewAction($speciesSlug)
     {
         $em = $this->getDoctrine()->getManager();
-        $species = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains($speciesSlug, $this->getUser());
+        $species = $em->getRepository('AppBundle:Species')->getOneSpeciesWithStrains($speciesSlug);
 
         if (null === $species) {
             throw $this->createNotFoundException("This species doen't exists.");
@@ -73,7 +73,7 @@ class SpeciesController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $species = $em->getRepository('AppBundle:Species')->getSpeciesWithStrains();
+        $species = $em->getRepository('AppBundle:Species')->getAllSpeciesWithAvailableStrains($this->getUser());
 
         return $this->render('species/list.html.twig', array(
             'speciesList' => $species,
