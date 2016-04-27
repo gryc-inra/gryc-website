@@ -229,7 +229,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
 
@@ -253,7 +253,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function addAccession(string $accession)
+    public function addAccession($accession)
     {
         if (!empty($accession) && !in_array($accession, $this->accessions, true)) {
             $this->accessions[] = $accession;
@@ -269,7 +269,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function removeAccession(string $accession)
+    public function removeAccession($accession)
     {
         if (false !== $key = array_search($accession, $this->accessions, true)) {
             unset($this->accessions[$key]);
@@ -298,7 +298,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setAccession(array $accessions)
+    public function setAccession($accessions)
     {
         foreach ($accessions as $accession) {
             $this->addAccession($accession);
@@ -324,7 +324,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setDescription(string $description)
+    public function setDescription($description)
     {
         $this->description = $description;
 
@@ -348,7 +348,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function addKeyword(string $keyword)
+    public function addKeyword($keyword)
     {
         if (!empty($keyword) && !in_array($keyword, $this->keywords)) {
             $this->keywords[] = $keyword;
@@ -364,7 +364,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function removeKeyword(string $keyword)
+    public function removeKeyword($keyword)
     {
         if (false !== $key = array_search($keyword, $this->keywords)) {
             unset($this->keywords[$key]);
@@ -393,7 +393,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setKeywords(array $keywords)
+    public function setKeywords($keywords)
     {
         foreach ($keywords as $keyword) {
             $this->addKeyword($keyword);
@@ -419,7 +419,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setProjectId(string $projectId)
+    public function setProjectId($projectId)
     {
         $this->projectId = $projectId;
 
@@ -467,7 +467,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setNumCreated(int $numCreated)
+    public function setNumCreated($numCreated)
     {
         $this->numCreated = $numCreated;
 
@@ -515,7 +515,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setNumReleased(int $numReleased)
+    public function setNumReleased($numReleased)
     {
         $this->numReleased = $numReleased;
 
@@ -539,7 +539,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setNumVersion(int $numVersion)
+    public function setNumVersion($numVersion)
     {
         $this->numVersion = $numVersion;
 
@@ -563,7 +563,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setLength(int $length)
+    public function setLength($length)
     {
         $this->length = $length;
 
@@ -587,7 +587,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setGc(float $gc)
+    public function setGc($gc)
     {
         $this->gc = $gc;
 
@@ -611,7 +611,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setCdsCount(int $cdsCount)
+    public function setCdsCount($cdsCount)
     {
         $this->cdsCount = $cdsCount;
 
@@ -635,7 +635,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setMitochondrial(bool $mitochondrial)
+    public function setMitochondrial($mitochondrial)
     {
         $this->mitochondrial = $mitochondrial;
 
@@ -659,7 +659,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setComment(string $comment)
+    public function setComment($comment)
     {
         $this->comment = $comment;
 
@@ -770,7 +770,7 @@ class Chromosome
      *
      * @return Species
      */
-    public function setSlug(string $slug)
+    public function setSlug($slug)
     {
         $this->slug = $slug;
 

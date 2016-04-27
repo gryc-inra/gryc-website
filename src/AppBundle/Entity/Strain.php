@@ -291,7 +291,7 @@ class Strain
      *
      * @return Strain
      */
-    public function setGc(float $gc)
+    public function setGc($gc)
     {
         $this->gc = $gc;
 
