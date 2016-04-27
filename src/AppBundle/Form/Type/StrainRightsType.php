@@ -22,6 +22,7 @@ class StrainRightsType extends AbstractType
                 'choice_label' => function ($user) {
                     return $user->getUsername().' ('.$user->getFirstName().' '.$user->getLastName().')';
                 },
+                'by_reference' => false,
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,

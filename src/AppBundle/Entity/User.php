@@ -69,7 +69,6 @@ class User extends BaseUser
      */
     public function __construct()
     {
-        parent::__construct();
         $this->authorizedStrains = new ArrayCollection();
     }
 
@@ -154,7 +153,9 @@ class User extends BaseUser
      */
     public function addAuthorizedStrain(Strain $strain)
     {
-        $this->authorizedStrains[] = $strain;
+        if (!$this->authorizedStrains->contains($strain)) {
+            $this->authorizedStrains[] = $strain;
+        }
 
         return $this;
     }
@@ -166,7 +167,9 @@ class User extends BaseUser
      */
     public function removeAuthorizedStrain(Strain $strain)
     {
-        $this->authorizedStrains->removeElement($strain);
+        if ($this->authorizedStrains->contains($strain)) {
+            $this->authorizedStrains->removeElement($strain);
+        }
     }
 
     /**

@@ -559,6 +559,7 @@ class Strain
      */
     public function addAuthorizedUser(User $user)
     {
+        $user->addAuthorizedStrain($this);
         $this->authorizedUsers[] = $user;
 
         return $this;
@@ -571,6 +572,7 @@ class Strain
      */
     public function removeAuthorizedUser(User $user)
     {
+        $user->removeAuthorizedStrain($this);
         $this->authorizedUsers->removeElement($user);
     }
 
