@@ -350,7 +350,7 @@ class Chromosome
      */
     public function addKeyword($keyword)
     {
-        if (!empty($keyword) && !in_array($keyword, $this->keywords)) {
+        if (!empty($keyword) && !in_array($keyword, $this->keywords, true)) {
             $this->keywords[] = $keyword;
         }
 
@@ -366,7 +366,7 @@ class Chromosome
      */
     public function removeKeyword($keyword)
     {
-        if (false !== $key = array_search($keyword, $this->keywords)) {
+        if (false !== $key = array_search($keyword, $this->keywords, true)) {
             unset($this->keywords[$key]);
             $this->keywords = array_values($this->keywords);
         }
@@ -733,8 +733,10 @@ class Chromosome
      */
     public function addFlatFile(FlatFile $flatFile)
     {
-        $this->flatFiles[] = $flatFile;
-        $flatFile->setChromosome($this);
+        if (!$this->flatFiles->contains($flatFile)) {
+            $this->flatFiles[] = $flatFile;
+            $flatFile->setChromosome($this);
+        }
 
         return $this;
     }
@@ -748,7 +750,9 @@ class Chromosome
      */
     public function removeFlatFile(FlatFile $flatFile)
     {
-        $this->flatFiles->removeElement($flatFile);
+        if ($this->flatFiles->contains($flatFile)) {
+            $this->flatFiles->removeElement($flatFile);
+        }
 
         return $this;
     }

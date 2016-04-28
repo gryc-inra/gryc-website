@@ -534,8 +534,10 @@ class Species
      */
     public function addStrain(Strain $strain)
     {
-        $this->strains[] = $strain;
-        $strain->setSpecies($this);
+        if (!$this->strains->contains($strain)) {
+            $this->strains[] = $strain;
+            $strain->setSpecies($this);
+        }
 
         return $this;
     }
@@ -547,7 +549,11 @@ class Species
      */
     public function removeStrain(Strain $strain)
     {
-        $this->strains->removeElement($strain);
+        if ($this->strains->contains($strain)) {
+            $this->strains->removeElement($strain);
+        }
+        
+        return $this;
     }
 
     /**
@@ -567,9 +573,11 @@ class Species
      */
     public function addSeo(Seo $seo)
     {
-        $this->seos[] = $seo;
-        $seo->setSpecies($this);
-
+        if (!$this->seos->contains($seo)) {
+            $this->seos[] = $seo;
+            $seo->setSpecies($this);
+        }
+        
         return $this;
     }
 
@@ -580,7 +588,11 @@ class Species
      */
     public function removeSeo(Seo $seo)
     {
-        $this->seos->removeElement($seo);
+        if ($this->seos->contains($seo)) {
+            $this->seos->removeElement($seo);
+        }
+
+        return $this;
     }
 
     /**

@@ -365,9 +365,11 @@ class Strain
      */
     public function addChromosome(Chromosome $chromosome)
     {
-        $this->chromosomes[] = $chromosome;
-        $chromosome->setStrain($this);
-
+        if (!$this->chromosomes->contains($chromosome)) {
+            $this->chromosomes[] = $chromosome;
+            $chromosome->setStrain($this);
+        }
+        
         return $this;
     }
 
@@ -380,7 +382,9 @@ class Strain
      */
     public function removeChromosome(Chromosome $chromosome)
     {
-        $this->chromosomes->removeElement($chromosome);
+        if ($this->chromosomes->contains($chromosome)) {
+            $this->chromosomes->removeElement($chromosome);
+        }
 
         return $this;
     }
@@ -428,8 +432,10 @@ class Strain
      */
     public function addSeo(Seo $seo)
     {
-        $this->seos[] = $seo;
-        $seo->setStrain($this);
+        if (!$this->seos->contains($seo)) {
+            $this->seos[] = $seo;
+            $seo->setStrain($this);
+        }
 
         return $this;
     }
@@ -441,7 +447,11 @@ class Strain
      */
     public function removeSeo(Seo $seo)
     {
-        $this->seos->removeElement($seo);
+        if ($this->seos->contains($seo)) {
+            $this->seos->removeElement($seo);
+        }
+
+        return $this;
     }
 
     /**
@@ -559,8 +569,10 @@ class Strain
      */
     public function addAuthorizedUser(User $user)
     {
-        $user->addAuthorizedStrain($this);
-        $this->authorizedUsers[] = $user;
+        if (!$this->authorizedUsers->contains($user)) {
+            $user->addAuthorizedStrain($this);
+            $this->authorizedUsers[] = $user;
+        }
 
         return $this;
     }
@@ -572,8 +584,10 @@ class Strain
      */
     public function removeAuthorizedUser(User $user)
     {
-        $user->removeAuthorizedStrain($this);
-        $this->authorizedUsers->removeElement($user);
+        if ($this->authorizedUsers->contains($user)) {
+            $user->removeAuthorizedStrain($this);
+            $this->authorizedUsers->removeElement($user);
+        }
     }
 
     /**
