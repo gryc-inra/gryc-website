@@ -43,7 +43,7 @@ class SpeciesType extends AbstractType
                 'required' => false,
             ))
             ->add('description', TextareaType::class, array(
-                'required' => false
+                'required' => false,
             ))
         ;
     }

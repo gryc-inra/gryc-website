@@ -15,7 +15,7 @@ class StrainRightsType extends AbstractType
         $builder
             ->add('authorizedUsers', EntityType::class, array(
                 'class' => 'AppBundle\Entity\User',
-                'query_builder' => function(UserRepository $ur) {
+                'query_builder' => function (UserRepository $ur) {
                   return $ur->createQueryBuilder('u')
                       ->orderBy('u.username', 'ASC');
                 },

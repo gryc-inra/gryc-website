@@ -75,7 +75,6 @@ class Species
      * @var array
      *
      * @ORM\Column(name="lineages", type="array")
-     *
      */
     private $lineages;
 
@@ -552,7 +551,7 @@ class Species
         if ($this->strains->contains($strain)) {
             $this->strains->removeElement($strain);
         }
-        
+
         return $this;
     }
 
@@ -577,7 +576,7 @@ class Species
             $this->seos[] = $seo;
             $seo->setSpecies($this);
         }
-        
+
         return $this;
     }
 

@@ -130,6 +130,7 @@ class StrainController extends Controller
 
     /**
      * @param Request $request
+     * 
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @route("/admin/strain/{id}/user-rights", name="strain_user_rights")

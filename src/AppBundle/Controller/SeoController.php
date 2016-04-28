@@ -8,7 +8,6 @@ use AppBundle\Form\Type\SpeciesSeoType;
 use AppBundle\Form\Type\StrainSeoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -28,7 +27,7 @@ class SeoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $species = $em->getRepository('AppBundle:Species')->findAllWithSeo();
-        
+
         return $this->render('seo/index.html.twig', array(
             'speciesList' => $species,
         ));
@@ -41,13 +40,12 @@ class SeoController extends Controller
     {
         $form = $this->createForm(SpeciesSeoType::class, $species);
         $form->add('submit', SubmitType::class, array(
-            'label' => 'Edit'
+            'label' => 'Edit',
         ));
-        
+
         $form->handleRequest($request);
-        
-        if ($form->isValid())
-        {
+
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
@@ -55,7 +53,7 @@ class SeoController extends Controller
 
             return $this->redirectToRoute('seo_homepage');
         }
-        
+
         return $this->render('seo/species.html.twig', array(
             'form' => $form->createView(),
             'species' => $species,
@@ -69,13 +67,12 @@ class SeoController extends Controller
     {
         $form = $this->createForm(StrainSeoType::class, $strain);
         $form->add('submit', SubmitType::class, array(
-            'label' => 'Edit'
+            'label' => 'Edit',
         ));
 
         $form->handleRequest($request);
 
-        if ($form->isValid())
-        {
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 

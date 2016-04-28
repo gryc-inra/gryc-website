@@ -19,8 +19,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
         ;
 
         // If the user is connected and isn't an administrator
-        if (null !== $user && !$user->hasRole('ROLE_ADMIN'))
-        {
+        if (null !== $user && !$user->hasRole('ROLE_ADMIN')) {
             $query
                 ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
                     ->addSelect('authorizedUsers')
@@ -64,7 +63,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
                 ->leftJoin('strains.seos', 'strains_seos')
                     ->addSelect('strains_seos')
             ->getQuery();
-        
+
         return $query->getResult();
     }
 }

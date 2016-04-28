@@ -369,7 +369,7 @@ class Strain
             $this->chromosomes[] = $chromosome;
             $chromosome->setStrain($this);
         }
-        
+
         return $this;
     }
 
