@@ -50,3 +50,9 @@
         </table>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/object-child-disabled-button-alert.js') }}"></script>
+{% endblock %}
