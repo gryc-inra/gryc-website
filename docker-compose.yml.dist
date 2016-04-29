@@ -1,4 +1,5 @@
 front:
+    restart: unless-stopped
     image: nginx:1.9
     ports:
         - "8081:80"
@@ -10,6 +11,7 @@ front:
         - "./docker/front/nginx.conf:/etc/nginx/nginx.conf:ro"
 
 engine:
+    restart: unless-stopped
     build: ./docker/engine/
     volumes:
         - ".:/home/docker:rw"
@@ -20,6 +22,7 @@ engine:
     working_dir: "/home/docker"
 
 db:
+    restart: unless-stopped
     image: mariadb:10.1
     environment:
         - "MYSQL_ROOT_PASSWORD=grycii"
@@ -28,4 +31,5 @@ db:
         - "MYSQL_DATABASE=grycii"
 
 search:
+    restart: unless-stopped
     image: elasticsearch:1.7
