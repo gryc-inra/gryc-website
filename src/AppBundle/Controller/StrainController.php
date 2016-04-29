@@ -137,6 +137,10 @@ class StrainController extends Controller
      */
     public function userRightsAction(Request $request, Strain $strain)
     {
+        if ($strain->isPublic()) {
+            throw $this->createNotFoundException();
+        }
+
         $form = $this->createForm(StrainRightsType::class, $strain);
         $form->add('save', SubmitType::class, [
             'label' => 'Valid the rights',

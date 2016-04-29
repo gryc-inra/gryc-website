@@ -7,6 +7,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li><a href="{{ path('strain_list') }}">Strains list</a></li>
     <li class="active">User's authorizations for {{ strain.name }}</li>
 {% endblock %}
 
