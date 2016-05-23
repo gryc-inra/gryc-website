@@ -38,7 +38,9 @@
                     <td>
                         <a href="{{ path('user_rights_edit', { 'usernameCanonical': user.usernameCanonical }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit rights</a><br>
                         <a href="{{ path('user_roles_edit', { 'usernameCanonical': user.usernameCanonical }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit roles</a><br>
-                        <a href="{{ path('homepage', {'_switch_user': user.usernameCanonical}) }}"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Switch to</a>
+                        {% if user != app.user %}
+                            <a href="{{ path('homepage', {'_switch_user': user.usernameCanonical}) }}"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Switch to</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

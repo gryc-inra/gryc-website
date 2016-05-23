@@ -16,7 +16,6 @@ class AdminUserRolesType extends AbstractType
                 'choices' => array(
                     'User' => 'ROLE_USER',
                     'Administrator' => 'ROLE_ADMIN',
-                    'Super Administrateur' => 'ROLE_SUPER_ADMIN',
                 ),
                 'multiple' => true,
                 'expanded' => true,
