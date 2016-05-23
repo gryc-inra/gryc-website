@@ -53,6 +53,7 @@ Before use Symfony you need prepare somethings:
     bin/console doctrine:schema:create
     bin/console doctrine:fixtures:load
     bin/console fos:elastica:populate
+    bin/console assetic:dump
     bin/console cache:clear
 
 ## 2. Follow the best practice
