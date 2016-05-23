@@ -38,7 +38,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         $user->setLastName('Piot');
         $user->setCompany('INRA');
         $user->setEnabled(true);
-        $user->addRole('ROLE_ADMIN');
+        $user->addRole('ROLE_SUPER_ADMIN');
 
         // Create a user Hugo
         $user2 = $userManager->createUser();
