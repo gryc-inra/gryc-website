@@ -90,13 +90,13 @@ class FileController extends Controller
         $file = $em->getRepository('AppBundle:FlatFile')->findOneByFeatureMolChromosomeFormat($featureType, $molType, $chromosomeName, $format);
 
         if (null === $file) {
-            throw $this->createNotFoundException("Ce fichier n'existe pas.");
+            throw $this->createNotFoundException("This file doen't exists.");
         }
 
         $this->denyAccessUnlessGranted('VIEW', $file->getChromosome()->getStrain());
 
         $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
-        $request->headers->set('X-Accel-Mapping', '/home/docker/protected-files/=/protected_files/');
+        $request->headers->set('X-Accel-Mapping', '/var/www/symfony/protected-files/=/protected_files/');
 
         BinaryFileResponse::trustXSendfileTypeHeader();
         $response = new BinaryFileResponse($file->getAbsolutePath());
