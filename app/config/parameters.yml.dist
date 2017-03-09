@@ -2,13 +2,14 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    locale:            en
-
     database_host:     db
     database_port:     ~
     database_name:     grycii
     database_user:     grycii
     database_password: grycii
+
+    elasticsearch_host: elasticsearch1
+    elasticsearch_port: ~
 
     mailer_transport:  ~
     mailer_host:       ~
@@ -16,7 +17,7 @@ parameters:
     mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            D5FVf4x287uhLrX4ActL27T4GFtszxKN889RWtmy862s94WYMLj4YUx9L6dmzm757Lk5rWWW4tX6mtQ2K4ks
+    secret:            ThisTokenIsNotSoSecretChangeIt
 
     recaptcha_public_key:    ~
     recaptcha_private_key:   ~

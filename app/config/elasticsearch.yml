@@ -1,7 +1,7 @@
 #FOSElasticaBundle
 fos_elastica:
     clients:
-        default: { host: search, port: 9200 }
+        default: { host: "%elasticsearch_host%", port: "%elasticsearch_port%" }
     indexes:
         app:
             client: default
@@ -40,18 +40,18 @@ fos_elastica:
                                 type:      word_delimiter
             types:
                 user:
-                    mappings:
+                    properties:
                         username:
-                            index_analyzer : custom_index_analyzer
+                            analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                         firstName:
-                            index_analyzer : custom_index_analyzer
+                            analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                         lastName:
-                            index_analyzer : custom_index_analyzer
+                            analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                         email:
-                            index_analyzer : custom_index_analyzer
+                            analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                     persistence:
                         driver: orm
