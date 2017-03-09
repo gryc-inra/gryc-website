@@ -12,16 +12,40 @@ These explanations are for install the project under Docker.
 
 1. Install Docker and Docker compose on your computer (see the doc)
 2. Get mpiot/symfony-docker
-3. For use elasticsearch in docker, the vm_map_max_count setting should be set permanently in /etc/sysctl.conf:
+3. Edit the nginx/symfony.conf, edit the file like obtain:
+    ``nginx
+    location / {
+        # URL rewriting that do the link between the old version and the new version, here, we return a 301 code
+        #rewrite ^/index.php$ $scheme://$server_name/$arg_page/$arg_id? permanent;
+        
+        # try to serve file directly, fallback to app.php
+        #try_files $uri /app.php$is_args$args;
+        try_files $uri /app_dev.php$is_args$args;
+    }
+
+    location /protected_files {
+        internal;
+        alias /var/www/symfony/protected-files;
+    }
+
+    location /files {
+        autoindex on;
+    
+        location ~* \.(.+)$ {
+            rewrite ^ /app_dev.php last;
+        }
+    }
+    ``
+4. For use elasticsearch in docker, the vm_map_max_count setting should be set permanently in /etc/sysctl.conf:
     ```
     $ grep vm.max_map_count /etc/sysctl.conf
     vm.max_map_count=262144
     ```
     To apply the setting on a live system type: `sysctl -w vm.max_map_count=262144`
-4. Set your params in the .env file (copy .env.dist to .env)
-5. `docker-compose build`
-6. `docker-compose up -d`
-7. The first time, you need to use `docker-compose up -d` to create containers, networks and volumes. Next, just use `docker-compose start`
+5. Set your params in the .env file (copy .env.dist to .env)
+6. `docker-compose build`
+7. `docker-compose up -d`
+8. The first time, you need to use `docker-compose up -d` to create containers, networks and volumes. Next, just use `docker-compose start`
 
  
 Now you have containers with nginx, php, mariadb and elasticsearch, config the app to work with the containers, and init the app:
@@ -91,27 +115,3 @@ List files with mistakes
 View difference beetween your code and the corected code
 
     cat src/file.php | php-cs-fixer fix --diff -
-
-## 4. Use Xdebug
-Xdebug is a powerfull tool to debug your code: eg: if you set a breakpoint in your code, PHP stop on the breakpoint and wait, you can see all variables and call functions in PHPStorm.
-
-First of all, you need to know what is your adress for container docker:
-    ifconfig docker0|awk '/inet adr/ { print $2 }'
-
-Now, edit docker/engine/php.ini, and set the Xdebug.remote_host with this IP.
-
-**You may restart the containers: docker-compose restart**
-
-1. Configure the listenning port:
-   PhpStorm File/Settings.../Languages & Frameworks/PHP/Debug, in the part Xdebug, change the port to 9009.
-
-2. Configure a server:
-    * Name: The name of the server (GrycII)
-    * Host: The adresse of the server (gryc.dev)
-    * Port: 80
-    * Debugger: Xdebug
-    * Check Use path mappings, and in front of the project folder enter: /home/docker
-
-3. Start Listenning for PHP Debug Connections:  on the top of PhpStorm you have a phone with a bug, click on. Actually PhpStorm communicate with php.
-
-4. Install a Xdebug extension in your navigator (eg: The easiest Xdebug), and configure the API key to "PHPSTORM". You need to active it on: http://gryc.dev
