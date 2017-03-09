@@ -12,12 +12,9 @@ These explanations are for install the project under Docker.
 
 1. Install Docker and Docker compose on your computer (see the doc)
 2. Get mpiot/symfony-docker
-3. Edit the nginx/symfony.conf, edit the file like obtain:
-    ``nginx
-    location / {
-        # URL rewriting that do the link between the old version and the new version, here, we return a 301 code
-        #rewrite ^/index.php$ $scheme://$server_name/$arg_page/$arg_id? permanent;
-        
+3. Edit the nginx/symfony.conf, to add /protected_files and /files location, and obtain something like it:
+    ```nginx
+    location / {       
         # try to serve file directly, fallback to app.php
         #try_files $uri /app.php$is_args$args;
         try_files $uri /app_dev.php$is_args$args;
@@ -35,7 +32,7 @@ These explanations are for install the project under Docker.
             rewrite ^ /app_dev.php last;
         }
     }
-    ``
+    ```
 4. For use elasticsearch in docker, the vm_map_max_count setting should be set permanently in /etc/sysctl.conf:
     ```
     $ grep vm.max_map_count /etc/sysctl.conf
