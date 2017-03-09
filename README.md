@@ -5,7 +5,6 @@
 1. How to install the project ?
 2. How to control your code syntax ?
 3. Follow the best practice
-4. Use Xdebug
 
 ## 1. How to install the project ?
 These explanations are for install the project under Docker.
