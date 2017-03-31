@@ -24,6 +24,7 @@ These explanations are for install the project under Docker.
 
 Now you have containers with nginx, php, mariadb and elasticsearch, config the app to work with the containers, and init the app:
     
+1. Install CSS, JS, and Fonts with Bower and Grunt `npm install` to install Grunt dependencies, `bower install` to download Bootstrap, jQuery, ... and `grunt default` to execute uglify (you need to have Bower and GruntJS installed)
 1. Set the rights to allow PHP create files (in container www-data user have UID 33):
     ```bash
     setfacl -R -m u:33:rwX -m u:`whoami`:rwX var/ protected-files/
