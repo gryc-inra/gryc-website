@@ -8,7 +8,7 @@ parameters:
     database_user:     grycii
     database_password: grycii
 
-    elasticsearch_host: elasticsearch1
+    elasticsearch_host: es1
     elasticsearch_port: ~
 
     mailer_transport:  ~

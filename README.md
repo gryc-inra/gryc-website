@@ -10,40 +10,18 @@
 These explanations are for install the project under Docker.
 
 1. Install Docker and Docker compose on your computer (see the doc)
-2. Get mpiot/symfony-docker
-3. Edit the nginx/symfony.conf, to add /protected_files and /files location, and obtain something like it:
-    ```nginx
-    location / {       
-        # try to serve file directly, fallback to app.php
-        #try_files $uri /app.php$is_args$args;
-        try_files $uri /app_dev.php$is_args$args;
-    }
-
-    location /protected_files {
-        internal;
-        alias /var/www/symfony/protected-files;
-    }
-
-    location /files {
-        autoindex on;
-    
-        location ~* \.(.+)$ {
-            rewrite ^ /app_dev.php last;
-        }
-    }
-    ```
-4. For use elasticsearch in docker, the vm_map_max_count setting should be set permanently in /etc/sysctl.conf:
+3. For use elasticsearch in docker, the vm_map_max_count setting should be set permanently in /etc/sysctl.conf:
     ```
     $ grep vm.max_map_count /etc/sysctl.conf
     vm.max_map_count=262144
     ```
     To apply the setting on a live system type: `sysctl -w vm.max_map_count=262144`
-5. Set your params in the .env file (copy .env.dist to .env)
-6. `docker-compose build`
-7. `docker-compose up -d`
-8. The first time, you need to use `docker-compose up -d` to create containers, networks and volumes. Next, just use `docker-compose start`
+4. Copy the file docker-compose.yml.dist to docker-compose.yml
+4. You can changes ports exposure in the docker-compose.yml file, or other things
+5. Built the images `docker-compose build`
+6. Built containers, volume, network and start all `docker-compose up -d`
+7. The first time, you need to use `docker-compose up -d` to create containers, networks and volumes. Next, just use `docker-compose start`
 
- 
 Now you have containers with nginx, php, mariadb and elasticsearch, config the app to work with the containers, and init the app:
     
 1. Set the rights to allow PHP create files (in container www-data user have UID 33):
@@ -54,9 +32,9 @@ Now you have containers with nginx, php, mariadb and elasticsearch, config the a
 
 2. Next command, must be execute in the container, execute it to go in the PHP container:
     ```bash
-    docker exec -it CONTAINER-NAME-php bash
+    docker exec -it grycii-php bash
     ```
-    
+
 3. Install Vendors
     ```bash
     composer install
@@ -88,7 +66,8 @@ Now you have containers with nginx, php, mariadb and elasticsearch, config the a
 
 8. Clear the cache
     ```bash
-    bin/console cache:clear
+    bin/console cache:clear --no-warmup
+    bin/console cache:warmup
     ```
 
 Any files and folders created by PHP or in the container are root on the host machine. You have to do a chown command each time you want edit files (eg: with the bin/console doctrine:entity).
@@ -101,13 +80,17 @@ There is a **beautiful** guide about the best practice :) You can find it on the
 For a better structure of the code, we use Coding standards: PSR-0, PSR-1, PSR-2 and PSR-4.
 You can found some informations on [the synfony documentation page](http://symfony.com/doc/current/contributing/code/standards.html).
 
-There is a usefull program named php-cs-fixer, that permit you to control your code. You can install it by following [the program's documentation](https://github.com/FriendsOfPHP/PHP-CS-Fixer).
+In the project you have a php-cs-fixer.phar file, [the program's documentation](http://cs.sensiolabs.org/).
 
-Some usefull command:
-List files with mistakes
+Some commands:
+   * List files with mistakes
 
-    php-cs-fixer fix src --dry-run
-    
-View difference beetween your code and the corected code
+    php php-cs-fixer.phar fix --dry-run
 
-    cat src/file.php | php-cs-fixer fix --diff -
+   * Fix files:
+
+    php php-cs-fixer.phar fix
+
+   * View difference beetween your code and the corected code:
+
+    php php-cs-fixer.phar fix --diff --dry-run path/yo/file.php
