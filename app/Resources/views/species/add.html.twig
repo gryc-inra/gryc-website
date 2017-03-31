@@ -26,10 +26,11 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="{{ asset('js/species-collection.js') }}"></script>
-
     <script type="text/javascript">
         $(function () {
+            collectionType($('div#species_lineages'), 'Add a lineage', 'add_synonym');
+            collectionType($('div#species_synonymes'), 'Add a synonym', 'add_synonym');
+
             // Set the taxid div
             var taxidDiv = $('#species_taxid').parent().parent();
             // Resize the input

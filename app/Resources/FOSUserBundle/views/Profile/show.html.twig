@@ -1,9 +1,0 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
-
-{% block title %}My profile - {{ parent() }}{% endblock %}
-
-{% block breadcrumb %}{{ parent() }} <li class="active">My profile</li>{% endblock %}
-
-{% block fos_user_content %}
-{% include "FOSUserBundle:Profile:show_content.html.twig" %}
-{% endblock fos_user_content %}

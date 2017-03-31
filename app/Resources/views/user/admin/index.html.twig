@@ -34,6 +34,7 @@
             var team = $('#user-team-field');
 
             search.keyup(function() {
+                console.log('test');
                 history.replaceState('', '', Routing.generate('user_index', { q: search.val(), p: 1 }));
 
                 delay(function(){

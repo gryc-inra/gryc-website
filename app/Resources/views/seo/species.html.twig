@@ -21,5 +21,9 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="{{ asset('js/seo-collection.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            collectionType($('div#species_seo_seos'), 'Add a SEO', null, true);
+        });
+    </script>
 {% endblock %}

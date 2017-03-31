@@ -1,9 +1,0 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
-
-{% block title %}Edit my profile - {{ parent() }}{% endblock %}
-
-{% block breadcrumb %}{{ parent() }} <li><a href="{{ path('fos_user_profile_show') }}">My profile</a></li> <li class="active">Edit my profile</li>{% endblock %}
-
-{% block fos_user_content %}
-{% include "FOSUserBundle:Profile:edit_content.html.twig" %}
-{% endblock fos_user_content %}
