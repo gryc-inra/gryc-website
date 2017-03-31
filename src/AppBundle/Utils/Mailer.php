@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Utils/Mailer.php
 
 namespace AppBundle\Utils;
@@ -47,6 +48,7 @@ class Mailer
 
         $this->mailer->send($message);
     }
+
     /**
      * Envoi un mail de confirmation de réception d'un message à un visiteur.
      *
@@ -55,12 +57,13 @@ class Mailer
     public function sendConfirmationContactEmailMessage(ContactUs $contactMessage)
     {
         $to = $contactMessage->getEmail();
-        $from = array($this->from => $this->name);
+        $from = [$this->from => $this->name];
         $subject = 'Reception of your message';
-        $body = $this->templating->render('mail/confirmationContactMessage.html.twig', array('contactMessage' => $contactMessage));
+        $body = $this->templating->render('mail/confirmationContactMessage.html.twig', ['contactMessage' => $contactMessage]);
 
         $this->sendEmailMessage($to, $from, $subject, $body);
     }
+
     /**
      * Envoi d'un mail de réponse à une question posée par un visiteur.
      *
@@ -72,9 +75,9 @@ class Mailer
     public function sendReplyContactEmailMessage(ContactUs $question, $reply, $fromName, $fromMail)
     {
         $to = $question->getEmail();
-        $from = array($fromMail => $fromName);
+        $from = [$fromMail => $fromName];
         $subject = 'Reply about your message';
-        $body = $this->templating->render('mail/replyContactMessage.html.twig', array('question' => $question, 'reply' => $reply));
+        $body = $this->templating->render('mail/replyContactMessage.html.twig', ['question' => $question, 'reply' => $reply]);
 
         $this->sendEmailMessage($to, $from, $subject, $body);
     }

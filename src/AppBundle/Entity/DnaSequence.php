@@ -14,7 +14,7 @@ class DnaSequence
 {
     /**
      * The ID in the database.
-     * 
+     *
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -25,7 +25,7 @@ class DnaSequence
 
     /**
      * The number of letters in the sequence.
-     * 
+     *
      * @var array
      *
      * @ORM\Column(name="letterCount", type="array")
@@ -34,7 +34,7 @@ class DnaSequence
 
     /**
      * The DNA sequence.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="dna", type="text")

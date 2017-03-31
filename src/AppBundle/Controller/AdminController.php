@@ -1,5 +1,7 @@
 <?php
+
 // src/AppBundle/Controller/AdminController.php
+
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,9 +16,9 @@ class AdminController extends Controller
 {
     /**
      * Administration panel index page.
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
+     *
      * @Route("/", name="admin_index")
      */
     public function indexAction()

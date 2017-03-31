@@ -48,7 +48,7 @@ class Seo
      * Strain or Species or Chromosome.
      *
      * @var Strain
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Strain", inversedBy="seos")
      */
     private $strain;
@@ -56,9 +56,9 @@ class Seo
     /**
      * The concerned species.
      * Species or Strain or Chromosome.
-     * 
+     *
      * @var Species
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="seos")
      */
     private $species;

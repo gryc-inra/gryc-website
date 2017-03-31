@@ -12,20 +12,20 @@ class AdminUserRightsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('authorizedStrains', EntityType::class, array(
+            ->add('authorizedStrains', EntityType::class, [
                 'class' => 'AppBundle\Entity\Strain',
                 'choice_label' => 'name',
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,
-            ))
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\User',
-        ));
+        ]);
     }
 }

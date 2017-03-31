@@ -16,7 +16,7 @@ class Clade
 {
     /**
      * The ID in the database.
-     * 
+     *
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -27,7 +27,7 @@ class Clade
 
     /**
      * The name of the clade.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
@@ -38,7 +38,7 @@ class Clade
 
     /**
      * The description of the clade.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="description", type="text")
@@ -49,7 +49,7 @@ class Clade
     /**
      * Is it a main clade ?
      * true -> yes, false -> no.
-     * 
+     *
      * @var bool
      *
      * @ORM\Column(name="mainClade", type="boolean")
@@ -58,7 +58,7 @@ class Clade
 
     /**
      * A collection of species in this clade.
-     * 
+     *
      * @var Species|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="clade", cascade={"remove"})

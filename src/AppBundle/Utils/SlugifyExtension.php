@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Utils/SlugifyExtension.php
 
 namespace AppBundle\Utils;
@@ -7,9 +8,9 @@ class SlugifyExtension extends \Twig_Extension
 {
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('slugify', array($this, 'slugify')),
-        );
+        return [
+            new \Twig_SimpleFilter('slugify', [$this, 'slugify']),
+        ];
     }
 
     public function slugify($text)

@@ -23,7 +23,7 @@ class ContactUsType extends AbstractType
             ->add('firstName')
             ->add('lastName')
             ->add('email')
-            ->add('category', EntityType::class, array(
+            ->add('category', EntityType::class, [
                 'class' => 'AppBundle:ContactUsCategory',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('m')
@@ -31,17 +31,17 @@ class ContactUsType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'placeholder' => 'Choose a category',
-            ))
+            ])
             ->add('subject')
-            ->add('message', TextareaType::class, array(
-                'attr' => array(
+            ->add('message', TextareaType::class, [
+                'attr' => [
                     'rows' => 20,
-                ), ))
-            ->add('recaptcha', EWZRecaptchaType::class, array(
+                ], ])
+            ->add('recaptcha', EWZRecaptchaType::class, [
                 'mapped' => false,
-                'constraints' => array(
+                'constraints' => [
                     new RecaptchaTrue(),
-                ), ))
+                ], ])
         ;
     }
 
@@ -50,8 +50,8 @@ class ContactUsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\ContactUs',
-        ));
+        ]);
     }
 }

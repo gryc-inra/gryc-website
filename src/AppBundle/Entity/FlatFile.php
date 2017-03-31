@@ -14,7 +14,7 @@ class FlatFile extends CopiedFile
     /**
      * The molecule type.
      * Eg: nuc or prot.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="molType", type="string", length=255)
@@ -24,7 +24,7 @@ class FlatFile extends CopiedFile
     /**
      * The feature type.
      * Eg: CDS, Chromosome or Orf.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="featureType", type="string", length=255)
@@ -34,7 +34,7 @@ class FlatFile extends CopiedFile
     /**
      * The file format.
      * Eg: embl or fasta.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="format", type="string", length=255)
@@ -43,9 +43,9 @@ class FlatFile extends CopiedFile
 
     /**
      * The concerned chromosome.
-     * 
+     *
      * @var Chromosome
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Chromosome", inversedBy="flatFiles")
      */
     private $chromosome;
@@ -158,7 +158,7 @@ class FlatFile extends CopiedFile
 
     /**
      * Get the upload root directory.
-     * 
+     *
      * @return string
      */
     protected function getUploadRootDir()
@@ -169,7 +169,7 @@ class FlatFile extends CopiedFile
 
     /**
      * Get the upload directory.
-     * 
+     *
      * @return string
      */
     protected function getUploadDir()

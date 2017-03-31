@@ -12,21 +12,21 @@ class AdminUserRolesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('roles', ChoiceType::class, array(
-                'choices' => array(
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
                     'User' => 'ROLE_USER',
                     'Administrator' => 'ROLE_ADMIN',
-                ),
+                ],
                 'multiple' => true,
                 'expanded' => true,
-            ))
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\User',
-        ));
+        ]);
     }
 }

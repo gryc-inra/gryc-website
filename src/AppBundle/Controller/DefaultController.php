@@ -26,9 +26,9 @@ class DefaultController extends Controller
         $species = $em->getRepository('AppBundle:Species')->getAllSpeciesWithAvailableStrains($this->getUser());
 
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
+        return $this->render('default/index.html.twig', [
             'speciesList' => $species,
-        ));
+        ]);
     }
 
     /**

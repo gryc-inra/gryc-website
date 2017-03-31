@@ -14,7 +14,7 @@ class Dbxref
 {
     /**
      * The ID in the database.
-     * 
+     *
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -25,7 +25,7 @@ class Dbxref
 
     /**
      * The name of the dbxref.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
@@ -34,7 +34,7 @@ class Dbxref
 
     /**
      * The description.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="description", type="text")
@@ -43,7 +43,7 @@ class Dbxref
 
     /**
      * The pattern of the DBXREF.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="pattern", type="string", length=255, unique=true)
@@ -52,7 +52,7 @@ class Dbxref
 
     /**
      * The URL.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255)
@@ -61,7 +61,7 @@ class Dbxref
 
     /**
      * The source.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="source", type="string", length=255)

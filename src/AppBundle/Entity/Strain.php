@@ -16,7 +16,7 @@ class Strain
 {
     /**
      * The ID in the database.
-     * 
+     *
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -27,7 +27,7 @@ class Strain
 
     /**
      * The name of the strain.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
@@ -36,7 +36,7 @@ class Strain
 
     /**
      * An array of synonymes.
-     * 
+     *
      * @var array
      *
      * @ORM\Column(name="synonymes", type="array")
@@ -45,7 +45,7 @@ class Strain
 
     /**
      * The length of the strain. (Total of chromosomes length).
-     * 
+     *
      * @var int
      *
      * @ORM\Column(name="length", type="integer")
@@ -54,7 +54,7 @@ class Strain
 
     /**
      * The G/C percentage.
-     * 
+     *
      * @var float
      *
      * @ORM\Column(name="gc", type="float")
@@ -64,7 +64,7 @@ class Strain
     /**
      * The status of the strain.
      * Eg: complete.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=255)
@@ -73,7 +73,7 @@ class Strain
 
     /**
      * The number of CDS.
-     * 
+     *
      * @var int
      *
      * @ORM\Column(name="cdsCount", type="integer")
@@ -82,7 +82,7 @@ class Strain
 
     /**
      * The owned chromosomes.
-     * 
+     *
      * @var Chromosome|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Chromosome", mappedBy="strain", cascade={"persist", "remove"})
@@ -92,9 +92,9 @@ class Strain
 
     /**
      * The parent species.
-     * 
+     *
      * @var Species
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="strains")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -102,18 +102,18 @@ class Strain
 
     /**
      * The Seo linked on the species.
-     * 
+     *
      * @var Seo|ArrayCollection
-     * 
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Seo", mappedBy="strain", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $seos;
 
     /**
      * The slug, for url.
-     * 
+     *
      * @var string
-     * 
+     *
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
      */
@@ -122,9 +122,9 @@ class Strain
     /**
      * Is the strain public ?
      * Eg: true (public) or false (private).
-     * 
+     *
      * @var bool
-     * 
+     *
      * @ORM\Column(name="public", type="boolean")
      */
     private $public = false;
@@ -132,9 +132,9 @@ class Strain
     /**
      * The authorized user.
      * For private strains only.
-     * 
+     *
      * @var User|ArrayCollection
-     * 
+     *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="authorizedStrains")
      */
     private $authorizedUsers;
@@ -149,7 +149,7 @@ class Strain
      */
     public function __construct()
     {
-        $this->synonymes = array();
+        $this->synonymes = [];
         $this->chromosomes = new ArrayCollection();
         $this->seos = new ArrayCollection();
         $this->authorizedUsers = new ArrayCollection();
@@ -229,7 +229,7 @@ class Strain
      */
     public function emptySynonymes()
     {
-        $this->synonymes = array();
+        $this->synonymes = [];
 
         return $this;
     }
@@ -427,7 +427,7 @@ class Strain
      * Add Seo.
      *
      * @param Seo $seo
-     * 
+     *
      * @return Strain
      */
     public function addSeo(Seo $seo)
@@ -490,7 +490,7 @@ class Strain
 
     /**
      * Set public.
-     * 
+     *
      * @param bool $bool
      *
      * @return $this
@@ -504,7 +504,7 @@ class Strain
 
     /**
      * Get public.
-     * 
+     *
      * @return bool
      */
     public function getPublic()
@@ -514,7 +514,7 @@ class Strain
 
     /**
      * Is public?
-     * 
+     *
      * @return bool
      */
     public function isPublic()
@@ -524,7 +524,7 @@ class Strain
 
     /**
      * Is private?
-     * 
+     *
      * @return bool
      */
     public function isPrivate()
@@ -534,7 +534,7 @@ class Strain
 
     /**
      * Return if the strain is public or no, in letter.
-     * 
+     *
      * @return string
      */
     public function isPublicToString()
@@ -604,7 +604,7 @@ class Strain
      * Is authorized user ?
      *
      * @param User $user
-     * 
+     *
      * @return bool
      */
     public function isAuthorizedUser(User $user = null)

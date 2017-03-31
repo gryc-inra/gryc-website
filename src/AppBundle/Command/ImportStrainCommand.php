@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Command/ImportStrainCommand.php
 
 namespace AppBundle\Command;
@@ -26,7 +27,7 @@ class ImportStrainCommand extends ContainerAwareCommand
     {
         $this
             ->setName('bio:strain:import')
-            ->setAliases(array('bio:import:strain'))
+            ->setAliases(['bio:import:strain'])
             ->setDescription('Species import')
             ->addArgument(
                 'dir',
@@ -66,12 +67,12 @@ class ImportStrainCommand extends ContainerAwareCommand
             );
         }
 
-        if (!$this->fs->exists(array(
+        if (!$this->fs->exists([
                 $input->getArgument('dir').'/files/CDSnuc',
                 $input->getArgument('dir').'/files/CDSpro',
                 $input->getArgument('dir').'/files/EMBL',
                 $input->getArgument('dir').'/files/Fasta',
-            ))) {
+            ])) {
             throw new \RuntimeException(
                 '<error>The files directory need 4 directories: CDSnuc, CDSpro, EMBL, Fasta.</error>'
             );
@@ -90,10 +91,9 @@ class ImportStrainCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-
         // List all the persisted species, call the bio:species:list command to do it
         $listSpeciesCommand = $this->getApplication()->find('bio:species:list');
-        $listSpeciesCommandInput = new ArrayInput(array('command' => 'bio:species:list'));
+        $listSpeciesCommandInput = new ArrayInput(['command' => 'bio:species:list']);
         $listSpeciesCommand->run($listSpeciesCommandInput, $output);
 
         $question = new Question('Please enter the name of the species: ');
@@ -175,23 +175,23 @@ class ImportStrainCommand extends ContainerAwareCommand
             $dnaSequence->setDna($chromosomeData['DnaSequence']['seq']);
             // The array in the json haven't key, but the positions in the array is:
             // A, C, G, T, N, other.
-            $letterCountKeys = array('A', 'C', 'G', 'T', 'N', 'other');
+            $letterCountKeys = ['A', 'C', 'G', 'T', 'N', 'other'];
             $dnaSequence->setLetterCount(array_combine($letterCountKeys, $chromosomeData['DnaSequence']['letterCount']));
             $chromosome->setDnaSequence($dnaSequence);
 
             // FLAT FILES
-            if (!$this->fs->exists(array(
+            if (!$this->fs->exists([
                 $input->getArgument('dir').'/files/CDSnuc/'.$chromosome->getName().'.fsa',
                 $input->getArgument('dir').'/files/CDSpro/'.$chromosome->getName().'.fsa',
                 $input->getArgument('dir').'/files/EMBL/'.$chromosome->getName().'.embl',
                 $input->getArgument('dir').'/files/Fasta/'.$chromosome->getName().'.fsa',
-            ))) {
+            ])) {
                 throw new \RuntimeException(
                     '<error>One of the files for '.$chromosome->getName().' is missing in one of this directories: CDSnuc, CDSpro, EMBL, Fasta.</error>'
                 );
             }
 
-            $flatFiles = array();
+            $flatFiles = [];
 
             $flatFiles['CDSnuc'] = new FlatFile();
             $flatFiles['CDSnuc']->setFileSystemPath($input->getArgument('dir').'/files/CDSnuc/'.$chromosome->getName().'.fsa');

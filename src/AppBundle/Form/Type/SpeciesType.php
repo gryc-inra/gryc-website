@@ -18,40 +18,40 @@ class SpeciesType extends AbstractType
     {
         $builder
             ->add('taxid', IntegerType::class)
-            ->add('clade', EntityType::class, array(
+            ->add('clade', EntityType::class, [
                 'class' => 'AppBundle:Clade',
                 'choice_label' => 'name',
                 'query_builder' => function (CladeRepository $repository) {
                     return $repository->createQueryBuilder('c')
                         ->orderBy('c.name', 'ASC');
                 },
-            ))
+            ])
             ->add('scientificName', TextType::class)
             ->add('genus', TextType::class)
             ->add('species', TextType::class)
             ->add('geneticCode', IntegerType::class)
             ->add('mitoCode', IntegerType::class)
-            ->add('lineages', CollectionType::class, array(
+            ->add('lineages', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
-            ))
-            ->add('synonymes', CollectionType::class, array(
+            ])
+            ->add('synonymes', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'required' => false,
-            ))
-            ->add('description', TextareaType::class, array(
+            ])
+            ->add('description', TextareaType::class, [
                 'required' => false,
-            ))
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Species',
-        ));
+        ]);
     }
 }

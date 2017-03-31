@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Form/Type/RegistrationType.php
 
 namespace AppBundle\Form\Type;
@@ -20,11 +21,11 @@ class RegistrationType extends AbstractType
             ->add('firstName')
             ->add('lastName')
             ->add('company')
-            ->add('recaptcha', EWZRecaptchaType::class, array(
+            ->add('recaptcha', EWZRecaptchaType::class, [
                 'mapped' => false,
-                'constraints' => array(
+                'constraints' => [
                     new RecaptchaTrue(),
-                ), ))
+                ], ])
         ;
     }
 

@@ -1,5 +1,7 @@
 <?php
+
 // src/AppBundle/Controller/StrainController.php
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Strain;
@@ -36,9 +38,9 @@ class StrainController extends Controller
      */
     public function viewAction(Strain $strain)
     {
-        return $this->render('strain/view.html.twig', array(
+        return $this->render('strain/view.html.twig', [
             'strain' => $strain,
-        ));
+        ]);
     }
 
     /**
@@ -53,9 +55,9 @@ class StrainController extends Controller
         $em = $this->getDoctrine()->getManager();
         $strains = $em->getRepository('AppBundle:Strain')->getStrainsWithSpecies();
 
-        return $this->render('strain/list.html.twig', array(
+        return $this->render('strain/list.html.twig', [
             'strains' => $strains,
-        ));
+        ]);
     }
 
     /**
@@ -71,9 +73,9 @@ class StrainController extends Controller
     public function editAction(Request $request, Strain $strain)
     {
         $form = $this->createForm(StrainType::class, $strain);
-        $form->add('save', SubmitType::class, array(
+        $form->add('save', SubmitType::class, [
             'label' => 'Edit the strain',
-        ));
+        ]);
 
         $form->handleRequest($request);
 
@@ -86,10 +88,10 @@ class StrainController extends Controller
             return $this->redirectToRoute('strain_list');
         }
 
-        return $this->render('strain/edit.html.twig', array(
+        return $this->render('strain/edit.html.twig', [
             'strain' => $strain,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -105,9 +107,9 @@ class StrainController extends Controller
     public function deleteAction(Request $request, Strain $strain)
     {
         $form = $this->createFormBuilder()
-            ->add('confirm', TextType::class, array(
+            ->add('confirm', TextType::class, [
                 'constraints' => new Regex('#^I confirm the deletion$#'),
-            ))
+            ])
             ->getForm();
 
         $form->handleRequest($request);
@@ -122,15 +124,15 @@ class StrainController extends Controller
             return $this->redirectToRoute('species_list');
         }
 
-        return $this->render('strain/delete.html.twig', array(
+        return $this->render('strain/delete.html.twig', [
             'strain' => $strain,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
      * @param Request $request
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @route("/admin/strain/{id}/user-rights", name="strain_user_rights")

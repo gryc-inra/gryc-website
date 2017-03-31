@@ -13,10 +13,10 @@ class StrainRightsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('authorizedUsers', EntityType::class, array(
+            ->add('authorizedUsers', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function (UserRepository $ur) {
-                  return $ur->createQueryBuilder('u')
+                    return $ur->createQueryBuilder('u')
                       ->orderBy('u.username', 'ASC');
                 },
                 'choice_label' => function ($user) {
@@ -26,14 +26,14 @@ class StrainRightsType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,
-            ))
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Strain',
-        ));
+        ]);
     }
 }

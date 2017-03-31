@@ -15,29 +15,29 @@ class StrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('species', EntityType::class, array(
+            ->add('species', EntityType::class, [
                 'class' => 'AppBundle:Species',
                 'choice_label' => 'scientificname',
-            ))
+            ])
             ->add('name')
-            ->add('synonymes', CollectionType::class, array(
+            ->add('synonymes', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'required' => false,
-            ))
-            ->add('length', NumberType::class, array(
+            ])
+            ->add('length', NumberType::class, [
                 'disabled' => true,
-            ))
-            ->add('gc', NumberType::class, array(
+            ])
+            ->add('gc', NumberType::class, [
                 'disabled' => true,
-            ))
-            ->add('cdsCount', NumberType::class, array(
+            ])
+            ->add('cdsCount', NumberType::class, [
                 'disabled' => true,
-            ))
-            ->add('status', TextType::class, array(
+            ])
+            ->add('status', TextType::class, [
                 'disabled' => true,
-            ))
+            ])
             ->add('public')
             ->add('typeStrain')
         ;
@@ -45,8 +45,8 @@ class StrainType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Strain',
-        ));
+        ]);
     }
 }

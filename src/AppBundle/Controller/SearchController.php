@@ -13,11 +13,11 @@ class SearchController extends Controller
     /**
      * Quick search.
      * Do the search and return the results.
-     * 
+     *
      * @param $search
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
+     *
      * @Route("/quick-search/{search}", name="quick-search")
      */
     public function quickSearchAction($search)
@@ -26,9 +26,9 @@ class SearchController extends Controller
         $repository = $repositoryManager->getRepository('AppBundle:User');
         $results = $repository->findWithCustomQuery($search);
 
-        return $this->render('search\quickSearchResults.html.twig', array(
+        return $this->render('search\quickSearchResults.html.twig', [
             'search' => $search,
             'results' => $results,
-        ));
+        ]);
     }
 }

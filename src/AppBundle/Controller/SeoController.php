@@ -20,7 +20,7 @@ class SeoController extends Controller
 {
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
+     *
      * @Route("/", name="seo_homepage")
      */
     public function indexAction()
@@ -28,9 +28,9 @@ class SeoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $species = $em->getRepository('AppBundle:Species')->findAllWithSeo();
 
-        return $this->render('seo/index.html.twig', array(
+        return $this->render('seo/index.html.twig', [
             'speciesList' => $species,
-        ));
+        ]);
     }
 
     /**
@@ -39,9 +39,9 @@ class SeoController extends Controller
     public function speciesAction(Species $species, Request $request)
     {
         $form = $this->createForm(SpeciesSeoType::class, $species);
-        $form->add('submit', SubmitType::class, array(
+        $form->add('submit', SubmitType::class, [
             'label' => 'Edit',
-        ));
+        ]);
 
         $form->handleRequest($request);
 
@@ -54,10 +54,10 @@ class SeoController extends Controller
             return $this->redirectToRoute('seo_homepage');
         }
 
-        return $this->render('seo/species.html.twig', array(
+        return $this->render('seo/species.html.twig', [
             'form' => $form->createView(),
             'species' => $species,
-        ));
+        ]);
     }
 
     /**
@@ -66,9 +66,9 @@ class SeoController extends Controller
     public function strainAction(Strain $strain, Request $request)
     {
         $form = $this->createForm(StrainSeoType::class, $strain);
-        $form->add('submit', SubmitType::class, array(
+        $form->add('submit', SubmitType::class, [
             'label' => 'Edit',
-        ));
+        ]);
 
         $form->handleRequest($request);
 
@@ -81,9 +81,9 @@ class SeoController extends Controller
             return $this->redirectToRoute('seo_homepage');
         }
 
-        return $this->render('seo/strain.html.twig', array(
+        return $this->render('seo/strain.html.twig', [
             'form' => $form->createView(),
             'strain' => $strain,
-        ));
+        ]);
     }
 }

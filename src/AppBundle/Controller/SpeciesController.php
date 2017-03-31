@@ -1,5 +1,7 @@
 <?php
+
 // src/AppBundle/Controller/SpeciesController.php
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Species;
@@ -35,9 +37,9 @@ class SpeciesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $speciesList = $em->getRepository('AppBundle:Species')->getAllSpeciesWithAvailableStrains($this->getUser());
 
-        return $this->render('species/index.html.twig', array(
+        return $this->render('species/index.html.twig', [
             'speciesList' => $speciesList,
-        ));
+        ]);
     }
 
     /**
@@ -58,9 +60,9 @@ class SpeciesController extends Controller
             throw $this->createNotFoundException("This species doen't exists.");
         }
 
-        return $this->render('species/view.html.twig', array(
+        return $this->render('species/view.html.twig', [
             'species' => $species,
-        ));
+        ]);
     }
 
     /**
@@ -75,9 +77,9 @@ class SpeciesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $species = $em->getRepository('AppBundle:Species')->getAllSpeciesWithAvailableStrains($this->getUser());
 
-        return $this->render('species/list.html.twig', array(
+        return $this->render('species/list.html.twig', [
             'speciesList' => $species,
-        ));
+        ]);
     }
 
     /**
@@ -94,9 +96,9 @@ class SpeciesController extends Controller
         $species = new Species();
 
         $form = $this->createForm(SpeciesType::class, $species);
-        $form->add('save', SubmitType::class, array(
+        $form->add('save', SubmitType::class, [
             'label' => 'Add a species',
-        ));
+        ]);
 
         $form->handleRequest($request);
 
@@ -110,9 +112,9 @@ class SpeciesController extends Controller
             return $this->redirectToRoute('species_list');
         }
 
-        return $this->render('species/add.html.twig', array(
+        return $this->render('species/add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -128,9 +130,9 @@ class SpeciesController extends Controller
     public function editAction(Request $request, Species $species)
     {
         $form = $this->createForm(SpeciesType::class, $species);
-        $form->add('save', SubmitType::class, array(
+        $form->add('save', SubmitType::class, [
             'label' => 'Edit the species',
-        ));
+        ]);
 
         $form->handleRequest($request);
 
@@ -143,10 +145,10 @@ class SpeciesController extends Controller
             return $this->redirectToRoute('species_list');
         }
 
-        return $this->render('species/edit.html.twig', array(
+        return $this->render('species/edit.html.twig', [
             'species' => $species,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -162,9 +164,9 @@ class SpeciesController extends Controller
     public function deleteAction(Request $request, Species $species)
     {
         $form = $this->createFormBuilder()
-            ->add('confirm', TextType::class, array(
+            ->add('confirm', TextType::class, [
                 'constraints' => new Regex('#^I confirm the deletion$#'),
-            ))
+            ])
             ->getForm();
 
         $form->handleRequest($request);
@@ -179,10 +181,10 @@ class SpeciesController extends Controller
             return $this->redirectToRoute('species_list');
         }
 
-        return $this->render('species/delete.html.twig', array(
+        return $this->render('species/delete.html.twig', [
             'species' => $species,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -204,7 +206,7 @@ class SpeciesController extends Controller
         $crawler = new Crawler($xmlString);
 
         // Initialise the response
-        $response = array();
+        $response = [];
 
         // Count the number of taxon tag, if different of 0 there are contents, else the document is empty, it's because the Taxon Id doesn't exists
         if (0 !== $crawler->filterXPath('//TaxaSet/Taxon')->count()) {

@@ -1,5 +1,7 @@
 <?php
+
 // src/AppBundle/Controller/AdminUserController.php
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
@@ -29,9 +31,9 @@ class AdminUserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('AppBundle:User')->findAll();
 
-        return $this->render('admin/user/user-list.html.twig', array(
+        return $this->render('admin/user/user-list.html.twig', [
             'users' => $users,
-        ));
+        ]);
     }
 
     /**
@@ -62,11 +64,11 @@ class AdminUserController extends Controller
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('admin/user/edit-rights.html.twig', array(
+        return $this->render('admin/user/edit-rights.html.twig', [
             'user' => $user,
             'speciesList' => $species,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -95,9 +97,9 @@ class AdminUserController extends Controller
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('admin/user/edit-roles.html.twig', array(
+        return $this->render('admin/user/edit-roles.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 }

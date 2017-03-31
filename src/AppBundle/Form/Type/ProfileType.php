@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Form/Type/ProfileType.php
 
 namespace AppBundle\Form\Type;

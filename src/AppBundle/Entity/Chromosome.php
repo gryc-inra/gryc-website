@@ -99,7 +99,7 @@ class Chromosome
 
     /**
      * The numReleased.
-     * 
+     *
      * @var int
      *
      * @ORM\Column(name="numReleased", type="integer", nullable=true)
@@ -185,7 +185,7 @@ class Chromosome
      * Flat files of the chromsomes.
      *
      * @var FlatFile|ArrayCollection
-     * 
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\FlatFile", mappedBy="chromosome", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -195,7 +195,7 @@ class Chromosome
      * A slug for url.
      *
      * @var string
-     * 
+     *
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
      */
@@ -206,8 +206,8 @@ class Chromosome
      */
     public function __construct()
     {
-        $this->accessions = array();
-        $this->keywords = array();
+        $this->accessions = [];
+        $this->keywords = [];
         $this->flatFiles = new ArrayCollection();
         $this->seos = new ArrayCollection();
     }
@@ -286,7 +286,7 @@ class Chromosome
      */
     public function emptyAccessions()
     {
-        $this->accessions = array();
+        $this->accessions = [];
 
         return $this;
     }
@@ -381,7 +381,7 @@ class Chromosome
      */
     public function emptyKeywords()
     {
-        $this->keywords = array();
+        $this->keywords = [];
 
         return $this;
     }
@@ -728,7 +728,7 @@ class Chromosome
      * Add FlatFile.
      *
      * @param FlatFile $flatFile
-     * 
+     *
      * @return $this
      */
     public function addFlatFile(FlatFile $flatFile)

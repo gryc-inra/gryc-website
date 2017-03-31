@@ -33,7 +33,7 @@ class Species
      * The clade including the species.
      *
      * @var Clade
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Clade", inversedBy="species")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -141,23 +141,23 @@ class Species
      * A collection of strains owned by the species.
      *
      * @var Strain|ArrayCollection
-     * 
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="species", cascade={"persist", "remove"})
      */
     private $strains;
 
     /**
      * A collection of Seo linked to the species.
-     * 
+     *
      * @var Seo|ArrayCollection
-     * 
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Seo", mappedBy="species", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $seos;
 
     /**
      * A slug, for url.
-     * 
+     *
      * @Gedmo\Slug(fields={"scientificName"})
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
      */
@@ -170,8 +170,8 @@ class Species
     {
         $this->mitoCode = 3;
         $this->geneticCode = 1;
-        $this->synonymes = array();
-        $this->lineages = array();
+        $this->synonymes = [];
+        $this->lineages = [];
         $this->strains = new ArrayCollection();
         $this->seos = new ArrayCollection();
     }
@@ -324,7 +324,7 @@ class Species
      */
     public function setLineages($lineages)
     {
-        $this->lineages = array();
+        $this->lineages = [];
 
         foreach ($lineages as $lineage) {
             $this->addLineage($lineage);
@@ -340,7 +340,7 @@ class Species
      */
     public function emptyLineages()
     {
-        $this->lineages = array();
+        $this->lineages = [];
 
         return $this;
     }
@@ -467,7 +467,7 @@ class Species
      */
     public function emptySynonymes()
     {
-        $this->synonymes = array();
+        $this->synonymes = [];
 
         return $this;
     }
@@ -476,12 +476,12 @@ class Species
      * Set synonymes.
      *
      * @param array $synonymes
-     * 
+     *
      * @return Species
      */
     public function setSynonymes($synonymes)
     {
-        $this->synonymes = array();
+        $this->synonymes = [];
 
         foreach ($synonymes as $synonym) {
             $this->addSynonym($synonym);
@@ -528,7 +528,7 @@ class Species
      * Add strain.
      *
      * @param Strain $strain
-     * 
+     *
      * @return $this
      */
     public function addStrain(Strain $strain)

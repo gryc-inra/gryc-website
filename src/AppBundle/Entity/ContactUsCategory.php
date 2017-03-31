@@ -14,7 +14,7 @@ class ContactUsCategory
 {
     /**
      * The ID in the database.
-     * 
+     *
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -25,7 +25,7 @@ class ContactUsCategory
 
     /**
      * The name of the category.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)

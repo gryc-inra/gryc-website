@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/DataFixtures/ORM/LoadFixtures.php
 
 namespace AppBundle\DataFixtures\ORM;
@@ -61,7 +62,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         //------------------------//
 
         // Définir les catégories dans un array
-        $categoriesName = array('Account', 'Bug report', 'Informations request', 'Other (not listed)');
+        $categoriesName = ['Account', 'Bug report', 'Informations request', 'Other (not listed)'];
 
         // Pour chaque ligne, on crée un objet ContactUsCategory et on défini les attributs, puis on persiste
         foreach ($categoriesName as $categoryName) {

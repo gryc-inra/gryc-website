@@ -23,15 +23,15 @@ class ContactUsReplyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('answer', TextareaType::class, array(
-                'attr' => array(
+            ->add('answer', TextareaType::class, [
+                'attr' => [
                     'rows' => 20,
-                ),
-                'constraints' => array(
+                ],
+                'constraints' => [
                     new NotBlank(),
-                    new Length(array('min' => 30)),
-                ),
-            ))
+                    new Length(['min' => 30]),
+                ],
+            ])
             ->add('reply', SubmitType::class);
     }
 }

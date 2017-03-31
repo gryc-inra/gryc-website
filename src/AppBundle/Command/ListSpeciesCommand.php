@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Command/ListSpeciesCommand.php
 
 namespace AppBundle\Command;
@@ -25,15 +26,15 @@ class ListSpeciesCommand extends ContainerAwareCommand
         $listSpecies = $em->getRepository('AppBundle:Species')->findAll();
 
         $table = new Table($output);
-        $table->setHeaders(array('ID', 'Genus', 'Species'));
+        $table->setHeaders(['ID', 'Genus', 'Species']);
 
         if (empty($listSpecies)) {
-            $table->setRows(array(
-                array(new TableCell('There is no species', array('colspan' => 3))),
-            ));
+            $table->setRows([
+                [new TableCell('There is no species', ['colspan' => 3])],
+            ]);
         } else {
             foreach ($listSpecies as $species) {
-                $table->addRow(array($species->getId(), $species->getGenus(), $species->getSpecies()));
+                $table->addRow([$species->getId(), $species->getGenus(), $species->getSpecies()]);
             }
         }
         $table->render();

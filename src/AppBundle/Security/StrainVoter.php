@@ -1,4 +1,5 @@
 <?php
+
 //src/AppBundle/Security/StrainVoter.php
 
 namespace AppBundle\Security;
@@ -17,7 +18,7 @@ class StrainVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't supported by this voter, return false
-        if (!in_array($attribute, array(self::VIEW))) {
+        if (!in_array($attribute, [self::VIEW])) {
             return false;
         }
 

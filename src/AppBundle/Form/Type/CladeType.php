@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Form/Type/CladeType.php
 
 namespace AppBundle\Form\Type;
@@ -20,8 +21,8 @@ class CladeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Clade',
-        ));
+        ]);
     }
 }

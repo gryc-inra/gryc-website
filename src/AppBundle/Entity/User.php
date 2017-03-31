@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Entity/User.php
 
 namespace AppBundle\Entity;
@@ -18,7 +19,7 @@ class User extends BaseUser
 {
     /**
      * The ID in the database.
-     * 
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -27,7 +28,7 @@ class User extends BaseUser
 
     /**
      * The first name of the user.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=255)
@@ -37,7 +38,7 @@ class User extends BaseUser
 
     /**
      * The last name of the user.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=255)
@@ -47,7 +48,7 @@ class User extends BaseUser
 
     /**
      * The company of the user.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="company", type="string", length=255)
@@ -57,7 +58,7 @@ class User extends BaseUser
 
     /**
      * The authorized strains for this user.
-     * 
+     *
      * @var Strain|ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Strain", inversedBy="authorizedUsers")
@@ -148,7 +149,7 @@ class User extends BaseUser
      * Add an authorized strain.
      *
      * @param Strain $strain
-     * 
+     *
      * @return $this
      */
     public function addAuthorizedStrain(Strain $strain)

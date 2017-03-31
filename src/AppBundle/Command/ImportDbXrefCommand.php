@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Command/ImportDbXrefCommand.php
 
 namespace AppBundle\Command;
@@ -26,7 +27,7 @@ class ImportDbXrefCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         // DbXref persistés
-        $persistDbxref = array();
+        $persistDbxref = [];
 
         // On initialise le Crawler
         $crawler = new Crawler();

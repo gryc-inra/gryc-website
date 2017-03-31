@@ -19,7 +19,7 @@ class CopiedFile
 {
     /**
      * The ID in the database.
-     * 
+     *
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -28,30 +28,30 @@ class CopiedFile
 
     /**
      * The path of the file on the server.
-     * 
+     *
      * @var string
-     * 
+     *
      * @ORM\Column(name="path", type="string", length=255, unique=true)
      */
     private $path;
 
     /**
      * The path of the file on the system (befor import).
-     * 
+     *
      * @var string
      */
     private $fileSystemPath;
 
     /**
      * A temporaty path, before deletion.
-     * 
+     *
      * @var string
      */
     private $tempPath;
 
     /**
      * The filesystem object.
-     * 
+     *
      * @var Filesystem
      */
     private $fs;
@@ -100,7 +100,7 @@ class CopiedFile
 
     /**
      * Set fileSystemPath.
-     * 
+     *
      * @param string $fileSystemPath
      */
     public function setFileSystemPath($fileSystemPath)

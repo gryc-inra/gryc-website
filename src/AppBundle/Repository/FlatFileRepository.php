@@ -19,12 +19,12 @@ class FlatFileRepository extends \Doctrine\ORM\EntityRepository
                 ->andWhere('flatFile.molType = :molType')
                 ->andWhere('flatFile.format = :format')
                 ->andWhere('chromosome.name = :chromosome')
-                ->setParameters(array(
+                ->setParameters([
                     'featureType' => $featureType,
                     'molType' => $molType,
                     'format' => $format,
                     'chromosome' => $chromosome,
-                ))
+                ])
             ->getQuery();
 
         return $query->getOneOrNullResult();
@@ -40,12 +40,12 @@ class FlatFileRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('flatFile.molType = :molType')
             ->andWhere('flatFile.format = :format')
             ->andWhere('strain.name = :strain')
-            ->setParameters(array(
+            ->setParameters([
                 'featureType' => $featureType,
                 'molType' => $molType,
                 'format' => $format,
                 'strain' => $strain,
-            ))
+            ])
             ->getQuery();
 
         return $query->getResult();

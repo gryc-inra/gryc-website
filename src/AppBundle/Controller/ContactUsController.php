@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Controller/ContactUsController.php
 
 namespace AppBundle\Controller;
@@ -41,9 +42,9 @@ class ContactUsController extends Controller
 
         // Initialiser le formulaire en lui fournissant l'objet, et en définissant le champ de validation
         $form = $this->createForm(ContactUsType::class, $contactus);
-        $form->add('save', SubmitType::class, array(
+        $form->add('save', SubmitType::class, [
             'label' => 'Send message',
-        ));
+        ]);
 
         $form->handleRequest($request);
 
@@ -64,9 +65,9 @@ class ContactUsController extends Controller
         }
 
         // Si le formulaire n'est pas valide, ou si c'est la première vue de la page, afficher le formulaire
-        return $this->render('contactus\contact.html.twig', array(
+        return $this->render('contactus\contact.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -103,11 +104,11 @@ class ContactUsController extends Controller
         }
 
         // Afficher la liste des messages
-        return $this->render('contactus\index.html.twig', array(
+        return $this->render('contactus\index.html.twig', [
             'listMessages' => $listMessages,
             'nbPages' => $nbPages,
             'page' => $page,
-        ));
+        ]);
     }
 
     /**
@@ -142,10 +143,10 @@ class ContactUsController extends Controller
         }
 
         // Si le formulaire n'est pas valide, ou si c'est la première vue de la page, afficher le formulaire
-        return $this->render('contactus\delete.html.twig', array(
+        return $this->render('contactus\delete.html.twig', [
             'message' => $message,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -176,7 +177,7 @@ class ContactUsController extends Controller
         $answer .= 'Postscript: If you have any questions about this issue, you can contact me at this mail: '.$this->getUser()->getEmailCanonical();
 
         // Générer le formulaire, en lui donnant la réponse préparée
-        $data = array('answer' => $answer);
+        $data = ['answer' => $answer];
         $form = $this->createForm(ContactUsReplyType::class, $data);
 
         $form->handleRequest($request);
@@ -205,10 +206,10 @@ class ContactUsController extends Controller
         }
 
         // Sinon, on affiche le formulaire
-        return $this->render('contactus\reply.html.twig', array(
+        return $this->render('contactus\reply.html.twig', [
             'form' => $form->createView(),
             'message' => $message,
-        ));
+        ]);
     }
 
     /**
@@ -223,8 +224,8 @@ class ContactUsController extends Controller
         $nbMessages = $em->getRepository('AppBundle:ContactUs')->getNumberMessages();
 
         // Afficher le nombre de messages
-        return $this->render('contactus\numberMessages.html.twig', array(
+        return $this->render('contactus\numberMessages.html.twig', [
             'nbMessages' => $nbMessages,
-        ));
+        ]);
     }
 }

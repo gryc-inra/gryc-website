@@ -12,23 +12,23 @@ class SpeciesSeoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('seos', CollectionType::class, array(
+            ->add('seos', CollectionType::class, [
                 'entry_type' => SeoType::class,
-                'entry_options' => array(
+                'entry_options' => [
                     'required' => false,
-                ),
+                ],
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
-            ))
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Species',
-        ));
+        ]);
     }
 }
