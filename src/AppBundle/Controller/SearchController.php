@@ -27,7 +27,7 @@ class SearchController extends Controller
         $results = $repository->findWithCustomQuery($search);
 
         return $this->render('search\quickSearchResults.html.twig', [
-            'search'  => $search,
+            'search' => $search,
             'results' => $results,
         ]);
     }

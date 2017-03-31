@@ -55,7 +55,7 @@ class SeoController extends Controller
         }
 
         return $this->render('seo/species.html.twig', [
-            'form'    => $form->createView(),
+            'form' => $form->createView(),
             'species' => $species,
         ]);
     }
@@ -82,7 +82,7 @@ class SeoController extends Controller
         }
 
         return $this->render('seo/strain.html.twig', [
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
             'strain' => $strain,
         ]);
     }

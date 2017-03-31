@@ -106,8 +106,8 @@ class ContactUsController extends Controller
         // Afficher la liste des messages
         return $this->render('contactus\index.html.twig', [
             'listMessages' => $listMessages,
-            'nbPages'      => $nbPages,
-            'page'         => $page,
+            'nbPages' => $nbPages,
+            'page' => $page,
         ]);
     }
 
@@ -145,7 +145,7 @@ class ContactUsController extends Controller
         // Si le formulaire n'est pas valide, ou si c'est la première vue de la page, afficher le formulaire
         return $this->render('contactus\delete.html.twig', [
             'message' => $message,
-            'form'    => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -207,7 +207,7 @@ class ContactUsController extends Controller
 
         // Sinon, on affiche le formulaire
         return $this->render('contactus\reply.html.twig', [
-            'form'    => $form->createView(),
+            'form' => $form->createView(),
             'message' => $message,
         ]);
     }

@@ -104,9 +104,9 @@ class UserAdminController extends Controller
         }
 
         return $this->render('user/admin/strain_access.twig', [
-            'user'        => $user,
+            'user' => $user,
             'speciesList' => $species,
-            'form'        => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 }

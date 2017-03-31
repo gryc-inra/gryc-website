@@ -12,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
  * Service Mailer, permettant d'envoyer les mails.
  *
  * @author Mathieu Piot (mathieu.piot[at]agroparistech.fr)
- *
  */
 class Mailer
 {
@@ -102,8 +101,8 @@ class Mailer
      * Envoi d'un mail de réponse à une question posée par un visiteur.
      *
      * @param ContactUs $question
-     * @param array $reply
-     * @param string $fromName
+     * @param array     $reply
+     * @param string    $fromName
      * @param string f$romMail
      */
     public function sendReplyContactEmailMessage(ContactUs $question, $reply, $fromName, $fromMail)

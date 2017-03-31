@@ -147,7 +147,7 @@ class SpeciesController extends Controller
 
         return $this->render('species/edit.html.twig', [
             'species' => $species,
-            'form'    => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -183,7 +183,7 @@ class SpeciesController extends Controller
 
         return $this->render('species/delete.html.twig', [
             'species' => $species,
-            'form'    => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 

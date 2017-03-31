@@ -13,14 +13,14 @@ class StrainSeoType extends AbstractType
     {
         $builder
             ->add('seos', CollectionType::class, [
-                'entry_type'    => SeoType::class,
+                'entry_type' => SeoType::class,
                 'entry_options' => [
                     'required' => false,
                 ],
                 'by_reference' => false,
-                'allow_add'    => true,
+                'allow_add' => true,
                 'allow_delete' => true,
-                'prototype'    => true,
+                'prototype' => true,
             ]);
     }
 

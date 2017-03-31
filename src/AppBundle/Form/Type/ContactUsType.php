@@ -24,13 +24,13 @@ class ContactUsType extends AbstractType
             ->add('lastName')
             ->add('email')
             ->add('category', EntityType::class, [
-                'class'         => 'AppBundle:ContactUsCategory',
+                'class' => 'AppBundle:ContactUsCategory',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('m')
                         ->orderBy('m.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder'  => 'Choose a category',
+                'placeholder' => 'Choose a category',
             ])
             ->add('subject')
             ->add('message', TextareaType::class, [
@@ -38,7 +38,7 @@ class ContactUsType extends AbstractType
                     'rows' => 20,
                 ], ])
             ->add('recaptcha', EWZRecaptchaType::class, [
-                'mapped'      => false,
+                'mapped' => false,
                 'constraints' => [
                     new RecaptchaTrue(),
                 ], ]);
