@@ -17,8 +17,7 @@ class CladeRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('clade.species', 'species')
                 ->addSelect('species')
             ->orderBy('clade.name', 'ASC')
-            ->getQuery()
-        ;
+            ->getQuery();
 
         return $query->getResult();
     }

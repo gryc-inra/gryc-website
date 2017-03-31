@@ -33,8 +33,7 @@ class ImportStrainCommand extends ContainerAwareCommand
                 'dir',
                 InputArgument::REQUIRED,
                 'Directory with required files: *.json and *_files'
-            )
-        ;
+            );
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)

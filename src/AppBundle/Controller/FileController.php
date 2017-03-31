@@ -4,10 +4,10 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * File serving controller.
@@ -25,9 +25,10 @@ class FileController extends Controller
      * @param $molType
      * @param $format
      *
+     * @throws \Exception
+     *
      * @return BinaryFileResponse
      *
-     * @throws \Exception
      *
      * @Route("/{strainName}-{featureType}-{molType}-{format}.zip", name="file_downloadZipFlatFile")
      */

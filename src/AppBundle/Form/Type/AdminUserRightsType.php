@@ -13,13 +13,12 @@ class AdminUserRightsType extends AbstractType
     {
         $builder
             ->add('authorizedStrains', EntityType::class, [
-                'class' => 'AppBundle\Entity\Strain',
+                'class'        => 'AppBundle\Entity\Strain',
                 'choice_label' => 'name',
-                'expanded' => true,
-                'multiple' => true,
-                'required' => false,
-            ])
-        ;
+                'expanded'     => true,
+                'multiple'     => true,
+                'required'     => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -6,8 +6,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Species;
 use AppBundle\Form\Type\SpeciesType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -147,7 +147,7 @@ class SpeciesController extends Controller
 
         return $this->render('species/edit.html.twig', [
             'species' => $species,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ]);
     }
 
@@ -183,7 +183,7 @@ class SpeciesController extends Controller
 
         return $this->render('species/delete.html.twig', [
             'species' => $species,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ]);
     }
 

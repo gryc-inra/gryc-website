@@ -16,8 +16,7 @@ class ListSpeciesCommand extends ContainerAwareCommand
     {
         $this
             ->setName('bio:species:list')
-            ->setDescription('Species list')
-        ;
+            ->setDescription('Species list');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -18,8 +18,7 @@ class ImportDbXrefCommand extends ContainerAwareCommand
     {
         $this
             ->setName('bio:dbxref:import')
-            ->setDescription('Import DbXref data')
-        ;
+            ->setDescription('Import DbXref data');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

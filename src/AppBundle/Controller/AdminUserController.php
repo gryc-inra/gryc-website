@@ -65,9 +65,9 @@ class AdminUserController extends Controller
         }
 
         return $this->render('admin/user/edit-rights.html.twig', [
-            'user' => $user,
+            'user'        => $user,
             'speciesList' => $species,
-            'form' => $form->createView(),
+            'form'        => $form->createView(),
         ]);
     }
 
