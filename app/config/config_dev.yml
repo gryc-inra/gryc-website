@@ -43,6 +43,3 @@ monolog:
 
 #swiftmailer:
 #    delivery_address: me@example.com
-
-assetic:
-    use_controller: false
