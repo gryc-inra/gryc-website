@@ -19,8 +19,8 @@ class SpeciesType extends AbstractType
         $builder
             ->add('taxid', IntegerType::class)
             ->add('clade', EntityType::class, [
-                'class' => 'AppBundle:Clade',
-                'choice_label' => 'name',
+                'class'         => 'AppBundle:Clade',
+                'choice_label'  => 'name',
                 'query_builder' => function (CladeRepository $repository) {
                     return $repository->createQueryBuilder('c')
                         ->orderBy('c.name', 'ASC');
@@ -32,20 +32,19 @@ class SpeciesType extends AbstractType
             ->add('geneticCode', IntegerType::class)
             ->add('mitoCode', IntegerType::class)
             ->add('lineages', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'allow_add' => true,
+                'entry_type'   => TextType::class,
+                'allow_add'    => true,
                 'allow_delete' => true,
             ])
             ->add('synonymes', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'allow_add' => true,
+                'entry_type'   => TextType::class,
+                'allow_add'    => true,
                 'allow_delete' => true,
-                'required' => false,
+                'required'     => false,
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

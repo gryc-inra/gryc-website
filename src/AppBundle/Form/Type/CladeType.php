@@ -15,8 +15,7 @@ class CladeType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('mainClade')
-        ;
+            ->add('mainClade');
     }
 
     public function configureOptions(OptionsResolver $resolver)

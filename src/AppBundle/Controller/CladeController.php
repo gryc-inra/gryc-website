@@ -88,7 +88,7 @@ class CladeController extends Controller
         $form = $this->createForm(CladeEditType::class, $clade);
         $form->add('save', SubmitType::class, [
             'label' => 'Edit the clade',
-            'attr' => [
+            'attr'  => [
                 'class' => 'btn btn-warning',
             ],
         ]);
@@ -106,7 +106,7 @@ class CladeController extends Controller
 
         return $this->render('clade/edit.html.twig', [
             'clade' => $clade,
-            'form' => $form->createView(),
+            'form'  => $form->createView(),
         ]);
     }
 
@@ -142,7 +142,7 @@ class CladeController extends Controller
 
         return $this->render('clade/delete.html.twig', [
             'clade' => $clade,
-            'form' => $form->createView(),
+            'form'  => $form->createView(),
         ]);
     }
 }

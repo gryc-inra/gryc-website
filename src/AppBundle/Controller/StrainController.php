@@ -90,7 +90,7 @@ class StrainController extends Controller
 
         return $this->render('strain/edit.html.twig', [
             'strain' => $strain,
-            'form' => $form->createView(),
+            'form'   => $form->createView(),
         ]);
     }
 
@@ -126,7 +126,7 @@ class StrainController extends Controller
 
         return $this->render('strain/delete.html.twig', [
             'strain' => $strain,
-            'form' => $form->createView(),
+            'form'   => $form->createView(),
         ]);
     }
 
@@ -161,7 +161,7 @@ class StrainController extends Controller
 
         return $this->render('strain/userRights.html.twig', [
             'strain' => $strain,
-            'form' => $form->createView(),
+            'form'   => $form->createView(),
         ]);
     }
 }

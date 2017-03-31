@@ -12,8 +12,7 @@ class SeoType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('content')
-        ;
+            ->add('content');
     }
 
     public function configureOptions(OptionsResolver $resolver)

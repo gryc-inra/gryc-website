@@ -5,13 +5,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\ContactUs;
-use AppBundle\Form\Type\ContactUsType;
 use AppBundle\Form\Type\ContactUsReplyType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use AppBundle\Form\Type\ContactUsType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * "Contact us" controller.
@@ -106,8 +106,8 @@ class ContactUsController extends Controller
         // Afficher la liste des messages
         return $this->render('contactus\index.html.twig', [
             'listMessages' => $listMessages,
-            'nbPages' => $nbPages,
-            'page' => $page,
+            'nbPages'      => $nbPages,
+            'page'         => $page,
         ]);
     }
 
@@ -145,7 +145,7 @@ class ContactUsController extends Controller
         // Si le formulaire n'est pas valide, ou si c'est la première vue de la page, afficher le formulaire
         return $this->render('contactus\delete.html.twig', [
             'message' => $message,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ]);
     }
 
@@ -207,7 +207,7 @@ class ContactUsController extends Controller
 
         // Sinon, on affiche le formulaire
         return $this->render('contactus\reply.html.twig', [
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
             'message' => $message,
         ]);
     }

@@ -2,8 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Search engine controller.
@@ -27,7 +27,7 @@ class SearchController extends Controller
         $results = $repository->findWithCustomQuery($search);
 
         return $this->render('search\quickSearchResults.html.twig', [
-            'search' => $search,
+            'search'  => $search,
             'results' => $results,
         ]);
     }

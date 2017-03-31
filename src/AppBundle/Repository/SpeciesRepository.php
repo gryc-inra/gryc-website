@@ -15,8 +15,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('species.seos', 'seos')
                 ->addSelect('seos')
             ->orderBy('species.scientificName', 'ASC')
-            ->orderBy('strains.name', 'ASC')
-        ;
+            ->orderBy('strains.name', 'ASC');
 
         // If the user is connected and isn't an administrator
         if (null !== $user && !$user->hasRole('ROLE_ADMIN')) {
@@ -25,14 +24,12 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
                     ->addSelect('authorizedUsers')
                 ->where('strains.public = true')
                 ->orWhere('authorizedUsers = :user')
-                    ->setParameter('user', $user)
-            ;
+                    ->setParameter('user', $user);
         }
         // If the user is not connected
         elseif (null === $user) {
             $query
-                ->where('strains.public = true')
-            ;
+                ->where('strains.public = true');
         }
 
         return $query->getQuery()->getResult();
@@ -46,8 +43,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('species.strains', 'strains')
                 ->addSelect('strains')
             ->leftJoin('species.seos', 'seos')
-                ->addSelect('seos')
-        ;
+                ->addSelect('seos');
 
         return $query->getQuery()->getOneOrNullResult();
     }

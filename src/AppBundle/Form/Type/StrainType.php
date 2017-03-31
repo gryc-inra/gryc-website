@@ -16,15 +16,15 @@ class StrainType extends AbstractType
     {
         $builder
             ->add('species', EntityType::class, [
-                'class' => 'AppBundle:Species',
+                'class'        => 'AppBundle:Species',
                 'choice_label' => 'scientificname',
             ])
             ->add('name')
             ->add('synonymes', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'allow_add' => true,
+                'entry_type'   => TextType::class,
+                'allow_add'    => true,
                 'allow_delete' => true,
-                'required' => false,
+                'required'     => false,
             ])
             ->add('length', NumberType::class, [
                 'disabled' => true,
@@ -39,8 +39,7 @@ class StrainType extends AbstractType
                 'disabled' => true,
             ])
             ->add('public')
-            ->add('typeStrain')
-        ;
+            ->add('typeStrain');
     }
 
     public function configureOptions(OptionsResolver $resolver)
