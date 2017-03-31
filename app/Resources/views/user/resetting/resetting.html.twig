@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Reset password</li>
+{% endblock %}
+
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_row(form.plainPassword.first) }}
+        {{ form_row(form.plainPassword.second) }}
+
+        {{ form_rest(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="login" class="btn btn-default" value="Create a new password" />
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

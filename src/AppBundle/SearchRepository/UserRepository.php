@@ -2,35 +2,34 @@
 
 namespace AppBundle\SearchRepository;
 
+use AppBundle\Entity\User;
 use FOS\ElasticaBundle\Repository;
 
 class UserRepository extends Repository
 {
-    public function findWithCustomQuery($searchText)
+    public function searchByNameQuery($q, $p)
     {
-        $boolQuery = new \Elastica\Query\BoolQuery();
+        $query = new \Elastica\Query();
 
-        $fieldQuery = new \Elastica\Query\Match();
-        $fieldQuery->setFieldQuery('username', $searchText);
-        $fieldQuery->setFieldParam('username', 'analyzer', 'custom_search_analyzer');
-        $boolQuery->addShould($fieldQuery);
+        if (null !== $q) {
+            $queryString = new \Elastica\Query\QueryString();
+            $queryString->setFields(['fullName', 'email']);
+            $queryString->setDefaultOperator('AND');
+            $queryString->setQuery($q);
 
-        $fieldQuery2 = new \Elastica\Query\Match();
-        $fieldQuery2->setFieldQuery('firstName', $searchText);
-        $fieldQuery2->setFieldParam('firstName', 'analyzer', 'custom_search_analyzer');
-        $boolQuery->addShould($fieldQuery2);
+            $query->setQuery($queryString);
+        } else {
+            $matchAllQuery = new \Elastica\Query\MatchAll();
 
-        $fieldQuery3 = new \Elastica\Query\Match();
-        $fieldQuery3->setFieldQuery('lastName', $searchText);
-        $fieldQuery3->setFieldParam('lastName', 'analyzer', 'custom_search_analyzer');
-        $boolQuery->addShould($fieldQuery3);
+            $query->setQuery($matchAllQuery);
+            $query->setSort(['fullName_raw' => 'asc']);
+        }
 
-        $fieldQuery4 = new \Elastica\Query\Match();
-        $fieldQuery4->setFieldQuery('email', $searchText);
-        $fieldQuery4->setFieldParam('email', 'analyzer', 'custom_search_analyzer');
-        $boolQuery->addShould($fieldQuery4);
+        $query
+            ->setFrom(($p - 1) * User::NUM_ITEMS)
+            ->setSize(User::NUM_ITEMS);
 
         // build $query with Elastica objects
-        return $this->find($boolQuery);
+        return $query;
     }
 }

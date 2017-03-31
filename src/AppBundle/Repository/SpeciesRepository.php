@@ -3,10 +3,11 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\User;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getAllSpeciesWithAvailableStrains(User $user = null)
+    public function getAllSpeciesWithAvailableStrains(User $user = null, AuthorizationChecker $authorizationChecker = null)
     {
         // At start, we recove all the species and all the strains (ADMIN rights)
         $query = $this->createQueryBuilder('species')
@@ -17,19 +18,22 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
             ->orderBy('species.scientificName', 'ASC')
             ->orderBy('strains.name', 'ASC');
 
-        // If the user is connected and isn't an administrator
-        if (null !== $user && !$user->hasRole('ROLE_ADMIN')) {
-            $query
-                ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
+        if (null !== $authorizationChecker) {
+            // If the user is connected and isn't an administrator
+            if ($authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                $query
+                    ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
                     ->addSelect('authorizedUsers')
-                ->where('strains.public = true')
-                ->orWhere('authorizedUsers = :user')
+                    ->where('strains.public = true')
+                    ->orWhere('authorizedUsers = :user')
                     ->setParameter('user', $user);
-        }
-        // If the user is not connected
-        elseif (null === $user) {
-            $query
-                ->where('strains.public = true');
+            }
+
+            // If the user is not connected
+            elseif ($authorizationChecker->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
+                $query
+                    ->where('strains.public = true');
+            }
         }
 
         return $query->getQuery()->getResult();

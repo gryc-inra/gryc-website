@@ -10,53 +10,43 @@ fos_elastica:
                 index:
                     analysis:
                         analyzer:
-                            custom_index_analyzer :
-                                type     :    custom
-                                tokenizer:    nGram
-                                #filter   :    [stopwords, asciifolding ,lowercase, snowball, elision, worddelimiter]
-                                filter   :    [stopwords, asciifolding ,lowercase, elision, worddelimiter]
-                            custom_search_analyzer :
-                                type     :    custom
-                                tokenizer:    standard
-                                #filter   :    [stopwords, asciifolding ,lowercase, snowball, elision, worddelimiter]
-                                filter   :    [stopwords, asciifolding ,lowercase, elision, worddelimiter]
-                        tokenizer:
-                            nGram:
-                                type:     nGram
-                                min_gram: 3
-                                max_gram: 20
+                            search_analyzer:
+                                type: custom
+                                tokenizer: standard
+                                filter: [standard, lowercase, asciifolding]
+                            ngram_index_analyzer:
+                                type: custom
+                                tokenizer: standard
+                                filter: [standard, lowercase, asciifolding, edge_ngram]
                         filter:
-                            #snowball:
-                            #    type:     snowball
-                            #    language: English
-                            elision:
-                                type:     elision
-                                articles: [l, m, t, qu, n, s, j, d]
-                            stopwords:
-                                type:      stop
-                                stopwords: [_english_]
-                                ignore_case : true
-                            worddelimiter :
-                                type:      word_delimiter
+                            edge_ngram:
+                                type: edgeNGram
+                                side: front
+                                min_gram: 1
+                                max_gram: 20
             types:
                 user:
                     properties:
-                        username:
-                            analyzer : custom_index_analyzer
-                            search_analyzer : custom_search_analyzer
-                        firstName:
-                            analyzer : custom_index_analyzer
-                            search_analyzer : custom_search_analyzer
-                        lastName:
-                            analyzer : custom_index_analyzer
-                            search_analyzer : custom_search_analyzer
                         email:
-                            analyzer : custom_index_analyzer
-                            search_analyzer : custom_search_analyzer
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        email_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    email
+                        fullName:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        fullName_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    fullName
                     persistence:
-                        driver: orm
-                        model: AppBundle\Entity\User
-                        provider: ~
-                        finder: ~
-                        listener: ~
-                        repository: AppBundle\SearchRepository\UserRepository
+                      driver:                 orm
+                      model:                  AppBundle\Entity\User
+                      provider:               ~
+                      listener:               ~
+                      finder:                 ~
+                      repository:             AppBundle\SearchRepository\UserRepository
+                      elastica_to_model_transformer:
+                        ignore_missing: true

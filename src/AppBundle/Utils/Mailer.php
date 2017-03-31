@@ -5,6 +5,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\ContactUs;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 /**
@@ -12,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
  *
  * @author Mathieu Piot (mathieu.piot[at]agroparistech.fr)
  *
- * @Route("/contact")
  */
 class Mailer
 {
@@ -50,9 +50,43 @@ class Mailer
     }
 
     /**
+     * Send an email to confirm a user registration.
+     *
+     * @param User $user
+     */
+    public function sendUserConfirmation(User $user)
+    {
+        $from = [$this->from => $this->name];
+        $to = $user->getEmail();
+        $subject = 'Registration confirmation';
+        $body = $this->templating->render('mail/userConfirmation.html.twig', [
+            'user' => $user,
+        ]);
+
+        $this->sendEmailMessage($from, $to, $subject, $body);
+    }
+
+    /**
+     * Send an email to reset the password.
+     *
+     * @param User $user
+     */
+    public function sendPasswordResetting(User $user)
+    {
+        $from = [$this->from => $this->name];
+        $to = $user->getEmail();
+        $subject = 'Password resetting';
+        $body = $this->templating->render('mail/passwordResetting.html.twig', [
+            'user' => $user,
+        ]);
+
+        $this->sendEmailMessage($from, $to, $subject, $body);
+    }
+
+    /**
      * Envoi un mail de confirmation de réception d'un message à un visiteur.
      *
-     * @param \ContactUs $contactMessage
+     * @param ContactUs $contactMessage
      */
     public function sendConfirmationContactEmailMessage(ContactUs $contactMessage)
     {
@@ -67,10 +101,10 @@ class Mailer
     /**
      * Envoi d'un mail de réponse à une question posée par un visiteur.
      *
-     * @param \ContactUs question
-     * @param array reply
-     * @param string fromName
-     * @param string fromMail
+     * @param ContactUs $question
+     * @param array $reply
+     * @param string $fromName
+     * @param string f$romMail
      */
     public function sendReplyContactEmailMessage(ContactUs $question, $reply, $fromName, $fromMail)
     {

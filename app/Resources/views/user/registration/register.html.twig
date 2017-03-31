@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Register</li>
+{% endblock %}
+
+
+{% block body %}
+    <h1>Join CollectionManager</h1>
+    {{ form_start(form) }}
+
+        <fieldset>
+            <legend>Account informations</legend>
+                {{ form_row(form.email) }}
+                {{ form_row(form.plainPassword.first) }}
+                {{ form_row(form.plainPassword.second) }}
+        </fieldset>
+
+        <fieldset>
+            <legend>Personal information</legend>
+                {{ form_row(form.firstName) }}
+                {{ form_row(form.lastName) }}
+        </fieldset>
+
+        {{ form_rest(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="login" class="btn btn-default" value="Validate" />
+            </div>
+        </div>
+    {{ form_end(form) }}
+
+    <div class="row">
+        You already have an account ? <a href="{{ path('login') }}">Login page</a>.
+    </div>
+{% endblock %}

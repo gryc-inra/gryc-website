@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('user_index') }}">User list</a></li>
+    <li class="active">Edit roles</li>
+{% endblock %}
+
+
+{% block body %}
+    <h2>Edit roles for: {{ user.fullName }}</h2>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-default" value="Save changes" />
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

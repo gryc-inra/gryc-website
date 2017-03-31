@@ -1,0 +1,71 @@
+<div id="user-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-3">Email</th>
+                <th class="col-md-3">Name</th>
+                <th class="col-md-4">Roles</th>
+                <th class="col-md-1">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% if usersList is not empty %}
+                    {% for user in usersList %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.fullName }}</td>
+                            <td>{{ user.roles|join(',') }}</td>
+                            <td>
+                                {% if app.user != user %}
+                                    <a href="{{ path('homepage', { '_switch_user': user.username }) }}">Impersonate</a>
+                                {% endif %}
+                                <a href="{{ path('user_roles', { 'id': user.id }) }}">Edit roles</a>
+                                <a href="{{ path('user_strains', { 'id': user.id }) }}">Strain access rights</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td class="text-center" colspan="5">There is no results.</td>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination">
+        {% set nbExtremPages, nbBorderPages = 3, 2 %}
+
+        {% if nbPages > 1 %}
+            <li{% if page == 1 %} class="disabled"{% endif %}>
+                <a href="{{ path('user_index', {'q': query, 'p': page - 1}) }}">&laquo;</a>
+            </li>
+
+            {% for p in range(1, nbPages) %}
+                {% if
+                ( p <= nbExtremPages ) or
+                ( p < page and (p >= (page - nbBorderPages)) ) or
+                ( p == page ) or
+                ( p > page and (p <= (page + nbBorderPages)) ) or
+                ( p > (nbPages - nbExtremPages) )
+                %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('user_index', {'q': query, 'p': p}) }}">{{ p }}</a>
+                    </li>
+                {% elseif
+                ((p == (page - nbBorderPages - 1)) or (p == (page + nbBorderPages + 1 )))
+                %}
+                    <li>
+                        <span>...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            <li{% if page == nbPages %} class="disabled"{% endif %}>
+                <a href="{{ path('user_index', {'q': query, 'p': page + 1}) }}" >&raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

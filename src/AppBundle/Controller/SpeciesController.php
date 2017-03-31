@@ -75,7 +75,7 @@ class SpeciesController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $species = $em->getRepository('AppBundle:Species')->getAllSpeciesWithAvailableStrains($this->getUser());
+        $species = $em->getRepository('AppBundle:Species')->getAllSpeciesWithAvailableStrains($this->getUser(), $this->get('security.authorization_checker'));
 
         return $this->render('species/list.html.twig', [
             'speciesList' => $species,

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('user_profile') }}">My profile</a></li>
+    <li class="active">Change password</li>
+{% endblock %}
+
+
+{% block body %}
+    {{ form_start(form) }}
+        <fieldset>
+            <legend>Edit profile</legend>
+            {{ form_row(form.currentPassword) }}
+            {{ form_row(form.plainPassword.first) }}
+            {{ form_row(form.plainPassword.second) }}
+        </fieldset>
+
+        {{ form_rest(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="login" class="btn btn-default" value="Change password" />
+            </div>
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}

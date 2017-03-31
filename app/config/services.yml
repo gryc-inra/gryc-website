@@ -17,8 +17,28 @@ services:
         tags:
           - { name: twig.extension }
 
-    app.strain_voter:
-        class: AppBundle\Security\StrainVoter
+    app.token_generator:
+        class: AppBundle\Utils\TokenGenerator
+
+    app.password_updater:
+        class: AppBundle\Utils\PasswordUpdater
+        arguments: ["@security.password_encoder"]
+
+    app.user_manager:
+        class: AppBundle\Utils\UserManager
+        arguments: ["@app.password_updater", "@doctrine.orm.entity_manager"]
+
+# Doctrine's listeners and subscribers
+    app.event_listener.user:
+        class: AppBundle\EventListener\UserSubscriber
+        arguments: ["@app.password_updater", "@app.token_generator"]
         tags:
-          - { name: security.voter }
+            - { name: doctrine.event_subscriber }
+
+# Voters
+    app.voter.strain:
+        class: AppBundle\Security\StrainVoter
+        arguments: ["@security.access.decision_manager"]
+        tags:
+            - { name: security.voter }
         public: false

@@ -69,13 +69,13 @@
                                             <li><a href="{{ path('admin_index') }}"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
                                             <li role="separator" class="divider"></li>
                                         {% endif %}
-                                        <li><a href="{{ path("fos_user_profile_show") }}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                                        <li><a href="{{ path("fos_user_security_logout") }}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                                        <li><a href="{{ path("user_profile") }}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                                        <li><a href="{{ path("logout") }}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
                                     </ul>
                                 </li>
                             {% else %}
-                                <li><a href="{{ path("fos_user_security_login") }}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
-                                <li><a href="{{ path("fos_user_registration_register") }}"><span class="glyphicon glyphicon-pencil"></span> Sign up</a></li>
+                                <li><a href="{{ path("login") }}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
+                                <li><a href="{{ path("user_registration") }}"><span class="glyphicon glyphicon-pencil"></span> Sign up</a></li>
                             {% endif %}
                         </ul>
 

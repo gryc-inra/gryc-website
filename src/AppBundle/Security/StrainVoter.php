@@ -1,19 +1,24 @@
 <?php
 
-//src/AppBundle/Security/StrainVoter.php
-
 namespace AppBundle\Security;
 
 use AppBundle\Entity\Strain;
 use AppBundle\Entity\User;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class StrainVoter extends Voter
 {
     // List possible actions
     const VIEW = 'VIEW';
+
+    private $decisionManager;
+
+    public function __construct(AccessDecisionManagerInterface $decisionManager)
+    {
+        $this->decisionManager = $decisionManager;
+    }
 
     protected function supports($attribute, $subject)
     {
@@ -50,7 +55,7 @@ class StrainVoter extends Voter
                     return true;
                 }
 
-                if ($user->hasRole('ROLE_ADMIN')) {
+                if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
                     return true;
                 }
             break;
