@@ -1,7 +1,5 @@
 <?php
 
-// src/AppBundle/Controller/CladeController.php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Clade;
@@ -9,63 +7,46 @@ use AppBundle\Form\Type\CladeEditType;
 use AppBundle\Form\Type\CladeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Regex;
 
 /**
  * Clade controller.
- *
- * @Route("/admin/clade")
  */
 class CladeController extends Controller
 {
     /**
-     * List all the clades.
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/list", name="clades_list")
+     * @Route("/admin/clade", name="clade_index")
      */
-    public function listAction()
+    public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
         $clades = $em->getRepository('AppBundle:Clade')->getCladesWithSpecies();
 
-        return $this->render('clade/list.html.twig', [
+        return $this->render('clade/index.html.twig', [
             'clades' => $clades,
         ]);
     }
 
     /**
-     * Add a clade.
-     *
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/add", name="clade_add")
+     * @Route("/admin/clade/add", name="clade_add")
      */
     public function addAction(Request $request)
     {
         $clade = new Clade();
 
         $form = $this->createForm(CladeType::class, $clade);
-        $form->add('save', SubmitType::class, [
-            'label' => 'Add a clade',
-        ]);
 
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($clade);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The clade was successfully added.');
+            $this->addFlash('success', 'The clade has been successfully added.');
 
-            return $this->redirectToRoute('clades_list');
+            return $this->redirectToRoute('clade_index');
         }
 
         return $this->render('clade/add.html.twig', [
@@ -74,34 +55,20 @@ class CladeController extends Controller
     }
 
     /**
-     * Edit a clade.
-     *
-     * @param Request $request
-     * @param Clade   $clade
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/{id}/edit", name="clade_edit")
+     * @Route("/admin/clade/{id}/edit", name="clade_edit")
      */
     public function editAction(Request $request, Clade $clade)
     {
         $form = $this->createForm(CladeEditType::class, $clade);
-        $form->add('save', SubmitType::class, [
-            'label' => 'Edit the clade',
-            'attr' => [
-                'class' => 'btn btn-warning',
-            ],
-        ]);
 
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The clade was successfully edited.');
+            $this->addFlash('success', 'The clade has been successfully edited.');
 
-            return $this->redirectToRoute('clades_list');
+            return $this->redirectToRoute('clade_index');
         }
 
         return $this->render('clade/edit.html.twig', [
@@ -111,14 +78,7 @@ class CladeController extends Controller
     }
 
     /**
-     * Delete a clade.
-     *
-     * @param Request $request
-     * @param Clade   $clade
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/{id}/delete", name="clade_delete")
+     * @Route("/admin/clade/{id}/delete", name="clade_delete")
      */
     public function deleteAction(Request $request, Clade $clade)
     {
@@ -130,14 +90,14 @@ class CladeController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($clade);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The clade was successfully deleted.');
+            $this->addFlash('success', 'The clade has been successfully deleted.');
 
-            return $this->redirectToRoute('clades_list');
+            return $this->redirectToRoute('clade_index');
         }
 
         return $this->render('clade/delete.html.twig', [

@@ -12,7 +12,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('admin_index') }}">Administration</a></li>
-    <li><a href="{{ path('clades_list') }}">Clade management</a></li>
+    <li><a href="{{ path('clade_index') }}">Clade management</a></li>
     <li class="active">Delete the clade: {{ clade.name }}</li>
 {% endblock %}
 
@@ -50,7 +50,7 @@
 
         {{ form_row(form.confirm) }}
         <div class="btn-group" role="group">
-            <a href="{{ path('clades_list') }}" class="btn btn-default" >
+            <a href="{{ path('clade_index') }}" class="btn btn-default" >
                 <i class="glyphicon glyphicon-chevron-left"></i>
                 Back
             </a>
