@@ -3,11 +3,11 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\User;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getAvailableSpeciesAndStrains(User $user) {
+    public function getAvailableSpeciesAndStrains(User $user)
+    {
         $query = $this->createQueryBuilder('species')
             ->leftJoin('species.strains', 'strains')
                 ->addSelect('strains')
@@ -24,7 +24,8 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
         return $query->getQuery()->getResult();
     }
 
-    public function getAllSpeciesAndStrains() {
+    public function getAllSpeciesAndStrains()
+    {
         $query = $this->createQueryBuilder('species')
             ->leftJoin('species.strains', 'strains')
             ->addSelect('strains')
@@ -36,7 +37,8 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
         return $query->getQuery()->getResult();
     }
 
-    public function getSpeciesAndAvailableStrains($slug, User $user) {
+    public function getSpeciesAndAvailableStrains($slug, User $user)
+    {
         $query = $this->createQueryBuilder('species')
             ->leftJoin('species.strains', 'strains')
                 ->addSelect('strains')
@@ -49,13 +51,14 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('strains.public = true OR authorizedUsers = :user')
             ->setParameters([
                 'slug' => $slug,
-                'user' => $user
+                'user' => $user,
             ]);
 
         return $query->getQuery()->getOneOrNullResult();
     }
 
-    public function findAllWithSeo() {
+    public function findAllWithSeo()
+    {
         $query = $this
             ->createQueryBuilder('species')
                 ->leftJoin('species.strains', 'strains')

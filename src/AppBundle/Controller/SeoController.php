@@ -8,7 +8,6 @@ use AppBundle\Form\Type\SpeciesSeoType;
 use AppBundle\Form\Type\StrainSeoType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
