@@ -23,7 +23,7 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $species = $em->getRepository('AppBundle:Species')->getAllSpeciesWithAvailableStrains($this->getUser(), $this->get('security.authorization_checker'));
+        $species = $em->getRepository('AppBundle:Species')->getAvailableSpeciesAndStrains($this->getUser());
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [

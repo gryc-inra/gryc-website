@@ -7,34 +7,31 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getAllSpeciesWithAvailableStrains(User $user = null, AuthorizationChecker $authorizationChecker = null)
-    {
-        // At start, we recove all the species and all the strains (ADMIN rights)
+    public function getAvailableSpeciesAndStrains(User $user) {
         $query = $this->createQueryBuilder('species')
             ->leftJoin('species.strains', 'strains')
                 ->addSelect('strains')
+            ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
+                ->addSelect('authorizedUsers')
             ->leftJoin('species.seos', 'seos')
                 ->addSelect('seos')
+            ->where('strains.public = true')
+            ->orWhere('authorizedUsers = :user')
+                ->setParameter('user', $user)
+            ->orderBy('species.scientificName', 'ASC')
+            ->addOrderBy('strains.name', 'ASC');
+
+        return $query->getQuery()->getResult();
+    }
+
+    public function getAllSpeciesAndStrains() {
+        $query = $this->createQueryBuilder('species')
+            ->leftJoin('species.strains', 'strains')
+            ->addSelect('strains')
+            ->leftJoin('species.seos', 'seos')
+            ->addSelect('seos')
             ->orderBy('species.scientificName', 'ASC')
             ->orderBy('strains.name', 'ASC');
-
-        if (null !== $authorizationChecker) {
-            // If the user is connected and isn't an administrator
-            if ($authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-                $query
-                    ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
-                    ->addSelect('authorizedUsers')
-                    ->where('strains.public = true')
-                    ->orWhere('authorizedUsers = :user')
-                    ->setParameter('user', $user);
-            }
-
-            // If the user is not connected
-            elseif ($authorizationChecker->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-                $query
-                    ->where('strains.public = true');
-            }
-        }
 
         return $query->getQuery()->getResult();
     }

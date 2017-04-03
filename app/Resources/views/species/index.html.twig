@@ -20,7 +20,7 @@
         {% if speciesList|length > 0 %}
             {% for species in speciesList %}
                 {% set nbStrains = species.strains|length %}
-                <li><a href="{{ path('species_view', { 'speciesSlug': species.slug }) }}"><i>{{ species.scientificname }}</i></a> ({{ nbStrains }} {{ nbStrains > 1 ? "strains" : "strain" }})</li>
+                <li><a href="{{ path('species_view', { 'slug': species.slug }) }}"><i>{{ species.scientificname }}</i></a> ({{ nbStrains }} {{ nbStrains > 1 ? "strains" : "strain" }})</li>
             {% endfor %}
         {% else %}
             <li>No available species</li>
