@@ -16,12 +16,11 @@ class StrainRightsType extends AbstractType
             ->add('authorizedUsers', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function (UserRepository $ur) {
-                    return $ur->createQueryBuilder('u')
-                      ->orderBy('u.username', 'ASC');
+                    return $ur->createQueryBuilder('user')
+                        ->orderBy('user.lastName', 'ASC')
+                        ->addOrderBy('user.firstName', 'ASC');
                 },
-                'choice_label' => function ($user) {
-                    return $user->getUsername().' ('.$user->getFirstName().' '.$user->getLastName().')';
-                },
+                'choice_label' => 'fullName',
                 'by_reference' => false,
                 'expanded' => true,
                 'multiple' => true,

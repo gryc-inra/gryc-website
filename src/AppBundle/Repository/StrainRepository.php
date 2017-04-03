@@ -32,6 +32,8 @@ class StrainRepository extends \Doctrine\ORM\EntityRepository
             ->createQueryBuilder('strain')
                 ->where('strain.slug = :slug')
                 ->setParameter('slug', $slug)
+            ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
+                ->addSelect('authorizedUsers')
             ->leftJoin('strain.chromosomes', 'chromosomes')
                 ->addSelect('chromosomes')
                 ->orderBy('chromosomes.name', 'ASC')

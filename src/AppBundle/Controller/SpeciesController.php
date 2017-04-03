@@ -1,12 +1,8 @@
 <?php
 
-// src/AppBundle/Controller/SpeciesController.php
-
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Species;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
@@ -15,8 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class SpeciesController extends Controller
 {
     /**
-     * List species authorized for the user.
-     *
      * @Route("/species", name="species_homepage")
      */
     public function indexAction()
@@ -30,12 +24,17 @@ class SpeciesController extends Controller
     }
 
     /**
-     * View a species.
-     *
      * @Route("/species/{slug}", name="species_view")
      */
-    public function viewAction(Species $species)
+    public function viewAction($slug)
     {
+        $em = $this->getDoctrine()->getManager();
+        $species = $em->getRepository('AppBundle:Species')->getSpeciesAndAvailableStrains($slug, $this->getUser());
+
+        if (null === $species) {
+            return $this->createNotFoundException();
+        }
+
         return $this->render('species/view.html.twig', [
             'species' => $species,
         ]);

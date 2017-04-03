@@ -12,7 +12,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('admin_index') }}">Administration</a></li>
-    <li><a href="{{ path('strain_list') }}">strain management</a></li>
+    <li><a href="{{ path('strain_admin_index') }}">strain management</a></li>
     <li class="active">Delete the strain: {{ strain.species.scientificname }} {{ strain.name }}</li>
 {% endblock %}
 
@@ -33,7 +33,7 @@
 
         {{ form_row(form.confirm) }}
         <div class="btn-group" role="group">
-            <a href="{{ path('strain_list') }}" class="btn btn-default" >
+            <a href="{{ path('strain_admin_index') }}" class="btn btn-default" >
                 <i class="glyphicon glyphicon-chevron-left"></i>
                 Back
             </a>

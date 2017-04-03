@@ -1,4 +1,3 @@
-{# app/Ressources/views/species/edit.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -12,20 +11,20 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('admin_index') }}">Administration</a></li>
-    <li><a href="{{ path('strain_list') }}">Strain management</a></li>
+    <li><a href="{{ path('strain_admin_index') }}">Strain management</a></li>
     <li class="active">Edit the strain: {{ strain.species.scientificname }} {{ strain.name }}</li>
 {% endblock %}
 
 {% block body %}
     <h1>Edit the strain: {{ strain.species.scientificname }} {{ strain.name }}</h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save changes</button>
+            </div>
+        </div>
+    {{ form_end(form) }}
 {% endblock %}
-
-
-{% block javascripts %}
-    {{ parent() }}
-
-    <script src="{{ asset('js/strain-collection.js') }}"></script>
-{% endblock %}
-

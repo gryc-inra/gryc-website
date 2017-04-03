@@ -36,21 +36,26 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
         return $query->getQuery()->getResult();
     }
 
-    public function getOneSpeciesWithStrains($slug, User $user = null)
-    {
+    public function getSpeciesAndAvailableStrains($slug, User $user) {
         $query = $this->createQueryBuilder('species')
-            ->where('species.slug = :slug')
-                ->setParameter('slug', $slug)
             ->leftJoin('species.strains', 'strains')
                 ->addSelect('strains')
+                ->orderBy('strains.name', 'ASC')
+            ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
+                ->addSelect('authorizedUsers')
             ->leftJoin('species.seos', 'seos')
-                ->addSelect('seos');
+                ->addSelect('seos')
+            ->where('species.slug = :slug')
+            ->andWhere('strains.public = true OR authorizedUsers = :user')
+            ->setParameters([
+                'slug' => $slug,
+                'user' => $user
+            ]);
 
         return $query->getQuery()->getOneOrNullResult();
     }
 
-    public function findAllWithSeo()
-    {
+    public function findAllWithSeo() {
         $query = $this
             ->createQueryBuilder('species')
                 ->leftJoin('species.strains', 'strains')
