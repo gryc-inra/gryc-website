@@ -14,7 +14,15 @@
 {% block body %}
     <h1>Search Engine Optimization management</h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save</button>
+            </div>
+        </div>
+    {{ form_end(form) }}
 
 {% endblock %}
 

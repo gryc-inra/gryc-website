@@ -19,8 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
 class SeoController extends Controller
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
      * @Route("/", name="seo_homepage")
      */
     public function indexAction()
@@ -39,17 +37,13 @@ class SeoController extends Controller
     public function speciesAction(Species $species, Request $request)
     {
         $form = $this->createForm(SpeciesSeoType::class, $species);
-        $form->add('submit', SubmitType::class, [
-            'label' => 'Edit',
-        ]);
 
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The SEOs were edited !');
+            $this->addFlash('success', 'The SEOs were edited !');
 
             return $this->redirectToRoute('seo_homepage');
         }
@@ -66,17 +60,13 @@ class SeoController extends Controller
     public function strainAction(Strain $strain, Request $request)
     {
         $form = $this->createForm(StrainSeoType::class, $strain);
-        $form->add('submit', SubmitType::class, [
-            'label' => 'Edit',
-        ]);
 
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The SEOs were edited !');
+            $this->addFlash('success', 'The SEOs were edited !');
 
             return $this->redirectToRoute('seo_homepage');
         }
