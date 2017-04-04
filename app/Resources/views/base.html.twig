@@ -33,7 +33,7 @@
                 </div>
                 {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
                     <div style="position: absolute; right: 10px; top: 10px;">
-                        <a href="{{ path('user_list', {'_switch_user': '_exit'}) }}" style="color: #FFF;"><span class="glyphicon glyphicon-log-out"></span>  Exit impersonation</a>
+                        <a href="{{ path('user_index', {'_switch_user': '_exit'}) }}" style="color: #FFF;"><span class="glyphicon glyphicon-log-out"></span>  Exit impersonation</a>
                     </div>
                 {% endif %}
             </header>
