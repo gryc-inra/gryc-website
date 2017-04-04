@@ -5,18 +5,9 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-/**
- * Static pages controller.
- *
- * @Route("/")
- */
 class DefaultController extends Controller
 {
     /**
-     * Homepage.
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
      * @Route("/", name="homepage")
      */
     public function indexAction()
@@ -32,10 +23,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * Privacy policy page.
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
      * @Route("/privacy-policy", name="privacy-policy")
      */
     public function privacyPolicyAction()
