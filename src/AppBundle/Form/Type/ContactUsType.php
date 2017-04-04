@@ -2,10 +2,8 @@
 
 namespace AppBundle\Form\Type;
 
-use Doctrine\ORM\EntityRepository;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -29,7 +27,7 @@ class ContactUsType extends AbstractType
                 'choices' => [
                     'Account' => 'Account',
                     'Bug report' => 'Bug report',
-                    'Informations request'=> 'Informations request',
+                    'Informations request' => 'Informations request',
                     'Other (not listed)' => 'Other (not listed)',
                 ],
             ])
