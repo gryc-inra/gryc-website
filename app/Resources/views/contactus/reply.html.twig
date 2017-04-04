@@ -4,14 +4,14 @@
 
 {% block title %}Reply to a message - {{ parent() }}{% endblock %}
 
-{% block breadcrumb %}{{ parent() }} <li><a href="{{ path('contact_us_homepage') }}">Messages list</a></li> <li class="active">Reply to the message: {{ message.subject }}</li>{% endblock %}
+{% block breadcrumb %}{{ parent() }} <li><a href="{{ path('contact_us_admin_index') }}">Messages list</a></li> <li class="active">Reply to the message: {{ message.subject }}</li>{% endblock %}
 
 {% block body %}
     <h2>Reply to a message</h2>
 
     <div style="background-color: #f0f0f0;">
         <h3>Question:</h3>
-        <p><u>Category:</u> {{ message.category.name }}</p>
+        <p><u>Category:</u> {{ message.category }}</p>
         <p><u>Subject:</u> {{ message.subject }}</p>
         <p><u>Message:</u><br>
         {{ message.message|nl2br }}</p>

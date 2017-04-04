@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\ContactUs;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
@@ -12,26 +13,20 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class ContactUsRepository extends \Doctrine\ORM\EntityRepository
 {
-    /*
-     * Compter les objets, et récupérer les objets souhaités
-     */
-    public function getMessages($page, $nbPerPage)
+    public function getMessages($page)
     {
         $query = $this
-            ->createQueryBuilder('m')
-            ->leftJoin('m.category', 'c')
-                ->addSelect('c')
-            ->orderBy('m.date', 'ASC')
+            ->createQueryBuilder('contact_us')
+            ->orderBy('contact_us.date', 'ASC')
             ->getQuery();
 
         $query
-            ->setFirstResult(($page - 1) * $nbPerPage)
-            ->setMaxResults($nbPerPage);
+            ->setFirstResult(($page - 1) * ContactUs::NUM_ITEMS)
+            ->setMaxResults(ContactUs::NUM_ITEMS);
 
         return new Paginator($query, true);
     }
 
-    // Compter tout les objets présents dans la base
     public function getNumberMessages()
     {
         return $this

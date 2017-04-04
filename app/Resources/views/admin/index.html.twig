@@ -22,8 +22,7 @@
             <h3 class="panel-title">Contacts</h3>
         </div>
         <div class="list-group">
-            {% set nbMessages =  render(controller("AppBundle:ContactUs:numberMessage")) %}
-            <a href="{{ path('contact_us_homepage') }}" class="list-group-item"><span class="glyphicon glyphicon-envelope"></span> {% if nbMessages > 1 %}Messages{% else %}Message{% endif %} <span class="badge">{{ nbMessages }}</span></a>
+            <a href="{{ path('contact_us_admin_index') }}" class="list-group-item">{{ render(controller("AppBundle:ContactUsAdmin:numberMessage")) }}</a>
         </div>
     </div>
 

@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ContactUs
 {
+    const NUM_ITEMS = 10;
+
     /**
      * Id in the database.
      *
@@ -87,9 +89,9 @@ class ContactUs
     /**
      * The category.
      *
-     * @var ContactUsCategory
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ContactUsCategory")
+     * @ORM\Column(name="category", type="string", length=255)
      */
     private $category;
 
@@ -258,11 +260,11 @@ class ContactUs
     /**
      * Set category.
      *
-     * @param ContactUsCategory $category
+     * @param string $category
      *
      * @return ContactUs
      */
-    public function setCategory(ContactUsCategory $category)
+    public function setCategory($category)
     {
         $this->category = $category;
 
@@ -272,7 +274,7 @@ class ContactUs
     /**
      * Get category.
      *
-     * @return ContactUsCategory
+     * @return string
      */
     public function getCategory()
     {

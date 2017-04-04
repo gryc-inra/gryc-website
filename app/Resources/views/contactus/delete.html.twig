@@ -1,10 +1,8 @@
-{# app/views/contactus/delete.html.twig #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Delete a message - {{ parent() }}{% endblock %}
 
-{% block breadcrumb %}{{ parent() }} <li><a href="{{ path('contact_us_homepage') }}">Messages list</a></li> <li class="active">Delete message: {{ message.subject }}</li>{% endblock %}
+{% block breadcrumb %}{{ parent() }} <li><a href="{{ path('contact_us_admin_index') }}">Messages list</a></li> <li class="active">Delete message: {{ message.subject }}</li>{% endblock %}
 
 {% block body %}
     <h2>Delete a message</h2>
@@ -19,7 +17,7 @@
         {{ form_rest(form) }}
 
         {# On propose de continuer ou de revenir en arrière #}
-        <a class="btn btn-success" href="{{ path('contact_us_homepage') }}">
+        <a class="btn btn-success" href="{{ path('contact_us_admin_index') }}">
             <i class="glyphicon glyphicon-chevron-left"></i>
             <b>Cancel !</b> Come back to the messages list
         </a>
