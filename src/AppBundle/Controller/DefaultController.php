@@ -13,10 +13,8 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $species = $em->getRepository('AppBundle:Species')->getAvailableSpeciesAndStrains($this->getUser());
 
-        // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
             'speciesList' => $species,
         ]);

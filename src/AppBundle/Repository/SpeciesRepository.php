@@ -6,7 +6,7 @@ use AppBundle\Entity\User;
 
 class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getAvailableSpeciesAndStrains(User $user)
+    public function getAvailableSpeciesAndStrains(User $user = null)
     {
         $query = $this->createQueryBuilder('species')
             ->leftJoin('species.strains', 'strains')

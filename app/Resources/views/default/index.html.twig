@@ -27,17 +27,21 @@ The yeast genomes database - {{ parent() }}
 <h2>Available species</h2>
 <p>The current release of GRYC contains the following species/strains of yeast:</p>
 <ul>
-    {% for species in speciesList %}
-        {% for strain in species.strains %}
-                <li>
-                    <a href="{{ path('strain_view', { 'speciesSlug': species.slug, 'strainSlug': strain.slug }) }}">{{ species.scientificname }} {{ strain.name }}</a>
-                    {{ (strain.isTypeStrain) ? ' <abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}
-                    {% if false == strain.public %}
-                        <span style="color:red;">*</span>
-                    {% endif %}
-                </li>
+    {% if speciesList is not empty %}
+        {% for species in speciesList %}
+            {% for strain in species.strains %}
+                    <li>
+                        <a href="{{ path('strain_view', { 'speciesSlug': species.slug, 'strainSlug': strain.slug }) }}">{{ species.scientificname }} {{ strain.name }}</a>
+                        {{ (strain.isTypeStrain) ? ' <abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}
+                        {% if false == strain.public %}
+                            <span style="color:red;">*</span>
+                        {% endif %}
+                    </li>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
+    {% else %}
+        <li>There is no available strains.</li>
+    {% endif %}
 </ul>
 
 {% if app.user %}
