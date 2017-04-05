@@ -11,12 +11,6 @@ services:
         class: AppBundle\Utils\Mailer
         arguments: ["@mailer", "@templating", "@security.token_storage"]
 
-    app.twig_extension:
-        class: AppBundle\Utils\SlugifyExtension
-        public: false
-        tags:
-          - { name: twig.extension }
-
     app.token_generator:
         class: AppBundle\Utils\TokenGenerator
 
