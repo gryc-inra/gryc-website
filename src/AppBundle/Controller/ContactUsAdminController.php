@@ -69,33 +69,31 @@ class ContactUsAdminController extends Controller
      */
     public function replyAction(ContactUs $message, Request $request)
     {
-        $answer = 'Dear '.$message->getFirstName().' '.$message->getLastName().','.chr(10);
-        $answer .= 'First of all, we want to thank you for your interest in Gryc.'.chr(10);
-        $answer .= chr(10).chr(10);
-        $answer .= 'Best Regards,'.chr(10);
-        $answer .= 'The GRYC team'.chr(10);
-        $answer .= chr(10);
-        $answer .= 'Postscript: If you have any questions about this issue, you can contact me at this mail: '.$this->getUser()->getEmail();
+        $answer = "Dear {$message->getFirstName()} {$message->getLastName()}, \n";
+        $answer .= "First of all, we want to thank you for your interest in Gryc.\n\n\n";
+        $answer .= "Best Regards,\n";
+        $answer .= "The GRYC team\n\n";
+        $answer .= "Postscript: If you have any questions about this issue, you can contact me at this mail: {$this->getUser()->getEmail()}";
 
-        $data = ['answer' => $answer];
-        $form = $this->createForm(ContactUsReplyType::class, $data);
+        $form = $this->createForm(ContactUsReplyType::class, $data = ['answer' => $answer]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+            if ($this->get('app.mailer')->sendReplyContactEmailMessage($message, $form->getData())) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($message);
+                $em->flush();
 
-            $fromName = $this->getUser()->getFirstName().' '.$this->getUser()->getLastName();
-            $fromMail = $this->getUser()->getEmail();
+                $this->addFlash('success', 'Your message has been send.');
 
-            $this->get('app.mailer')->sendReplyContactEmailMessage($message, $data, $fromName, $fromMail);
+                return $this->redirectToRoute('contact_us_admin_index');
+            } else {
+                $this->addFlash('warning', 'An error occured.');
 
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($message);
-            $em->flush();
-
-            $this->addFlash('success', 'Your message has been send.');
-
-            return $this->redirectToRoute('contact_us_admin_index');
+                return $this->redirectToRoute('contact_us_reply', [
+                    'id' => $message->getId(),
+                ]);
+            }
         }
 
         return $this->render('contactus\reply.html.twig', [

@@ -9,7 +9,7 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     app.mailer:
         class: AppBundle\Utils\Mailer
-        arguments: ["@mailer", "@templating"]
+        arguments: ["@mailer", "@templating", "@security.token_storage"]
 
     app.twig_extension:
         class: AppBundle\Utils\SlugifyExtension
@@ -34,6 +34,13 @@ services:
         arguments: ["@app.password_updater", "@app.token_generator"]
         tags:
             - { name: doctrine.event_subscriber }
+
+# Form
+    app.form_type.tube:
+        class: AppBundle\Form\Type\ContactUsType
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
 
 # Voters
     app.voter.strain:

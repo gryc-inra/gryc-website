@@ -7,6 +7,7 @@ namespace AppBundle\Utils;
 use AppBundle\Entity\ContactUs;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Service Mailer, permettant d'envoyer les mails.
@@ -19,11 +20,13 @@ class Mailer
     protected $templating;
     private $from = 'no-reply@gryc.dev';
     private $name = 'GRYC - The yeast genomics database';
+    private $tokenStorage;
 
-    public function __construct($mailer, EngineInterface $templating)
+    public function __construct($mailer, EngineInterface $templating, TokenStorageInterface $tokenStorage)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -45,7 +48,7 @@ class Mailer
             ->setCharset('utf-8')
             ->setContentType('text/html');
 
-        $this->mailer->send($message);
+        return $this->mailer->send($message);
     }
 
     /**
@@ -103,15 +106,17 @@ class Mailer
      * @param ContactUs $question
      * @param array     $reply
      * @param string    $fromName
-     * @param string f$romMail
+     * @param string    $fromMail
      */
-    public function sendReplyContactEmailMessage(ContactUs $question, $reply, $fromName, $fromMail)
+    public function sendReplyContactEmailMessage(ContactUs $question, $reply)
     {
+        $user = $this->tokenStorage->getToken()->getUser();
+
         $to = $question->getEmail();
-        $from = [$fromMail => $fromName];
+        $from = [$user->getEmail() => $user->getFullName()];
         $subject = 'Reply about your message';
         $body = $this->templating->render('mail/replyContactMessage.html.twig', ['question' => $question, 'reply' => $reply]);
 
-        $this->sendEmailMessage($to, $from, $subject, $body);
+        return $this->sendEmailMessage($to, $from, $subject, $body);
     }
 }

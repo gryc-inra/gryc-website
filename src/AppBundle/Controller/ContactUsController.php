@@ -16,13 +16,6 @@ class ContactUsController extends Controller
     public function contactAction(Request $request)
     {
         $contactus = new ContactUs();
-        // Pre fill fields
-        if ($user = $this->getUser()) {
-            $contactus->setFirstName($user->getFirstName());
-            $contactus->setLastName($user->getLastName());
-            $contactus->setEmail($user->getEmail());
-        }
-
         $form = $this->createForm(ContactUsType::class, $contactus);
 
         $form->handleRequest($request);
