@@ -37,7 +37,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
         return $query->getQuery()->getResult();
     }
 
-    public function getSpeciesAndAvailableStrains($slug, User $user)
+    public function getSpeciesAndAvailableStrains($slug, User $user = null)
     {
         $query = $this->createQueryBuilder('species')
             ->leftJoin('species.strains', 'strains')
