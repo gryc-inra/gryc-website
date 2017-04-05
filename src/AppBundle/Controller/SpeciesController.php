@@ -24,12 +24,13 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/species/{slug}", name="species_view")
+     * @Route("/db/{species_slug}", name="species_view")
+     * @Route("/species/{species_slug}")
      */
-    public function viewAction($slug)
+    public function viewAction($species_slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $species = $em->getRepository('AppBundle:Species')->getSpeciesAndAvailableStrains($slug, $this->getUser());
+        $species = $em->getRepository('AppBundle:Species')->getSpeciesAndAvailableStrains($species_slug, $this->getUser());
 
         if (null === $species) {
             return $this->createNotFoundException();

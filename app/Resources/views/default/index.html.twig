@@ -31,7 +31,7 @@ The yeast genomes database - {{ parent() }}
         {% for species in speciesList %}
             {% for strain in species.strains %}
                     <li>
-                        <a href="{{ path('strain_view', { 'speciesSlug': species.slug, 'strainSlug': strain.slug }) }}">{{ species.scientificname }} {{ strain.name }}</a>
+                        <a href="{{ path('strain_view', { 'species_slug': species.slug, 'strain_slug': strain.slug }) }}">{{ species.scientificname }} {{ strain.name }}</a>
                         {{ (strain.isTypeStrain) ? ' <abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}
                         {% if false == strain.public %}
                             <span style="color:red;">*</span>

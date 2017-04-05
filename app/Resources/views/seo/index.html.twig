@@ -25,7 +25,7 @@
             {% for species in speciesList %}
                 {% set nbSeo = species.seos|length %}
                 <tr {{ (nbSeo < 1) ? 'class="danger"' : '' }}>
-                    <td><a href="{{ path('species_view', { 'slug': species.slug }) }}">{{ species.scientificname }}</a></td>
+                    <td><a href="{{ path('species_view', { 'species_slug': species.slug }) }}">{{ species.scientificname }}</a></td>
                     <td></td>
                     <td></td>
                     <td>{{ nbSeo }}</td>
@@ -38,7 +38,7 @@
                         {% set nbSeo = strain.seos|length %}
                         <tr {{ (nbSeo < 1) ? 'class="danger"' : '' }}>
                             <td></td>
-                            <td><a href="{{ path('strain_view', {'speciesSlug': strain.species.slug, 'strainSlug': strain.slug}) }}">{{ strain.name }}</a></td>
+                            <td><a href="{{ path('strain_view', {'species_slug': strain.species.slug, 'strain_slug': strain.slug}) }}">{{ strain.name }}</a></td>
                             <td></td>
                             <td>{{ strain.seos|length }}</td>
                             <td>

@@ -69,7 +69,7 @@
                     {% set displayedStrain = 0 %}
                     {% for strain in species.strains %}
                         {% if is_granted('VIEW', strain) %}
-                            <li class="list-group-item"><a href="{{ path('strain_view', {'speciesSlug': species.slug, 'strainSlug': strain.slug }) }}">{{ strain.name }}</a> {{ (strain.isTypeStrain) ? '<abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}</li>
+                            <li class="list-group-item"><a href="{{ path('strain_view', {'species_slug': species.slug, 'strain_slug': strain.slug }) }}">{{ strain.name }}</a> {{ (strain.isTypeStrain) ? '<abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}</li>
                             {% set displayedStrain = displayedStrain + 1 %}
                         {% endif %}
                     {% endfor %}

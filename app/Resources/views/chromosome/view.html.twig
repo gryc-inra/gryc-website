@@ -7,8 +7,8 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('species_homepage') }}">Species</a></li>
-    <li><a href="{{ path('species_view', { 'slug': chromosome.strain.species.slug }) }}"><i>{{ chromosome.strain.species.scientificname }}</i></a></li>
-    <li><a href="{{ path('strain_view', { 'speciesSlug': chromosome.strain.species.slug, 'strainSlug': chromosome.strain.slug }) }}">{{ chromosome.strain.name }}</a></li>
+    <li><a href="{{ path('species_view', { 'species_slug': chromosome.strain.species.slug }) }}"><i>{{ chromosome.strain.species.scientificname }}</i></a></li>
+    <li><a href="{{ path('strain_view', { 'species_slug': chromosome.strain.species.slug, 'strain_slug': chromosome.strain.slug }) }}">{{ chromosome.strain.name }}</a></li>
     <li class="active">{{ chromosome.name }}</li>
 {% endblock %}
 

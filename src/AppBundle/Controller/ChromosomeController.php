@@ -11,10 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ChromosomeController extends Controller
 {
     /**
-     * @Route("/chromosome/{slug}", name="chromosome_view")
+     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}", name="chromosome_view")
+     * @Route("/chromosome/{chromosome_slug}")
      * @ParamConverter("chromosome", class="AppBundle:Chromosome", options={
      *     "repository_method" = "getChromosomeWithStrainAndSpecies",
-     *     "mapping": {"slug": "slug"},
+     *     "mapping": {"chromosome_slug": "slug"},
      *     "map_method_signature" = true
      * })
      * @Security("is_granted('VIEW', chromosome.getStrain())")

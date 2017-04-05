@@ -14,10 +14,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class StrainController extends Controller
 {
     /**
-     * @Route("species/{speciesSlug}/{strainSlug}", name="strain_view")
+     * @Route("db/{species_slug}/{strain_slug}", name="strain_view")
+     * @Route("strain/{strain_slug}")
      * @ParamConverter("strain", class="AppBundle:Strain", options={
      *     "repository_method": "getStrainWithFlatFiles",
-     *     "mapping": {"strainSlug": "slug"},
+     *     "mapping": {"strain_slug": "slug"},
      *     "map_method_signature" = true
      * })
      * @Security("is_granted('VIEW', strain)")
