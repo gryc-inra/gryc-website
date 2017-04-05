@@ -55,8 +55,8 @@ doctrine:
         host:     "%database_host%"
         port:     "%database_port%"
         dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
+        user:     "%env(DATABASE_USER)%"
+        password: "%env(DATABASE_PASSWORD)%"
         charset:  UTF8
 
     orm:
@@ -80,6 +80,6 @@ swiftmailer:
 
 # ReCaptcha
 ewz_recaptcha:
-    public_key:  %recaptcha_public_key%
-    private_key: %recaptcha_private_key%
-    locale_key:  %kernel.default_locale%
+    public_key:  "%recaptcha_public_key%"
+    private_key: "%recaptcha_private_key%"
+    locale_key:  "%kernel.default_locale%"
