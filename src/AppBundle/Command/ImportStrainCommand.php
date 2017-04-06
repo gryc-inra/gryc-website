@@ -50,30 +50,30 @@ class ImportStrainCommand extends ContainerAwareCommand
         // Idem, if the directory doesn't exists
         if (!$this->fs->exists($input->getArgument('dir'))) {
             throw new \RuntimeException(
-                '<error>The given directory doen\'t exists.</error>'
+                '<error>The given directory doesn\'t exists.</error>'
             );
         }
 
         if (!$this->fs->exists($input->getArgument('dir').'/strain.json')) {
             throw new \RuntimeException(
-                '<error>The json file doen\'t exists.</error>'
+                '<error>The json file doesn\'t exists.</error>'
             );
         }
 
-        if (!$this->fs->exists($input->getArgument('dir').'/files')) {
+        if (!$this->fs->exists($input->getArgument('dir').'/data')) {
             throw new \RuntimeException(
-                '<error>The files directory doen\'t exists.</error>'
+                '<error>The data directory doesn\'t exists.</error>'
             );
         }
 
         if (!$this->fs->exists([
-                $input->getArgument('dir').'/files/CDSnuc',
-                $input->getArgument('dir').'/files/CDSpro',
-                $input->getArgument('dir').'/files/EMBL',
-                $input->getArgument('dir').'/files/Fasta',
+                $input->getArgument('dir').'/data/FASTA_CDS_nuc',
+                $input->getArgument('dir').'/data/FASTA_CDS_pro',
+                $input->getArgument('dir').'/data/EMBL_chr',
+                $input->getArgument('dir').'/data/FASTA_chr',
             ])) {
             throw new \RuntimeException(
-                '<error>The files directory need 4 directories: CDSnuc, CDSpro, EMBL, Fasta.</error>'
+                '<error>The files directory need 4 directories: FASTA_CDS_nuc, FASTA_CDS_pro, EMBL_chr, FASTA_chr.</error>'
             );
         }
 
@@ -83,6 +83,7 @@ class ImportStrainCommand extends ContainerAwareCommand
                 '<error>No species in the database !</error>'
             );
         }
+
         foreach ($speciesList as $species) {
             $this->speciesList[$species->getScientificName()] = $species;
         }
@@ -97,7 +98,7 @@ class ImportStrainCommand extends ContainerAwareCommand
 
         $question = new Question('Please enter the name of the species: ');
         $question->setAutocompleterValues(array_keys($this->speciesList));
-        // Verify that the name of the clade is an existing clade, if yes return the clade object
+        // Verify that the name of the species is an existing species, if yes return the species object
         $question->setValidator(function ($answer) {
             if (!in_array($answer, array_keys($this->speciesList))) {
                 throw new \RuntimeException(
@@ -127,7 +128,7 @@ class ImportStrainCommand extends ContainerAwareCommand
             );
         }
 
-        // Decode the Json file to do a array
+        // Decode the Json file to do an array
         $data = json_decode($file, true);
 
         // Create a new strain, and hydrate it
@@ -141,14 +142,14 @@ class ImportStrainCommand extends ContainerAwareCommand
 
         // For each chromosome, create a new chromosome
         foreach ($data['chromosome'] as $chromosomeData) {
-            // CHROMOSOME
+            // Create a chromosome and add it to the Strain
             $chromosome = new Chromosome();
-            $chromosome->setName($chromosomeData['name']);
-            if ($chromosomeData['accession']) {
-                $chromosome->setAccession($chromosomeData['accession']);
-            }
-            $chromosome->setDescription($chromosomeData['description']);
+            $strain->addChromosome($chromosome);
 
+            // Define Chromosome properties
+            $chromosome->setName($chromosomeData['name']);
+            $chromosome->setAccession($chromosomeData['accession']);
+            $chromosome->setDescription($chromosomeData['description']);
             if (null !== $chromosomeData['keywords']) {
                 // In the Json file the last keyword have a "." at the end, remove it.
                 end($chromosomeData['keywords']);
@@ -156,6 +157,7 @@ class ImportStrainCommand extends ContainerAwareCommand
                 reset($chromosomeData['keywords']);
             }
 
+            $chromosome->setCdsCount($chromosomeData['cdsCount']);
             $chromosome->setKeywords($chromosomeData['keywords']);
             $chromosome->setProjectId($chromosomeData['projectId']);
             $chromosome->setDateCreated(new \DateTime($chromosomeData['dateCreated']));
@@ -165,63 +167,61 @@ class ImportStrainCommand extends ContainerAwareCommand
             $chromosome->setNumVersion($chromosomeData['numVersion']);
             $chromosome->setLength($chromosomeData['length']);
             $chromosome->setGc($chromosomeData['gc']);
-            $chromosome->setCdsCount($chromosomeData['cdsCount']);
+            $chromosome->setSource($chromosomeData['source']);
             $chromosome->setMitochondrial($chromosomeData['mitochondrial']);
             $chromosome->setComment($chromosomeData['comment']);
 
             // DNA SEQUENCE
             $dnaSequence = new DnaSequence();
+            $chromosome->setDnaSequence($dnaSequence);
+
             $dnaSequence->setDna($chromosomeData['DnaSequence']['seq']);
             // The array in the json haven't key, but the positions in the array is:
             // A, C, G, T, N, other.
             $letterCountKeys = ['A', 'C', 'G', 'T', 'N', 'other'];
             $dnaSequence->setLetterCount(array_combine($letterCountKeys, $chromosomeData['DnaSequence']['letterCount']));
-            $chromosome->setDnaSequence($dnaSequence);
 
             // FLAT FILES
             if (!$this->fs->exists([
-                $input->getArgument('dir').'/files/CDSnuc/'.$chromosome->getName().'.fsa',
-                $input->getArgument('dir').'/files/CDSpro/'.$chromosome->getName().'.fsa',
-                $input->getArgument('dir').'/files/EMBL/'.$chromosome->getName().'.embl',
-                $input->getArgument('dir').'/files/Fasta/'.$chromosome->getName().'.fsa',
+                $input->getArgument('dir').'/data/FASTA_CDS_nuc/'.$chromosome->getName().'.fasta',
+                $input->getArgument('dir').'/data/FASTA_CDS_pro/'.$chromosome->getName().'.fasta',
+                $input->getArgument('dir').'/data/EMBL_chr/'.$chromosome->getName().'.embl',
+                $input->getArgument('dir').'/data/FASTA_chr/'.$chromosome->getName().'.fasta',
             ])) {
                 throw new \RuntimeException(
-                    '<error>One of the files for '.$chromosome->getName().' is missing in one of this directories: CDSnuc, CDSpro, EMBL, Fasta.</error>'
+                    '<error>One of the files for '.$chromosome->getName().' is missing in one of this directories: FASTA_CDS_nuc, FASTA_CDS_pro, EMBL_chr, FASTA_chr.</error>'
                 );
             }
 
             $flatFiles = [];
 
-            $flatFiles['CDSnuc'] = new FlatFile();
-            $flatFiles['CDSnuc']->setFileSystemPath($input->getArgument('dir').'/files/CDSnuc/'.$chromosome->getName().'.fsa');
-            $flatFiles['CDSnuc']->setFeatureType('cds');
-            $flatFiles['CDSnuc']->setMolType('nuc');
-            $flatFiles['CDSnuc']->setFormat('fsa');
+            $flatFiles['FASTA_CDS_nuc'] = new FlatFile();
+            $flatFiles['FASTA_CDS_nuc']->setFileSystemPath($input->getArgument('dir').'/data/FASTA_CDS_nuc/'.$chromosome->getName().'.fasta');
+            $flatFiles['FASTA_CDS_nuc']->setFeatureType('cds');
+            $flatFiles['FASTA_CDS_nuc']->setMolType('nuc');
+            $flatFiles['FASTA_CDS_nuc']->setFormat('fsa');
 
-            $flatFiles['CDSpro'] = new FlatFile();
-            $flatFiles['CDSpro']->setFileSystemPath($input->getArgument('dir').'/files/CDSpro/'.$chromosome->getName().'.fsa');
-            $flatFiles['CDSpro']->setFeatureType('cds');
-            $flatFiles['CDSpro']->setMolType('pro');
-            $flatFiles['CDSpro']->setFormat('fsa');
+            $flatFiles['FASTA_CDS_pro'] = new FlatFile();
+            $flatFiles['FASTA_CDS_pro']->setFileSystemPath($input->getArgument('dir').'/data/FASTA_CDS_pro/'.$chromosome->getName().'.fasta');
+            $flatFiles['FASTA_CDS_pro']->setFeatureType('cds');
+            $flatFiles['FASTA_CDS_pro']->setMolType('pro');
+            $flatFiles['FASTA_CDS_pro']->setFormat('fsa');
 
-            $flatFiles['embl'] = new FlatFile();
-            $flatFiles['embl']->setFileSystemPath($input->getArgument('dir').'/files/EMBL/'.$chromosome->getName().'.embl');
-            $flatFiles['embl']->setFeatureType('chromosome');
-            $flatFiles['embl']->setMolType('nuc');
-            $flatFiles['embl']->setFormat('embl');
+            $flatFiles['EMBL_chr'] = new FlatFile();
+            $flatFiles['EMBL_chr']->setFileSystemPath($input->getArgument('dir').'/data/EMBL_chr/'.$chromosome->getName().'.embl');
+            $flatFiles['EMBL_chr']->setFeatureType('chromosome');
+            $flatFiles['EMBL_chr']->setMolType('nuc');
+            $flatFiles['EMBL_chr']->setFormat('embl');
 
-            $flatFiles['fasta'] = new FlatFile();
-            $flatFiles['fasta']->setFileSystemPath($input->getArgument('dir').'/files/Fasta/'.$chromosome->getName().'.fsa');
-            $flatFiles['fasta']->setFeatureType('chromosome');
-            $flatFiles['fasta']->setMolType('nuc');
-            $flatFiles['fasta']->setFormat('fsa');
+            $flatFiles['FASTA_chr'] = new FlatFile();
+            $flatFiles['FASTA_chr']->setFileSystemPath($input->getArgument('dir').'/data/FASTA_chr/'.$chromosome->getName().'.fasta');
+            $flatFiles['FASTA_chr']->setFeatureType('chromosome');
+            $flatFiles['FASTA_chr']->setMolType('nuc');
+            $flatFiles['FASTA_chr']->setFormat('fsa');
 
             foreach ($flatFiles as $flatFile) {
                 $chromosome->addFlatFile($flatFile);
             }
-
-            // CHROMOSOME ON THE STRAIN
-            $strain->addChromosome($chromosome);
         }
 
         // At the end, attach the Strain to the species
@@ -232,7 +232,5 @@ class ImportStrainCommand extends ContainerAwareCommand
 
         // Now we flush it (this is a transaction)
         $this->getContainer()->get('doctrine')->getManager()->flush();
-
-        $output->writeln('<info>The strain was successfully imported !</info>');
     }
 }

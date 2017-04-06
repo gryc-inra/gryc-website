@@ -66,7 +66,7 @@ class Chromosome
      *
      * @var string
      *
-     * @ORM\Column(name="projectId", type="string", length=255)
+     * @ORM\Column(name="projectId", type="string", length=255, nullable=true)
      */
     private $projectId;
 
@@ -157,7 +157,7 @@ class Chromosome
      *
      * @var string
      *
-     * @ORM\Column(name="comment", type="text")
+     * @ORM\Column(name="comment", type="text", nullable=true)
      */
     private $comment;
 
@@ -200,6 +200,15 @@ class Chromosome
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
      */
     private $slug;
+
+    /**
+     * The source.
+     *
+     * @var string
+     *
+     * @ORM\Column(name="source", type="string", length=255)
+     */
+    private $source;
 
     /**
      * Chromosome constructor.
@@ -300,8 +309,10 @@ class Chromosome
      */
     public function setAccession($accessions)
     {
-        foreach ($accessions as $accession) {
-            $this->addAccession($accession);
+        if (null !== $accessions) {
+            foreach ($accessions as $accession) {
+                $this->addAccession($accession);
+            }
         }
 
         return $this;
@@ -419,7 +430,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setProjectId($projectId)
+    public function setProjectId($projectId = null)
     {
         $this->projectId = $projectId;
 
@@ -659,7 +670,7 @@ class Chromosome
      *
      * @return Chromosome
      */
-    public function setComment($comment)
+    public function setComment($comment = null)
     {
         $this->comment = $comment;
 
@@ -772,7 +783,7 @@ class Chromosome
      *
      * @param string $slug
      *
-     * @return Species
+     * @return Chromosome
      */
     public function setSlug($slug)
     {
@@ -789,5 +800,29 @@ class Chromosome
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set source.
+     *
+     * @param string $slug
+     *
+     * @return Chromosome
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
+    /**
+     * Get source.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return $this->source;
     }
 }
