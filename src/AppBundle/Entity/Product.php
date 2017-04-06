@@ -15,13 +15,15 @@ class Product extends GeneticEntry
      */
     private $feature;
 
-    public function setFeature(Feature $feature) {
+    public function setFeature(Feature $feature)
+    {
         $this->feature = $feature;
 
         return $this;
     }
 
-    public function getFeature() {
+    public function getFeature()
+    {
         return $this->feature;
     }
 }

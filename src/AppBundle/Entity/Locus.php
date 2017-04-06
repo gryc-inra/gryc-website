@@ -26,17 +26,20 @@ class Locus extends GeneticEntry
         $this->features = new ArrayCollection();
     }
 
-    public function setChromosome(Chromosome $chromosome) {
+    public function setChromosome(Chromosome $chromosome)
+    {
         $this->chromosome = $chromosome;
 
         return $this;
     }
 
-    public function getChromosome() {
+    public function getChromosome()
+    {
         return $this->chromosome;
     }
 
-    public function addFeature(Feature $feature) {
+    public function addFeature(Feature $feature)
+    {
         if (!$this->features->contains($feature)) {
             $this->features->add($feature);
             $feature->setLocus($this);
@@ -45,7 +48,8 @@ class Locus extends GeneticEntry
         return $this;
     }
 
-    public function removeFeature(Feature $feature) {
+    public function removeFeature(Feature $feature)
+    {
         if ($this->features->contains($feature)) {
             $this->features->removeElement($feature);
         }
@@ -53,7 +57,8 @@ class Locus extends GeneticEntry
         return $this;
     }
 
-    public function getFeatures() {
+    public function getFeatures()
+    {
         return $this->features;
     }
 }

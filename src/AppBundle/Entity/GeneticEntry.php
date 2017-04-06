@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * GeneticEntry
+ * GeneticEntry.
  *
  * @ORM\MappedSuperclass
  */
@@ -97,9 +97,8 @@ class GeneticEntry
      */
     private $note;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -109,9 +108,9 @@ class GeneticEntry
     }
 
     /**
-     * Set strand
+     * Set strand.
      *
-     * @param integer $strand
+     * @param int $strand
      *
      * @return GeneticEntry
      */
@@ -123,7 +122,7 @@ class GeneticEntry
     }
 
     /**
-     * Get strand
+     * Get strand.
      *
      * @return int
      */
@@ -133,7 +132,7 @@ class GeneticEntry
     }
 
     /**
-     * Set product
+     * Set product.
      *
      * @param array $product
      *
@@ -147,7 +146,7 @@ class GeneticEntry
     }
 
     /**
-     * Get product
+     * Get product.
      *
      * @return array
      */
@@ -157,7 +156,7 @@ class GeneticEntry
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -171,7 +170,7 @@ class GeneticEntry
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -181,7 +180,7 @@ class GeneticEntry
     }
 
     /**
-     * Set standardName
+     * Set standardName.
      *
      * @param array $standardName
      *
@@ -195,7 +194,7 @@ class GeneticEntry
     }
 
     /**
-     * Get standardName
+     * Get standardName.
      *
      * @return array
      */
@@ -205,7 +204,7 @@ class GeneticEntry
     }
 
     /**
-     * Set dbXref
+     * Set dbXref.
      *
      * @param \stdClass $dbXref
      *
@@ -219,7 +218,7 @@ class GeneticEntry
     }
 
     /**
-     * Get dbXref
+     * Get dbXref.
      *
      * @return \stdClass
      */
@@ -229,7 +228,7 @@ class GeneticEntry
     }
 
     /**
-     * Set annotation
+     * Set annotation.
      *
      * @param array $annotation
      *
@@ -243,7 +242,7 @@ class GeneticEntry
     }
 
     /**
-     * Get annotation
+     * Get annotation.
      *
      * @return array
      */
@@ -253,7 +252,7 @@ class GeneticEntry
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param string $type
      *
@@ -267,7 +266,7 @@ class GeneticEntry
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -277,7 +276,7 @@ class GeneticEntry
     }
 
     /**
-     * Set coordinates
+     * Set coordinates.
      *
      * @param array $coordinates
      *
@@ -291,7 +290,7 @@ class GeneticEntry
     }
 
     /**
-     * Get coordinates
+     * Get coordinates.
      *
      * @return array
      */
@@ -301,9 +300,9 @@ class GeneticEntry
     }
 
     /**
-     * Set start
+     * Set start.
      *
-     * @param integer $start
+     * @param int $start
      *
      * @return GeneticEntry
      */
@@ -315,7 +314,7 @@ class GeneticEntry
     }
 
     /**
-     * Get start
+     * Get start.
      *
      * @return int
      */
@@ -325,9 +324,9 @@ class GeneticEntry
     }
 
     /**
-     * Set end
+     * Set end.
      *
-     * @param integer $end
+     * @param int $end
      *
      * @return GeneticEntry
      */
@@ -339,7 +338,7 @@ class GeneticEntry
     }
 
     /**
-     * Get end
+     * Get end.
      *
      * @return int
      */
@@ -349,7 +348,7 @@ class GeneticEntry
     }
 
     /**
-     * Set note
+     * Set note.
      *
      * @param string $note
      *
@@ -363,7 +362,7 @@ class GeneticEntry
     }
 
     /**
-     * Get note
+     * Get note.
      *
      * @return string
      */
@@ -372,4 +371,3 @@ class GeneticEntry
         return $this->note;
     }
 }
-

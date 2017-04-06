@@ -26,17 +26,20 @@ class Feature extends GeneticEntry
         $this->productsFeatures = new ArrayCollection();
     }
 
-    public function setLocus(Locus $locus) {
+    public function setLocus(Locus $locus)
+    {
         $this->locus = $locus;
 
         return $this;
     }
 
-    public function getLocus() {
+    public function getLocus()
+    {
         return $this->locus;
     }
 
-    public function addProductsFeatures(Product $product) {
+    public function addProductsFeatures(Product $product)
+    {
         if (!$this->productsFeatures->contains($product)) {
             $this->productsFeatures->add($product);
             $product->setFeature($this);
@@ -45,7 +48,8 @@ class Feature extends GeneticEntry
         return $this;
     }
 
-    public function removeProductsFeatures(Product $product) {
+    public function removeProductsFeatures(Product $product)
+    {
         if ($this->productsFeatures->contains($product)) {
             $this->productsFeatures->removeElement($product);
         }
@@ -53,7 +57,8 @@ class Feature extends GeneticEntry
         return $this;
     }
 
-    public function getProductsFeatures() {
+    public function getProductsFeatures()
+    {
         return $this->productsFeatures;
     }
 }
