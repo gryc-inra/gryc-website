@@ -231,12 +231,12 @@ class ImportStrainCommand extends ContainerAwareCommand
                 $chromosome->addLocus($locus);
 
                 $locus->setStrand($locusData['strand']);
-                isset($locusData['product']) ? $locus->setProduct($locusData['product']) : null;
+                $locus->setProduct($locusData['product']);
                 $locus->setName($locusData['name']);
-                isset($locusData['standard_name']) ? $locus->setStandardName($locusData['standard_name']) : null;
+                $locus->setStandardName($locusData['standard_name']);
                 $locus->setAnnotation($locusData['annotation']);
                 $locus->setType($locusData['type']);
-                isset($locusData['coordinates']) ? $locus->setCoordinates($locusData['coordinates']) : null;
+                $locus->setCoordinates($locusData['coordinates']);
                 $locus->setNote($locusData['note']);
                 $locus->setStart($locusData['start']);
                 $locus->setEnd($locusData['end']);
