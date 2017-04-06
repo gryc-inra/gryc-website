@@ -211,6 +211,15 @@ class Chromosome
     private $source;
 
     /**
+     * Locus.
+     *
+     * @var Locus|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Locus", mappedBy="chromosome", cascade={"persist", "remove"})
+     */
+    private $locus;
+
+    /**
      * Chromosome constructor.
      */
     public function __construct()
@@ -219,6 +228,7 @@ class Chromosome
         $this->keywords = [];
         $this->flatFiles = new ArrayCollection();
         $this->seos = new ArrayCollection();
+        $this->locus = new ArrayCollection();
     }
 
     /**
@@ -824,5 +834,48 @@ class Chromosome
     public function getSource()
     {
         return $this->source;
+    }
+
+    /**
+     * Add Locus.
+     *
+     * @param Locus $locus
+     *
+     * @return $this
+     */
+    public function addLocus(Locus $locus)
+    {
+        if (!$this->locus->contains($locus)) {
+            $this->locus[] = $locus;
+            $locus->setChromosome($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove Locus.
+     *
+     * @param FlatFile $flatFile
+     *
+     * @return $this
+     */
+    public function removeLocus(Locus $locus)
+    {
+        if ($this->locus->contains($locus)) {
+            $this->locus->removeElement($locus);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get Locus.
+     *
+     * @return Locus|ArrayCollection
+     */
+    public function getLocus()
+    {
+        return $this->locus;
     }
 }

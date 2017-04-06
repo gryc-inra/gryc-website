@@ -6,7 +6,10 @@ namespace AppBundle\Command;
 
 use AppBundle\Entity\Chromosome;
 use AppBundle\Entity\DnaSequence;
+use AppBundle\Entity\Feature;
 use AppBundle\Entity\FlatFile;
+use AppBundle\Entity\Locus;
+use AppBundle\Entity\Product;
 use AppBundle\Entity\Strain;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -221,6 +224,54 @@ class ImportStrainCommand extends ContainerAwareCommand
 
             foreach ($flatFiles as $flatFile) {
                 $chromosome->addFlatFile($flatFile);
+            }
+
+            foreach ($chromosomeData['locus'] as $locusData) {
+                $locus = new Locus();
+                $chromosome->addLocus($locus);
+
+                $locus->setStrand($locusData['strand']);
+                isset($locusData['product']) ? $locus->setProduct($locusData['product']) : null;
+                $locus->setName($locusData['name']);
+                isset($locusData['standard_name']) ? $locus->setStandardName($locusData['standard_name']) : null;
+                $locus->setAnnotation($locusData['annotation']);
+                $locus->setType($locusData['type']);
+                isset($locusData['coordinates']) ? $locus->setCoordinates($locusData['coordinates']) : null;
+                $locus->setNote($locusData['note']);
+                $locus->setStart($locusData['start']);
+                $locus->setEnd($locusData['end']);
+
+                foreach ($locusData['feature'] as $featureData) {
+                    $feature = new Feature();
+                    $locus->addFeature($feature);
+
+                    $feature->setStrand($featureData['strand']);
+                    $feature->setProduct($featureData['product']);
+                    $feature->setName($featureData['name']);
+                    $feature->setStandardName($featureData['standard_name']);
+                    $feature->setAnnotation($featureData['annotation']);
+                    $feature->setType($featureData['type']);
+                    $feature->setCoordinates($featureData['coordinates']);
+                    $feature->setNote($featureData['note']);
+                    $feature->setStart($featureData['start']);
+                    $feature->setEnd($featureData['end']);
+
+                    foreach ($featureData['product_feature'] as $productData) {
+                        $product = new Product();
+                        $feature->addProductsFeatures($product);
+
+                        $product->setStrand($productData['strand']);
+                        $product->setProduct($productData['product']);
+                        $product->setName($productData['name']);
+                        $product->setStandardName($productData['standard_name']);
+                        $product->setAnnotation($productData['annotation']);
+                        $product->setType($productData['type']);
+                        $product->setCoordinates($productData['coordinates']);
+                        $product->setNote($productData['note']);
+                        $product->setStart($productData['start']);
+                        $product->setEnd($productData['end']);
+                    }
+                }
             }
         }
 
