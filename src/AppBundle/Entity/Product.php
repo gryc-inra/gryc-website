@@ -15,6 +15,11 @@ class Product extends GeneticEntry
      */
     private $feature;
 
+    /**
+     * @ORM\Column(name="translation", type="text", nullable=true)
+     */
+    private $translation;
+
     public function setFeature(Feature $feature)
     {
         $this->feature = $feature;
@@ -25,5 +30,17 @@ class Product extends GeneticEntry
     public function getFeature()
     {
         return $this->feature;
+    }
+
+    public function setTranslation($translation)
+    {
+        $this->translation = $translation;
+
+        return $this;
+    }
+
+    public function getTranslation()
+    {
+        return $this->translation;
     }
 }

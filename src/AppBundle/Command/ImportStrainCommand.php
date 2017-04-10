@@ -270,6 +270,7 @@ class ImportStrainCommand extends ContainerAwareCommand
                         $product->setNote($productData['note']);
                         $product->setStart($productData['start']);
                         $product->setEnd($productData['end']);
+                        isset($productData['translation']) ? $product->setTranslation($productData['translation']) : null;
                     }
                 }
             }
