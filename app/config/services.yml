@@ -7,6 +7,11 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    twig.extension.text:
+       class: Twig_Extensions_Extension_Text
+       tags:
+           - { name: twig.extension }
+
     app.mailer:
         class: AppBundle\Utils\Mailer
         arguments: ["@mailer", "@templating", "@security.token_storage"]
@@ -21,6 +26,9 @@ services:
     app.user_manager:
         class: AppBundle\Utils\UserManager
         arguments: ["@app.password_updater", "@doctrine.orm.entity_manager"]
+
+    app.sequence_manipulator:
+        class: AppBundle\Utils\SequenceManipulator
 
 # Doctrine's listeners and subscribers
     app.event_listener.user:

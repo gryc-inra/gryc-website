@@ -233,7 +233,6 @@ class ImportStrainCommand extends ContainerAwareCommand
                 $locus->setStrand($locusData['strand']);
                 $locus->setProduct($locusData['product']);
                 $locus->setName($locusData['name']);
-                $locus->setStandardName($locusData['standard_name']);
                 $locus->setAnnotation($locusData['annotation']);
                 $locus->setType($locusData['type']);
                 $locus->setCoordinates($locusData['coordinates']);
@@ -248,7 +247,6 @@ class ImportStrainCommand extends ContainerAwareCommand
                     $feature->setStrand($featureData['strand']);
                     $feature->setProduct($featureData['product']);
                     $feature->setName($featureData['name']);
-                    $feature->setStandardName($featureData['standard_name']);
                     $feature->setAnnotation($featureData['annotation']);
                     $feature->setType($featureData['type']);
                     $feature->setCoordinates($featureData['coordinates']);
@@ -263,7 +261,6 @@ class ImportStrainCommand extends ContainerAwareCommand
                         $product->setStrand($productData['strand']);
                         $product->setProduct($productData['product']);
                         $product->setName($productData['name']);
-                        $product->setStandardName($productData['standard_name']);
                         $product->setAnnotation($productData['annotation']);
                         $product->setType($productData['type']);
                         $product->setCoordinates($productData['coordinates']);

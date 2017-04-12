@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class StrainController extends Controller
 {
     /**
-     * @Route("db/{species_slug}/{strain_slug}", name="strain_view")
+     * @Route("/db/{species_slug}/{strain_slug}", name="strain_view")
      * @Route("strain/{strain_slug}")
      * @ParamConverter("strain", class="AppBundle:Strain", options={
      *     "repository_method": "getStrainWithFlatFiles",

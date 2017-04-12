@@ -61,4 +61,14 @@ class Locus extends GeneticEntry
     {
         return $this->features;
     }
+
+    public function countProductNumber()
+    {
+        $nbProduct = 0;
+        foreach ($this->features as $feature) {
+            $nbProduct += $feature->getProductsFeatures()->count();
+        }
+
+        return $nbProduct;
+    }
 }

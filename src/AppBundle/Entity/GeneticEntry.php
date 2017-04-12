@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Utils\SequenceManipulator;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * GeneticEntry.
@@ -40,13 +42,6 @@ class GeneticEntry
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="standardName", type="array")
-     */
-    private $standardName;
 
     /**
      * @var \stdClass
@@ -177,30 +172,6 @@ class GeneticEntry
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set standardName.
-     *
-     * @param array $standardName
-     *
-     * @return GeneticEntry
-     */
-    public function setStandardName($standardName)
-    {
-        $this->standardName = $standardName;
-
-        return $this;
-    }
-
-    /**
-     * Get standardName.
-     *
-     * @return array
-     */
-    public function getStandardName()
-    {
-        return $this->standardName;
     }
 
     /**
@@ -369,5 +340,118 @@ class GeneticEntry
     public function getNote()
     {
         return $this->note;
+    }
+
+    public function getSequence($upstream = 0, $downstream = 0)
+    {
+        $class = explode('\\', get_class($this))[2];
+        switch ($class) {
+            case 'Locus':
+                $chromosomeDna = $this->getChromosome()->getDnaSequence()->getDna();
+                $locusStart = $this->start - 1;
+                $locusEnd = $this->end - 1;
+                break;
+            case 'Feature':
+                $chromosomeDna = $this->getLocus()->getChromosome()->getDnaSequence()->getDna();
+                $locusStart = $this->getLocus()->getStart() - 1;
+                $locusEnd = $this->getLocus()->getEnd() - 1;
+                break;
+            case 'Product':
+                $chromosomeDna = $this->getFeature()->getLocus()->getChromosome()->getDnaSequence()->getDna();
+                $locusStart = $this->getFeature()->getLocus()->getStart() - 1;
+                $locusEnd = $this->getFeature()->getLocus()->getEnd() - 1;
+                break;
+        }
+        // Verify the overStart and overEnd don't go out the sequence
+        if (($locusStart - $upstream) < 0) {
+            $locusStart = 0;
+        } else {
+            $locusStart -= $upstream;
+        }
+
+        if (($locusEnd + $downstream) > strlen($chromosomeDna)) {
+            $locusEnd = strlen($chromosomeDna);
+        } else {
+            $locusEnd += $downstream;
+        }
+
+        $sequenceLength = $locusEnd - $locusStart + 1;
+        $sequence = substr($chromosomeDna, $locusStart, $sequenceLength);
+
+        if (-1 === $this->strand) {
+            $sequenceManipulator = new SequenceManipulator();
+            $sequence = $sequenceManipulator->reverseComplement($sequence);
+
+            $this->coordinates = array_reverse($this->coordinates);
+        }
+
+        // Get Exons and UTR
+        // Exons
+        $exonCount = 0;
+        $exonSpanStart = '<span class="exon">';
+        $exonSpanEnd = '</span>';
+        $exonSpanStartSize = strlen($exonSpanStart);
+        $exonSpanEndSize = strlen($exonSpanEnd);
+
+        // UTR
+        $utrCount = 0;
+        $utrSpanStart = '<span class="utr">';
+        $utrSpanEnd = '</span>';
+        $utrSpanStartSize = strlen($utrSpanStart);
+        $utrSpanEndSize = strlen($utrSpanEnd);
+
+        // For each coordinate
+        foreach ($this->coordinates as $coordinate) {
+            $coord = explode('..', $coordinate);
+
+            if (1 === $this->strand) {
+                $start = ($coord[0] - 1) - $locusStart;
+                $end = (($coord[1] - 1) - $locusStart) + 1;
+            } else {
+                $start = $locusEnd - ($coord[1] - 1);
+                $end = ($locusEnd - ($coord[0] - 1)) + 1;
+            }
+
+            // Add Exon
+            $sequence = substr_replace($sequence, $exonSpanStart, $start + (($exonSpanStartSize + $exonSpanEndSize) * $exonCount + ($utrSpanStartSize + $utrSpanEndSize) * $utrCount), 0);
+            $sequence = substr_replace($sequence, $exonSpanEnd, $end + ($exonSpanStartSize * ($exonCount + 1)) + ($exonSpanEndSize * $exonCount) + ($utrSpanStartSize + $utrSpanEndSize) * $utrCount, 0);
+
+            // Add UTR
+            if (0 === $exonCount && 0 !== $start ) {
+                $sequence = substr_replace($sequence, $utrSpanStart, 0, 0);
+                $sequence = substr_replace($sequence, $utrSpanEnd, $start + $utrSpanStartSize, 0);
+                $utrCount++;
+            }
+            if (count($this->coordinates) == ($exonCount + 1)) {
+                $sequence = substr_replace($sequence, $utrSpanStart, $end + (($exonSpanStartSize + $exonSpanEndSize) * ($exonCount + 1)) + (($utrSpanStartSize + $utrSpanEndSize) * $utrCount), 0);
+                $sequence = substr_replace($sequence, $utrSpanEnd, strlen($sequence), 0);
+                $utrCount++;
+            }
+
+            $exonCount++;
+        }
+
+        // Cut the sequence in array with 60 nucleotides per line
+        $letters = str_split($sequence, 1);
+        $sequence = [];
+        $sequence[0] = '';
+        $i = 0;
+        $l = 0;
+        foreach($letters as $letter) {
+            $type = ctype_upper($letter);
+
+            if (!$type) {
+                $sequence[$l] .= $letter;
+            } elseif ($type && $i < 60) {
+                $i++;
+                $sequence[$l] .= $letter;
+            } else {
+                $l++;
+                $i = 1;
+                $sequence[$l] = $letter;
+            }
+        }
+
+        return $sequence;
     }
 }

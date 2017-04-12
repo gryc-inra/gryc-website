@@ -56,3 +56,37 @@ footer a {
     content: " *";
     color: red;
 }
+
+/* Sequence display
+-------------------------------------------------- */
+.fasta {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 18px;
+    word-break: break-all;
+    margin-bottom: 10px;
+}
+
+.fasta .header {
+    display: block;
+    color: black;
+}
+
+.fasta-nuc {
+    color: #c0504d;
+}
+
+.utr {
+    color: forestgreen;
+}
+
+.exon {
+    color: darkblue;
+}
+
+.intron {
+    color: #c0504d;
+}
+
+.locus-feature li {
+    list-style-type: none;
+}

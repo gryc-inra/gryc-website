@@ -1,0 +1,4 @@
+<span class="header">>{{ feature.name }}</span>
+{% for line in feature.sequence(upstream,downstream) %}
+    {{ line|raw }}<br>
+{% endfor %}

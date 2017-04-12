@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ locus.chromosome.strain.species.scientificname }} {{ locus.chromosome.strain.name }} {{ locus.chromosome.name }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('species_homepage') }}">Species</a></li>
+    <li><a href="{{ path('species_view', { 'species_slug': locus.chromosome.strain.species.slug }) }}"><i>{{ locus.chromosome.strain.species.scientificname }}</i></a></li>
+    <li><a href="{{ path('strain_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug }) }}">{{ locus.chromosome.strain.name }}</a></li>
+    <li><a href="{{ path('chromosome_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug }) }}">{{ locus.chromosome.name }}</a></li>
+    <li class="active">{{ locus.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1>{{ locus.name }} <small>{{ locus.type }}</small></h1>
+
+    <h2>Description</h2>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Annotation</h3>
+        </div>
+        <table class="table">
+            {% for key, annotation in locus.annotation %}
+                <tr>
+                    <td class="col-md-6"><b>{{ key }}</b></td>
+                    <td class="col-md-6">{{ annotation[0] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Summary</h3>
+        </div>
+        <table class="table">
+            <tr>
+                <td class="col-md-3"><b>Species</b></td>
+                <td class="col-md-3"><i>{{ locus.chromosome.strain.species.scientificName }}</i></td>
+                <td class="col-md-3"><b>Positions</b></td>
+                <td class="col-md-3">{{ locus.start }}..{{ locus.end }}</td>
+            </tr>
+            <tr>
+                <td><b>Strain</b></td>
+                <td>{{ locus.chromosome.strain.name }}</td>
+                <td><b>Strand</b></td>
+                <td>{{ 1 == locus.strand ? 'Sense' : 'Antisense' }}</td>
+            </tr>
+            <tr>
+                <td><b>Chromosome</b></td>
+                <td>{{ locus.chromosome.name }}</td>
+                <td><b>Total length</b></td>
+                <td>{{ locus.end - locus.start + 1 }} (nuc.)</td>
+            </tr>
+            <tr>
+                <td><b>Product number</b></td>
+                <td>{{ locus.countProductNumber }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>Sequence</h2>
+    {% for feature in locus.features %}
+        <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-locus="{{ locus.name }}" data-feature="{{ feature.name }}">
+            <h3 class="page-header">{{ feature.name }}</h3>
+            <div class="row">
+                <div class="col-md-8 fasta fasta-nuc">
+                    <span class="header">>{{ feature.name }}</span>
+                    {% for line in feature.sequence %}
+                        {{ line|raw }}<br>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-2 legend">
+                    <ul>
+                        <li><span class="utr">UTR</span></li>
+                        <li><span class="exon">exon</span></li>
+                        <li><span class="intron">intron</span></li>
+                    </ul>
+
+                    <form class="hidden">
+                        <div class="form-group">
+                            <label>Upstream</label>
+                            <input type="number" class="form-control" name="upstream">
+                        </div>
+                        <div class="form-group">
+                            <label>Downstream</label>
+                            <input type="number" class="form-control" name="downstream">
+                        </div>
+                        <button type="submit" class="btn btn-default">Valid</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <hr>
+
+    <h2>Product(s)</h2>
+    {% for feature in locus.features %}
+        {% for product in feature.productsFeatures %}
+            <h3 class="page-header">{{ product.name }}</h3>
+            <p>
+                <b>Product type:</b> protein<br>
+                <b>Protein length:</b> {{ product.translation|length }} aa.<br>
+                <b>Product:</b> {{ product.product is not empty ? product.product|join(', '): product.note }}<br>
+                <b>Annotation:</b>
+                    <ul>
+                    {% if product.annotation['gene'] is defined %}
+                        <li>Gene: {{ product.annotation['gene']|join(', ') }}</li>
+                    {% endif %}
+                    {% if product.annotation['EC_number'] is defined %}
+                        <li>EC number: {{ product.annotation['EC_number']|join(', ') }}</li>
+                    {% endif %}
+                    </ul>
+            </p>
+            <div class="fasta">
+                <span class="header">>{{ product.name }}</span>
+                {{ product.translation|wordwrap(60, "\n")|nl2br }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function(){
+            $('div.locus-feature').each(function(index) {
+                var locus = $( this ).data("locus");
+                var feature = $( this ).data("feature");
+                var sequenceContainer = $( this ).find('div.fasta');
+                var form = $( this ).find('form');
+
+                form.removeClass('hidden');
+
+                form.submit(function(event) {
+                    event.preventDefault();
+                    var upstream = $( this ).parent().find("input[name='upstream']").val();
+                    var downstream = $( this ).parent().find("input[name='downstream']").val();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: Routing.generate('feature_sequence', { locus_name: locus, feature_name: feature, upstream: upstream, downstream: downstream }),
+                        dataType: 'html',
+                        success: function (html) {
+                            sequenceContainer.first().html(html);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}
