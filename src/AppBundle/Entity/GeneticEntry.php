@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use AppBundle\Utils\SequenceManipulator;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * GeneticEntry.
@@ -417,18 +416,18 @@ class GeneticEntry
             $sequence = substr_replace($sequence, $exonSpanEnd, $end + ($exonSpanStartSize * ($exonCount + 1)) + ($exonSpanEndSize * $exonCount) + ($utrSpanStartSize + $utrSpanEndSize) * $utrCount, 0);
 
             // Add UTR
-            if (0 === $exonCount && 0 !== $start ) {
+            if (0 === $exonCount && 0 !== $start) {
                 $sequence = substr_replace($sequence, $utrSpanStart, 0, 0);
                 $sequence = substr_replace($sequence, $utrSpanEnd, $start + $utrSpanStartSize, 0);
-                $utrCount++;
+                ++$utrCount;
             }
             if (count($this->coordinates) == ($exonCount + 1)) {
                 $sequence = substr_replace($sequence, $utrSpanStart, $end + (($exonSpanStartSize + $exonSpanEndSize) * ($exonCount + 1)) + (($utrSpanStartSize + $utrSpanEndSize) * $utrCount), 0);
                 $sequence = substr_replace($sequence, $utrSpanEnd, strlen($sequence), 0);
-                $utrCount++;
+                ++$utrCount;
             }
 
-            $exonCount++;
+            ++$exonCount;
         }
 
         // Cut the sequence in array with 60 nucleotides per line
@@ -437,16 +436,16 @@ class GeneticEntry
         $sequence[0] = '';
         $i = 0;
         $l = 0;
-        foreach($letters as $letter) {
+        foreach ($letters as $letter) {
             $type = ctype_upper($letter);
 
             if (!$type) {
                 $sequence[$l] .= $letter;
             } elseif ($type && $i < 60) {
-                $i++;
+                ++$i;
                 $sequence[$l] .= $letter;
             } else {
-                $l++;
+                ++$l;
                 $i = 1;
                 $sequence[$l] = $letter;
             }

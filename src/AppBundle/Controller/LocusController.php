@@ -2,12 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Chromosome;
 use AppBundle\Entity\Feature;
 use AppBundle\Entity\Locus;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
