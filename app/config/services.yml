@@ -7,11 +7,20 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+# Twig
     twig.extension.text:
        class: Twig_Extensions_Extension_Text
        tags:
            - { name: twig.extension }
 
+    app.twig.instanceOf_extension:
+        class: AppBundle\Twig\InstanceOfExtension
+        tags:
+            - { name: twig.extension }
+        public:    false
+
+# Utils
     app.mailer:
         class: AppBundle\Utils\Mailer
         arguments: ["@mailer", "@templating", "@security.token_storage"]

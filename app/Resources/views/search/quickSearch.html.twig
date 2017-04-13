@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{%block title %}
+    Search Results - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Quick search</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Results for "<i>{{ search }}</i>"</h1>
+
+    {% include ":search:searchResults.html.twig" %}
+
+{% endblock %}

@@ -25,28 +25,60 @@ fos_elastica:
                                 min_gram: 1
                                 max_gram: 20
             types:
-                user:
+                locus:
                     properties:
-                        email:
+                        name:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
-                        email_raw:
-                            type:             string
-                            index:            not_analyzed
-                            property_path:    email
-                        fullName:
-                            analyzer :        ngram_index_analyzer
-                            search_analyzer : search_analyzer
-                        fullName_raw:
-                            type:             string
-                            index:            not_analyzed
-                            property_path:    fullName
+                        annotation:
+                            type:             object
+                        note:
+                        public:
+                            property_path:    chromosome.strain.public
+                        authorized_users_id:
+                            property_path:    chromosome.strain.authorizedUsersId
                     persistence:
                       driver:                 orm
-                      model:                  AppBundle\Entity\User
+                      model:                  AppBundle\Entity\Locus
                       provider:               ~
                       listener:               ~
                       finder:                 ~
-                      repository:             AppBundle\SearchRepository\UserRepository
-                      elastica_to_model_transformer:
-                        ignore_missing: true
+                      repository:             AppBundle\SearchRepository\LocusRepository
+                feature:
+                    properties:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        annotation:
+                            type:             object
+                        note:
+                        public:
+                            property_path:    locus.chromosome.strain.public
+                        authorized_users_id:
+                            property_path:    locus.chromosome.strain.authorizedUsersId
+                    persistence:
+                      driver:                 orm
+                      model:                  AppBundle\Entity\Feature
+                      provider:               ~
+                      listener:               ~
+                      finder:                 ~
+                      repository:             AppBundle\SearchRepository\FeatureRepository
+                product:
+                    properties:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        annotation:
+                            type:             object
+                        note:
+                        public:
+                            property_path:    feature.locus.chromosome.strain.public
+                        authorized_users_id:
+                            property_path:    feature.locus.chromosome.strain.authorizedUsersId
+                    persistence:
+                      driver:                 orm
+                      model:                  AppBundle\Entity\Product
+                      provider:               ~
+                      listener:               ~
+                      finder:                 ~
+                      repository:             AppBundle\SearchRepository\ProductRepository

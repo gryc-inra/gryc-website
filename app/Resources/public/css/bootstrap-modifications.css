@@ -90,3 +90,18 @@ footer a {
 .locus-feature li {
     list-style-type: none;
 }
+
+/*
+ * Search result
+ */
+.search-result {
+    margin-top: 20px;
+}
+
+.search-result h4 {
+    margin-bottom: 2px;
+}
+
+.search-result .category {
+    color: #236b2a;
+}

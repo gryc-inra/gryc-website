@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 class LocusController extends Controller
 {
     /**
-     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_name}", name="feature_view")
+     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_name}", name="locus_view")
      * @Route("/locus/{locus_name}")
      */
     public function viewAction($locus_name)
@@ -35,10 +35,8 @@ class LocusController extends Controller
         ]);
     }
 
-    //condition="request.isXmlHttpRequest()",
-
     /**
-     * @Route("/locus/{locus_name}/sequence/{feature_name}", options={"expose"=true}, name="feature_sequence")
+     * @Route("/locus/{locus_name}/sequence/{feature_name}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="feature_sequence")
      * @ParamConverter("feature", class="AppBundle:Feature", options={
      *   "mapping": {"feature_name": "name"},
      *   "map_method_signature" = true

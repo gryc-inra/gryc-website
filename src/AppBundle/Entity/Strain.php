@@ -601,6 +601,22 @@ class Strain
     }
 
     /**
+     * Get authorized users id.
+     *
+     * @return array
+     */
+    public function getAuthorizedUsersId()
+    {
+        $usersId = [];
+
+        foreach ($this->authorizedUsers as $user) {
+            $usersId[] = $user->getId();
+        }
+
+        return $usersId;
+    }
+
+    /**
      * Is authorized user ?
      *
      * @param User $user
