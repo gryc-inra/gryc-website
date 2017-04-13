@@ -28,8 +28,6 @@ class LocusController extends Controller
             }
         }
 
-        dump($locus);
-
         return $this->render('locus/view.html.twig', [
            'locus' => $locus,
         ]);
@@ -44,8 +42,6 @@ class LocusController extends Controller
      */
     public function sequenceAction(Feature $feature, Request $request)
     {
-        dump($request->get('upstream'));
-
         $upstream = !empty($request->get('upstream')) ? $request->get('upstream') : null;
         $downstream = !empty($request->get('downstream')) ? $request->get('downstream') : null;
 

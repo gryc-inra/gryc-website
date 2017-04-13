@@ -347,88 +347,113 @@ class GeneticEntry
         switch ($class) {
             case 'Locus':
                 $chromosomeDna = $this->getChromosome()->getDnaSequence()->getDna();
-                $locusStart = $this->start - 1;
-                $locusEnd = $this->end - 1;
+                $locusStart = $this->start;
+                $locusEnd = $this->end;
                 break;
             case 'Feature':
                 $chromosomeDna = $this->getLocus()->getChromosome()->getDnaSequence()->getDna();
-                $locusStart = $this->getLocus()->getStart() - 1;
-                $locusEnd = $this->getLocus()->getEnd() - 1;
+                $locusStart = $this->getLocus()->getStart();
+                $locusEnd = $this->getLocus()->getEnd();
                 break;
             case 'Product':
                 $chromosomeDna = $this->getFeature()->getLocus()->getChromosome()->getDnaSequence()->getDna();
-                $locusStart = $this->getFeature()->getLocus()->getStart() - 1;
-                $locusEnd = $this->getFeature()->getLocus()->getEnd() - 1;
+                $locusStart = $this->getFeature()->getLocus()->getStart();
+                $locusEnd = $this->getFeature()->getLocus()->getEnd();
                 break;
         }
-        // Verify the overStart and overEnd don't go out the sequence
-        if (($locusStart - $upstream) < 0) {
-            $locusStart = 0;
+
+        // Create a positionsArray
+        $positionsArray = [];
+
+        // First, define the upstream
+        if ($upstream > 0) {
+            if (($locusStart - $upstream) < 0) {
+                $positionsArray['upstream']['start'] = 1;
+            } else {
+                $positionsArray['upstream']['start'] = $locusStart - $upstream;
+            }
+            $positionsArray['upstream']['end'] = $locusStart - 1;
+            $positionsArray['upstream']['legend'] = 'stream';
         } else {
-            $locusStart -= $upstream;
+            $positionsArray['upstream'] = false;
         }
 
-        if (($locusEnd + $downstream) > strlen($chromosomeDna)) {
-            $locusEnd = strlen($chromosomeDna);
+        // Is there 5'UTR region ?
+        $firstExonCoord = explode('..', $this->coordinates[0]);
+        // If the first exon start position is greater than the locus start position, there is a 5'UTR
+        if ($firstExonCoord[0] > $locusStart) {
+            $positionsArray['5UTR']['start'] = $locusStart;
+            $positionsArray['5UTR']['end'] = $firstExonCoord[0] - 1;
+            $positionsArray['5UTR']['legend'] = 'utr';
         } else {
-            $locusEnd += $downstream;
+            $positionsArray['5UTR'] = false;
         }
 
-        $sequenceLength = $locusEnd - $locusStart + 1;
-        $sequence = substr($chromosomeDna, $locusStart, $sequenceLength);
-
-        if (-1 === $this->strand) {
-            $sequenceManipulator = new SequenceManipulator();
-            $sequence = $sequenceManipulator->reverseComplement($sequence);
-
-            $this->coordinates = array_reverse($this->coordinates);
-        }
-
-        // Get Exons and UTR
-        // Exons
-        $exonCount = 0;
-        $exonSpanStart = '<span class="exon">';
-        $exonSpanEnd = '</span>';
-        $exonSpanStartSize = strlen($exonSpanStart);
-        $exonSpanEndSize = strlen($exonSpanEnd);
-
-        // UTR
-        $utrCount = 0;
-        $utrSpanStart = '<span class="utr">';
-        $utrSpanEnd = '</span>';
-        $utrSpanStartSize = strlen($utrSpanStart);
-        $utrSpanEndSize = strlen($utrSpanEnd);
-
-        // For each coordinate
+        // Do a while on coordinates to get all exon and determine introns
+        $i = 0;
+        $nbExons = count($this->coordinates);
+        $nbIntrons = $nbExons - 1;
+        $haveIntron = $nbIntrons > 0 ? true : false;
         foreach ($this->coordinates as $coordinate) {
             $coord = explode('..', $coordinate);
 
-            if (1 === $this->strand) {
-                $start = ($coord[0] - 1) - $locusStart;
-                $end = (($coord[1] - 1) - $locusStart) + 1;
-            } else {
-                $start = $locusEnd - ($coord[1] - 1);
-                $end = ($locusEnd - ($coord[0] - 1)) + 1;
+            // If the strain have intron, had them
+            // Intron only between the 2nd and before last loop
+            if ($haveIntron && $i > 0 && $i < $nbExons) {
+                $positionsArray['intron-'.($i - 1)]['start'] = $positionsArray['exon-'.($i - 1)]['end'] + 1;
+                $positionsArray['intron-'.($i - 1)]['end'] = (int)$coord[0] - 1;
+                $positionsArray['intron-'.($i - 1)]['legend'] = 'intron';
             }
 
-            // Add Exon
-            $sequence = substr_replace($sequence, $exonSpanStart, $start + (($exonSpanStartSize + $exonSpanEndSize) * $exonCount + ($utrSpanStartSize + $utrSpanEndSize) * $utrCount), 0);
-            $sequence = substr_replace($sequence, $exonSpanEnd, $end + ($exonSpanStartSize * ($exonCount + 1)) + ($exonSpanEndSize * $exonCount) + ($utrSpanStartSize + $utrSpanEndSize) * $utrCount, 0);
+            // Set the exon
+            $positionsArray['exon-'.$i]['start'] = (int) $coord[0];
+            $positionsArray['exon-'.$i]['end'] = (int) $coord[1] + 1;
+            $positionsArray['exon-'.$i]['legend'] = 'exon';
 
-            // Add UTR
-            if (0 === $exonCount && 0 !== $start) {
-                $sequence = substr_replace($sequence, $utrSpanStart, 0, 0);
-                $sequence = substr_replace($sequence, $utrSpanEnd, $start + $utrSpanStartSize, 0);
-                ++$utrCount;
-            }
-            if (count($this->coordinates) == ($exonCount + 1)) {
-                $sequence = substr_replace($sequence, $utrSpanStart, $end + (($exonSpanStartSize + $exonSpanEndSize) * ($exonCount + 1)) + (($utrSpanStartSize + $utrSpanEndSize) * $utrCount), 0);
-                $sequence = substr_replace($sequence, $utrSpanEnd, strlen($sequence), 0);
-                ++$utrCount;
-            }
-
-            ++$exonCount;
+            ++$i;
         }
+
+        // Is there 3'UTR region ?
+        $lastExonCoord = explode('..', $this->coordinates[$nbExons - 1]);
+        // If the last exon end position is smaller than the locus end position, there is a 3'UTR
+        if ($lastExonCoord[1] < $locusEnd) {
+            $positionsArray['3UTR']['start'] = $lastExonCoord[1] + 2;
+            $positionsArray['3UTR']['end'] = $locusEnd;
+            $positionsArray['3UTR']['legend'] = 'utr';
+        } else {
+            $positionsArray['3UTR'] = false;
+        }
+
+        // Then, define the downstream
+        if ($downstream > 0) {
+            $positionsArray['downstream']['start'] = $locusEnd + 1;
+            $positionsArray['downstream']['legend'] = 'stream';
+
+            if (($locusEnd + $downstream) > strlen($chromosomeDna)) {
+                $positionsArray['downstream']['end'] = strlen($chromosomeDna);
+            } else {
+                $positionsArray['downstream']['end'] = $locusEnd + $downstream;
+            }
+        } else {
+            $positionsArray['downstream'] = false;
+        }
+
+        dump($positionsArray);
+
+        // Convert positions from human logic to computer logic
+        array_walk_recursive($positionsArray, function(&$item) {
+                $item--;
+        });
+
+        $sequences = [];
+        foreach ($positionsArray as $position) {
+            if ($position) {
+                $sequenceLength = $position['end'] - $position['start'] + 1;
+                $sequences[] = '<span class="'.$position['legend'].'">'.substr($chromosomeDna, $position['start'], $sequenceLength).'</span>';
+            }
+        }
+
+        $sequence = implode($sequences);
 
         // Cut the sequence in array with 60 nucleotides per line
         $letters = str_split($sequence, 1);

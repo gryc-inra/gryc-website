@@ -68,11 +68,10 @@ footer a {
 
 .fasta .header {
     display: block;
-    color: black;
 }
 
-.fasta-nuc {
-    color: #c0504d;
+.stream {
+    color: darkgrey;
 }
 
 .utr {
@@ -80,7 +79,7 @@ footer a {
 }
 
 .exon {
-    color: darkblue;
+    color: dodgerblue;
 }
 
 .intron {
