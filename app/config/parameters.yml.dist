@@ -5,8 +5,8 @@ parameters:
     database_host:     db
     database_port:     ~
     database_name:     grycii
-    database_user:     grycii
-    database_password: grycii
+    env(DATABASE_USER): grycii
+    env(DATABASE_PASSWORD): grycii
 
     elasticsearch_host: es1
     elasticsearch_port: ~
