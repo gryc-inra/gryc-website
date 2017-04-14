@@ -407,7 +407,7 @@ class GeneticEntry
 
             // Set the exon
             $positionsArray['exon-'.$i]['start'] = (int) $coord[0];
-            $positionsArray['exon-'.$i]['end'] = (int) $coord[1] + 1;
+            $positionsArray['exon-'.$i]['end'] = (int) $coord[1];
             $positionsArray['exon-'.$i]['legend'] = 'exon';
 
             ++$i;
@@ -417,7 +417,7 @@ class GeneticEntry
         $lastExonCoord = explode('..', $this->coordinates[$nbExons - 1]);
         // If the last exon end position is smaller than the locus end position, there is a 3'UTR
         if (true === $showUtr && $lastExonCoord[1] < $locusEnd) {
-            $positionsArray['3UTR']['start'] = $lastExonCoord[1] + 2;
+            $positionsArray['3UTR']['start'] = $lastExonCoord[1] + 1;
             $positionsArray['3UTR']['end'] = $locusEnd;
             $positionsArray['3UTR']['legend'] = 'utr';
         } else {
@@ -437,6 +437,8 @@ class GeneticEntry
         } else {
             $positionsArray['downstream'] = false;
         }
+
+        dump($positionsArray);
 
         // Convert positions from human logic to computer logic
         array_walk_recursive($positionsArray, function(&$item) {
