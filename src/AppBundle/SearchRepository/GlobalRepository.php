@@ -4,10 +4,8 @@ namespace AppBundle\SearchRepository;
 
 use AppBundle\Entity\User;
 use Elastica\Query\BoolQuery;
-use Elastica\Query\ConstantScore;
 use Elastica\Query\Match;
 use Elastica\Query\MultiMatch;
-use Elastica\Query\QueryString;
 use Elastica\Query\Term;
 
 class GlobalRepository

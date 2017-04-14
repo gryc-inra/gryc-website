@@ -401,7 +401,7 @@ class GeneticEntry
             // Intron only between the 2nd and before last loop
             if (true === $showIntron && $haveIntron && $i > 0 && $i < $nbExons) {
                 $positionsArray['intron-'.($i - 1)]['start'] = $positionsArray['exon-'.($i - 1)]['end'] + 1;
-                $positionsArray['intron-'.($i - 1)]['end'] = (int)$coord[0] - 1;
+                $positionsArray['intron-'.($i - 1)]['end'] = (int) $coord[0] - 1;
                 $positionsArray['intron-'.($i - 1)]['legend'] = 'intron';
             }
 
@@ -441,8 +441,8 @@ class GeneticEntry
         dump($positionsArray);
 
         // Convert positions from human logic to computer logic
-        array_walk_recursive($positionsArray, function(&$item) {
-                $item--;
+        array_walk_recursive($positionsArray, function (&$item) {
+            --$item;
         });
 
         if (1 !== $this->strand) {
