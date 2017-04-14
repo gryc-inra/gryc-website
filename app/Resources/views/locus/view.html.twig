@@ -91,6 +91,16 @@
                             <label>Downstream</label>
                             <input type="number" class="form-control" name="downstream">
                         </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="showUtr" checked> Show UTR
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="showIntron"checked> Show Intron
+                            </label>
+                        </div>
                         <button type="submit" class="btn btn-default">Valid</button>
                     </form>
                 </div>
@@ -143,10 +153,12 @@
                     event.preventDefault();
                     var upstream = $( this ).parent().find("input[name='upstream']").val();
                     var downstream = $( this ).parent().find("input[name='downstream']").val();
+                    var showUtr = $( this ).parent().find("input[name='showUtr']").is(":checked");
+                    var showIntron = $( this ).parent().find("input[name='showIntron']").is(":checked");
 
                     $.ajax({
                         type: 'GET',
-                        url: Routing.generate('feature_sequence', { locus_name: locus, feature_name: feature, upstream: upstream, downstream: downstream }),
+                        url: Routing.generate('feature_sequence', { locus_name: locus, feature_name: feature, upstream: upstream, downstream: downstream, showUtr: showUtr, showIntron: showIntron }),
                         dataType: 'html',
                         success: function (html) {
                             sequenceContainer.first().html(html);

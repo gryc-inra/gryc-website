@@ -42,11 +42,24 @@ class LocusController extends Controller
      */
     public function sequenceAction(Feature $feature, Request $request)
     {
+        // Display UTR or/and Introns ?
+        $showUtr = !empty($request->get('showUtr')) ? filter_var($request->get('showUtr'), FILTER_VALIDATE_BOOLEAN) : true;
+        $showIntron = !empty($request->get('showIntron')) ? filter_var($request->get('showIntron'), FILTER_VALIDATE_BOOLEAN) : true;
+
+        // Get UP and DOwnstream
         $upstream = !empty($request->get('upstream')) ? $request->get('upstream') : null;
         $downstream = !empty($request->get('downstream')) ? $request->get('downstream') : null;
 
+        // If Upstream and/or downstream defined, showUtr and showIntron on Yes
+        if (null !== $upstream || null !== $downstream) {
+            $showUtr = true;
+            $showIntron = true;
+        }
+
         return $this->render('locus/sequence.html.twig', [
             'feature' => $feature,
+            'showUtr' => $showUtr,
+            'showIntron' => $showIntron,
             'upstream' => $upstream,
             'downstream' => $downstream,
         ]);

@@ -341,7 +341,7 @@ class GeneticEntry
         return $this->note;
     }
 
-    public function getSequence($upstream = 0, $downstream = 0)
+    public function getSequence($showUtr = true, $showIntron = true, $upstream = 0, $downstream = 0)
     {
         $class = explode('\\', get_class($this))[2];
         switch ($class) {
@@ -381,7 +381,7 @@ class GeneticEntry
         // Is there 5'UTR region ?
         $firstExonCoord = explode('..', $this->coordinates[0]);
         // If the first exon start position is greater than the locus start position, there is a 5'UTR
-        if ($firstExonCoord[0] > $locusStart) {
+        if (true === $showUtr && $firstExonCoord[0] > $locusStart) {
             $positionsArray['5UTR']['start'] = $locusStart;
             $positionsArray['5UTR']['end'] = $firstExonCoord[0] - 1;
             $positionsArray['5UTR']['legend'] = 'utr';
@@ -399,7 +399,7 @@ class GeneticEntry
 
             // If the strain have intron, had them
             // Intron only between the 2nd and before last loop
-            if ($haveIntron && $i > 0 && $i < $nbExons) {
+            if (true === $showIntron && $haveIntron && $i > 0 && $i < $nbExons) {
                 $positionsArray['intron-'.($i - 1)]['start'] = $positionsArray['exon-'.($i - 1)]['end'] + 1;
                 $positionsArray['intron-'.($i - 1)]['end'] = (int)$coord[0] - 1;
                 $positionsArray['intron-'.($i - 1)]['legend'] = 'intron';
@@ -416,7 +416,7 @@ class GeneticEntry
         // Is there 3'UTR region ?
         $lastExonCoord = explode('..', $this->coordinates[$nbExons - 1]);
         // If the last exon end position is smaller than the locus end position, there is a 3'UTR
-        if ($lastExonCoord[1] < $locusEnd) {
+        if (true === $showUtr && $lastExonCoord[1] < $locusEnd) {
             $positionsArray['3UTR']['start'] = $lastExonCoord[1] + 2;
             $positionsArray['3UTR']['end'] = $locusEnd;
             $positionsArray['3UTR']['legend'] = 'utr';
