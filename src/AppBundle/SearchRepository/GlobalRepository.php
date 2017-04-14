@@ -2,100 +2,54 @@
 
 namespace AppBundle\SearchRepository;
 
-use AppBundle\Entity\Project;
-use AppBundle\Entity\Type;
 use AppBundle\Entity\User;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\ConstantScore;
+use Elastica\Query\Match;
+use Elastica\Query\MultiMatch;
+use Elastica\Query\QueryString;
+use Elastica\Query\Term;
 
 class GlobalRepository
 {
-    public function searchQuery($keyword = null, User $user, $category = null)
+    public function searchQuery($keyword = null, User $user)
     {
-        // Create the search query
-        $query = new \Elastica\Query\BoolQuery();
+        // Create a bool query
+        $query = new BoolQuery();
+        $query->setMinimumShouldMatch(1);
 
-        //-------------------------------//
-        // Set queries used in BoolQuery //
-        //-------------------------------//
+        // Search in note
+        $noteQuery = new MultiMatch();
+        $noteQuery->setFields(['note', 'note.stemmed']);
+        $noteQuery->setFuzziness('AUTO');
+        $noteQuery->setQuery($keyword);
+        $query->addShould($noteQuery);
 
-        $keywordQuery = new \Elastica\Query\QueryString();
-        $keywordQuery->setFields(['name^2', 'annotation', 'note']);
-        $keywordQuery->setDefaultOperator('AND');
-        $keywordQuery->setQuery($keyword);
+        // Search in name
+        $nameQuery = new QueryString();
+        $nameQuery->setFields(['name']);
+        $nameQuery->setQuery($keyword);
+        $query->addShould($nameQuery);
 
-        //----------------------------------------//
-        // Set security queries used in BoolQuery //
-        //----------------------------------------//
+        // Search in gene
+        $geneQuery = new Match();
+        $geneQuery->setFieldQuery('annotation.gene', $keyword);
+        $query->addShould($geneQuery);
+
+        // Create a BoolQuery with filters
+        $boolFilter = new BoolQuery();
+        $boolFilter->setMinimumShouldMatch(1);
+        $query->addFilter($boolFilter);
 
         // Set a user filter
-        $userSecureQuery = new \Elastica\Query\Term();
-        $userSecureQuery->setTerm('authorized_users_id', $user->getId());
+        $userFilter = new Term();
+        $userFilter->setTerm('authorized_users_id', $user->getId());
+        $boolFilter->addShould($userFilter);
 
-        //-------------------------------------------//
-        // Assign previous queries to each BoolQuery //
-        //-------------------------------------------//
-
-        // For Locus
-        if (null === $category || in_array('locus', $category)) {
-            // Set a specific filter, for this type
-            $locusTypeQuery = new \Elastica\Query\Type();
-            $locusTypeQuery->setType('locus');
-
-            // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
-            $locusBoolQuery = new \Elastica\Query\BoolQuery();
-
-            // First, define required queries like: type, security
-            //$locusBoolQuery->addFilter($userSecureQuery);
-            $locusBoolQuery->addFilter($locusTypeQuery);
-
-            // Then, all conditional queries
-            $locusBoolQuery->addShould($keywordQuery);
-            $locusBoolQuery->setMinimumShouldMatch(1);
-
-            // Add the Locus BoolQuery to the main BoolQuery
-            $query->addShould($locusBoolQuery->setBoost(1));
-        }
-
-        // For Feature
-        if (null === $category || in_array('feature', $category)) {
-            // Set a specific filter, for this type
-            $featureTypeQuery = new \Elastica\Query\Type();
-            $featureTypeQuery->setType('feature');
-
-            // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
-            $featureBoolQuery = new \Elastica\Query\BoolQuery();
-            $featureBoolQuery->addFilter($featureTypeQuery);
-
-            // First, define required queries like: type, security
-            //$locusBoolQuery->addFilter($userSecureQuery);
-
-            // Then, all conditional queries
-            $featureBoolQuery->addShould($keywordQuery);
-            $featureBoolQuery->setMinimumShouldMatch(1);
-
-            // Add the Locus BoolQuery to the main BoolQuery
-            $query->addShould($featureBoolQuery->setBoost(1));
-        }
-
-        // For Product
-        if (null === $category || in_array('product', $category)) {
-            // Set a specific filter, for this type
-            $productTypeQuery = new \Elastica\Query\Type();
-            $productTypeQuery->setType('product');
-
-            // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
-            $productBoolQuery = new \Elastica\Query\BoolQuery();
-            $productBoolQuery->addFilter($productTypeQuery);
-
-            // First, define required queries like: type, security
-            //$locusBoolQuery->addFilter($userSecureQuery);
-
-            // Then, all conditional queries
-            $productBoolQuery->addShould($keywordQuery);
-            $productBoolQuery->setMinimumShouldMatch(1);
-
-            // Add the Locus BoolQuery to the main BoolQuery
-            $query->addShould($productBoolQuery->setBoost(1));
-        }
+        // Set a public filter
+        $publicFilter = new Term();
+        $publicFilter->setTerm('public', true);
+        $boolFilter->addShould($publicFilter);
 
         return $query;
     }

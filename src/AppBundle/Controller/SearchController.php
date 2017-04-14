@@ -31,6 +31,7 @@ class SearchController extends Controller
         $resultSet = $search->search($query, self::HITS_PER_PAGE);
         $transformer = $this->get('fos_elastica.elastica_to_model_transformer.collection.app');
         $results = $transformer->transform($resultSet->getResults());
+
         // Return the view
         return $this->render('search\quickSearch.html.twig', [
             'search' => $keyword,

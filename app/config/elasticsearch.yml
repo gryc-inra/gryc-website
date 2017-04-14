@@ -10,29 +10,42 @@ fos_elastica:
                 index:
                     analysis:
                         analyzer:
-                            search_analyzer:
-                                type: custom
-                                tokenizer: standard
-                                filter: [standard, lowercase, asciifolding]
-                            ngram_index_analyzer:
+                            edge_ngram:
                                 type: custom
                                 tokenizer: standard
                                 filter: [standard, lowercase, asciifolding, edge_ngram]
+                            english_light:
+                                type: custom
+                                tokenizer: standard
+                                filter: [asciifolding, lowercase]
+                            english_heavy:
+                                type: custom
+                                tokenizer: standard
+                                filter: [asciifolding, lowercase, english_stemmer]
                         filter:
                             edge_ngram:
                                 type: edgeNGram
                                 side: front
-                                min_gram: 1
-                                max_gram: 20
+                                min_gram: 7
+                                max_gram: 30
+                            english_stemmer:
+                                type: stemmer
+                                name: light_english
             types:
                 locus:
                     properties:
                         name:
-                            analyzer :        ngram_index_analyzer
-                            search_analyzer : search_analyzer
+                            type:             text
+                            analyzer :        edge_ngram
                         annotation:
                             type:             object
                         note:
+                            type:             text
+                            analyzer:         english_light
+                            fields:
+                                stemmed:
+                                    type:     text
+                                    analyzer: english_heavy
                         public:
                             property_path:    chromosome.strain.public
                         authorized_users_id:
@@ -47,11 +60,17 @@ fos_elastica:
                 feature:
                     properties:
                         name:
-                            analyzer :        ngram_index_analyzer
-                            search_analyzer : search_analyzer
+                            type:             text
+                            analyzer :        edge_ngram
                         annotation:
                             type:             object
                         note:
+                            type:             text
+                            analyzer:         english_light
+                            fields:
+                                stemmed:
+                                    type:     text
+                                    analyzer: english_heavy
                         public:
                             property_path:    locus.chromosome.strain.public
                         authorized_users_id:
@@ -66,11 +85,17 @@ fos_elastica:
                 product:
                     properties:
                         name:
-                            analyzer :        ngram_index_analyzer
-                            search_analyzer : search_analyzer
+                            type:             text
+                            analyzer :        edge_ngram
                         annotation:
                             type:             object
                         note:
+                            type:             text
+                            analyzer:         english_light
+                            fields:
+                                stemmed:
+                                    type:     text
+                                    analyzer: english_heavy
                         public:
                             property_path:    feature.locus.chromosome.strain.public
                         authorized_users_id:
