@@ -26,8 +26,8 @@ class GlobalRepository
         $query->addShould($noteQuery);
 
         // Search in name
-        $nameQuery = new QueryString();
-        $nameQuery->setFields(['name']);
+        $nameQuery = new MultiMatch();
+        $nameQuery->setFields(['name', 'name.ngramed']);
         $nameQuery->setQuery($keyword);
         $query->addShould($nameQuery);
 

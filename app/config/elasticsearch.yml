@@ -10,10 +10,14 @@ fos_elastica:
                 index:
                     analysis:
                         analyzer:
+                            search:
+                                type: custom
+                                tokenizer: standard
+                                filter: [asciifolding, lowercase]
                             edge_ngram:
                                 type: custom
                                 tokenizer: standard
-                                filter: [standard, lowercase, asciifolding, edge_ngram]
+                                filter: [asciifolding, lowercase, edge_ngram]
                             english_light:
                                 type: custom
                                 tokenizer: standard
@@ -28,6 +32,7 @@ fos_elastica:
                                 side: front
                                 min_gram: 7
                                 max_gram: 30
+                                token_chars: ['letter', 'digit', 'whitespace', 'punctuation', 'symbol']
                             english_stemmer:
                                 type: stemmer
                                 name: light_english
@@ -35,13 +40,17 @@ fos_elastica:
                 locus:
                     properties:
                         name:
-                            type:             text
-                            analyzer :        edge_ngram
+                            type:                   text
+                            fields:
+                                ngramed:
+                                    type:             text
+                                    analyzer :        edge_ngram
+                                    search_analyzer:  search
                         annotation:
-                            type:             object
+                            type:                     object
                         note:
-                            type:             text
-                            analyzer:         english_light
+                            type:                     text
+                            analyzer:                 english_light
                             fields:
                                 stemmed:
                                     type:     text
@@ -60,8 +69,12 @@ fos_elastica:
                 feature:
                     properties:
                         name:
-                            type:             text
-                            analyzer :        edge_ngram
+                            type:                   text
+                            fields:
+                                ngramed:
+                                    type:             text
+                                    analyzer :        edge_ngram
+                                    search_analyzer:  search
                         annotation:
                             type:             object
                         note:
@@ -85,8 +98,12 @@ fos_elastica:
                 product:
                     properties:
                         name:
-                            type:             text
-                            analyzer :        edge_ngram
+                            type:                   text
+                            fields:
+                                ngramed:
+                                    type:             text
+                                    analyzer :        edge_ngram
+                                    search_analyzer:  search
                         annotation:
                             type:             object
                         note:
