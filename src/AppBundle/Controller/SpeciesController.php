@@ -33,7 +33,7 @@ class SpeciesController extends Controller
         $species = $em->getRepository('AppBundle:Species')->getSpeciesAndAvailableStrains($species_slug, $this->getUser());
 
         if (null === $species) {
-            return $this->createNotFoundException();
+            throw $this->createNotFoundException();
         }
 
         return $this->render('species/view.html.twig', [

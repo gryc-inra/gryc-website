@@ -28,6 +28,8 @@ class LocusController extends Controller
             }
         }
 
+        $this->denyAccessUnlessGranted('VIEW', $locus->getChromosome()->getStrain());
+
         return $this->render('locus/view.html.twig', [
            'locus' => $locus,
         ]);

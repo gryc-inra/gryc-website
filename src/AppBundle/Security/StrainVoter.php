@@ -38,28 +38,33 @@ class StrainVoter extends Voter
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        $user = $token->getUser();
         $strain = $subject;
 
         switch ($attribute) {
             case self::VIEW:
-                if ($strain->isPublic()) {
-                    return true;
-                }
-
-                if (!$user instanceof User) {
-                    return false;
-                }
-
-                if ($strain->isAuthorizedUser($user)) {
-                    return true;
-                }
-
-                if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
-                    return true;
-                }
-            break;
+                return $this->canView($strain, $token);
         }
+
+        return false;
+    }
+
+    private function canView(Strain $strain, TokenInterface $token)
+    {
+        if ($strain->isPublic()) {
+            return true;
+        }
+
+        if (!$token->getUser() instanceof User) {
+            return false;
+        }
+
+        if ($strain->isAuthorizedUser($token->getUser())) {
+            return true;
+        }
+
+//        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
+//            return true;
+//        }
 
         return false;
     }
