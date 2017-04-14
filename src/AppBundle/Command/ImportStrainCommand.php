@@ -178,7 +178,7 @@ class ImportStrainCommand extends ContainerAwareCommand
             $dnaSequence = new DnaSequence();
             $chromosome->setDnaSequence($dnaSequence);
 
-            $dnaSequence->setDna($chromosomeData['DnaSequence']['seq']);
+            $dnaSequence->setDna(strtoupper($chromosomeData['DnaSequence']['seq']));
             // The array in the json haven't key, but the positions in the array is:
             // A, C, G, T, N, other.
             $letterCountKeys = ['A', 'C', 'G', 'T', 'N', 'other'];
