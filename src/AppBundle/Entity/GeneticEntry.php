@@ -438,18 +438,27 @@ class GeneticEntry
             $positionsArray['downstream'] = false;
         }
 
-        dump($positionsArray);
-
         // Convert positions from human logic to computer logic
         array_walk_recursive($positionsArray, function(&$item) {
                 $item--;
         });
 
+        if (1 !== $this->strand) {
+            $positionsArray = array_reverse($positionsArray);
+            $sequenceManipulator = new SequenceManipulator();
+        }
+
         $sequences = [];
         foreach ($positionsArray as $position) {
             if ($position) {
                 $sequenceLength = $position['end'] - $position['start'] + 1;
-                $sequences[] = '<span class="'.$position['legend'].'">'.substr($chromosomeDna, $position['start'], $sequenceLength).'</span>';
+                $sequence = substr($chromosomeDna, $position['start'], $sequenceLength);
+
+                if (1 !== $this->strand) {
+                    $sequence = $sequenceManipulator->reverseComplement($sequence);
+                }
+
+                $sequences[] = '<span class="'.$position['legend'].'">'.$sequence.'</span>';
             }
         }
 
