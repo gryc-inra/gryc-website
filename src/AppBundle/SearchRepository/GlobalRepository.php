@@ -18,14 +18,14 @@ class GlobalRepository
 
         // Search in note
         $noteQuery = new MultiMatch();
-        $noteQuery->setFields(['note', 'note.stemmed']);
+        $noteQuery->setFields(['note^2', 'note.stemmed']);
         $noteQuery->setFuzziness('AUTO');
         $noteQuery->setQuery($keyword);
         $query->addShould($noteQuery);
 
         // Search in name
         $nameQuery = new MultiMatch();
-        $nameQuery->setFields(['name', 'name.ngramed']);
+        $nameQuery->setFields(['name^2', 'name.ngramed']);
         $nameQuery->setQuery($keyword);
         $query->addShould($nameQuery);
 
