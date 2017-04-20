@@ -338,30 +338,7 @@ class GeneticEntry
      */
     public function getNote()
     {
-        // If the actual note is not null, just return it
-        if (null !== $this->note) {
-            return $this->note;
-        }
-
-        // Get the class name
-        $classExploded = explode('\\', get_class($this));
-        $className = $classExploded[count($classExploded) - 1];
-
-        if ('Locus' === $className) {
-            $features = $this->getFeatures();
-            if (!$features->isEmpty()) {
-                return $features->first()->getNote();
-            }
-        }
-
-        if ('Feature' === $className) {
-            $products = $this->getProductsFeatures();
-            if (!$products->isEmpty()) {
-                return $products->first()->getNote();
-            }
-        }
-
-        return null;
+        return $this->note;
     }
 
     public function getSequence($showUtr = true, $showIntron = true, $upstream = 0, $downstream = 0, $html = true)
