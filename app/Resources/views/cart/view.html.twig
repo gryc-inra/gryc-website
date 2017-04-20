@@ -10,19 +10,20 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Cart</h1>
-
     <div class="pull-right">
         <a href="{{ path('cart_empty') }}" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Empty cart</a>
     </div>
 
+    <h2>Content</h2>
+
     <table class="table table-striped">
         <tr>
-            <th>Entry</th>
+            <th>Locus</th>
             <th>Species</th>
             <th>Strain</th>
             <th>Chromosome/Scaffold</th>
-            <th>Remove</th>
+            <th>Note</th>
+            <th></th>
         </tr>
         {% for locus in cartElements if cartElements is not empty %}
             <tr>
@@ -30,23 +31,23 @@
                 <td>{{ locus.chromosome.strain.species.scientificName }}</td>
                 <td>{{ locus.chromosome.strain.name }}</td>
                 <td>{{ locus.chromosome.name }}</td>
-                <td><a href="{{ path('cart_remove', {'id': locus.id}) }}" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Remove</a></td>
+                <td>{{ locus.note|truncate }}</td>
+                <td><a href="{{ path('cart_remove', {'id': locus.id}) }}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span></a></td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5" class="text-center">The cart is empty.</td>
+                <td colspan="6" class="text-center">You cart is empty.</td>
             </tr>
         {% endfor %}
     </table>
 
+    <h2>Setup download</h2>
+
     {{ form_start(form) }}
-        <fieldset>
-            <legend>Sequence type</legend>
-            {{ form_row(form.type) }}
-        </fieldset>
+        {{ form_row(form.type) }}
 
         <fieldset>
-            <legend>Setup</legend>
+            <legend>Configure</legend>
             {{ form_row(form.feature) }}
             {{ form_row(form.intronSplicing) }}
             {{ form_row(form.upstream) }}
@@ -55,7 +56,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-download"></span> Download</button>
+                <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-download"></span> Download</button>
             </div>
         </div>
     {{ form_end(form) }}
