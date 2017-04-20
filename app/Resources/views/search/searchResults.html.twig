@@ -5,30 +5,43 @@
         {% for result in results %}
             <div class="search-result">
                 {% if result is locus %}
-                    <h4><a href="{{ path('locus_view', { 'species_slug': result.chromosome.strain.species.slug, 'strain_slug': result.chromosome.strain.slug, 'chromosome_slug': result.chromosome.slug, 'locus_name': result.name }) }}">{{ result.name }}</a> <a href="{{ path('cart_add', { 'id': result.id }) }}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a></h4>
+                    <h4>
+                        <a href="{{ path('locus_view', { 'species_slug': result.chromosome.strain.species.slug, 'strain_slug': result.chromosome.strain.slug, 'chromosome_slug': result.chromosome.slug, 'locus_name': result.name }) }}">
+                            {{ result.name }}
+                        </a>
+                    </h4>
                     <p>
                         <span class="category">Locus</span><br />
-                        {% if result.note is not empty %}
-                            Note: {{ result.note }}
-                        {% endif %}
-
+                        {{ result.note }}<br/>
+                        <a href="{{ path('cart_add', { 'id': result.id }) }}" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart
+                        </a>
                     </p>
                 {% elseif result is feature %}
-                    <h4><a href="{{ path('locus_view', { 'species_slug': result.locus.chromosome.strain.species.slug, 'strain_slug': result.locus.chromosome.strain.slug, 'chromosome_slug': result.locus.chromosome.slug, 'locus_name': result.locus.name }) }}">{{ result.name }}</a> <a href="{{ path('cart_add', { 'id': result.locus.id }) }}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a></h4>
+                    <h4>
+                        <a href="{{ path('locus_view', { 'species_slug': result.locus.chromosome.strain.species.slug, 'strain_slug': result.locus.chromosome.strain.slug, 'chromosome_slug': result.locus.chromosome.slug, 'locus_name': result.locus.name }) }}">
+                            {{ result.name }}
+                        </a>
+                    </h4>
                     <p>
                         <span class="category">Feature</span><br />
-                        {% if result.note is not empty %}
-                            Note: {{ result.note }}
-                        {% endif %}
-
+                        {{ result.note }}<br>
+                        <a href="{{ path('cart_add', { 'id': result.locus.id }) }}" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart
+                        </a>
                     </p>
                 {% elseif result is product %}
-                    <h4><a href="{{ path('locus_view', { 'species_slug': result.feature.locus.chromosome.strain.species.slug, 'strain_slug': result.feature.locus.chromosome.strain.slug, 'chromosome_slug': result.feature.locus.chromosome.slug, 'locus_name': result.feature.locus.name }) }}">{{ result.name }}</a> <a href="{{ path('cart_add', { 'id': result.feature.locus.id }) }}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a></h4>
+                    <h4>
+                        <a href="{{ path('locus_view', { 'species_slug': result.feature.locus.chromosome.strain.species.slug, 'strain_slug': result.feature.locus.chromosome.strain.slug, 'chromosome_slug': result.feature.locus.chromosome.slug, 'locus_name': result.feature.locus.name }) }}">
+                            {{ result.name }}
+                        </a>
+                    </h4>
                     <p>
                         <span class="category">Product</span><br />
-                        {% if result.note is not empty %}
-                            Note: {{ result.note }}
-                        {% endif %}
+                        {{ result.note }}<br>
+                        <a href="{{ path('cart_add', { 'id': result.feature.locus.id }) }}" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart
+                        </a>
                     </p>
                 {% endif %}
             </div>
