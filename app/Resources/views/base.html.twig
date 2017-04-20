@@ -61,6 +61,7 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
+                            <li><a href="{{ path('cart_view') }}" id="cart"><span class="glyphicon glyphicon-shopping-cart"></span> <span class="badge">{{ app.session.get('cart')|length }}</span></a></li>
                             {# Si l'utilisateur est connecté #}
                             {% if app.user %}
                                 <li class="dropdown">
@@ -79,6 +80,7 @@
                                 <li><a href="{{ path("login") }}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
                                 <li><a href="{{ path("user_registration") }}"><span class="glyphicon glyphicon-pencil"></span> Sign up</a></li>
                             {% endif %}
+
                         </ul>
 
                         <form id="quick-search-form" class="navbar-form navbar-right hidden-sm">

@@ -341,7 +341,7 @@ class GeneticEntry
         return $this->note;
     }
 
-    public function getSequence($showUtr = true, $showIntron = true, $upstream = 0, $downstream = 0)
+    public function getSequence($showUtr = true, $showIntron = true, $upstream = 0, $downstream = 0, $html = true)
     {
         $class = explode('\\', get_class($this))[2];
         switch ($class) {
@@ -438,8 +438,6 @@ class GeneticEntry
             $positionsArray['downstream'] = false;
         }
 
-        dump($positionsArray);
-
         // Convert positions from human logic to computer logic
         array_walk_recursive($positionsArray, function (&$item) {
             --$item;
@@ -460,7 +458,11 @@ class GeneticEntry
                     $sequence = $sequenceManipulator->reverseComplement($sequence);
                 }
 
-                $sequences[] = '<span class="'.$position['legend'].'">'.$sequence.'</span>';
+                if ($html) {
+                    $sequences[] = '<span class="'.$position['legend'].'">'.$sequence.'</span>';
+                } else {
+                    $sequences[] = $sequence;
+                }
             }
         }
 

@@ -75,4 +75,22 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getOneOrNullResult();
     }
+
+    public function findLocusById($ids)
+    {
+        $query = $this->createQueryBuilder('locus')
+            ->leftJoin('locus.chromosome', 'chromosome')
+                ->addSelect('chromosome')
+            ->leftJoin('chromosome.dnaSequence', 'dnaSequence')
+                ->addSelect('dnaSequence')
+            ->leftJoin('chromosome.strain', 'strain')
+                ->addSelect('strain')
+            ->leftJoin('strain.species', 'species')
+                ->addSelect('species')
+            ->where('locus.id IN (:id)')
+                ->setParameter('id', $ids)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
