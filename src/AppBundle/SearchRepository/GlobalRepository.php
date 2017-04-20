@@ -10,7 +10,7 @@ use Elastica\Query\Term;
 
 class GlobalRepository
 {
-    public function searchQuery($keyword = null, User $user)
+    public function searchQuery($keyword = null, User $user = null)
     {
         // Create a bool query
         $query = new BoolQuery();
@@ -39,9 +39,10 @@ class GlobalRepository
         $boolFilter->setMinimumShouldMatch(1);
         $query->addFilter($boolFilter);
 
+        $userId = null !== $user ? $user->getId() : '';
         // Set a user filter
         $userFilter = new Term();
-        $userFilter->setTerm('authorized_users_id', $user->getId());
+        $userFilter->setTerm('authorized_users_id', $userId);
         $boolFilter->addShould($userFilter);
 
         // Set a public filter
