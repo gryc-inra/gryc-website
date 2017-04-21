@@ -32,7 +32,7 @@ class CartController extends Controller
             $session->set('cart', $cart);
         }
 
-        if($request->isXmlHttpRequest()) {
+        if ($request->isXmlHttpRequest()) {
             return new JsonResponse($cart);
         } else {
             return $this->redirect($request->headers->get('referer'));
@@ -57,7 +57,7 @@ class CartController extends Controller
             $session->set('cart', $cart);
         }
 
-        if($request->isXmlHttpRequest()) {
+        if ($request->isXmlHttpRequest()) {
             return new JsonResponse($cart);
         } else {
             return $this->redirectToRoute('cart_view');
