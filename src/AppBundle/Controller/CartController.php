@@ -8,6 +8,7 @@ use AppBundle\Utils\FastaGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -31,7 +32,11 @@ class CartController extends Controller
             $session->set('cart', $cart);
         }
 
-        return $this->redirect($request->headers->get('referer'));
+        if($request->isXmlHttpRequest()) {
+            return new JsonResponse($cart);
+        } else {
+            return $this->redirect($request->headers->get('referer'));
+        }
     }
 
     /**
@@ -52,7 +57,11 @@ class CartController extends Controller
             $session->set('cart', $cart);
         }
 
-        return $this->redirectToRoute('cart_view');
+        if($request->isXmlHttpRequest()) {
+            return new JsonResponse($cart);
+        } else {
+            return $this->redirectToRoute('cart_view');
+        }
     }
 
     /**

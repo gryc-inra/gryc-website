@@ -32,7 +32,7 @@
                 <td>{{ locus.chromosome.strain.name }}</td>
                 <td>{{ locus.chromosome.name }}</td>
                 <td>{{ locus.note|truncate }}</td>
-                <td><a href="{{ path('cart_remove', {'id': locus.id}) }}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span></a></td>
+                <td><a href="{{ path('cart_remove', {'id': locus.id}) }}" class="btn btn-default btn-xs cart-remove-btn"><span class="glyphicon glyphicon-remove"></span></a></td>
             </tr>
         {% else %}
             <tr>

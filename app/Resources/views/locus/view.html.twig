@@ -16,7 +16,7 @@
 {% block body %}
     <h1>{{ locus.name }} <small>{{ locus.type }}</small></h1>
 
-    <a href="{{ path('cart_add', { 'id': locus.id }) }}" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a>
+    <a href="{{ path('cart_add', { 'id': locus.id }) }}" class="btn btn-default btn-xs cart-add-btn pull-right"><span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a>
 
     <h2>Description</h2>
 

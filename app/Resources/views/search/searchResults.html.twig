@@ -13,7 +13,7 @@
                     <p>
                         <span class="category">Locus</span><br />
                         {{ result.note }}<br/>
-                        <a href="{{ path('cart_add', { 'id': result.id }) }}" class="btn btn-default btn-xs">
+                        <a href="{{ path('cart_add', { 'id': result.id }) }}" class="btn btn-default btn-xs cart-add-btn">
                             <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart
                         </a>
                     </p>
@@ -26,7 +26,7 @@
                     <p>
                         <span class="category">Feature</span><br />
                         {{ result.note }}<br>
-                        <a href="{{ path('cart_add', { 'id': result.locus.id }) }}" class="btn btn-default btn-xs">
+                        <a href="{{ path('cart_add', { 'id': result.locus.id }) }}" class="btn btn-default btn-xs cart-add-btn">
                             <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart
                         </a>
                     </p>
@@ -39,7 +39,7 @@
                     <p>
                         <span class="category">Product</span><br />
                         {{ result.note }}<br>
-                        <a href="{{ path('cart_add', { 'id': result.feature.locus.id }) }}" class="btn btn-default btn-xs">
+                        <a href="{{ path('cart_add', { 'id': result.feature.locus.id }) }}" class="btn btn-default btn-xs cart-add-btn">
                             <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart
                         </a>
                     </p>
