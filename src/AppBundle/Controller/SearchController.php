@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\SearchRepository\GlobalRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Search engine controller.
@@ -14,10 +15,12 @@ class SearchController extends Controller
     const HITS_PER_PAGE = 50;
 
     /**
-     * @Route("/search/{keyword}", options={"expose"=true}, name="quick-search")
+     * @Route("/search", options={"expose"=true}, name="quick-search")
      */
-    public function quickSearchAction($keyword)
+    public function quickSearchAction(Request $request)
     {
+        $keyword = null !== $request->get('q') ? $request->get('q') : '';
+
         // Get the query
         $repository = new GlobalRepository();
         $query = $repository->searchQuery($keyword, $this->getUser());
