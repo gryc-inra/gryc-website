@@ -59,6 +59,45 @@ fos_elastica:
                             property_path:    chromosome.strain.public
                         authorized_users_id:
                             property_path:    chromosome.strain.authorizedUsersId
+                        features:
+                            type: nested
+                            properties:
+                                name:
+                                    type:                   text
+                                    fields:
+                                        ngramed:
+                                            type:             text
+                                            analyzer :        edge_ngram
+                                            search_analyzer:  search
+                                annotation:
+                                    type:             object
+                                note:
+                                    type:             text
+                                    analyzer:         english_light
+                                    fields:
+                                        stemmed:
+                                            type:     text
+                                            analyzer: english_heavy
+                                products:
+                                    type: nested
+                                    property_path: productsFeatures
+                                    properties:
+                                        name:
+                                            type:                   text
+                                            fields:
+                                                ngramed:
+                                                    type:             text
+                                                    analyzer :        edge_ngram
+                                                    search_analyzer:  search
+                                        annotation:
+                                            type:             object
+                                        note:
+                                            type:             text
+                                            analyzer:         english_light
+                                            fields:
+                                                stemmed:
+                                                    type:     text
+                                                    analyzer: english_heavy
                     persistence:
                       driver:                 orm
                       model:                  AppBundle\Entity\Locus
@@ -66,61 +105,3 @@ fos_elastica:
                       listener:               ~
                       finder:                 ~
                       repository:             AppBundle\SearchRepository\LocusRepository
-                feature:
-                    properties:
-                        name:
-                            type:                   text
-                            fields:
-                                ngramed:
-                                    type:             text
-                                    analyzer :        edge_ngram
-                                    search_analyzer:  search
-                        annotation:
-                            type:             object
-                        note:
-                            type:             text
-                            analyzer:         english_light
-                            fields:
-                                stemmed:
-                                    type:     text
-                                    analyzer: english_heavy
-                        public:
-                            property_path:    locus.chromosome.strain.public
-                        authorized_users_id:
-                            property_path:    locus.chromosome.strain.authorizedUsersId
-                    persistence:
-                      driver:                 orm
-                      model:                  AppBundle\Entity\Feature
-                      provider:               ~
-                      listener:               ~
-                      finder:                 ~
-                      repository:             AppBundle\SearchRepository\FeatureRepository
-                product:
-                    properties:
-                        name:
-                            type:                   text
-                            fields:
-                                ngramed:
-                                    type:             text
-                                    analyzer :        edge_ngram
-                                    search_analyzer:  search
-                        annotation:
-                            type:             object
-                        note:
-                            type:             text
-                            analyzer:         english_light
-                            fields:
-                                stemmed:
-                                    type:     text
-                                    analyzer: english_heavy
-                        public:
-                            property_path:    feature.locus.chromosome.strain.public
-                        authorized_users_id:
-                            property_path:    feature.locus.chromosome.strain.authorizedUsersId
-                    persistence:
-                      driver:                 orm
-                      model:                  AppBundle\Entity\Product
-                      provider:               ~
-                      listener:               ~
-                      finder:                 ~
-                      repository:             AppBundle\SearchRepository\ProductRepository
