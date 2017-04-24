@@ -59,6 +59,8 @@ fos_elastica:
                             property_path:    chromosome.strain.public
                         authorized_users_id:
                             property_path:    chromosome.strain.authorizedUsersId
+                        strain_id:
+                            property_path:    chromosome.strain.id
                         features:
                             type: nested
                             properties:

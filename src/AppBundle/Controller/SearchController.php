@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\Type\AdvancedSearchType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,12 +25,40 @@ class SearchController extends Controller
         $repository = $repositoryManager->getRepository('AppBundle:Locus');
         $results = $repository->findByNameNoteAnnotation($keyword, $this->getUser());
 
-        dump($results);
-
         // Return the view
         return $this->render('search\quickSearch.html.twig', [
             'search' => $keyword,
             'results' => $results,
+        ]);
+    }
+
+    /**
+     * @Route("/advanced-search", name="advanced-search")
+     * @Route("/advanced-search/{search}", name="advanced-search-with-keyword")
+     */
+    public function advancedSearchAction(Request $request, $search = null)
+    {
+        $data = null !== $search ? ['search' => $search] : null;
+        $form = $this->createForm(AdvancedSearchType::class, $data);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $repositoryManager = $this->get('fos_elastica.manager');
+            $repository = $repositoryManager->getRepository('AppBundle:Locus');
+            $results = $repository->findByNameNoteAnnotation($data['search'], $this->getUser(), $data['strains']);
+
+            // Return the view
+            return $this->render('search\advancedSearch.html.twig', [
+                'form' => $form->createView(),
+                'results' => $results,
+            ]);
+        }
+
+        // Return the view
+        return $this->render('search\advancedSearch.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

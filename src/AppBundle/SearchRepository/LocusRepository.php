@@ -13,7 +13,7 @@ use FOS\ElasticaBundle\Repository;
 
 class LocusRepository extends Repository
 {
-    public function findByNameNoteAnnotation($keyword = null, User $user = null)
+    public function findByNameNoteAnnotation($keyword = null, User $user = null, $strains = null)
     {
         // Create the Query
         $query = new BoolQuery();
@@ -110,6 +110,19 @@ class LocusRepository extends Repository
         $publicFilter = new Term();
         $publicFilter->setTerm('public', true);
         $boolFilter->addShould($publicFilter);
+
+        // If the user set a list of strain, create a filter
+        if (null !== $strains) {
+            $strainsId = [];
+            // Prepare strainsIdArray
+            foreach ($strains as $strain) {
+                $strainsId[] = $strain->getId();
+            }
+
+            $strainsFilter = new Query\Terms();
+            $strainsFilter->setTerms('strain_id', $strainsId);
+            $query->addFilter($strainsFilter);
+        }
 
         // Execute the query
         return $this->find($query);

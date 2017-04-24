@@ -47,8 +47,14 @@ services:
             - { name: doctrine.event_subscriber }
 
 # Form
-    app.form_type.tube:
+    app.form_type.contact:
         class: AppBundle\Form\Type\ContactUsType
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
+    app.form_type.advanced_search:
+        class: AppBundle\Form\Type\AdvancedSearchType
         arguments: ["@security.token_storage"]
         tags:
             - { name: form.type }
