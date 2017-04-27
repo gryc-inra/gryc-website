@@ -55,8 +55,11 @@ class BlastController extends Controller
      */
     public function viewAction(Job $job)
     {
+        $html = $this->get('app.blast_manager')->xmlToHtml($job->getResult());
+
         return $this->render('blast/view.html.twig', [
             'job' => $job,
+            'html' => $html,
         ]);
     }
 }

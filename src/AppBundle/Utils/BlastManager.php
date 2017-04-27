@@ -4,10 +4,10 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Job;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 class BlastManager
@@ -15,12 +15,14 @@ class BlastManager
     private $tokenGenerator;
     private $em;
     private $eventDispatcher;
+    private $twig;
 
-    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher)
+    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher, \Twig_Environment $twig)
     {
         $this->tokenGenerator = $tokenGenerator;
         $this->em = $em;
         $this->eventDispatcher = $eventDispatcher;
+        $this->twig = $twig;
     }
 
     public function createJob($data)
@@ -94,5 +96,81 @@ class BlastManager
         unlink($tmpResults);
 
         return;
+    }
+
+    public function xmlToArray($xml)
+    {
+        $crawler = new Crawler();
+        $crawler->addXmlContent($xml);
+
+        // Get the blast version
+        $result['blast_version'] = $crawler->filterXPath('//BlastOutput/BlastOutput_version')->text();
+
+        // For each Iteration
+        $crawler->filterXPath('//BlastOutput/BlastOutput_iterations/Iteration')->each(function (Crawler $node) use (&$result) {
+            // Init the count
+            $i = isset($result['iterations']) ? count($result['iterations']) : 0;
+
+            // Add params to the iteration
+            $iteration['query_num'] = $node->filterXPath('//Iteration_iter-num')->text();
+            $iteration['query_def'] = $node->filterXPath('//Iteration_query-def')->text();
+            $iteration['query_len'] = $node->filterXPath('//Iteration_query-len')->text();
+
+            // Add the iteration to the result array
+            $result['iterations'][$i] = $iteration;
+
+            // For each Hit in Iteration
+            $node->filterXPath('//Hit')->each(function (Crawler $node) use (&$result, $i) {
+                // Init the count
+                $j = isset($result['iterations'][$i]['hits']) ? count($result['iterations'][$i]['hits']) : 0;
+
+                // Add param to the hit
+                $hit['num'] = $node->filterXPath('//Hit_num')->text();
+                $hit['id'] = $node->filterXPath('//Hit_id')->text();
+                $queryDef = explode(' ', $node->filterXPath('//Hit_def')->text(), 2);
+                $hit['name'] = $queryDef[0];
+                $hit['desc'] = $queryDef[1];
+                $hit['len'] = $node->filterXPath('//Hit_len')->text();
+
+                // Add the hit to the result array
+                $result['iterations'][$i]['hits'][$j] = $hit;
+
+                // For each HSP in hit
+                $node->filterXPath('//Hsp')->each(function (Crawler $node) use (&$result, $i, $j) {
+                    // Init the count
+                    $k = isset($result['iterations'][$i]['hits'][$j]['hsps']) ? count($result['iterations'][$i]['hits'][$j]['hsps']) : 0;
+
+                    // Add param to the HSP
+                    $hsp['bit_score'] = $node->filterXPath('//Hsp_bit-score')->text();
+                    $hsp['evalue'] = $node->filterXPath('//Hsp_evalue')->text();
+                    $hsp['query_from'] = $node->filterXPath('//Hsp_query-from')->text();
+                    $hsp['query_to'] = $node->filterXPath('//Hsp_query-to')->text();
+                    $hsp['hit_from'] = $node->filterXPath('//Hsp_hit-from')->text();
+                    $hsp['hit_to'] = $node->filterXPath('//Hsp_hit-to')->text();
+                    $hsp['identity'] = $node->filterXPath('//Hsp_identity')->text();
+                    $hsp['gaps'] = $node->filterXPath('//Hsp_gaps')->text();
+                    $hsp['align_len'] = $node->filterXPath('//Hsp_align-len')->text();
+                    $hsp['qseq'] = str_split($node->filterXPath('//Hsp_qseq')->text(), 60);
+                    $hsp['midline'] = str_split($node->filterXPath('//Hsp_midline')->text(), 60);
+                    $hsp['hseq'] = str_split($node->filterXPath('//Hsp_hseq')->text(), 60);
+
+                    // Add the HSP to result
+                    $result['iterations'][$i]['hits'][$j]['hsps'][$k] = $hsp;
+                });
+            });
+        });
+
+        dump($xml, $result);
+
+        return $result;
+    }
+
+    public function xmlToHtml($xml)
+    {
+        $array = $this->xmlToArray($xml);
+
+        return $this->twig->render(':blast:result.html.twig', [
+            'results' => $array,
+        ]);
     }
 }

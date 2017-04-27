@@ -13,7 +13,7 @@ class LocusController extends Controller
 {
     /**
      * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_name}", name="locus_view")
-     * @Route("/locus/{locus_name}")
+     * @Route("/locus/{locus_name}", name="locus_view_short")
      */
     public function viewAction($locus_name)
     {
