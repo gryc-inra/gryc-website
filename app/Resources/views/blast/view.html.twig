@@ -21,6 +21,8 @@
     <h1>Job result</h1>
     {% if job.result is null %}
         <h2>Your BLAST is processing, the page automatically refresh every 5 seconds.</h2>
+    {% elseif job.result matches '/^\\d+$/' %}
+        <div class="alert alert-danger" role="alert">An error occured !</div>
     {% else %}
         {{ dump(job.result) }}
     {% endif %}

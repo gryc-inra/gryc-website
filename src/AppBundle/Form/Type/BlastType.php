@@ -60,7 +60,7 @@ class BlastType extends AbstractType
                     'No' => false,
                 ],
             ])
-            ->add('expect', NumberType::class)
+            ->add('evalue', NumberType::class)
             ->add('gapped', ChoiceType::class, [
                 'choices' => [
                     'Yes' => true,
@@ -119,7 +119,7 @@ class BlastType extends AbstractType
                         'blastType' => 'blastp',
                         'database' => 'cds_prot',
                         'filter' => false,
-                        'expect' => 0.001,
+                        'evalue' => 0.001,
                         'gapped' => true,
                         'maxHits' => 100,
                         'matrix' => 'BLOSUM62',

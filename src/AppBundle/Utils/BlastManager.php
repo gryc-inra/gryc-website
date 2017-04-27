@@ -49,6 +49,22 @@ class BlastManager
     private function blast(Job $job)
     {
         $formData = $job->getFormData();
+        $blastType = $formData->blastType;
+        $task = 'tblastx' === $blastType ? null : '-task '.$blastType;
+        $evalue = $formData->evalue;
+        if (true === $formData->filter) {
+            if ('blastn' === $blastType) {
+                $filter = '-dust yes';
+            } else {
+                $filter = '-seg yes';
+            }
+        } else {
+            if ('blastn' === $blastType) {
+                $filter = '-dust no';
+            } else {
+                $filter = '-seg no';
+            }
+        }
 
         // Create a tempFile with the query
         $tmpQueryHandle = tmpfile();
@@ -59,16 +75,18 @@ class BlastManager
         // Create a tempFile with results
         $tmpResults = tempnam('/tmp', $job->getName());
 
-        $process = new Process('blastp -task blastp -query '.$tmpQueryFilename.' -db /blast/db/YALI -out '.$tmpResults.' -outfmt 5');
+        // blastn -task blastn -query fichier_query.fasta -db "path/db1 path/db2 path/db3" -out output.xml -outfmt 5 -evalue $evalue -num_threads 2
+        $process = new Process($blastType.' '.$task.' -query '.$tmpQueryFilename.' -db /blast/db/YALI -out '.$tmpResults.' -outfmt 5 -evalue '.$evalue.' '.$filter.' -num_threads 2');
         $process->run();
 
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
+            $job->setResult($process->getExitCode());
+        } else {
+            $job->setResult(file_get_contents($tmpResults));
         }
 
         // Add the file to the job, the status is automatically updated
-        $job->setResult(file_get_contents($tmpResults));
         $this->em->flush();
 
         // Delete the temp files
