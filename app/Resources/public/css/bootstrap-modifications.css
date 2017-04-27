@@ -91,6 +91,13 @@ footer a {
 }
 
 /*
+ * Blast Form
+ */
+#blast_query {
+    font-family: "Courier New", Courier, monospace;
+}
+
+/*
  * Search result
  */
 .search-result {

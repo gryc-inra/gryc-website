@@ -39,12 +39,22 @@ services:
     app.sequence_manipulator:
         class: AppBundle\Utils\SequenceManipulator
 
-# Doctrine's listeners and subscribers
+    app.blast_manager:
+        class:  AppBundle\Utils\BlastManager
+        arguments: ["@app.token_generator","@doctrine.orm.entity_manager", "@event_dispatcher"]
+
+# Listeners
     app.event_listener.user:
         class: AppBundle\EventListener\UserSubscriber
         arguments: ["@app.password_updater", "@app.token_generator"]
         tags:
             - { name: doctrine.event_subscriber }
+
+    app.event_listener.blast_cleaner:
+        class: AppBundle\EventListener\BlastCleanerListener
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.terminate, method: 'onTerminate' }
 
 # Form
     app.form_type.contact:
@@ -56,6 +66,12 @@ services:
     app.form_type.advanced_search:
         class: AppBundle\Form\Type\AdvancedSearchType
         arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
+    app.form_type.blast:
+        class: AppBundle\Form\Type\BlastType
+        arguments: ["@session"]
         tags:
             - { name: form.type }
 

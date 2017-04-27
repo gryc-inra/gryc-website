@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block metaTags %}
+    {{ parent() }}
+    {% if job.result is null %}
+        <meta http-equiv="refresh" content="5;">
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+    Blast
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('blast_index') }}">Blast</a></li>
+    <li class="active">Job result</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Job result</h1>
+    {% if job.result is null %}
+        <h2>Your BLAST is processing, the page automatically refresh every 5 seconds.</h2>
+    {% else %}
+        {{ dump(job.result) }}
+    {% endif %}
+{% endblock %}

@@ -1,4 +1,5 @@
 /app/config/parameters.yml
+/blast
 /bower_components
 docker-compose.yml
 /node_modules
