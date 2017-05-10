@@ -18,6 +18,10 @@ fos_elastica:
                                 type: custom
                                 tokenizer: standard
                                 filter: [asciifolding, lowercase, edge_ngram]
+                            edge_ngram_locus_name:
+                                type: custom
+                                tokenizer: standard
+                                filter: [asciifolding, lowercase, edge_ngram_locus_name]
                             english_light:
                                 type: custom
                                 tokenizer: standard
@@ -30,13 +34,43 @@ fos_elastica:
                             edge_ngram:
                                 type: edgeNGram
                                 side: front
+                                min_gram: 1
+                                max_gram: 30
+                            edge_ngram_locus_name:
+                                type: edgeNGram
+                                side: front
                                 min_gram: 7
                                 max_gram: 30
-                                token_chars: ['letter', 'digit', 'whitespace', 'punctuation', 'symbol']
                             english_stemmer:
                                 type: stemmer
                                 name: light_english
             types:
+                user:
+                    properties:
+                        email:
+                            type:                   text
+                            fields:
+                                ngramed:
+                                    type:             text
+                                    analyzer :        edge_ngram
+                                    search_analyzer:  search
+                        fullName:
+                            type:                   text
+                            fielddata:  true
+                            fields:
+                                ngramed:
+                                    type:             text
+                                    analyzer :        edge_ngram
+                                    search_analyzer:  search
+                    persistence:
+                      driver:                 orm
+                      model:                  AppBundle\Entity\User
+                      provider:               ~
+                      listener:               ~
+                      finder:                 ~
+                      repository:             AppBundle\SearchRepository\UserRepository
+                      elastica_to_model_transformer:
+                        ignore_missing: true
                 locus:
                     properties:
                         name:
@@ -44,7 +78,7 @@ fos_elastica:
                             fields:
                                 ngramed:
                                     type:             text
-                                    analyzer :        edge_ngram
+                                    analyzer :        edge_ngram_locus_name
                                     search_analyzer:  search
                         annotation:
                             type:                     object
@@ -69,7 +103,7 @@ fos_elastica:
                                     fields:
                                         ngramed:
                                             type:             text
-                                            analyzer :        edge_ngram
+                                            analyzer :        edge_ngram_locus_name
                                             search_analyzer:  search
                                 annotation:
                                     type:             object
@@ -89,7 +123,7 @@ fos_elastica:
                                             fields:
                                                 ngramed:
                                                     type:             text
-                                                    analyzer :        edge_ngram
+                                                    analyzer :        edge_ngram_locus_name
                                                     search_analyzer:  search
                                         annotation:
                                             type:             object
