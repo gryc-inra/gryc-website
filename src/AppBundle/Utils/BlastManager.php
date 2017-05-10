@@ -160,8 +160,6 @@ class BlastManager
             });
         });
 
-        dump($xml, $result);
-
         return $result;
     }
 
