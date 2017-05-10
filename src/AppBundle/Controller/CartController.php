@@ -87,6 +87,12 @@ class CartController extends Controller
         $form = $this->createForm(CartType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if (empty($cartElements)) {
+                $this->addFlash('warning', 'The cart is empty, there is nothing to download.');
+
+                return $this->redirectToRoute('cart_view');
+            }
+
             $fileName = 'Gryc-cart-export-'.date('Y-m-d_h:i:s');
 
             $response = new StreamedResponse();
