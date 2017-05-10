@@ -20,7 +20,12 @@
 {% block body %}
     <h1>Job result</h1>
     {% if job.result is null %}
-        <h2>Your BLAST is processing, the page automatically refresh every 5 seconds.</h2>
+        <div class="text-center text-info">
+            <span class="fa fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
+            <span class="sr-only">Loading...</span>
+
+            <h2>Your BLAST is processing, the page automatically refresh every 5 seconds.</h2>
+        </div>
     {% elseif job.result matches '/^\\d+$/' %}
         <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
