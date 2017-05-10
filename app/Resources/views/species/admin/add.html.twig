@@ -44,7 +44,7 @@
             // Resize the input
             $('.col-sm-10', taxidDiv).removeClass('col-sm-10').addClass('col-sm-9');
             // Add a button and a hidden loader
-            taxidDiv.append('<div class="col-sm-1"><a href="#" id="taxid-send" class="btn btn-info btn-sm"><span class=" glyphicon glyphicon-refresh"></span></a><img  style="display:none;" id="taxid-send-loader" src="{{ asset('images/ajax-loader.gif') }}" alt="Ajax loader" /></div>');
+            taxidDiv.append('<div class="col-sm-1"><a href="#" id="taxid-send" class="btn btn-info btn-sm"><span class="fa fa-refresh" aria-hidden="true"></span></a><img  style="display:none;" id="taxid-send-loader" src="{{ asset('images/ajax-loader.gif') }}" alt="Ajax loader" /></div>');
 
             // When someone click on the button
             $("#taxid-send").click(function (e) {
@@ -84,7 +84,7 @@
                             // If the result is an error, display it
                             if ("error" in data) {
                                 taxidDiv.addClass("has-error");
-                                $(".col-sm-9", taxidDiv).append("<span class='help-block'><ul class='list-unstyled'><li><span class='glyphicon glyphicon-exclamation-sign'></span> " + data.error + "</li> </ul></span>");
+                                $(".col-sm-9", taxidDiv).append("<span class='help-block'><ul class='list-unstyled'><li><span class='fa fa-exclamation-circle' aria-hidden='true'></span> " + data.error + "</li> </ul></span>");
                             // Else call populate function
                             } else {
                                 populate(data);

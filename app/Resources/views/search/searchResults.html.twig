@@ -14,7 +14,7 @@
                         <span class="category">Locus</span><br />
                         {{ result.note }}<br/>
                         <a href="{{ path('cart_add', { 'id': result.id }) }}" class="btn btn-default btn-xs cart-add-btn">
-                            <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart
+                            <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
                         </a>
                     </p>
                 {% elseif result is feature %}
@@ -27,7 +27,7 @@
                         <span class="category">Feature</span><br />
                         {{ result.note }}<br>
                         <a href="{{ path('cart_add', { 'id': result.locus.id }) }}" class="btn btn-default btn-xs cart-add-btn">
-                            <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart
+                            <span class="fa fa-shopping-cart" aria-hidden="true" aria-hidden="true"></span> Add to cart
                         </a>
                     </p>
                 {% elseif result is product %}
@@ -40,7 +40,7 @@
                         <span class="category">Product</span><br />
                         {{ result.note }}<br>
                         <a href="{{ path('cart_add', { 'id': result.feature.locus.id }) }}" class="btn btn-default btn-xs cart-add-btn">
-                            <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart
+                            <span class="fa fa-shopping-cart"></span> Add to cart
                         </a>
                     </p>
                 {% endif %}

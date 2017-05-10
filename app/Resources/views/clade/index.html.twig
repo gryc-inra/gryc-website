@@ -19,7 +19,7 @@
     <h1>Clades</h1>
 
     <p>
-        <a class="btn btn-success" href="{{ path('clade_add') }}"><span class="glyphicon glyphicon-plus"></span> Add</a>
+        <a class="btn btn-success" href="{{ path('clade_add') }}"><span class="fa fa-plus" aria-hidden="true"></span> Add</a>
     </p>
 
     <div class="table-responsive">
@@ -41,8 +41,8 @@
                     <td>{{ clade.species|length }}</td>
                     <td>
                         <div class="btn-group btn-group-xs" role="group">
-                            <a class="btn btn-warning" href="{{ path('clade_edit', { 'id': clade.id }) }}"><span class="glyphicon glyphicon-edit"></span> Edit</a>
-                            <a class="btn btn-danger" href="{{ path('clade_delete', { 'id': clade.id }) }}" {{ (clade.species|length > 0) ? 'disabled' }}><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                            <a class="btn btn-warning" href="{{ path('clade_edit', { 'id': clade.id }) }}"><span class="fa fa-pencil" aria-hidden="true"></span> Edit</a>
+                            <a class="btn btn-danger" href="{{ path('clade_delete', { 'id': clade.id }) }}" {{ (clade.species|length > 0) ? 'disabled' }}><span class="fa fa-trash" aria-hidden="true"></span> Delete</a>
                         </div>
                     </td>
                 </tr>

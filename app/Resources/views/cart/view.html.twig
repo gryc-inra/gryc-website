@@ -11,7 +11,7 @@
 
 {% block body %}
     <div class="pull-right">
-        <a href="{{ path('cart_empty') }}" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Empty cart</a>
+        <a href="{{ path('cart_empty') }}" class="btn btn-xs btn-danger"><span class="fa fa-trash" aria-hidden="true"></span> Empty cart</a>
     </div>
 
     <h2>Content</h2>
@@ -32,7 +32,7 @@
                 <td>{{ locus.chromosome.strain.name }}</td>
                 <td>{{ locus.chromosome.name }}</td>
                 <td>{{ locus.note|truncate }}</td>
-                <td><a href="{{ path('cart_remove', {'id': locus.id}) }}" class="btn btn-default btn-xs cart-remove-btn"><span class="glyphicon glyphicon-remove"></span></a></td>
+                <td><a href="{{ path('cart_remove', {'id': locus.id}) }}" class="btn btn-default btn-xs cart-remove-btn"><span class="fa fa-times" aria-hidden="true"></span></a></td>
             </tr>
         {% else %}
             <tr>
@@ -56,7 +56,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-download"></span> Download</button>
+                <button type="submit" class="btn btn-info"><span class="fa fa-download" aria-hidden="true"></span> Download</button>
             </div>
         </div>
     {{ form_end(form) }}

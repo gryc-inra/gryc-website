@@ -13,6 +13,7 @@ module.exports = function(grunt) {
                 files: {
                     'web/css/app.min.css': [
                         'bower_components/bootstrap/dist/css/bootstrap.min.css',
+                        'bower_components/fontawesome/css/font-awesome.min.css',
                         'bower_components/select2/dist/css/select2.min.css',
                         'bower_components/select2-bootstrap/dist/select2-bootstrap.min.css',
                         'app/Resources/public/css/*.css'
@@ -32,7 +33,7 @@ module.exports = function(grunt) {
                         'bower_components/jquery/dist/jquery.min.js',
                         'bower_components/bootstrap/dist/js/bootstrap.min.js',
                         'bower_components/select2/dist/js/select2.min.js',
-                        'app/Resources/public//js/*.js'
+                        'app/Resources/public/js/*.js'
                     ]
                 }
             }
@@ -52,7 +53,7 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: 'bower_components/bootstrap/dist/fonts',
+                        cwd: 'bower_components/fontawesome/fonts',
                         dest: 'web/fonts',
                         src: ['**']
                     }
