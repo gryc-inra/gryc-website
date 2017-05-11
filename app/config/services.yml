@@ -71,7 +71,7 @@ services:
 
     app.form_type.blast:
         class: AppBundle\Form\Type\BlastType
-        arguments: ["@session"]
+        arguments: ["@session","@security.token_storage"]
         tags:
             - { name: form.type }
 
