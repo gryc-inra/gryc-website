@@ -3,7 +3,6 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
@@ -31,7 +30,6 @@ class ContactUsReplyType extends AbstractType
                     new NotBlank(),
                     new Length(['min' => 30]),
                 ],
-            ])
-            ->add('reply', SubmitType::class);
+            ]);
     }
 }

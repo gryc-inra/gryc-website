@@ -17,5 +17,14 @@
         {{ message.message|nl2br }}</p>
     </div>
 
-    {{ form(form) }}
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default"><span class="fa fa-paper-plane" aria-hidden="true"></span> Reply</button>
+            </div>
+        </div>
+    {{ form_end(form) }}
 {% endblock %}
