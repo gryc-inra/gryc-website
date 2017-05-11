@@ -1,4 +1,4 @@
-<div class="col-sm-9">
+<div class="col-sm-9" data-spy="scroll" data-target="#sidebar">
     {% if result.iterations|length > 1 %}
         <div class="row">
             <div class="col-md-4">
@@ -126,23 +126,30 @@
     {% endfor %}
 </div>
 
-<nav class="col-sm-3">
-    <ul data-spy="affix" data-offset-top="310">
+<div class="col-md-3 scrollspy">
+    <ul class="nav hidden-xs hidden-sm" data-spy="affix" data-offset-top="310">
         {% if result.iterations|length > 1 %}
-            <li><a href="#job-hits">Hits</a></li>
+            <li>
+                <a href="#job-hits">Hits</a>
+            </li>
         {% endif %}
         {% for query in result.iterations %}
-            <li><a href="{{ '#query-' ~ query.query_num }}">{{ query.query_def }}</a></li>
-            <ul>
-                <li><a href="{{ '#query-summary-' ~ query.query_num }}">Graphical Summary</a></li>
-                <li><a href="{{ '#query-best-hits-' ~ query.query_num }}">Best hit table</a></li>
-                <li><a href="{{ '#query-alignment-' ~ query.query_num }}">Pairwise alignment details</a></li>
-                <ul>
+            <li>
+                <a href="{{ '#query-' ~ query.query_num }}">{{ query.query_def }}</a>
+                <ul class="nav">
+                    <li>
+                        <a href="{{ '#query-summary-' ~ query.query_num }}">Graphical Summary</a>
+                    </li>
+                    <li>
+                        <a href="{{ '#query-best-hits-' ~ query.query_num }}">Best hit table</a>
+                    </li>
                     {% for hit in query.hits %}
-                        <li><a href="{{ '#query-' ~ query.query_num ~ '-hit-' ~ hit.num }}">{{ hit.name }}</a></li>
+                        <li>
+                            <a href="{{ '#query-' ~ query.query_num ~ '-hit-' ~ hit.num }}">{{ hit.name }}</a>
+                        </li>
                     {% endfor %}
                 </ul>
-            </ul>
+            </li>
         {% endfor %}
     </ul>
-</nav>
+</div>

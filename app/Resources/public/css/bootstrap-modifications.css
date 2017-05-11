@@ -5,6 +5,10 @@ html, body {
     font-family: 'Open Sans', sans-serif;
 }
 
+body {
+    position: relative;
+}
+
 /* Header
 -------------------------------------------------- */
 header {
@@ -23,6 +27,41 @@ header {
 -------------------------------------------------- */
 .affix {
     top: 20px;
+}
+
+div .scrollspy .nav .active {
+    font-weight: bold;
+}
+
+div .scrollspy .nav .nav {
+    display: none;
+}
+
+div .scrollspy .nav .nav .nav {
+    display: none;
+}
+
+div .scrollspy .nav .active .nav {
+    display: block;
+}
+
+div .scrollspy .nav .nav a {
+    font-weight: normal;
+    font-size: .85em;
+}
+
+div .scrollspy .nav .nav .active a,
+div .scrollspy .nav .nav .active:hover a,
+div .scrollspy .nav .nav .active:focus a {
+    font-weight: bold;
+    padding-left: 20px;
+    border-left: 2px solid #337ab7;
+}
+
+div .scrollspy .nav .nav .active span,
+div .scrollspy .nav .nav .active:hover span,
+div .scrollspy .nav .nav .active:focus span {
+    display: none;
 }
 
 /* Sticky footer
