@@ -29,7 +29,7 @@ class RegistrationType extends AbstractType
                             * at least one capital letter<br>
                             * at least on number<br>
                             * at least 8 characters',
-                    ]
+                    ],
                 ],
                 'second_options' => ['label' => 'Repeat Password'],
                 ])
