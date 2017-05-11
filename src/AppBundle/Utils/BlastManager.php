@@ -162,13 +162,4 @@ class BlastManager
 
         return $result;
     }
-
-    public function xmlToHtml($xml)
-    {
-        $array = $this->xmlToArray($xml);
-
-        return $this->twig->render(':blast:result.html.twig', [
-            'results' => $array,
-        ]);
-    }
 }

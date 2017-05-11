@@ -19,6 +19,12 @@ header {
     background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
 }
 
+/* Sidebar
+-------------------------------------------------- */
+.affix {
+    top: 20px;
+}
+
 /* Sticky footer
 -------------------------------------------------- */
 footer {

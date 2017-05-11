@@ -56,14 +56,14 @@ class BlastController extends Controller
     public function viewAction(Job $job)
     {
         if (null !== $job->getResult() && !is_numeric($job->getResult())) {
-            $html = $this->get('app.blast_manager')->xmlToHtml($job->getResult());
+            $result = $this->get('app.blast_manager')->xmlToArray($job->getResult());
         } else {
-            $html = null;
+            $result = null;
         }
 
         return $this->render('blast/view.html.twig', [
             'job' => $job,
-            'html' => $html,
+            'result' => $result,
         ]);
     }
 }

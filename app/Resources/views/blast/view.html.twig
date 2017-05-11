@@ -29,6 +29,6 @@
     {% elseif job.result matches '/^\\d+$/' %}
         <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
-        {{ html|raw }}
+        {% include 'blast/result.html.twig' with {'result': result} %}
     {% endif %}
 {% endblock %}

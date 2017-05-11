@@ -1,124 +1,148 @@
-{% if results.iterations|length > 1 %}
-    <div class="row">
-        <div class="col-md-4">
-            <table class="table table-striped">
-                <tr>
-                    <th>Query name</th>
-                    <th>Query length</th>
-                    <th>Number of hits</th>
-                </tr>
-
-                {% for query in results.iterations %}
+<div class="col-sm-9">
+    {% if result.iterations|length > 1 %}
+        <div class="row">
+            <div class="col-md-4">
+                <h2 id="job-hits">Hits</h2>
+                <table class="table table-striped">
                     <tr>
-                        <td><a href={{ "#query-" ~ query.query_num }}>{{ query.query_def }}</a></td>
-                        <td>{{ query.query_len }}</td>
-                        <td>{{ query.hits|length }}</td>
+                        <th>Query name</th>
+                        <th>Query length</th>
+                        <th>Number of hits</th>
                     </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-{% endif %}
 
-{% for query in results.iterations %}
-    <h2 id="{{ "query-" ~ query.query_num }}">Query description</h2>
-    <table class="table">
-        <tr>
-            <th class="col-md-2">Query</th>
-            <td>{{ query.query_def }}; {{ query.query_len }} residus.</td>
-        </tr>
-        <tr>
-            <th>Database</th>
-            <td></td>
-        </tr>
-        <tr>
-            <th>Algorithm</th>
-            <td>{{ results.blast_version }}</td>
-        </tr>
-    </table>
-
-    <h3>Graphical summary of the {{ query.hits|length }} hits obtained</h3>
-
-    <h3>Best hit table</h3>
-    <table class="table table-striped">
-        <tr>
-            <th>Seq ID</th>
-            <th>Description</th>
-            <th>Max bit score</th>
-            <th>Min E.value</th>
-            <th>Max ident.</th>
-            <th>Links</th>
-        </tr>
-
-        {% for hit in query.hits %}
-            <tr>
-                <td><a href="{{ path('locus_view_short', { 'locus_name': hit.name }) }}">{{ hit.name }}</a></td>
-                <td>{{ hit.desc }}</td>
-                <td>{{ hit.hsps.0.bit_score }}</td>
-                <td>{{ hit.hsps.0.evalue }}</td>
-                <td>{{ hit.hsps.0.identity }}</td>
-                <td><a href="#" class="btn btn-default btn-xs">Link</a></td>
-            </tr>
-        {% endfor %}
-    </table>
-
-    <h3>Pairwise alignment details</h3>
-    {% for hit in query.hits %}
-        <div class="well">
-            <a href="{{ path('locus_view_short', { 'locus_name': hit.name }) }}">{{ hit.name }}</a><br />
-            <b>Description:</b> {{ hit.desc }}<br />
-            <b>Length:</b> {{ hit.len }}
-        </div>
-
-        {% for hsp in hit.hsps %}
-            <h4>From {{ hsp.query_from }} to {{ hsp.query_to }}</h4>
-            <table class="table table-striped">
-                <tr>
-                    <th>Score</th>
-                    <th>Expect</th>
-                    <th>Identities</th>
-                    <th>Gaps</th>
-                    <th>Strand</th>
-                </tr>
-                <tr>
-                    <td>{{ hsp.bit_score }}</td>
-                    <td>{{ hsp.evalue }}</td>
-                    <td>{{ hsp.identity }}/{{ query.query_len }} ({{  (hsp.identity / query.query_len * 100)|round(2)}} %)</td>
-                    <td>{{ hsp.gaps }}/{{ query.query_len }} ({{  (hsp.gaps / query.query_len * 100)|round(2) }} %)</td>
-                    <td>1/1</td>
-                </tr>
-            </table>
-            <div class="blast-alignment">
-                {% set lastToNbChar, nbCharBeforeSeq = hsp.hit_to|length, hsp.hit_to|length + 8 %}
-                {% set nbRow = hsp.qseq|length - 1 %}
-                {% set qSeqPosFrom, hSeqPosFrom, qSeqPosTo, hSeqPosTo = 1, 1, 0, 0 %}
-
-                {% for i in 0..nbRow %}
-                    {% set  qSeqPosTo, hSeqPosTo = qSeqPosTo + hsp.qseq[i]|length, hSeqPosTo + hsp.hseq[i]|length %}
-
-                    <div class="alignment-row">
-                        {# Query row #}
-                        Query: {{ qSeqPosFrom }}
-                        {% for i in 0..(nbCharBeforeSeq - (8 + qSeqPosFrom|length)) %}&nbsp;{% endfor %}
-                        {{ hsp.qseq[i] }}
-                        {{ qSeqPosTo }}
-                        <br>
-
-                        {# Middle row #}
-                        {% for i in 0..nbCharBeforeSeq %}&nbsp;{% endfor %}
-                        {{ hsp.midline[i] }}<br>
-
-                        {# Hit row #}
-                        Sbjct: {{ hSeqPosFrom }}
-                        {% for i in 0..(nbCharBeforeSeq - (8 + hSeqPosFrom|length)) %}&nbsp;{% endfor %}
-                        {{ hsp.hseq[i] }}
-                        {{ hSeqPosTo }}
-                        <br>
-                    </div>
-
-                    {% set  qSeqPosFrom, hSeqPosFrom = qSeqPosFrom + hsp.qseq[i]|length, hSeqPosFrom + hsp.hseq[i]|length %}
-                {% endfor %}
+                    {% for query in result.iterations %}
+                        <tr>
+                            <td><a href={{ "#query-" ~ query.query_num }}>{{ query.query_def }}</a></td>
+                            <td>{{ query.query_len }}</td>
+                            <td>{{ query.hits|length }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
             </div>
+        </div>
+    {% endif %}
+
+    {% for query in result.iterations %}
+        <h2 id="{{ "query-" ~ query.query_num }}">Query description</h2>
+        <table class="table">
+            <tr>
+                <th class="col-md-2">Query</th>
+                <td>{{ query.query_def }}; {{ query.query_len }} residus.</td>
+            </tr>
+            <tr>
+                <th>Database</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Algorithm</th>
+                <td>{{ result.blast_version }}</td>
+            </tr>
+        </table>
+
+        <h3 id="{{ "query-summary-" ~ query.query_num }}">Graphical summary of the {{ query.hits|length }} hits obtained</h3>
+
+        <h3 id="{{ "query-best-hits-" ~ query.query_num }}">Best hit table</h3>
+        <table class="table table-striped">
+            <tr>
+                <th>Seq ID</th>
+                <th>Description</th>
+                <th>Max bit score</th>
+                <th>Min E.value</th>
+                <th>Max ident.</th>
+                <th>Links</th>
+            </tr>
+
+            {% for hit in query.hits %}
+                <tr>
+                    <td><a href="{{ path('locus_view_short', { 'locus_name': hit.name }) }}">{{ hit.name }}</a></td>
+                    <td>{{ hit.desc }}</td>
+                    <td>{{ hit.hsps.0.bit_score }}</td>
+                    <td>{{ hit.hsps.0.evalue }}</td>
+                    <td>{{ hit.hsps.0.identity }}</td>
+                    <td><a href="#" class="btn btn-default btn-xs">Link</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <h3 id="{{ "query-alignment-" ~ query.query_num }}">Pairwise alignment details</h3>
+        {% for hit in query.hits %}
+            <div class="well" id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num }}">
+                <a href="{{ path('locus_view_short', { 'locus_name': hit.name }) }}">{{ hit.name }}</a><br />
+                <b>Description:</b> {{ hit.desc }}<br />
+                <b>Length:</b> {{ hit.len }}
+            </div>
+
+            {% for hsp in hit.hsps %}
+                <h4>From {{ hsp.query_from }} to {{ hsp.query_to }}</h4>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Score</th>
+                        <th>Expect</th>
+                        <th>Identities</th>
+                        <th>Gaps</th>
+                        <th>Strand</th>
+                    </tr>
+                    <tr>
+                        <td>{{ hsp.bit_score }}</td>
+                        <td>{{ hsp.evalue }}</td>
+                        <td>{{ hsp.identity }}/{{ query.query_len }} ({{  (hsp.identity / query.query_len * 100)|round(2)}} %)</td>
+                        <td>{{ hsp.gaps }}/{{ query.query_len }} ({{  (hsp.gaps / query.query_len * 100)|round(2) }} %)</td>
+                        <td>1/1</td>
+                    </tr>
+                </table>
+                <div class="blast-alignment">
+                    {% set lastToNbChar, nbCharBeforeSeq = hsp.hit_to|length, hsp.hit_to|length + 8 %}
+                    {% set nbRow = hsp.qseq|length - 1 %}
+                    {% set qSeqPosFrom, hSeqPosFrom, qSeqPosTo, hSeqPosTo = 1, 1, 0, 0 %}
+
+                    {% for i in 0..nbRow %}
+                        {% set  qSeqPosTo, hSeqPosTo = qSeqPosTo + hsp.qseq[i]|length, hSeqPosTo + hsp.hseq[i]|length %}
+
+                        <div class="alignment-row">
+                            {# Query row #}
+                            Query: {{ qSeqPosFrom }}
+                            {% for i in 0..(nbCharBeforeSeq - (8 + qSeqPosFrom|length)) %}&nbsp;{% endfor %}
+                            {{ hsp.qseq[i] }}
+                            {{ qSeqPosTo }}
+                            <br>
+
+                            {# Middle row #}
+                            {% for i in 0..nbCharBeforeSeq %}&nbsp;{% endfor %}
+                            {{ hsp.midline[i] }}<br>
+
+                            {# Hit row #}
+                            Sbjct: {{ hSeqPosFrom }}
+                            {% for i in 0..(nbCharBeforeSeq - (8 + hSeqPosFrom|length)) %}&nbsp;{% endfor %}
+                            {{ hsp.hseq[i] }}
+                            {{ hSeqPosTo }}
+                            <br>
+                        </div>
+
+                        {% set  qSeqPosFrom, hSeqPosFrom = qSeqPosFrom + hsp.qseq[i]|length, hSeqPosFrom + hsp.hseq[i]|length %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
         {% endfor %}
     {% endfor %}
-{% endfor %}
+</div>
+
+<nav class="col-sm-3">
+    <ul data-spy="affix" data-offset-top="310">
+        {% if result.iterations|length > 1 %}
+            <li><a href="#job-hits">Hits</a></li>
+        {% endif %}
+        {% for query in result.iterations %}
+            <li><a href="{{ '#query-' ~ query.query_num }}">{{ query.query_def }}</a></li>
+            <ul>
+                <li><a href="{{ '#query-summary-' ~ query.query_num }}">Graphical Summary</a></li>
+                <li><a href="{{ '#query-best-hits-' ~ query.query_num }}">Best hit table</a></li>
+                <li><a href="{{ '#query-alignment-' ~ query.query_num }}">Pairwise alignment details</a></li>
+                <ul>
+                    {% for hit in query.hits %}
+                        <li><a href="{{ '#query-' ~ query.query_num ~ '-hit-' ~ hit.num }}">{{ hit.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </ul>
+        {% endfor %}
+    </ul>
+</nav>
