@@ -21,7 +21,16 @@ class ChangePasswordType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
-                'first_options' => ['label' => 'Password'],
+                'first_options' => [
+                    'label' => 'Password',
+                    'attr' => [
+                        'data-help' => 'Your password must contain:<br>
+                            * at least one letter<br>
+                            * at least one capital letter<br>
+                            * at least on number<br>
+                            * at least 8 characters',
+                    ]
+                ],
                 'second_options' => ['label' => 'Repeat Password'],
                 ])
         ;
