@@ -111,10 +111,7 @@ class BlastType extends AbstractType
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifier) {
-                $form = $event->getForm();
-                $data = $event->getData();
-
-                if (null === $data) {
+                if (null === $event->getData()) {
                     $event->setData([
                         'blastType' => 'blastp',
                         'database' => 'cds_prot',
@@ -126,7 +123,7 @@ class BlastType extends AbstractType
                     ]);
                 }
 
-                $formModifier($form, $data['blastType']);
+                $formModifier($event->getForm(), $event->getData()['blastType']);
             }
         );
 
