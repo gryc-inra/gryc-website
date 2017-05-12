@@ -116,6 +116,22 @@ class BlastManager
             $iteration['query_def'] = $node->filterXPath('//Iteration_query-def')->text();
             $iteration['query_len'] = $node->filterXPath('//Iteration_query-len')->text();
 
+            // Get the grid step
+            $queryLength = $iteration['query_len'];
+            $gridLevel = [1, 5, 10, 25, 50, 100, 250, 500, 1000, 2000, 5000, 100000, 500000, 1000000];
+            $gridStep = $gridLevel[0];
+
+            $diff = abs($gridLevel[0] - $queryLength / 10);
+
+            foreach ($gridLevel as $level) {
+                if (abs($level - $queryLength / 10) < $diff) {
+                    $gridStep = $level;
+                }
+            }
+
+            $iteration['draw_grid_step'] = $gridStep;
+            $iteration['draw_nb_steps'] = ceil($iteration['query_len'] / $gridStep);
+
             // Add the iteration to the result array
             $result['iterations'][$i] = $iteration;
 
@@ -141,6 +157,7 @@ class BlastManager
                     $k = isset($result['iterations'][$i]['hits'][$j]['hsps']) ? count($result['iterations'][$i]['hits'][$j]['hsps']) : 0;
 
                     // Add param to the HSP
+                    $hsp['num'] = $node->filterXPath('//Hsp_num')->text();
                     $hsp['bit_score'] = $node->filterXPath('//Hsp_bit-score')->text();
                     $hsp['evalue'] = $node->filterXPath('//Hsp_evalue')->text();
                     $hsp['query_from'] = $node->filterXPath('//Hsp_query-from')->text();
