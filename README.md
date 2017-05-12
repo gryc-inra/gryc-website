@@ -60,11 +60,6 @@ Now you have containers with nginx, php, mariadb and elasticsearch, config the a
     bin/console fos:elastica:populate
     ```
 
-7. Dump the Assets (CSS/JS)
-    ```bash
-    bin/console assetic:dump
-    ```
-
 8. Clear the cache
     ```bash
     bin/console cache:clear --no-warmup
