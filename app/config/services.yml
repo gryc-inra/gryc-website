@@ -8,6 +8,13 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
+# Command
+    app.command.my_command:
+        class: AppBundle\Command\ImportStrainCommand
+        arguments: ["%kernel.root_dir%"]
+        tags:
+            - { name: console.command }
+
 # Twig
     twig.extension.text:
        class: Twig_Extensions_Extension_Text

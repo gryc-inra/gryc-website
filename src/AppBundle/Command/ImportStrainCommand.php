@@ -1,7 +1,5 @@
 <?php
 
-// src/AppBundle/Command/ImportStrainCommand.php
-
 namespace AppBundle\Command;
 
 use AppBundle\Entity\Chromosome;
@@ -25,6 +23,14 @@ class ImportStrainCommand extends ContainerAwareCommand
     private $species;
     private $speciesList;
     private $fs;
+    private $rootDir;
+
+    public function __construct($rootDir)
+    {
+        $this->rootDir = $rootDir;
+
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -276,10 +282,32 @@ class ImportStrainCommand extends ContainerAwareCommand
         // At the end, attach the Strain to the species
         $this->species->addStrain($strain);
 
-        //Before flush, inform the user that transaction take few time
+        // Test if Blast files exists
+        $blastFilesName = ['cds_nucl.nhr', 'cds_nucl.nin', 'cds_nucl.nsq', 'cds_prot.phr', 'cds_prot.pin', 'cds_prot.psq', 'chr.nhr', 'chr.nin', 'chr.nsq'];
+        $blastFilesFolder = $input->getArgument('dir').'data/BLAST';
+        $blastFilesTargetFolder = $this->rootDir.'/../protected-files/blast';
+
+        $blastFiles = array_map(function(&$file) use ($blastFilesFolder) {
+            return $file = $blastFilesFolder.'/'.$file;
+        }, $blastFilesName);
+
+        if (!$this->fs->exists($blastFiles)) {
+            throw new \RuntimeException(
+                '<error>At least one of the blastable files is missing.</error>'
+            );
+        }
+
+        // Before flush, inform the user that transaction take few time
         $output->writeln('<comment>The transaction start, this may take some time (few minutes). Don\'t panic, take advantage there to have a break :)</comment>');
 
         // Now we flush it (this is a transaction)
         $this->getContainer()->get('doctrine')->getManager()->flush();
+
+        // At the end of the transaction, we move blastable files
+        $i = 0;
+        foreach ($blastFiles as $file) {
+            $this->fs->copy($file, $blastFilesTargetFolder.'/'.$strain->getId().'_'.$blastFilesName[$i]);
+            ++$i;
+        }
     }
 }
