@@ -81,15 +81,16 @@
 
             {% for hit in query.hits %}
                 {% set LineX1, LineX2, LineY = leftLegendWidth, svgWidth - svgPadding, hitYPosition + loop.index0 * hitLineSpace %}
-                {% set hitStart, hitLength = hit.hsps[0].hit_from * pxPerNuc, (hit.hsps[0].hit_to - hit.hsps[0].hit_from + 1) * pxPerNuc %}
 
                 <line stroke="#B8B8B8" x1="{{ LineX1 }}" x2="{{ LineX2 }}" y1="{{ LineY }}" y2="{{ LineY }}"></line>
                 <a href="{{ '#query-' ~ query.query_num ~ '-hit-' ~ hit.num }}">
                     <text font-size="10" x="{{ svgPadding }}" y="{{ LineY }}">{{ hit.name }}</text>
                 </a>
                 {% for hsp in hit.hsps %}
+                    {% set hspStart, hspLength = hsp.query_from * pxPerNuc, (hsp.query_to - hsp.query_from + 1) * pxPerNuc %}
+
                     <a href="{{ "#query-" ~ query.query_num ~ "-hit-" ~ hit.num ~ "-hsp-" ~ hsp.num }}">
-                        <rect fill="#C05350" height="{{ hitRecHeight }}" rx="{{ hitRadian }}" ry="{{ hitRadian }}" width="{{ hitLength }}" x="{{ hitStart + leftLegendWidth + svgElementsPadding }}" y="{{ LineY - hitRecHeight / 2 }}"></rect>
+                        <rect fill="#C05350" height="{{ hitRecHeight }}" rx="{{ hitRadian }}" ry="{{ hitRadian }}" width="{{ hspLength }}" x="{{ hspStart + leftLegendWidth + svgElementsPadding }}" y="{{ LineY - hitRecHeight / 2 }}"></rect>
                     </a>
                 {% endfor %}
             {% endfor %}
