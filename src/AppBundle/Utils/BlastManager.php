@@ -30,6 +30,13 @@ class BlastManager
         // Create a job token
         $token = $this->tokenGenerator->generateToken();
 
+        // Before add the job in database, transform the Strains array collection in Ids array
+        $strains = [];
+        foreach ($data['strains'] as $strain) {
+            $strains[] = $strain->getId();
+        }
+        $data['strains'] = $strains;
+
         // Add the job in database
         $job = new Job();
         $job->setName($token);
@@ -40,10 +47,10 @@ class BlastManager
         $this->em->flush();
 
         // Call an event, to process the job in background
-        $this->eventDispatcher->addListener(KernelEvents::TERMINATE, function (Event $event) use ($job) {
+//        $this->eventDispatcher->addListener(KernelEvents::TERMINATE, function (Event $event) use ($job) {
             // Launch the job
             $this->blast($job);
-        });
+//        });
 
         return $job;
     }
@@ -68,6 +75,12 @@ class BlastManager
             }
         }
 
+        $db = '';
+        foreach ($formData->strains as $strain) {
+            $db .= ' /blast/db/'.$strain.'_'.$formData->database;
+        }
+        dump($db);
+
         // Create a tempFile with the query
         $tmpQueryHandle = tmpfile();
         $metaDatas = stream_get_meta_data($tmpQueryHandle);
@@ -78,7 +91,7 @@ class BlastManager
         $tmpResults = tempnam('/tmp', $job->getName());
 
         // blastn -task blastn -query fichier_query.fasta -db "path/db1 path/db2 path/db3" -out output.xml -outfmt 5 -evalue $evalue -num_threads 2
-        $process = new Process($blastType.' '.$task.' -query '.$tmpQueryFilename.' -db /blast/db/YALI -out '.$tmpResults.' -outfmt 5 -evalue '.$evalue.' '.$filter.' -num_threads 2');
+        $process = new Process($blastType.' '.$task.' -query '.$tmpQueryFilename.' -db '.$db.' -out '.$tmpResults.' -outfmt 5 -evalue '.$evalue.' '.$filter.' -num_threads 2');
         $process->run();
 
         // executes after the command finishes

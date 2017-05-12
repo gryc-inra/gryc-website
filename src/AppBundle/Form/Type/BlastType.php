@@ -93,8 +93,8 @@ class BlastType extends AbstractType
                 $isMatrixDisabled = false;
             } else {
                 $databaseChoices = [
-                    'CDS (nucleotides)' => 'cds_nuc',
-                    'Chromosomes' => 'chromosomes',
+                    'CDS (nucleotides)' => 'cds_nucl',
+                    'Chromosomes' => 'chr',
                 ];
 
                 $isMatrixDisabled = true;
