@@ -287,7 +287,7 @@ class ImportStrainCommand extends ContainerAwareCommand
         $blastFilesFolder = $input->getArgument('dir').'data/BLAST';
         $blastFilesTargetFolder = $this->rootDir.'/../protected-files/blast';
 
-        $blastFiles = array_map(function(&$file) use ($blastFilesFolder) {
+        $blastFiles = array_map(function (&$file) use ($blastFilesFolder) {
             return $file = $blastFilesFolder.'/'.$file;
         }, $blastFilesName);
 
