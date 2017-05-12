@@ -45,7 +45,7 @@ class BlastType extends AbstractType
                 'class' => 'AppBundle\Entity\Strain',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('strain')
-                        ->join('strain.authorizedUsers', 'authorizedUsers')
+                        ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
                         ->where('strain.public = true')
                         ->orWhere('authorizedUsers = :user')
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser());
