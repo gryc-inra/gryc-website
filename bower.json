@@ -8,9 +8,6 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "3.3.7",
-    "fontawesome": "4.7",
-    "jquery": "1.12.4",
     "select2": "git://github.com/select2/select2.git#4.0.3",
     "select2-bootstrap": "git://github.com/select2/select2-bootstrap-theme.git#0.1.0-beta.9"
   }
