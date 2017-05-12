@@ -1,9 +1,11 @@
+{% set refreshTime = 2 %}
+
 {% extends 'base.html.twig' %}
 
 {% block metaTags %}
     {{ parent() }}
     {% if job.result is null %}
-        <meta http-equiv="refresh" content="5;">
+        <meta http-equiv="refresh" content="{{ refreshTime }};">
     {% endif %}
 {% endblock %}
 
@@ -24,7 +26,7 @@
             <span class="fa fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
             <span class="sr-only">Loading...</span>
 
-            <h2>Your BLAST is processing, the page automatically refresh every 5 seconds.</h2>
+            <h2>Your BLAST is processing, the page automatically refresh every {{ refreshTime }} seconds.</h2>
         </div>
     {% elseif job.result matches '/^\\d+$/' %}
         <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>

@@ -49,10 +49,10 @@ class BlastManager
         $this->em->flush();
 
         // Call an event, to process the job in background
-//        $this->eventDispatcher->addListener(KernelEvents::TERMINATE, function (Event $event) use ($job) {
+        $this->eventDispatcher->addListener(KernelEvents::TERMINATE, function (Event $event) use ($job) {
             // Launch the job
             $this->blast($job);
-//        });
+        });
 
         return $job;
     }
