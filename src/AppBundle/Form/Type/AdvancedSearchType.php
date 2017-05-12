@@ -35,8 +35,8 @@ class AdvancedSearchType extends AbstractType
                     return $er->createQueryBuilder('strain')
                         ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
                         ->leftJoin('strain.species', 'species')
-                        ->where('authorizedUsers = :user')
-                        ->orWhere('strain.public = true')
+                        ->where('strain.public = true')
+                        ->orWhere('authorizedUsers = :user')
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
                 'choice_label' => function ($strain) {
