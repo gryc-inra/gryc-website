@@ -6,6 +6,9 @@ docker-compose.yml
 .php_cs.cache
 /phpunit.xml
 /protected-files/*
+!/protected-files/blast
+/protected-files/blast/*
+!/protected-files/blast/.gitkeep
 !/protected-files/flatFiles
 /protected-files/flatFiles/*
 !/protected-files/flatFiles/.gitkeep

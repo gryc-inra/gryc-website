@@ -16,13 +16,15 @@ class BlastManager
     private $em;
     private $eventDispatcher;
     private $twig;
+    private $rootDir;
 
-    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher, \Twig_Environment $twig)
+    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher, \Twig_Environment $twig, $rootDir)
     {
         $this->tokenGenerator = $tokenGenerator;
         $this->em = $em;
         $this->eventDispatcher = $eventDispatcher;
         $this->twig = $twig;
+        $this->rootDir = $rootDir;
     }
 
     public function createJob($data)
@@ -75,11 +77,11 @@ class BlastManager
             }
         }
 
+        // Get the DBs addresses
         $db = '';
         foreach ($formData->strains as $strain) {
-            $db .= ' /blast/db/'.$strain.'_'.$formData->database;
+            $db .= ' '.$this->rootDir.'/../protected-files/blast/'.$strain.'_'.$formData->database;
         }
-        dump($db);
 
         // Create a tempFile with the query
         $tmpQueryHandle = tmpfile();

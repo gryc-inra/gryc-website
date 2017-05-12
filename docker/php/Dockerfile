@@ -25,6 +25,6 @@ RUN wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2
 && rm ncbi-blast-2.6.0+-x64-linux.tar.gz
 
 ENV PATH=$PATH:/home/blast/ncbi-blast-2.6.0+/bin
-ENV BLASTDB=/db
+ENV BLASTDB=/var/www/html/protected-files/db
 
-WORKDIR /blast
+WORKDIR /var/www/html
