@@ -18,7 +18,7 @@ class Mailer
 {
     protected $mailer;
     protected $templating;
-    private $from = 'no-reply@gryc.dev';
+    private $from = 'gryc.inra@gmail.com';
     private $name = 'GRYC - The yeast genomics database';
     private $tokenStorage;
 
@@ -32,11 +32,12 @@ class Mailer
     /**
      * Fonction principale d'envois de mail, défini les attributs de SwiftMailer.
      *
-     * @param string $to
+     * @param array $from
+     * @param array|string $to
      * @param string $subject
      * @param string $body
      */
-    protected function sendEmailMessage($to, $from, $subject, $body)
+    protected function sendEmailMessage($from, $to, $subject, $body)
     {
         $message = \Swift_Message::newInstance();
         $message
@@ -86,37 +87,34 @@ class Mailer
     }
 
     /**
-     * Envoi un mail de confirmation de réception d'un message à un visiteur.
+     * Send the contact message
      *
-     * @param ContactUs $contactMessage
+     * @param $data
      */
-    public function sendConfirmationContactEmailMessage(ContactUs $contactMessage)
+    public function sendContactMessage($data)
     {
-        $to = $contactMessage->getEmail();
-        $from = [$this->from => $this->name];
-        $subject = 'Reception of your message';
-        $body = $this->templating->render('mail/confirmationContactMessage.html.twig', ['contactMessage' => $contactMessage]);
+        $from = [$data['email'] => $data['firstName'].' '.$data['lastName']];
+        $to = [$this->from => $this->name];
+        $subject = '[GRYC Contact] '.$data['subject'];
+        $body = $this->templating->render('mail/contactMessage.html.twig', ['data' => $data]);
 
-        $this->sendEmailMessage($to, $from, $subject, $body);
+        $this->sendEmailMessage($from, $to, $subject, $body);
+
+        $this->sendConfirmationContactMessage($data);
     }
 
     /**
-     * Envoi d'un mail de réponse à une question posée par un visiteur.
+     * Send a confirmation message to the user
      *
-     * @param ContactUs $question
-     * @param array     $reply
-     * @param string    $fromName
-     * @param string    $fromMail
+     * @param $data
      */
-    public function sendReplyContactEmailMessage(ContactUs $question, $reply)
+    public function sendConfirmationContactMessage($data)
     {
-        $user = $this->tokenStorage->getToken()->getUser();
+        $from = [$this->from => $this->name];
+        $to = [$data['email'] => $data['firstName'].' '.$data['lastName']];
+        $subject = 'Reception of your message';
+        $body = $this->templating->render('mail/confirmationContactMessage.html.twig', ['data' => $data]);
 
-        $to = $question->getEmail();
-        $from = [$user->getEmail() => $user->getFullName()];
-        $subject = 'Reply about your message';
-        $body = $this->templating->render('mail/replyContactMessage.html.twig', ['question' => $question, 'reply' => $reply]);
-
-        return $this->sendEmailMessage($to, $from, $subject, $body);
+        $this->sendEmailMessage($from, $to, $subject, $body);
     }
 }

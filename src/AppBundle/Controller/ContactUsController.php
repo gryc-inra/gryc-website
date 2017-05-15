@@ -15,16 +15,11 @@ class ContactUsController extends Controller
      */
     public function contactAction(Request $request)
     {
-        $contactus = new ContactUs();
-        $form = $this->createForm(ContactUsType::class, $contactus);
+        $form = $this->createForm(ContactUsType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($contactus);
-            $em->flush();
-
-            $this->get('app.mailer')->sendConfirmationContactEmailMessage($contactus);
+            $this->get('app.mailer')->sendContactMessage($form->getData());
 
             $this->addFlash('success', 'Your message has been submitted.');
 

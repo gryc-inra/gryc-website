@@ -1,5 +1,5 @@
 <p>
-    Hi {{ contactMessage.firstName }} {{ contactMessage.lastName }},<br>
+    Hi {{ data.firstName }} {{ data.lastName }},<br>
     Thank you for your interest in GRYC.<br>
     We received your message, and we are going to treat it as quickly as possible.
 </p>
@@ -14,8 +14,8 @@
 <p style="text-decoration: underline;">Summary of your message</p>
 
 <p>
-    <span style="text-decoration: underline;">Category:</span> {{ contactMessage.Category }}<br>
-    <span style="text-decoration: underline;">Subject:</span> {{ contactMessage.Subject }}<br>
+    <span style="text-decoration: underline;">Category:</span> {{ data.category }}<br>
+    <span style="text-decoration: underline;">Subject:</span> {{ data.subject }}<br>
     <span style="text-decoration: underline;">Message:</span><br>
-    {{ contactMessage.Message|nl2br }}
+    {{ data.message|nl2br }}
 </p>

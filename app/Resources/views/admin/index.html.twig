@@ -16,16 +16,6 @@
 
 {% block body %}
     <h1>Administration</h1>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Contacts</h3>
-        </div>
-        <div class="list-group">
-            <a href="{{ path('contact_us_admin_index') }}" class="list-group-item">{{ render(controller("AppBundle:ContactUsAdmin:numberMessage")) }}</a>
-        </div>
-    </div>
-
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">General</h3>

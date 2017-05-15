@@ -14,8 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ContactUsType extends AbstractType
 {
@@ -42,27 +43,47 @@ class ContactUsType extends AbstractType
                     'Other (not listed)' => 'Other (not listed)',
                 ],
             ])
-            ->add('subject')
+            ->add('subject', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
             ->add('message', TextareaType::class, [
                 'attr' => [
                     'rows' => 20,
-                ], ])
+                ],
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
             ->add('recaptcha', EWZRecaptchaType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new RecaptchaTrue(),
-                ], ]);
+                ],
+            ]);
 
         $formModifier = function (FormInterface $form, $user = null) {
             $form
                 ->add('firstName', TextType::class, [
                     'data' => is_a($user, User::class) ? $user->getFirstName() : null,
+                    'constraints' => [
+                        new NotBlank(),
+                    ],
                 ])
                 ->add('lastName', TextType::class, [
                     'data' => is_a($user, User::class) ? $user->getLastName() : null,
+                    'constraints' => [
+                        new NotBlank(),
+                    ],
                 ])
                 ->add('email', EmailType::class, [
                     'data' => is_a($user, User::class) ? $user->getEmail() : null,
+                    'constraints' => [
+                        new Email([
+                            'checkMX' => true,
+                        ]),
+                    ],
                 ]);
         };
 
@@ -72,15 +93,5 @@ class ContactUsType extends AbstractType
 
             $formModifier($form, $user);
         });
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\ContactUs',
-        ]);
     }
 }
