@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class BlastType extends AbstractType
 {
@@ -60,6 +61,10 @@ class BlastType extends AbstractType
             ->add('query', TextareaType::class, [
                 'constraints' => [
                   new NotBlank(),
+                  new Regex([
+                      'pattern' => '/^(?:>[\w\W]+\s(?:[A-Z]+\s?)+\s*)+$/',
+                      'message' => 'This is not a valid FASTA.',
+                  ]),
                 ],
                 'attr' => [
                     'rows' => 10,
@@ -126,6 +131,7 @@ class BlastType extends AbstractType
                     $event->setData([
                         'blastType' => 'blastp',
                         'database' => 'cds_prot',
+                        'query' => '>my-query',
                         'filter' => false,
                         'evalue' => 0.001,
                         'gapped' => true,
