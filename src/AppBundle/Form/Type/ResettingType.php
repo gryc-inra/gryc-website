@@ -18,7 +18,9 @@ class ResettingType extends AbstractType
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new NotBlank(),
-                    new Email(),
+                    new Email([
+                        'checkMX' => true,
+                    ]),
                 ],
             ])
             ->add('recaptcha', EWZRecaptchaType::class, [
