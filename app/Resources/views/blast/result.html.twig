@@ -90,8 +90,24 @@
                     {% for hsp in hit.hsps if hsp.draw %}
                         {% set hspStart, hspLength = hsp.query_from * pxPerNuc, (hsp.query_to - hsp.query_from + 1) * pxPerNuc %}
 
+                        {% if hsp.bit_score > 500 %}
+                            {% set hspColor = '#C05350' %}
+                        {% elseif hsp.bit_score > 350 %}
+                            {% set hspColor = '#D68C8B' %}
+                        {% elseif hsp.bit_score > 200 %}
+                            {% set hspColor = '#F99C4F' %}
+                        {% elseif hsp.bit_score > 150 %}
+                            {% set hspColor = '#9ABE52' %}
+                        {% elseif hsp.bit_score > 100 %}
+                            {% set hspColor = '#4AACC5' %}
+                        {% elseif hsp.bit_score > 50 %}
+                            {% set hspColor = '#4F81BC' %}
+                        {% else %}
+                            {% set hspColor = '#7D63A0' %}
+                        {% endif %}
+
                         <a href="{{ "#query-" ~ query.query_num ~ "-hit-" ~ hit.num ~ "-hsp-" ~ hsp.num }}">
-                            <rect fill="#C05350" height="{{ hitRecHeight }}" rx="{{ hitRadian }}" ry="{{ hitRadian }}" width="{{ hspLength }}" x="{{ hspStart + leftLegendWidth + svgElementsPadding }}" y="{{ LineY - hitRecHeight / 2 }}"></rect>
+                            <rect fill="{{ hspColor }}" height="{{ hitRecHeight }}" rx="{{ hitRadian }}" ry="{{ hitRadian }}" width="{{ hspLength }}" x="{{ hspStart + leftLegendWidth + svgElementsPadding }}" y="{{ LineY - hitRecHeight / 2 }}"></rect>
                         </a>
                     {% endfor %}
                 {% endfor %}
