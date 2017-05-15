@@ -168,7 +168,9 @@ class BlastManager
                 $result['iterations'][$i]['hits'][$j] = $hit;
 
                 // For each HSP in hit
-                $node->filterXPath('//Hsp')->each(function (Crawler $node) use (&$result, $i, $j) {
+                $previousDrawedHSPQueryFrom = 0;
+                $previousDrawedHSPQueryTo = 0;
+                $node->filterXPath('//Hsp')->each(function (Crawler $node) use (&$result, $i, $j, &$previousDrawedHSPQueryFrom, &$previousDrawedHSPQueryTo) {
                     // Init the count
                     $k = isset($result['iterations'][$i]['hits'][$j]['hsps']) ? count($result['iterations'][$i]['hits'][$j]['hsps']) : 0;
 
@@ -186,6 +188,19 @@ class BlastManager
                     $hsp['qseq'] = str_split($node->filterXPath('//Hsp_qseq')->text(), 60);
                     $hsp['midline'] = str_split($node->filterXPath('//Hsp_midline')->text(), 60);
                     $hsp['hseq'] = str_split($node->filterXPath('//Hsp_hseq')->text(), 60);
+
+                    // Draw or not the HSP on the graphic ?
+                    // if the hsp coordinate are in the previous hsp coordinate range, do not draw
+                    if (
+                       ($hsp['query_from'] > $previousDrawedHSPQueryFrom && $hsp['query_from'] < $previousDrawedHSPQueryTo)
+                    || ($hsp['query_to'] > $previousDrawedHSPQueryFrom && $hsp['query_to'] < $previousDrawedHSPQueryTo)
+                    ) {
+                        $hsp['draw'] = false;
+                    } else {
+                        $hsp['draw'] = true;
+                        $previousDrawedHSPQueryFrom = $hsp['query_from'];
+                        $previousDrawedHSPQueryTo = $hsp['query_to'];
+                    }
 
                     // Add the HSP to result
                     $result['iterations'][$i]['hits'][$j]['hsps'][$k] = $hsp;

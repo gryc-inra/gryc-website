@@ -87,7 +87,7 @@
                     <a href="{{ '#query-' ~ query.query_num ~ '-hit-' ~ hit.num }}">
                         <text font-size="10" x="{{ svgPadding }}" y="{{ LineY }}">{{ hit.name }}</text>
                     </a>
-                    {% for hsp in hit.hsps %}
+                    {% for hsp in hit.hsps if hsp.draw %}
                         {% set hspStart, hspLength = hsp.query_from * pxPerNuc, (hsp.query_to - hsp.query_from + 1) * pxPerNuc %}
 
                         <a href="{{ "#query-" ~ query.query_num ~ "-hit-" ~ hit.num ~ "-hsp-" ~ hsp.num }}">
