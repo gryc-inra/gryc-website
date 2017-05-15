@@ -697,7 +697,6 @@ class Strain
     {
         // Get files
         $files = glob('/var/www/html/protected-files/blast/'.$this->tempId.'_*');
-        dump($files);
 
         // Remove files
         foreach ($files as $file) {
