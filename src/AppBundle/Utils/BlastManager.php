@@ -151,6 +151,7 @@ class BlastManager
             $result['iterations'][$i] = $iteration;
 
             // For each Hit in Iteration
+            $result['iterations'][$i]['hits'] = [];
             $node->filterXPath('//Hit')->each(function (Crawler $node) use (&$result, $i) {
                 // Init the count
                 $j = isset($result['iterations'][$i]['hits']) ? count($result['iterations'][$i]['hits']) : 0;

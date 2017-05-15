@@ -39,163 +39,167 @@
             </tr>
         </table>
 
-        <h3 id="{{ "query-summary-" ~ query.query_num }}">Graphical summary of the {{ query.hits|length }} hits obtained</h3>
+        {% if query.hits is not empty %}
+            <h3 id="{{ "query-summary-" ~ query.query_num }}">Graphical summary of the {{ query.hits|length }} hits obtained</h3>
 
-        {# Set SVG params #}
-        {% set svgWidth, svgPadding, svgElementsPadding = 750, 10, 5 %}
-        {% set leftLegendWidth = 190 %}
-        {% set queryRecHeight, queryRecRadian, queryLineY = 15, 5, svgPadding + svgElementsPadding %}
-        {% set queryRecY = queryLineY - queryRecHeight/2 %}
+            {# Set SVG params #}
+            {% set svgWidth, svgPadding, svgElementsPadding = 750, 10, 5 %}
+            {% set leftLegendWidth = 190 %}
+            {% set queryRecHeight, queryRecRadian, queryLineY = 15, 5, svgPadding + svgElementsPadding %}
+            {% set queryRecY = queryLineY - queryRecHeight/2 %}
 
-        {% set gridLength, gridYposition, gridGraduationHeigth = ((svgWidth - svgPadding*2 - svgElementsPadding) - leftLegendWidth), (queryLineY + queryRecHeight), 5 %}
-        {% set hitRecHeight, hitRadian = 10, 5 %}
-        {% set hitYPosition, hitLineSpace = gridYposition + gridGraduationHeigth + hitRecHeight*2, hitRecHeight + svgElementsPadding %}
+            {% set gridLength, gridYposition, gridGraduationHeigth = ((svgWidth - svgPadding*2 - svgElementsPadding) - leftLegendWidth), (queryLineY + queryRecHeight), 5 %}
+            {% set hitRecHeight, hitRadian = 10, 5 %}
+            {% set hitYPosition, hitLineSpace = gridYposition + gridGraduationHeigth + hitRecHeight*2, hitRecHeight + svgElementsPadding %}
 
-        {% set colorLegendHeigth = 20 %}
+            {% set colorLegendHeigth = 20 %}
 
-        {% set hitsHeight = hitYPosition + query.hits|length * (hitRecHeight + svgElementsPadding) %}
-        {% set colorLegendYStart = hitsHeight + svgElementsPadding %}
-        {# in svgHeight the +10 is the font size of the legend #}
-        {% set svgHeight = colorLegendYStart + colorLegendHeigth + 10 %}
+            {% set hitsHeight = hitYPosition + query.hits|length * (hitRecHeight + svgElementsPadding) %}
+            {% set colorLegendYStart = hitsHeight + svgElementsPadding %}
+            {# in svgHeight the +10 is the font size of the legend #}
+            {% set svgHeight = colorLegendYStart + colorLegendHeigth + 10 %}
 
-        <svg height="{{ svgHeight }}" width="{{ svgWidth }}" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            {# Draw the query #}
-            <line stroke="#B8B8B8" x1="{{ leftLegendWidth }}" x2="{{ svgWidth - svgPadding }}" y1="{{ queryLineY }}" y2="{{ queryLineY }}"></line>
-            <rect fill="#C05350" height="{{ queryRecHeight }}" rx="{{ queryRecRadian }}" ry="{{ queryRecRadian }}" width="{{ svgWidth - leftLegendWidth - svgPadding - svgElementsPadding*2 }}" x="{{ leftLegendWidth + svgElementsPadding }}" y="{{ queryRecY }}"></rect>
-            <text font-size="16" x="{{ svgPadding }}" y="{{ queryLineY + 4 }}">my_query</text>
+            <svg height="{{ svgHeight }}" width="{{ svgWidth }}" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                {# Draw the query #}
+                <line stroke="#B8B8B8" x1="{{ leftLegendWidth }}" x2="{{ svgWidth - svgPadding }}" y1="{{ queryLineY }}" y2="{{ queryLineY }}"></line>
+                <rect fill="#C05350" height="{{ queryRecHeight }}" rx="{{ queryRecRadian }}" ry="{{ queryRecRadian }}" width="{{ svgWidth - leftLegendWidth - svgPadding - svgElementsPadding*2 }}" x="{{ leftLegendWidth + svgElementsPadding }}" y="{{ queryRecY }}"></rect>
+                <text font-size="16" x="{{ svgPadding }}" y="{{ queryLineY + 4 }}">my_query</text>
 
-            {# Draw the grid #}
-            <line stroke="black" x1="{{ leftLegendWidth + svgElementsPadding }}" x2="{{ svgWidth - svgPadding - svgElementsPadding }}" y1="{{ gridYposition }}" y2="{{ gridYposition }}"></line>
+                {# Draw the grid #}
+                <line stroke="black" x1="{{ leftLegendWidth + svgElementsPadding }}" x2="{{ svgWidth - svgPadding - svgElementsPadding }}" y1="{{ gridYposition }}" y2="{{ gridYposition }}"></line>
 
-            {% set x = leftLegendWidth + svgElementsPadding %}
-            {% for i in 0..(query.draw_nb_steps - 1) %}
-                <line stroke="black" x1="{{ x + i*(gridLength / query.draw_nb_steps)  }}" x2="{{ x + i*(gridLength / query.draw_nb_steps) }}" y1="{{ gridYposition }}" y2="{{ gridYposition + gridGraduationHeigth }}"></line>
-                {% if loop.index0 is even %}
-                    <text font-size="10" x="{{ x + i*(gridLength / query.draw_nb_steps) }}" y="{{ gridYposition + gridGraduationHeigth + 8 }}">{{ i * query.draw_grid_step }}</text>
-                {% endif %}
-                <line stroke="#B8B8B8" stroke-dasharray="5,5" x1="{{ x + i*(gridLength / query.draw_nb_steps)  }}" x2="{{ x + i*(gridLength / query.draw_nb_steps)  }}" y1="{{ gridYposition + gridGraduationHeigth }}" y2="{{ hitsHeight }}"></line>
-            {% endfor %}
+                {% set x = leftLegendWidth + svgElementsPadding %}
+                {% for i in 0..(query.draw_nb_steps - 1) %}
+                    <line stroke="black" x1="{{ x + i*(gridLength / query.draw_nb_steps)  }}" x2="{{ x + i*(gridLength / query.draw_nb_steps) }}" y1="{{ gridYposition }}" y2="{{ gridYposition + gridGraduationHeigth }}"></line>
+                    {% if loop.index0 is even %}
+                        <text font-size="10" x="{{ x + i*(gridLength / query.draw_nb_steps) }}" y="{{ gridYposition + gridGraduationHeigth + 8 }}">{{ i * query.draw_grid_step }}</text>
+                    {% endif %}
+                    <line stroke="#B8B8B8" stroke-dasharray="5,5" x1="{{ x + i*(gridLength / query.draw_nb_steps)  }}" x2="{{ x + i*(gridLength / query.draw_nb_steps)  }}" y1="{{ gridYposition + gridGraduationHeigth }}" y2="{{ hitsHeight }}"></line>
+                {% endfor %}
 
-            {# Draw the hits #}
-            {% set pxPerNuc = ((svgWidth - svgPadding - svgElementsPadding) - (leftLegendWidth + svgElementsPadding)) / query.query_len %}
+                {# Draw the hits #}
+                {% set pxPerNuc = ((svgWidth - svgPadding - svgElementsPadding) - (leftLegendWidth + svgElementsPadding)) / query.query_len %}
 
-            {% for hit in query.hits %}
-                {% set LineX1, LineX2, LineY = leftLegendWidth, svgWidth - svgPadding, hitYPosition + loop.index0 * hitLineSpace %}
+                {% for hit in query.hits %}
+                    {% set LineX1, LineX2, LineY = leftLegendWidth, svgWidth - svgPadding, hitYPosition + loop.index0 * hitLineSpace %}
 
-                <line stroke="#B8B8B8" x1="{{ LineX1 }}" x2="{{ LineX2 }}" y1="{{ LineY }}" y2="{{ LineY }}"></line>
-                <a href="{{ '#query-' ~ query.query_num ~ '-hit-' ~ hit.num }}">
-                    <text font-size="10" x="{{ svgPadding }}" y="{{ LineY }}">{{ hit.name }}</text>
-                </a>
-                {% for hsp in hit.hsps %}
-                    {% set hspStart, hspLength = hsp.query_from * pxPerNuc, (hsp.query_to - hsp.query_from + 1) * pxPerNuc %}
-
-                    <a href="{{ "#query-" ~ query.query_num ~ "-hit-" ~ hit.num ~ "-hsp-" ~ hsp.num }}">
-                        <rect fill="#C05350" height="{{ hitRecHeight }}" rx="{{ hitRadian }}" ry="{{ hitRadian }}" width="{{ hspLength }}" x="{{ hspStart + leftLegendWidth + svgElementsPadding }}" y="{{ LineY - hitRecHeight / 2 }}"></rect>
+                    <line stroke="#B8B8B8" x1="{{ LineX1 }}" x2="{{ LineX2 }}" y1="{{ LineY }}" y2="{{ LineY }}"></line>
+                    <a href="{{ '#query-' ~ query.query_num ~ '-hit-' ~ hit.num }}">
+                        <text font-size="10" x="{{ svgPadding }}" y="{{ LineY }}">{{ hit.name }}</text>
                     </a>
+                    {% for hsp in hit.hsps %}
+                        {% set hspStart, hspLength = hsp.query_from * pxPerNuc, (hsp.query_to - hsp.query_from + 1) * pxPerNuc %}
+
+                        <a href="{{ "#query-" ~ query.query_num ~ "-hit-" ~ hit.num ~ "-hsp-" ~ hsp.num }}">
+                            <rect fill="#C05350" height="{{ hitRecHeight }}" rx="{{ hitRadian }}" ry="{{ hitRadian }}" width="{{ hspLength }}" x="{{ hspStart + leftLegendWidth + svgElementsPadding }}" y="{{ LineY - hitRecHeight / 2 }}"></rect>
+                        </a>
+                    {% endfor %}
+                {% endfor %}
+
+                {# Draw the color legend #}
+                {# Change y #}
+                <text font-size="16" x="{{ svgPadding }}" y="{{ colorLegendYStart + 16 }}">Scoring colors</text>
+                <rect fill="#7D63A0" height="20" width="75" x="195" y="{{ colorLegendYStart }}"></rect>
+                <text font-size="10" x="195" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;0</text>
+                <rect fill="#4F81BC" height="20" width="75" x="270" y="{{ colorLegendYStart }}"></rect>
+                <text font-size="10" x="270" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;50</text>
+                <rect fill="#4AACC5" height="20" width="75" x="345" y="{{ colorLegendYStart }}"></rect>
+                <text font-size="10" x="345" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;100</text>
+                <rect fill="#9ABE52" height="20" width="75" x="420" y="{{ colorLegendYStart }}"></rect>
+                <text font-size="10" x="420" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;150</text>
+                <rect fill="#F99C4F" height="20" width="75" x="495" y="{{ colorLegendYStart }}"></rect>
+                <text font-size="10" x="495" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;200</text>
+                <rect fill="#D68C8B" height="20" width="75" x="570" y="{{ colorLegendYStart }}"></rect>
+                <text font-size="10" x="570" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;350</text>
+                <rect fill="#C05350" height="20" width="75" x="645" y="{{ colorLegendYStart }}"></rect>
+                <text font-size="10" x="645" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;500</text>
+            </svg>
+
+            <h3 id="{{ "query-best-hits-" ~ query.query_num }}">Best hit table</h3>
+            <table class="table table-striped">
+                <tr>
+                    <th>Seq ID</th>
+                    <th>Description</th>
+                    <th>Max bit score</th>
+                    <th>Min E.value</th>
+                    <th>Max ident.</th>
+                    <th>Links</th>
+                </tr>
+
+                {% for hit in query.hits %}
+                    <tr>
+                        <td><a href="{{ path('locus_view_short', { 'locus_name': hit.name }) }}">{{ hit.name }}</a></td>
+                        <td>{{ hit.desc }}</td>
+                        <td>{{ hit.hsps.0.bit_score }}</td>
+                        <td>{{ hit.hsps.0.evalue }}</td>
+                        <td>{{ hit.hsps.0.identity }}</td>
+                        <td><a href="#" class="btn btn-default btn-xs">Link</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <h3 id="{{ "query-alignment-" ~ query.query_num }}">Pairwise alignment details</h3>
+            {% for hit in query.hits %}
+                <div class="well" id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num }}">
+                    <a href="{{ path('locus_view_short', { 'locus_name': hit.name }) }}">{{ hit.name }}</a><br />
+                    <b>Description:</b> {{ hit.desc }}<br />
+                    <b>Length:</b> {{ hit.len }}
+                </div>
+
+                {% for hsp in hit.hsps %}
+                    <h4 id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num ~ "-hsp-" ~ hsp.num }}">From {{ hsp.query_from }} to {{ hsp.query_to }}</h4>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Score</th>
+                            <th>Expect</th>
+                            <th>Identities</th>
+                            <th>Gaps</th>
+                            <th>Strand</th>
+                        </tr>
+                        <tr>
+                            <td>{{ hsp.bit_score }}</td>
+                            <td>{{ hsp.evalue }}</td>
+                            <td>{{ hsp.identity }}/{{ query.query_len }} ({{  (hsp.identity / query.query_len * 100)|round(2)}} %)</td>
+                            <td>{{ hsp.gaps }}/{{ query.query_len }} ({{  (hsp.gaps / query.query_len * 100)|round(2) }} %)</td>
+                            <td>1/1</td>
+                        </tr>
+                    </table>
+                    <div class="blast-alignment">
+                        {% set lastToNbChar, nbCharBeforeSeq = hsp.hit_to|length, hsp.hit_to|length + 8 %}
+                        {% set nbRow = hsp.qseq|length - 1 %}
+                        {% set qSeqPosFrom, hSeqPosFrom, qSeqPosTo, hSeqPosTo = 1, 1, 0, 0 %}
+
+                        {% for i in 0..nbRow %}
+                            {% set  qSeqPosTo, hSeqPosTo = qSeqPosTo + hsp.qseq[i]|length, hSeqPosTo + hsp.hseq[i]|length %}
+
+                            <div class="alignment-row">
+                                {# Query row #}
+                                Query: {{ qSeqPosFrom }}
+                                {% for i in 0..(nbCharBeforeSeq - (8 + qSeqPosFrom|length)) %}&nbsp;{% endfor %}
+                                {{ hsp.qseq[i] }}
+                                {{ qSeqPosTo }}
+                                <br>
+
+                                {# Middle row #}
+                                {% for i in 0..nbCharBeforeSeq %}&nbsp;{% endfor %}
+                                {{ hsp.midline[i] }}<br>
+
+                                {# Hit row #}
+                                Sbjct: {{ hSeqPosFrom }}
+                                {% for i in 0..(nbCharBeforeSeq - (8 + hSeqPosFrom|length)) %}&nbsp;{% endfor %}
+                                {{ hsp.hseq[i] }}
+                                {{ hSeqPosTo }}
+                                <br>
+                            </div>
+
+                            {% set  qSeqPosFrom, hSeqPosFrom = qSeqPosFrom + hsp.qseq[i]|length, hSeqPosFrom + hsp.hseq[i]|length %}
+                        {% endfor %}
+                    </div>
                 {% endfor %}
             {% endfor %}
-
-            {# Draw the color legend #}
-            {# Change y #}
-            <text font-size="16" x="{{ svgPadding }}" y="{{ colorLegendYStart + 16 }}">Scoring colors</text>
-            <rect fill="#7D63A0" height="20" width="75" x="195" y="{{ colorLegendYStart }}"></rect>
-            <text font-size="10" x="195" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;0</text>
-            <rect fill="#4F81BC" height="20" width="75" x="270" y="{{ colorLegendYStart }}"></rect>
-            <text font-size="10" x="270" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;50</text>
-            <rect fill="#4AACC5" height="20" width="75" x="345" y="{{ colorLegendYStart }}"></rect>
-            <text font-size="10" x="345" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;100</text>
-            <rect fill="#9ABE52" height="20" width="75" x="420" y="{{ colorLegendYStart }}"></rect>
-            <text font-size="10" x="420" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;150</text>
-            <rect fill="#F99C4F" height="20" width="75" x="495" y="{{ colorLegendYStart }}"></rect>
-            <text font-size="10" x="495" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;200</text>
-            <rect fill="#D68C8B" height="20" width="75" x="570" y="{{ colorLegendYStart }}"></rect>
-            <text font-size="10" x="570" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;350</text>
-            <rect fill="#C05350" height="20" width="75" x="645" y="{{ colorLegendYStart }}"></rect>
-            <text font-size="10" x="645" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;500</text>
-        </svg>
-
-        <h3 id="{{ "query-best-hits-" ~ query.query_num }}">Best hit table</h3>
-        <table class="table table-striped">
-            <tr>
-                <th>Seq ID</th>
-                <th>Description</th>
-                <th>Max bit score</th>
-                <th>Min E.value</th>
-                <th>Max ident.</th>
-                <th>Links</th>
-            </tr>
-
-            {% for hit in query.hits %}
-                <tr>
-                    <td><a href="{{ path('locus_view_short', { 'locus_name': hit.name }) }}">{{ hit.name }}</a></td>
-                    <td>{{ hit.desc }}</td>
-                    <td>{{ hit.hsps.0.bit_score }}</td>
-                    <td>{{ hit.hsps.0.evalue }}</td>
-                    <td>{{ hit.hsps.0.identity }}</td>
-                    <td><a href="#" class="btn btn-default btn-xs">Link</a></td>
-                </tr>
-            {% endfor %}
-        </table>
-
-        <h3 id="{{ "query-alignment-" ~ query.query_num }}">Pairwise alignment details</h3>
-        {% for hit in query.hits %}
-            <div class="well" id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num }}">
-                <a href="{{ path('locus_view_short', { 'locus_name': hit.name }) }}">{{ hit.name }}</a><br />
-                <b>Description:</b> {{ hit.desc }}<br />
-                <b>Length:</b> {{ hit.len }}
-            </div>
-
-            {% for hsp in hit.hsps %}
-                <h4 id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num ~ "-hsp-" ~ hsp.num }}">From {{ hsp.query_from }} to {{ hsp.query_to }}</h4>
-                <table class="table table-striped">
-                    <tr>
-                        <th>Score</th>
-                        <th>Expect</th>
-                        <th>Identities</th>
-                        <th>Gaps</th>
-                        <th>Strand</th>
-                    </tr>
-                    <tr>
-                        <td>{{ hsp.bit_score }}</td>
-                        <td>{{ hsp.evalue }}</td>
-                        <td>{{ hsp.identity }}/{{ query.query_len }} ({{  (hsp.identity / query.query_len * 100)|round(2)}} %)</td>
-                        <td>{{ hsp.gaps }}/{{ query.query_len }} ({{  (hsp.gaps / query.query_len * 100)|round(2) }} %)</td>
-                        <td>1/1</td>
-                    </tr>
-                </table>
-                <div class="blast-alignment">
-                    {% set lastToNbChar, nbCharBeforeSeq = hsp.hit_to|length, hsp.hit_to|length + 8 %}
-                    {% set nbRow = hsp.qseq|length - 1 %}
-                    {% set qSeqPosFrom, hSeqPosFrom, qSeqPosTo, hSeqPosTo = 1, 1, 0, 0 %}
-
-                    {% for i in 0..nbRow %}
-                        {% set  qSeqPosTo, hSeqPosTo = qSeqPosTo + hsp.qseq[i]|length, hSeqPosTo + hsp.hseq[i]|length %}
-
-                        <div class="alignment-row">
-                            {# Query row #}
-                            Query: {{ qSeqPosFrom }}
-                            {% for i in 0..(nbCharBeforeSeq - (8 + qSeqPosFrom|length)) %}&nbsp;{% endfor %}
-                            {{ hsp.qseq[i] }}
-                            {{ qSeqPosTo }}
-                            <br>
-
-                            {# Middle row #}
-                            {% for i in 0..nbCharBeforeSeq %}&nbsp;{% endfor %}
-                            {{ hsp.midline[i] }}<br>
-
-                            {# Hit row #}
-                            Sbjct: {{ hSeqPosFrom }}
-                            {% for i in 0..(nbCharBeforeSeq - (8 + hSeqPosFrom|length)) %}&nbsp;{% endfor %}
-                            {{ hsp.hseq[i] }}
-                            {{ hSeqPosTo }}
-                            <br>
-                        </div>
-
-                        {% set  qSeqPosFrom, hSeqPosFrom = qSeqPosFrom + hsp.qseq[i]|length, hSeqPosFrom + hsp.hseq[i]|length %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        {% endfor %}
+        {% else %}
+            <div class="alert alert-warning" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> There is no result !</div>
+        {% endif %}
     {% endfor %}
 </div>
 
@@ -209,19 +213,21 @@
         {% for query in result.iterations %}
             <li>
                 <a href="{{ '#query-' ~ query.query_num }}">{{ query.query_def }}</a>
-                <ul class="nav">
-                    <li>
-                        <a href="{{ '#query-summary-' ~ query.query_num }}">Graphical Summary</a>
-                    </li>
-                    <li>
-                        <a href="{{ '#query-best-hits-' ~ query.query_num }}">Best hit table</a>
-                    </li>
-                    {% for hit in query.hits %}
+                {% if query.hits is not empty %}
+                    <ul class="nav">
                         <li>
-                            <a href="{{ '#query-' ~ query.query_num ~ '-hit-' ~ hit.num }}">{{ hit.name }}</a>
+                            <a href="{{ '#query-summary-' ~ query.query_num }}">Graphical Summary</a>
                         </li>
-                    {% endfor %}
-                </ul>
+                        <li>
+                            <a href="{{ '#query-best-hits-' ~ query.query_num }}">Best hit table</a>
+                        </li>
+                        {% for hit in query.hits %}
+                            <li>
+                                <a href="{{ '#query-' ~ query.query_num ~ '-hit-' ~ hit.num }}">{{ hit.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
