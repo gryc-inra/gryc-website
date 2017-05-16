@@ -131,7 +131,7 @@ class BlastType extends AbstractType
                     $event->setData([
                         'blastType' => 'blastp',
                         'database' => 'cds_prot',
-                        'query' => '>my-query',
+                        'query' => ">my-query\n",
                         'filter' => false,
                         'evalue' => 0.001,
                         'gapped' => true,
