@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FAQ - {{ parent() }}{% endblock %}
+
+{% block breadcrumb %}{{ parent() }} <li class="active">FAQ</li>{% endblock %}
+
+{% block body %}
+    <h1>FAQ <sub>Frequently Asked Questions</sub></h1>
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <span class="fa fa-question-circle" aria-hidden="true"></span> What is the answer of the ultimate question of Life, the Universe and Everything?
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <h5><span class="label label-primary">Answer</span></h5>
+                    42
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <span class="fa fa-question-circle" aria-hidden="true"></span> What is the answer of the ultimate question of Life, the Universe and Everything?
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                    <h5><span class="label label-primary">Answer</span></h5>
+                    42
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

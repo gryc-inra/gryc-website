@@ -27,4 +27,12 @@ class DefaultController extends Controller
     {
         return $this->render('default/privacyPolicy.html.twig');
     }
+
+    /**
+     * @Route("/faq", name="faq")
+     */
+    public function faqAction()
+    {
+        return $this->render('default/faq.html.twig');
+    }
 }
