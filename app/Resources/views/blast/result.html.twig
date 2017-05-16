@@ -64,7 +64,7 @@
                 {# Draw the query #}
                 <line stroke="#B8B8B8" x1="{{ leftLegendWidth }}" x2="{{ svgWidth - svgPadding }}" y1="{{ queryLineY }}" y2="{{ queryLineY }}"></line>
                 <rect fill="#C05350" height="{{ queryRecHeight }}" rx="{{ queryRecRadian }}" ry="{{ queryRecRadian }}" width="{{ svgWidth - leftLegendWidth - svgPadding - svgElementsPadding*2 }}" x="{{ leftLegendWidth + svgElementsPadding }}" y="{{ queryRecY }}"></rect>
-                <text font-size="16" x="{{ svgPadding }}" y="{{ queryLineY + 4 }}">my_query</text>
+                <text font-size="16" x="{{ svgPadding }}" y="{{ queryLineY + 4 }}">{{ query.query_def }}</text>
 
                 {# Draw the grid #}
                 <line stroke="black" x1="{{ leftLegendWidth + svgElementsPadding }}" x2="{{ svgWidth - svgPadding - svgElementsPadding }}" y1="{{ gridYposition }}" y2="{{ gridYposition }}"></line>
