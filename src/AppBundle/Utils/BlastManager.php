@@ -116,6 +116,7 @@ class BlastManager
 
         // Get the blast version
         $result['blast_version'] = $crawler->filterXPath('//BlastOutput/BlastOutput_version')->text();
+        $result['blast_tool'] = strtolower(explode(' ', $result['blast_version'])[0]);
 
         // For each Iteration
         $crawler->filterXPath('//BlastOutput/BlastOutput_iterations/Iteration')->each(function (Crawler $node) use (&$result) {
@@ -187,6 +188,19 @@ class BlastManager
                     $hsp['midline'] = str_split($node->filterXPath('//Hsp_midline')->text(), 60);
                     $hsp['hseq'] = str_split($node->filterXPath('//Hsp_hseq')->text(), 60);
 
+                    // Define the strand
+                    if (($hsp['query_to'] - $hsp['query_from']) > 0) {
+                        $hsp['query_strand'] = 1;
+                    } else {
+                        $hsp['query_strand'] = -1;
+                    }
+
+                    if (($hsp['hit_to'] - $hsp['hit_from']) > 0) {
+                        $hsp['hit_strand'] = 1;
+                    } else {
+                        $hsp['hit_strand'] = -1;
+                    }
+
                     // Prepare the alignment lines
                     // Set the legend names
                     $queryLegend = 'Query';
@@ -199,39 +213,51 @@ class BlastManager
                     // What is the max digit length ?
                     $maxDigitLength = strlen(max($hsp['query_from'], $hsp['query_to'], $hsp['hit_from'], $hsp['hit_to']));
                     // Calculate the length of the longer legend (add 1 for the space between legend and number)
-                    $longerLegend = $maxLegendLength + 1 + $maxDigitLength;
+                    $longerLegendLength = $maxLegendLength + 1 + $maxDigitLength;
 
                     // Convert line function
-                    $convertLine = function (&$from, $frame, &$line, $legend, $legendLength, $longerLegend) {
+                    $convertLine = function (int &$from, int $strand, int $step, &$line, $legend, int $legendLength, int $longerLegendLength) {
                         // The line length, is the number of char - the number of gap (-)
-                        $lineLength = strlen($line) - substr_count($line, '-');
+                        $lineLength = (strlen($line) - substr_count($line, '-')) * $step - 1;
 
-                        // Set $to, depending on the frame
-                        if (1 == $frame) {
-                            $to = (int) $from + $lineLength;
+                        // Set $to, depending on the strand
+                        if (1 === $strand) {
+                            $to = ($from + $lineLength);
                         } else {
-                            $to = (int) $from - $lineLength;
+                            $to = ($from - $lineLength);
                         }
 
                         // Calculate the number of spaces to add between the legend and the position
-                        $nbSpaces = $longerLegend - $legendLength - strlen($from);
+                        $nbSpaces = $longerLegendLength - $legendLength - strlen($from);
                         $lineLegend = $legend.str_repeat('&nbsp;', $nbSpaces);
 
                         // Edit the line by adding the legend, and start/stop positions
                         $line = $lineLegend.$from.' '.$line.' '.$to;
 
-                        // At the end, edit the from value, depending on the frame
-                        if (1 == $frame) {
+                        // At the end, edit the from value, depending on the strand
+                        if (1 === $strand) {
                             $from = $to + 1;
                         } else {
                             $from = $to - 1;
                         }
                     };
 
+                    // Define the step
+                    if ('tblastn' === $result['blast_tool']) {
+                        $step['query'] = 1;
+                        $step['hit'] = 3;
+                    } elseif ('blastx' === $result['blast_tool']) {
+                        $step['query'] = 3;
+                        $step['hit'] = 1;
+                    } else {
+                        $step['query'] = 1;
+                        $step['hit'] = 1;
+                    }
+
                     // Convert query sequences
                     $from = $hsp['query_from'];
                     foreach ($hsp['qseq'] as &$line) {
-                        $convertLine($from, $hsp['query_frame'], $line, $queryLegend, $queryLegendLength, $longerLegend);
+                        $convertLine($from, $hsp['query_strand'], $step['query'], $line, $queryLegend, $queryLegendLength, $longerLegendLength);
                     }
 
                     // Convert midline
@@ -240,13 +266,13 @@ class BlastManager
                         $line = str_replace(' ', '&nbsp;', $line);
                         // In the midline, the number of spaces is
                         // the length of the longer legend + 1 for the space between the legend and the sequence
-                        $line = str_repeat('&nbsp;', $longerLegend + 1).$line;
+                        $line = str_repeat('&nbsp;', $longerLegendLength + 1).$line;
                     }
 
                     // Convert hit sequences
                     $from = $hsp['hit_from'];
                     foreach ($hsp['hseq'] as &$line) {
-                        $convertLine($from, $hsp['hit_frame'], $line, $hitLegend, $hitLegendLength, $longerLegend);
+                        $convertLine($from, $hsp['hit_strand'], $step['hit'], $line, $hitLegend, $hitLegendLength, $longerLegendLength);
                     }
 
                     // Draw or not the HSP on the graphic ?

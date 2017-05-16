@@ -178,7 +178,7 @@
                             <td>{{ hsp.evalue }}</td>
                             <td>{{ hsp.identity }}/{{ query.query_len }} ({{  (hsp.identity / query.query_len * 100)|round(2)}} %)</td>
                             <td>{{ hsp.gaps }}/{{ query.query_len }} ({{  (hsp.gaps / query.query_len * 100)|round(2) }} %)</td>
-                            <td>{{ hsp.query_frame }}/{{ hsp.hit_frame }}</td>
+                            <td>{{ hsp.query_strand }}/{{ hsp.hit_strand }}</td>
                         </tr>
                     </table>
                     <div class="blast-alignment">
