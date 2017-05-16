@@ -202,7 +202,7 @@ class BlastManager
                     $longerLegend = $maxLegendLength + 1 + $maxDigitLength;
 
                     // Convert line function
-                    $convertLine = function (&$from, &$to, &$frame, &$line, $legend, $legendLength, $longerLegend) {
+                    $convertLine = function (&$from, $frame, &$line, $legend, $legendLength, $longerLegend) {
                         // The line length, is the number of char - the number of gap (-)
                         $lineLength = strlen($line) - substr_count($line, '-');
 
@@ -213,7 +213,7 @@ class BlastManager
                             $to = (int) $from - $lineLength;
                         }
 
-                        // Calculate the number of spaces to add between tjhe legent and the position
+                        // Calculate the number of spaces to add between the legend and the position
                         $nbSpaces = $longerLegend - $legendLength - strlen($from);
                         $lineLegend = $legend.str_repeat('&nbsp;', $nbSpaces);
 
@@ -230,14 +230,14 @@ class BlastManager
 
                     // Convert query sequences
                     $from = $hsp['query_from'];
-                    $to = null;
-                    $frame = $hsp['query_frame'];
                     foreach ($hsp['qseq'] as &$line) {
-                        $convertLine($from, $to, $frame, $line, $queryLegend, $queryLegendLength, $longerLegend);
+                        $convertLine($from, $hsp['query_frame'], $line, $queryLegend, $queryLegendLength, $longerLegend);
                     }
 
                     // Convert midline
                     foreach ($hsp['midline'] as &$line) {
+                        // Replace spaces by &nbsp; in the midline toavoid display bug when there is many spaces collapsed
+                        $line = str_replace(' ', '&nbsp;', $line);
                         // In the midline, the number of spaces is
                         // the length of the longer legend + 1 for the space between the legend and the sequence
                         $line = str_repeat('&nbsp;', $longerLegend + 1).$line;
@@ -245,10 +245,8 @@ class BlastManager
 
                     // Convert hit sequences
                     $from = $hsp['hit_from'];
-                    $to = null;
-                    $frame = $hsp['hit_frame'];
                     foreach ($hsp['hseq'] as &$line) {
-                        $convertLine($from, $to, $frame, $line, $hitLegend, $hitLegendLength, $longerLegend);
+                        $convertLine($from, $hsp['hit_frame'], $line, $hitLegend, $hitLegendLength, $longerLegend);
                     }
 
                     // Draw or not the HSP on the graphic ?
