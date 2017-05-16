@@ -56,6 +56,7 @@
 
             {% set hitsHeight = hitYPosition + query.hits|length * (hitRecHeight + svgElementsPadding) %}
             {% set colorLegendYStart = hitsHeight + svgElementsPadding %}
+
             {# in svgHeight the +10 is the font size of the legend #}
             {% set svgHeight = colorLegendYStart + colorLegendHeigth + 10 %}
 
@@ -177,38 +178,20 @@
                             <td>{{ hsp.evalue }}</td>
                             <td>{{ hsp.identity }}/{{ query.query_len }} ({{  (hsp.identity / query.query_len * 100)|round(2)}} %)</td>
                             <td>{{ hsp.gaps }}/{{ query.query_len }} ({{  (hsp.gaps / query.query_len * 100)|round(2) }} %)</td>
-                            <td>1/1</td>
+                            <td>{{ hsp.query_frame }}/{{ hsp.hit_frame }}</td>
                         </tr>
                     </table>
                     <div class="blast-alignment">
-                        {% set lastToNbChar, nbCharBeforeSeq = hsp.hit_to|length, hsp.hit_to|length + 8 %}
-                        {% set nbRow = hsp.qseq|length - 1 %}
-                        {% set qSeqPosFrom, hSeqPosFrom, qSeqPosTo, hSeqPosTo = 1, 1, 0, 0 %}
-
-                        {% for i in 0..nbRow %}
-                            {% set  qSeqPosTo, hSeqPosTo = qSeqPosTo + hsp.qseq[i]|length, hSeqPosTo + hsp.hseq[i]|length %}
-
+                        {% for i in 0..hsp.qseq|length - 1 %}
                             <div class="alignment-row">
                                 {# Query row #}
-                                Query: {{ qSeqPosFrom }}
-                                {% for i in 0..(nbCharBeforeSeq - (8 + qSeqPosFrom|length)) %}&nbsp;{% endfor %}
-                                {{ hsp.qseq[i] }}
-                                {{ qSeqPosTo }}
-                                <br>
-
+                                {{ hsp.qseq[i]|raw }}<br>
                                 {# Middle row #}
-                                {% for i in 0..nbCharBeforeSeq %}&nbsp;{% endfor %}
-                                {{ hsp.midline[i] }}<br>
-
+                                {{ hsp.midline[i]|raw }}<br>
                                 {# Hit row #}
-                                Sbjct: {{ hSeqPosFrom }}
-                                {% for i in 0..(nbCharBeforeSeq - (8 + hSeqPosFrom|length)) %}&nbsp;{% endfor %}
-                                {{ hsp.hseq[i] }}
-                                {{ hSeqPosTo }}
+                                {{ hsp.hseq[i]|raw }}<br>
                                 <br>
                             </div>
-
-                            {% set  qSeqPosFrom, hSeqPosFrom = qSeqPosFrom + hsp.qseq[i]|length, hSeqPosFrom + hsp.hseq[i]|length %}
                         {% endfor %}
                     </div>
                 {% endfor %}

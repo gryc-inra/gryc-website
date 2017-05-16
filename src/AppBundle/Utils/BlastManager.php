@@ -178,12 +178,78 @@ class BlastManager
                     $hsp['query_to'] = $node->filterXPath('//Hsp_query-to')->text();
                     $hsp['hit_from'] = $node->filterXPath('//Hsp_hit-from')->text();
                     $hsp['hit_to'] = $node->filterXPath('//Hsp_hit-to')->text();
+                    $hsp['query_frame'] = $node->filterXPath('//Hsp_query-frame')->text();
+                    $hsp['hit_frame'] = $node->filterXPath('//Hsp_hit-frame')->text();
                     $hsp['identity'] = $node->filterXPath('//Hsp_identity')->text();
                     $hsp['gaps'] = $node->filterXPath('//Hsp_gaps')->text();
                     $hsp['align_len'] = $node->filterXPath('//Hsp_align-len')->text();
                     $hsp['qseq'] = str_split($node->filterXPath('//Hsp_qseq')->text(), 60);
                     $hsp['midline'] = str_split($node->filterXPath('//Hsp_midline')->text(), 60);
                     $hsp['hseq'] = str_split($node->filterXPath('//Hsp_hseq')->text(), 60);
+
+                    // Prepare the alignment lines
+                    // Set the legend names
+                    $queryLegend = 'Query';
+                    $hitLegend = 'Hit';
+                    // Calculate the legend size
+                    $queryLegendLength = strlen($queryLegend);
+                    $hitLegendLength = strlen($hitLegend);
+                    // Then, which legend is the longer ?
+                    $maxLegendLength = max($queryLegendLength, $hitLegendLength);
+                    // What is the max digit length ?
+                    $maxDigitLength = strlen(max($hsp['query_from'], $hsp['query_to'], $hsp['hit_from'], $hsp['hit_to']));
+                    // Calculate the length of the longer legend (add 1 for the space between legend and number)
+                    $longerLegend = $maxLegendLength + 1 + $maxDigitLength;
+
+                    // Convert line function
+                    $convertLine = function (&$from, &$to, &$frame, &$line, $legend, $legendLength, $longerLegend) {
+                        // The line length, is the number of char - the number of gap (-)
+                        $lineLength = strlen($line) - substr_count($line, '-');
+
+                        // Set $to, depending on the frame
+                        if (1 == $frame) {
+                            $to = (int) $from + $lineLength;
+                        } else {
+                            $to = (int) $from - $lineLength;
+                        }
+
+                        // Calculate the number of spaces to add between tjhe legent and the position
+                        $nbSpaces = $longerLegend - $legendLength - strlen($from);
+                        $lineLegend = $legend.str_repeat("&nbsp;", $nbSpaces);
+
+                        // Edit the line by adding the legend, and start/stop positions
+                        $line = $lineLegend.$from.' '.$line.' '.$to;
+
+                        // At the end, edit the from value, depending on the frame
+                        if (1 == $frame) {
+                            $from = $to + 1;
+                        } else {
+                            $from = $to - 1;
+                        }
+                    };
+
+                    // Convert query sequences
+                    $from = $hsp['query_from'];
+                    $to = null;
+                    $frame = $hsp['query_frame'];
+                    foreach($hsp['qseq'] as &$line) {
+                        $convertLine($from, $to, $frame, $line, $queryLegend, $queryLegendLength, $longerLegend);
+                    }
+
+                    // Convert midline
+                    foreach($hsp['midline'] as &$line) {
+                        // In the midline, the number of spaces is
+                        // the length of the longer legend + 1 for the space between the legend and the sequence
+                        $line = str_repeat("&nbsp;", $longerLegend + 1).$line;
+                    }
+
+                    // Convert hit sequences
+                    $from = $hsp['hit_from'];
+                    $to = null;
+                    $frame = $hsp['hit_frame'];
+                    foreach($hsp['hseq'] as &$line) {
+                        $convertLine($from, $to, $frame, $line, $hitLegend, $hitLegendLength, $longerLegend);
+                    }
 
                     // Draw or not the HSP on the graphic ?
                     // if the hsp coordinate are in the previous hsp coordinate range, do not draw

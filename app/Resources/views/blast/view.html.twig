@@ -21,6 +21,8 @@
 
 {% block body %}
     <h1>Job result</h1>
+    {{ dump(result) }}
+
     {% if job.result is null %}
         <div class="text-center text-info">
             <span class="fa fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
