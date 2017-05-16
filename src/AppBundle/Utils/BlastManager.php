@@ -215,7 +215,7 @@ class BlastManager
 
                         // Calculate the number of spaces to add between tjhe legent and the position
                         $nbSpaces = $longerLegend - $legendLength - strlen($from);
-                        $lineLegend = $legend.str_repeat("&nbsp;", $nbSpaces);
+                        $lineLegend = $legend.str_repeat('&nbsp;', $nbSpaces);
 
                         // Edit the line by adding the legend, and start/stop positions
                         $line = $lineLegend.$from.' '.$line.' '.$to;
@@ -232,22 +232,22 @@ class BlastManager
                     $from = $hsp['query_from'];
                     $to = null;
                     $frame = $hsp['query_frame'];
-                    foreach($hsp['qseq'] as &$line) {
+                    foreach ($hsp['qseq'] as &$line) {
                         $convertLine($from, $to, $frame, $line, $queryLegend, $queryLegendLength, $longerLegend);
                     }
 
                     // Convert midline
-                    foreach($hsp['midline'] as &$line) {
+                    foreach ($hsp['midline'] as &$line) {
                         // In the midline, the number of spaces is
                         // the length of the longer legend + 1 for the space between the legend and the sequence
-                        $line = str_repeat("&nbsp;", $longerLegend + 1).$line;
+                        $line = str_repeat('&nbsp;', $longerLegend + 1).$line;
                     }
 
                     // Convert hit sequences
                     $from = $hsp['hit_from'];
                     $to = null;
                     $frame = $hsp['hit_frame'];
-                    foreach($hsp['hseq'] as &$line) {
+                    foreach ($hsp['hseq'] as &$line) {
                         $convertLine($from, $to, $frame, $line, $hitLegend, $hitLegendLength, $longerLegend);
                     }
 

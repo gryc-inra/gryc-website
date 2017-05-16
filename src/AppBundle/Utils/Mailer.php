@@ -4,7 +4,6 @@
 
 namespace AppBundle\Utils;
 
-use AppBundle\Entity\ContactUs;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -32,10 +31,10 @@ class Mailer
     /**
      * Fonction principale d'envois de mail, défini les attributs de SwiftMailer.
      *
-     * @param array $from
+     * @param array        $from
      * @param array|string $to
-     * @param string $subject
-     * @param string $body
+     * @param string       $subject
+     * @param string       $body
      */
     protected function sendEmailMessage($from, $to, $subject, $body)
     {
@@ -87,7 +86,7 @@ class Mailer
     }
 
     /**
-     * Send the contact message
+     * Send the contact message.
      *
      * @param $data
      */
@@ -104,7 +103,7 @@ class Mailer
     }
 
     /**
-     * Send a confirmation message to the user
+     * Send a confirmation message to the user.
      *
      * @param $data
      */
