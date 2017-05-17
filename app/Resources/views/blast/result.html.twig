@@ -170,15 +170,33 @@
                             <th>Score</th>
                             <th>Expect</th>
                             <th>Identities</th>
+                            {% if 'blastn' != result.blast_tool %}
+                                <th>Positives</th>
+                            {% endif %}
                             <th>Gaps</th>
-                            <th>Strand</th>
+                            {% if 'blastp' != result.blast_tool %}
+                                <th>Frame</th>
+                            {% endif %}
                         </tr>
                         <tr>
-                            <td>{{ hsp.bit_score }}</td>
+                            <td>{{ hsp.bit_score|round(0, 'floor') }} bits ({{ hsp.score }})</td>
                             <td>{{ hsp.evalue }}</td>
-                            <td>{{ hsp.identity }}/{{ query.query_len }} ({{  (hsp.identity / query.query_len * 100)|round(2)}} %)</td>
-                            <td>{{ hsp.gaps }}/{{ query.query_len }} ({{  (hsp.gaps / query.query_len * 100)|round(2) }} %)</td>
-                            <td>{{ hsp.query_strand }}/{{ hsp.hit_strand }}</td>
+                            <td>{{ hsp.identity }}/{{ hsp.align_len }} ({{  (hsp.identity / hsp.align_len * 100)|round(2)}} %)</td>
+                            {# The Positives field is displayed for all, expect for blastn #}
+                            {% if 'blastn' != result.blast_tool %}
+                                <td>{{ hsp.positive }}/{{ hsp.align_len }} ({{  (hsp.positive / hsp.align_len * 100)|round(2)}} %)</td>
+                            {% endif %}
+                            <td>{{ hsp.gaps }}/{{ hsp.align_len }} ({{  (hsp.gaps / hsp.align_len * 100)|round(2) }} %)</td>
+                            {# The Frame display depend on the tool #}
+                            {% if 'blastn' == result.blast_tool %}
+                                <td>{{ 1 == hsp.query_frame ? 'Plus' : 'Minus' }}/{{ 1 == hsp.hit_frame ? 'Plus' : 'Minus' }}</td>
+                            {% elseif 'tblastn'  == result.blast_tool %}
+                                <td>{{ hsp.hit_frame > 0 ? '+' ~ hsp.hit_frame : hsp.hit_frame }}</td>
+                            {% elseif 'blastx'  == result.blast_tool %}
+                                <td>{{ hsp.query_frame > 0 ? '+' ~ hsp.query_frame : hsp.query_frame }}</td>
+                            {% elseif 'tblastx'  == result.blast_tool %}
+                                <td>{{ hsp.query_frame > 0 ? '+' ~ hsp.query_frame : hsp.query_frame }}/{{ hsp.hit_frame > 0 ? '+' ~ hsp.hit_frame : hsp.hit_frame }}</td>
+                            {% endif %}
                         </tr>
                     </table>
                     <div class="blast-alignment">

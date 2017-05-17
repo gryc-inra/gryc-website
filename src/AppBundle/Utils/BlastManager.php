@@ -174,6 +174,7 @@ class BlastManager
                     // Add param to the HSP
                     $hsp['num'] = $node->filterXPath('//Hsp_num')->text();
                     $hsp['bit_score'] = $node->filterXPath('//Hsp_bit-score')->text();
+                    $hsp['score'] = $node->filterXPath('//Hsp_score')->text();
                     $hsp['evalue'] = $node->filterXPath('//Hsp_evalue')->text();
                     $hsp['query_from'] = $node->filterXPath('//Hsp_query-from')->text();
                     $hsp['query_to'] = $node->filterXPath('//Hsp_query-to')->text();
@@ -182,6 +183,7 @@ class BlastManager
                     $hsp['query_frame'] = $node->filterXPath('//Hsp_query-frame')->text();
                     $hsp['hit_frame'] = $node->filterXPath('//Hsp_hit-frame')->text();
                     $hsp['identity'] = $node->filterXPath('//Hsp_identity')->text();
+                    $hsp['positive'] = $node->filterXPath('//Hsp_positive')->text();
                     $hsp['gaps'] = $node->filterXPath('//Hsp_gaps')->text();
                     $hsp['align_len'] = $node->filterXPath('//Hsp_align-len')->text();
                     $hsp['qseq'] = str_split($node->filterXPath('//Hsp_qseq')->text(), 60);
@@ -216,12 +218,12 @@ class BlastManager
                     $longerLegendLength = $maxLegendLength + 1 + $maxDigitLength;
 
                     // Convert line function
-                    $convertLine = function (int &$from, int $strand, int $step, &$line, $legend, int $legendLength, int $longerLegendLength) {
+                    $convertLine = function (int &$from, int $frame, int $step, &$line, $legend, int $legendLength, int $longerLegendLength) {
                         // The line length, is the number of char - the number of gap (-)
                         $lineLength = (strlen($line) - substr_count($line, '-')) * $step - 1;
 
                         // Set $to, depending on the strand
-                        if (1 === $strand) {
+                        if ($frame >= 0) {
                             $to = ($from + $lineLength);
                         } else {
                             $to = ($from - $lineLength);
@@ -235,7 +237,7 @@ class BlastManager
                         $line = $lineLegend.$from.' '.$line.' '.$to;
 
                         // At the end, edit the from value, depending on the strand
-                        if (1 === $strand) {
+                        if ($frame >= 0) {
                             $from = $to + 1;
                         } else {
                             $from = $to - 1;
@@ -249,6 +251,23 @@ class BlastManager
                     } elseif ('blastx' === $result['blast_tool']) {
                         $step['query'] = 3;
                         $step['hit'] = 1;
+
+                        if ($hsp['query_frame'] < 1) {
+                            $from = $hsp['query_from'];
+                            $to = $hsp['query_to'];
+                            $hsp['query_from'] = $to;
+                            $hsp['query_to'] = $from;
+                        }
+                    } elseif ('tblastx' === $result['blast_tool']) {
+                        $step['query'] = 3;
+                        $step['hit'] = 3;
+
+                        if ($hsp['query_frame'] < 1) {
+                            $from = $hsp['query_from'];
+                            $to = $hsp['query_to'];
+                            $hsp['query_from'] = $to;
+                            $hsp['query_to'] = $from;
+                        }
                     } else {
                         $step['query'] = 1;
                         $step['hit'] = 1;
@@ -257,7 +276,7 @@ class BlastManager
                     // Convert query sequences
                     $from = $hsp['query_from'];
                     foreach ($hsp['qseq'] as &$line) {
-                        $convertLine($from, $hsp['query_strand'], $step['query'], $line, $queryLegend, $queryLegendLength, $longerLegendLength);
+                        $convertLine($from, $hsp['query_frame'], $step['query'], $line, $queryLegend, $queryLegendLength, $longerLegendLength);
                     }
 
                     // Convert midline
@@ -272,7 +291,7 @@ class BlastManager
                     // Convert hit sequences
                     $from = $hsp['hit_from'];
                     foreach ($hsp['hseq'] as &$line) {
-                        $convertLine($from, $hsp['hit_strand'], $step['hit'], $line, $hitLegend, $hitLegendLength, $longerLegendLength);
+                        $convertLine($from, $hsp['hit_frame'], $step['hit'], $line, $hitLegend, $hitLegendLength, $longerLegendLength);
                     }
 
                     // Draw or not the HSP on the graphic ?
