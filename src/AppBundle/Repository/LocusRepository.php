@@ -56,24 +56,31 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
 
     public function findLocusFromProduct($productName)
     {
-        $query = $this->createQueryBuilder('locus')
+        $qb = $this->createQueryBuilder('locus')
             ->leftJoin('locus.features', 'features')
-            ->addSelect('features')
+                ->addSelect('features')
             ->leftJoin('features.productsFeatures', 'products')
-            ->addSelect('products')
+                ->addSelect('products')
             ->leftJoin('locus.chromosome', 'chromosome')
-            ->addSelect('chromosome')
+                ->addSelect('chromosome')
             ->leftJoin('chromosome.dnaSequence', 'dnaSequence')
-            ->addSelect('dnaSequence')
+                ->addSelect('dnaSequence')
             ->leftJoin('chromosome.strain', 'strain')
-            ->addSelect('strain')
+                ->addSelect('strain')
             ->leftJoin('strain.species', 'species')
-            ->addSelect('species')
-            ->where('products.name = :productName')
-            ->setParameter('productName', $productName)
-            ->getQuery();
+                ->addSelect('species');
 
-        return $query->getOneOrNullResult();
+        if (is_array($productName)) {
+            $qb->where('products.name IN(:productName)')
+                ->setParameter('productName', $productName);
+
+            return $qb->getQuery()->getResult();
+        } else {
+            $qb->where('products.name = :productName')
+                ->setParameter('productName', $productName);
+
+            return $qb->getQuery()->getOneOrNullResult();
+        }
     }
 
     public function findLocusById($ids)

@@ -145,12 +145,25 @@
 
                 {% for hit in query.hits %}
                     <tr>
-                        <td><a href="{{ path('locus_view_short', { 'locus_name': hit.name }) }}">{{ hit.name }}</a></td>
+                        <td>
+                            <a href="{{ path('locus_view', {
+                                'species_slug': hit.locus_entity.chromosome.strain.species.slug,
+                                'strain_slug': hit.locus_entity.chromosome.strain.slug,
+                                'chromosome_slug': hit.locus_entity.chromosome.slug,
+                                'locus_name': hit.locus_entity.name
+                            }) }}">
+                                {{ hit.name }}
+                            </a>
+                        </td>
                         <td>{{ hit.desc }}</td>
                         <td>{{ hit.hsps.0.bit_score }}</td>
                         <td>{{ hit.hsps.0.evalue }}</td>
                         <td>{{ hit.hsps.0.identity }}</td>
-                        <td><a href="#" class="btn btn-default btn-xs">Link</a></td>
+                        <td>
+                            <a href="{{ path('cart_add', { 'id': hit.locus_entity.id }) }}" class="btn btn-default btn-xs cart-add-btn">
+                                <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
             </table>
@@ -158,7 +171,14 @@
             <h3 id="{{ "query-alignment-" ~ query.query_num }}">Pairwise alignment details</h3>
             {% for hit in query.hits %}
                 <div class="well" id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num }}">
-                    <a href="{{ path('locus_view_short', { 'locus_name': hit.name }) }}">{{ hit.name }}</a><br />
+                    <a href="{{ path('locus_view', {
+                        'species_slug': hit.locus_entity.chromosome.strain.species.slug,
+                        'strain_slug': hit.locus_entity.chromosome.strain.slug,
+                        'chromosome_slug': hit.locus_entity.chromosome.slug,
+                        'locus_name': hit.locus_entity.name
+                    }) }}">
+                        {{ hit.name }}
+                    </a><br />
                     <b>Description:</b> {{ hit.desc }}<br />
                     <b>Length:</b> {{ hit.len }}
                 </div>

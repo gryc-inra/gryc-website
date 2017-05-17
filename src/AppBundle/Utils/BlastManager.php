@@ -212,6 +212,8 @@ class BlastManager
             });
         });
 
+        $result = $this->getBlastEntities($result);
+
         return $result;
     }
 
@@ -325,5 +327,28 @@ class BlastManager
          * Return the $hsp
          */
         return $hsp;
+    }
+
+    private function getBlastEntities(array $blastResult)
+    {
+        $hits = [];
+        foreach ($blastResult['iterations'] as $query) {
+            foreach ($query['hits'] as $hit) {
+                if (!in_array($hit['name'], $hits)) {
+                    $hits[] = $hit['name'];
+                }
+            }
+        }
+
+        $entities = $this->em->getRepository('AppBundle:Locus')->findLocusFromProduct($hits);
+        $hits = array_combine($hits, $entities);
+
+        foreach ($blastResult['iterations'] as &$query) {
+            foreach ($query['hits'] as &$hit) {
+                $hit['locus_entity'] = $hits[$hit['name']];
+            }
+        }
+
+        return $blastResult;
     }
 }
