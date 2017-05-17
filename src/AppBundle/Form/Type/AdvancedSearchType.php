@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Strain;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -39,7 +40,7 @@ class AdvancedSearchType extends AbstractType
                         ->orWhere('authorizedUsers = :user')
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
-                'choice_label' => function ($strain) {
+                'choice_label' => function (Strain $strain) {
                     return $strain->getSpecies()->getScientificName().' '.$strain->getName();
                 },
                 'group_by' => 'species.scientificName',

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Strain;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -53,7 +54,7 @@ class BlastType extends AbstractType
                 },
                 'choice_value' => 'id',
                 'choice_label' => 'name',
-                'group_by' => function ($strain) {
+                'group_by' => function (Strain $strain) {
                     return $strain->getSpecies()->getScientificName();
                 },
                 'multiple' => true,
