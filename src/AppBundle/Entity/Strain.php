@@ -137,7 +137,7 @@ class Strain
      *
      * @var User|ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="authorizedStrains")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="authorizedStrains")
      */
     private $authorizedUsers;
 

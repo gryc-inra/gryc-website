@@ -104,7 +104,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @var Strain|ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Strain", inversedBy="authorizedUsers")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="authorizedUsers")
      */
     private $authorizedStrains;
 
@@ -492,9 +492,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function addAuthorizedStrain(Strain $strain)
     {
-        if (!$this->authorizedStrains->contains($strain)) {
-            $this->authorizedStrains[] = $strain;
-        }
+        $this->authorizedStrains[] = $strain;
 
         return $this;
     }
@@ -506,9 +504,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function removeAuthorizedStrain(Strain $strain)
     {
-        if ($this->authorizedStrains->contains($strain)) {
-            $this->authorizedStrains->removeElement($strain);
-        }
+        $this->authorizedStrains->removeElement($strain);
     }
 
     /**

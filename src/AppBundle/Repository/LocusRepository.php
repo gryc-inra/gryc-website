@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Strain;
 
 /**
  * LocusRepository.
@@ -96,6 +97,23 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('species')
             ->where('locus.id IN (:id)')
                 ->setParameter('id', $ids)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findLocusFromStrain(Strain $strain)
+    {
+        $query = $this->createQueryBuilder('locus')
+            ->leftJoin('locus.chromosome', 'chromosome')
+                ->addSelect('chromosome')
+            ->leftJoin('chromosome.strain', 'strain')
+                ->addSelect('strain')
+            ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
+                ->addSelect('authorizedUsers')
+            ->where('strain = :strain')
+                ->setParameter('strain', $strain->getId())
+
             ->getQuery();
 
         return $query->getResult();
