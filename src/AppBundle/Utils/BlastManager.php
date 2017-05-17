@@ -107,7 +107,7 @@ class BlastManager
         return;
     }
 
-    public function xmlToArray($xml)
+    public function xmlToArray($xml, $formData)
     {
         $crawler = new Crawler();
         $crawler->addXmlContent($xml);
@@ -210,7 +210,7 @@ class BlastManager
             });
         });
 
-        $result = $this->getBlastEntities($result);
+        $result = $this->getBlastEntities($result, $formData);
 
         return $result;
     }
@@ -327,8 +327,13 @@ class BlastManager
         return $hsp;
     }
 
-    private function getBlastEntities(array $blastResult)
+    private function getBlastEntities(array $blastResult, $formData)
     {
+        // If the user don't blast against CDS, return
+        if ('chr' === $formData->database) {
+            return $blastResult;
+        }
+
         $hits = [];
         foreach ($blastResult['iterations'] as $query) {
             foreach ($query['hits'] as $hit) {

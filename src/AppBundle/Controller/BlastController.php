@@ -56,7 +56,7 @@ class BlastController extends Controller
     public function viewAction(Job $job)
     {
         if (null !== $job->getResult() && !is_numeric($job->getResult())) {
-            $result = $this->get('app.blast_manager')->xmlToArray($job->getResult());
+            $result = $this->get('app.blast_manager')->xmlToArray($job->getResult(), $job->getFormData());
         } else {
             $result = null;
         }
