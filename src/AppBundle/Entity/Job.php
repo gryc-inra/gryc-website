@@ -40,7 +40,7 @@ class Job
      *
      * @var string
      *
-     * @ORM\Column(name="formData", type="text")
+     * @ORM\Column(name="formData", type="array")
      */
     private $formData;
 

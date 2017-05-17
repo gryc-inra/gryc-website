@@ -327,7 +327,7 @@ class BlastManager
         return $hsp;
     }
 
-    private function getBlastEntities(array $blastResult, $formData)
+    private function getBlastEntities(array $blastResult, \stdClass $formData)
     {
         // If the user don't blast against CDS, return
         if ('chr' === $formData->database) {
