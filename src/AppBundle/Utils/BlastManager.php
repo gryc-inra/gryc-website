@@ -190,109 +190,8 @@ class BlastManager
                     $hsp['midline'] = str_split($node->filterXPath('//Hsp_midline')->text(), 60);
                     $hsp['hseq'] = str_split($node->filterXPath('//Hsp_hseq')->text(), 60);
 
-                    // Define the strand
-                    if (($hsp['query_to'] - $hsp['query_from']) > 0) {
-                        $hsp['query_strand'] = 1;
-                    } else {
-                        $hsp['query_strand'] = -1;
-                    }
-
-                    if (($hsp['hit_to'] - $hsp['hit_from']) > 0) {
-                        $hsp['hit_strand'] = 1;
-                    } else {
-                        $hsp['hit_strand'] = -1;
-                    }
-
-                    // Prepare the alignment lines
-                    // Set the legend names
-                    $queryLegend = 'Query';
-                    $hitLegend = 'Hit';
-                    // Calculate the legend size
-                    $queryLegendLength = strlen($queryLegend);
-                    $hitLegendLength = strlen($hitLegend);
-                    // Then, which legend is the longer ?
-                    $maxLegendLength = max($queryLegendLength, $hitLegendLength);
-                    // What is the max digit length ?
-                    $maxDigitLength = strlen(max($hsp['query_from'], $hsp['query_to'], $hsp['hit_from'], $hsp['hit_to']));
-                    // Calculate the length of the longer legend (add 1 for the space between legend and number)
-                    $longerLegendLength = $maxLegendLength + 1 + $maxDigitLength;
-
-                    // Convert line function
-                    $convertLine = function (int &$from, int $frame, int $step, &$line, $legend, int $legendLength, int $longerLegendLength) {
-                        // The line length, is the number of char - the number of gap (-)
-                        $lineLength = (strlen($line) - substr_count($line, '-')) * $step - 1;
-
-                        // Set $to, depending on the strand
-                        if ($frame >= 0) {
-                            $to = ($from + $lineLength);
-                        } else {
-                            $to = ($from - $lineLength);
-                        }
-
-                        // Calculate the number of spaces to add between the legend and the position
-                        $nbSpaces = $longerLegendLength - $legendLength - strlen($from);
-                        $lineLegend = $legend.str_repeat('&nbsp;', $nbSpaces);
-
-                        // Edit the line by adding the legend, and start/stop positions
-                        $line = $lineLegend.$from.' '.$line.' '.$to;
-
-                        // At the end, edit the from value, depending on the strand
-                        if ($frame >= 0) {
-                            $from = $to + 1;
-                        } else {
-                            $from = $to - 1;
-                        }
-                    };
-
-                    // Define the step
-                    if ('tblastn' === $result['blast_tool']) {
-                        $step['query'] = 1;
-                        $step['hit'] = 3;
-                    } elseif ('blastx' === $result['blast_tool']) {
-                        $step['query'] = 3;
-                        $step['hit'] = 1;
-
-                        if ($hsp['query_frame'] < 1) {
-                            $from = $hsp['query_from'];
-                            $to = $hsp['query_to'];
-                            $hsp['query_from'] = $to;
-                            $hsp['query_to'] = $from;
-                        }
-                    } elseif ('tblastx' === $result['blast_tool']) {
-                        $step['query'] = 3;
-                        $step['hit'] = 3;
-
-                        if ($hsp['query_frame'] < 1) {
-                            $from = $hsp['query_from'];
-                            $to = $hsp['query_to'];
-                            $hsp['query_from'] = $to;
-                            $hsp['query_to'] = $from;
-                        }
-                    } else {
-                        $step['query'] = 1;
-                        $step['hit'] = 1;
-                    }
-
-                    // Convert query sequences
-                    $from = $hsp['query_from'];
-                    foreach ($hsp['qseq'] as &$line) {
-                        $convertLine($from, $hsp['query_frame'], $step['query'], $line, $queryLegend, $queryLegendLength, $longerLegendLength);
-                    }
-
-                    // Convert midline
-                    foreach ($hsp['midline'] as &$line) {
-                        // Replace spaces by &nbsp; in the midline toavoid display bug when there is many spaces collapsed
-                        $line = str_replace(' ', '&nbsp;', $line);
-                        // In the midline, the number of spaces is
-                        // the length of the longer legend + 1 for the space between the legend and the sequence
-                        $line = str_repeat('&nbsp;', $longerLegendLength + 1).$line;
-                    }
-
-                    // Convert hit sequences
-                    $from = $hsp['hit_from'];
-                    foreach ($hsp['hseq'] as &$line) {
-                        $convertLine($from, $hsp['hit_frame'], $step['hit'], $line, $hitLegend, $hitLegendLength, $longerLegendLength);
-                    }
+                    // Adapt the alignment, to be displayed directly in twig
+                    $hsp = $this->createAlignment($hsp, $result['blast_tool']);
 
                     // Draw or not the HSP on the graphic ?
                     // if the hsp coordinate are in the previous hsp coordinate range, do not draw
@@ -314,5 +213,117 @@ class BlastManager
         });
 
         return $result;
+    }
+
+    private function createAlignment($hsp, $blastTool)
+    {
+        /*
+         * LEGEND
+         */
+
+        // Set the legend names
+        $queryLegend = 'Query';
+        $hitLegend = 'Hit';
+        // Calculate the legend size
+        $queryLegendLength = strlen($queryLegend);
+        $hitLegendLength = strlen($hitLegend);
+        // Then, which legend is the longer ?
+        $maxLegendLength = max($queryLegendLength, $hitLegendLength);
+        // What is the max digit length ?
+        $maxDigitLength = strlen(max($hsp['query_from'], $hsp['query_to'], $hsp['hit_from'], $hsp['hit_to']));
+        // Calculate the length of the longer legend (add 1 for the space between legend and number)
+        $longerLegendLength = $maxLegendLength + 1 + $maxDigitLength;
+
+        /*
+         * The line converter function
+         */
+        $convertLine = function (int &$from, int $frame, int $step, &$line, $legend, int $legendLength, int $longerLegendLength) {
+            // The line length, is the number of char - the number of gap (-)
+            $lineLength = (strlen($line) - substr_count($line, '-')) * $step - 1;
+
+            // Set $to, depending on the strand
+            if ($frame >= 0) {
+                $to = ($from + $lineLength);
+            } else {
+                $to = ($from - $lineLength);
+            }
+
+            // Calculate the number of spaces to add between the legend and the position
+            $nbSpaces = $longerLegendLength - $legendLength - strlen($from);
+            $lineLegend = $legend.str_repeat('&nbsp;', $nbSpaces);
+
+            // Edit the line by adding the legend, and start/stop positions
+            $line = $lineLegend.$from.' '.$line.' '.$to;
+
+            // At the end, edit the from value, depending on the strand
+            if ($frame >= 0) {
+                $from = $to + 1;
+            } else {
+                $from = $to - 1;
+            }
+        };
+
+        /*
+         * Set some parameters depending on the blast tool
+         */
+        if ('tblastn' === $blastTool) { // for the tblastn
+            $step['query'] = 1;
+            $step['hit'] = 3;
+        } elseif ('blastx' === $blastTool) { // for blastx
+            $step['query'] = 3;
+            $step['hit'] = 1;
+
+            // Maybe a bug in blast, but the from and to, aren't inversed, we do it here
+            if ($hsp['query_frame'] < 1) {
+                $from = $hsp['query_from'];
+                $to = $hsp['query_to'];
+                $hsp['query_from'] = $to;
+                $hsp['query_to'] = $from;
+            }
+        } elseif ('tblastx' === $blastTool) { //for tblastx
+            $step['query'] = 3;
+            $step['hit'] = 3;
+
+            // Maybe a bug in blast, but the from and to, aren't inversed, we do it here
+            if ($hsp['query_frame'] < 1) {
+                $from = $hsp['query_from'];
+                $to = $hsp['query_to'];
+                $hsp['query_from'] = $to;
+                $hsp['query_to'] = $from;
+            }
+        } else { // default parameters: for blastn and blastp
+            $step['query'] = 1;
+            $step['hit'] = 1;
+        }
+
+        /*
+         * Convert the sequences
+         */
+
+        // Convert query sequences
+        $from = $hsp['query_from'];
+        foreach ($hsp['qseq'] as &$line) {
+            $convertLine($from, $hsp['query_frame'], $step['query'], $line, $queryLegend, $queryLegendLength, $longerLegendLength);
+        }
+
+        // Convert midline
+        foreach ($hsp['midline'] as &$line) {
+            // Replace spaces by &nbsp; in the midline toavoid display bug when there is many spaces collapsed
+            $line = str_replace(' ', '&nbsp;', $line);
+            // In the midline, the number of spaces is
+            // the length of the longer legend + 1 for the space between the legend and the sequence
+            $line = str_repeat('&nbsp;', $longerLegendLength + 1).$line;
+        }
+
+        // Convert hit sequences
+        $from = $hsp['hit_from'];
+        foreach ($hsp['hseq'] as &$line) {
+            $convertLine($from, $hsp['hit_frame'], $step['hit'], $line, $hitLegend, $hitLegendLength, $longerLegendLength);
+        }
+
+        /*
+         * Return the $hsp
+         */
+        return $hsp;
     }
 }
