@@ -15,15 +15,13 @@ class BlastManager
     private $tokenGenerator;
     private $em;
     private $eventDispatcher;
-    private $twig;
     private $rootDir;
 
-    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher, \Twig_Environment $twig, $rootDir)
+    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher, $rootDir)
     {
         $this->tokenGenerator = $tokenGenerator;
         $this->em = $em;
         $this->eventDispatcher = $eventDispatcher;
-        $this->twig = $twig;
         $this->rootDir = $rootDir;
     }
 

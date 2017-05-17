@@ -5,20 +5,12 @@ namespace AppBundle\Security;
 use AppBundle\Entity\Strain;
 use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class StrainVoter extends Voter
 {
     // List possible actions
     const VIEW = 'VIEW';
-
-    private $decisionManager;
-
-    public function __construct(AccessDecisionManagerInterface $decisionManager)
-    {
-        $this->decisionManager = $decisionManager;
-    }
 
     protected function supports($attribute, $subject)
     {

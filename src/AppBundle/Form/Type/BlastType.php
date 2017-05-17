@@ -15,19 +15,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
 class BlastType extends AbstractType
 {
-    private $session;
     private $tokenStorage;
 
-    public function __construct(Session $session, TokenStorage $tokenStorage)
+    public function __construct(TokenStorage $tokenStorage)
     {
-        $this->session = $session;
         $this->tokenStorage = $tokenStorage;
     }
 

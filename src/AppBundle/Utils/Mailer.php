@@ -6,7 +6,6 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Service Mailer, permettant d'envoyer les mails.
@@ -19,13 +18,11 @@ class Mailer
     protected $templating;
     private $from = 'gryc.inra@gmail.com';
     private $name = 'GRYC - The yeast genomics database';
-    private $tokenStorage;
 
-    public function __construct($mailer, EngineInterface $templating, TokenStorageInterface $tokenStorage)
+    public function __construct($mailer, EngineInterface $templating)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
-        $this->tokenStorage = $tokenStorage;
     }
 
     /**

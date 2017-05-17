@@ -30,7 +30,7 @@ services:
 # Utils
     app.mailer:
         class: AppBundle\Utils\Mailer
-        arguments: ["@mailer", "@templating", "@security.token_storage"]
+        arguments: ["@mailer", "@templating"]
 
     app.token_generator:
         class: AppBundle\Utils\TokenGenerator
@@ -51,7 +51,7 @@ services:
 
     app.blast_manager:
         class:  AppBundle\Utils\BlastManager
-        arguments: ["@app.token_generator","@doctrine.orm.entity_manager", "@event_dispatcher", "@twig", "%kernel.root_dir%"]
+        arguments: ["@app.token_generator","@doctrine.orm.entity_manager", "@event_dispatcher", "%kernel.root_dir%"]
 
 # Listeners
     app.event_listener.user:
@@ -81,14 +81,13 @@ services:
 
     app.form_type.blast:
         class: AppBundle\Form\Type\BlastType
-        arguments: ["@session","@security.token_storage"]
+        arguments: ["@security.token_storage"]
         tags:
             - { name: form.type }
 
 # Voters
     app.voter.strain:
         class: AppBundle\Security\StrainVoter
-        arguments: ["@security.access.decision_manager"]
         tags:
             - { name: security.voter }
         public: false
