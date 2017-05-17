@@ -35,15 +35,15 @@ class FileController extends Controller
     public function downloadZipFlatFileAction($strainName, $featureType, $molType, $format)
     {
         $em = $this->getDoctrine()->getManager();
-        $strain = $em->getRepository('AppBundle:Strain')->findOneByName($strainName);
-        $files = $em->getRepository('AppBundle:FlatFile')->findByStrainFeatureMolFormat($strainName, $featureType, $molType, $format);
 
-        if (null === $strain) {
+        if (null === $strain = $em->getRepository('AppBundle:Strain')->findOneByName($strainName)) {
             throw $this->createNotFoundException("This strain doen't exists.");
         }
-
+        // If the user have not access to the strain, deny access
         $this->denyAccessUnlessGranted('VIEW', $strain);
 
+        // Get files and create the zip name
+        $files = $em->getRepository('AppBundle:FlatFile')->findByStrainFeatureMolFormat($strainName, $featureType, $molType, $format);
         $zipname = $this->get('kernel')->getRootDir().'/../protected-files/temp/'.uniqid().'.zip';
 
         if (!$zip = new \ZipArchive()) {

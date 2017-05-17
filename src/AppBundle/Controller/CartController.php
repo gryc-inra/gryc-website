@@ -94,13 +94,11 @@ class CartController extends Controller
             }
 
             $fileName = 'Gryc-cart-export-'.date('Y-m-d_h:i:s');
-
             $response = new StreamedResponse();
             $response->setCallback(function () use ($form, $cartElements) {
                 $fastaGenerator = new FastaGenerator();
                 $fastaGenerator->generateFasta($form->getData(), $cartElements);
             });
-
             $response->setStatusCode(200);
             $response->headers->set('Content-Type', 'text/plain; charset=utf-8');
             $response->headers->set('Content-Disposition', 'attachment; filename="'.$fileName.'.fasta"');
