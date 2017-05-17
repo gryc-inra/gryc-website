@@ -62,10 +62,6 @@ class StrainVoter extends Voter
             return true;
         }
 
-//        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
-//            return true;
-//        }
-
         return false;
     }
 }
