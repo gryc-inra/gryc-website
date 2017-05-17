@@ -129,46 +129,6 @@ class SpeciesAdminController extends Controller
      */
     public function getJsonAction($taxid)
     {
-        // Retrieve the page content (xml code)
-        $xmlString = file_get_contents(self::NCBI_TAXONOMY_API_LINK.$taxid);
-
-        // Create a crawler and give the xml code to it
-        $crawler = new Crawler($xmlString);
-
-        // Initialise the response
-        $response = [];
-
-        // Count the number of taxon tag, if different of 0 there are contents, else the document is empty, it's because the Taxon Id doesn't exists
-        if (0 !== $crawler->filterXPath('//TaxaSet/Taxon')->count()) {
-            // If the tag Rank contain 'species', the Id match on a species, else, it's not correct.
-            if ('species' === $crawler->filterXPath('//TaxaSet/Taxon/Rank')->text()) {
-                // Use the crawler to crawl the document and fill the response
-                $response['scientificName'] = $crawler->filterXPath('//TaxaSet/Taxon/ScientificName')->text();
-
-                // Explode the scientific name to retrieve: genus and species
-                $scientificNameExploded = explode(' ', $response['scientificName']);
-                $response['genus'] = $scientificNameExploded[0];
-                $response['species'] = $scientificNameExploded[1];
-
-                $response['geneticCode'] = $crawler->filterXPath('//TaxaSet/Taxon/GeneticCode/GCId')->text();
-                $response['mitoCode'] = $crawler->filterXPath('//TaxaSet/Taxon/MitoGeneticCode/MGCId')->text();
-                $response['lineages'] = explode('; ', $crawler->filterXPath('//TaxaSet/Taxon/Lineage')->text());
-
-                // He re count the number of synonym tag, if the count is different to 0, there are synonymes
-                if (0 !== $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->count()) {
-                    // Use a closure on the tag Synonym to extract all synonymes and fill an array
-                    $synonymes = $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->each(function (Crawler $node) {
-                        return $node->text();
-                    });
-                    $response['synonymes'] = $synonymes;
-                }
-            } else {
-                $response['error'] = 'This ID does not match on a species';
-            }
-        } else {
-            $response['error'] = 'This ID does not exists';
-        }
-
-        return new JsonResponse($response);
+        return new JsonResponse($this->get('app.taxid')->getArray($taxid));
     }
 }

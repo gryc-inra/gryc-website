@@ -46,6 +46,9 @@ services:
     app.sequence_manipulator:
         class: AppBundle\Utils\SequenceManipulator
 
+    app.taxid:
+        class: AppBundle\Utils\TaxId
+
     app.blast_manager:
         class:  AppBundle\Utils\BlastManager
         arguments: ["@app.token_generator","@doctrine.orm.entity_manager", "@event_dispatcher", "@twig", "%kernel.root_dir%"]
