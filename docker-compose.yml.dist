@@ -25,7 +25,7 @@ services:
 
     db:
         container_name: grycii-db
-        image: mariadb:latest
+        image: mariadb:10.1.23
         environment:
             - MYSQL_ROOT_PASSWORD=grycii
             - MYSQL_USER=grycii

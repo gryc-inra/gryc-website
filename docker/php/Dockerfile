@@ -1,4 +1,4 @@
-FROM php:7-fpm
+FROM php:7.1.5-fpm
 
 # Install git and libraries for php extensions
 RUN apt-get update && \
