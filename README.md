@@ -23,7 +23,7 @@ These explanations are for install the project under Docker.
 7. The first time, you need to use `docker-compose up -d` to create containers, networks and volumes. Next, just use `docker-compose start`
 
 Now you have containers with nginx, php, mariadb and elasticsearch, config the app to work with the containers, and init the app:
-    
+
 1. Install CSS, JS, and Fonts with Bower and Grunt `npm install` to install Grunt dependencies, `bower install` to download Bootstrap, jQuery, ... and `grunt default` to execute uglify (you need to have Bower and GruntJS installed)
 1. Set the rights to allow PHP create files (in container www-data user have UID 33):
     ```bash
@@ -64,6 +64,16 @@ Now you have containers with nginx, php, mariadb and elasticsearch, config the a
     ```bash
     bin/console cache:clear --no-warmup
     bin/console cache:warmup
+    ```
+
+9. Use the same method to go in the db container, and create this table:
+    ```sql
+    CREATE TABLE `sessions` (
+        `sess_id` VARCHAR(128) NOT NULL PRIMARY KEY,
+        `sess_data` BLOB NOT NULL,
+        `sess_time` INTEGER UNSIGNED NOT NULL,
+        `sess_lifetime` MEDIUMINT NOT NULL
+    ) COLLATE utf8_bin, ENGINE = InnoDB;
     ```
 
 Any files and folders created by PHP or in the container are root on the host machine. You have to do a chown command each time you want edit files (eg: with the bin/console doctrine:entity).

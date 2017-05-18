@@ -8,6 +8,14 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
+# Session handler
+    session.handler.pdo:
+        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        public:    false
+        arguments:
+            - 'mysql:host=%database_host%;port=%database_port%;dbname=%database_name%'
+            - { db_username: "%env(DATABASE_USER)%", db_password: "%env(DATABASE_PASSWORD)%" }
+
 # Command
     app.command.my_command:
         class: AppBundle\Command\ImportStrainCommand
