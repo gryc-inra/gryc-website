@@ -2,7 +2,6 @@
 
 namespace AppBundle\SearchRepository;
 
-use AppBundle\Controller\SearchController;
 use AppBundle\Entity\User;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;

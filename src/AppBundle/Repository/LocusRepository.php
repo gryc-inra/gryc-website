@@ -75,7 +75,7 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('productName', $productName)
             ->getQuery();
 
-            return $query->getOneOrNullResult();
+        return $query->getOneOrNullResult();
     }
 
     public function findLocusFromProductWithoutDnaSequence($productName)
@@ -95,7 +95,7 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('productName', $productName)
             ->getQuery();
 
-            return $query->getResult();
+        return $query->getResult();
     }
 
     public function findLocusById($ids)
