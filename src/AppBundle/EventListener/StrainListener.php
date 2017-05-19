@@ -11,7 +11,8 @@ class StrainListener
     private $objectPersister;
     private $memoryLimit;
 
-    public function __construct(ObjectPersister $objectPersister, $memoryLimit) {
+    public function __construct(ObjectPersister $objectPersister, $memoryLimit)
+    {
         $this->objectPersister = $objectPersister;
         $this->memoryLimit = $memoryLimit;
     }
