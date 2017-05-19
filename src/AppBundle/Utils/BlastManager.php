@@ -343,7 +343,7 @@ class BlastManager
             }
         }
 
-        $entities = $this->em->getRepository('AppBundle:Locus')->findLocusFromProduct($hits);
+        $entities = $this->em->getRepository('AppBundle:Locus')->findLocusFromProductWithoutDnaSequence($hits);
         $hits = array_combine($hits, $entities);
 
         foreach ($blastResult['iterations'] as &$query) {

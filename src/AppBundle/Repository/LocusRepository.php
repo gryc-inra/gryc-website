@@ -58,7 +58,7 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
 
     public function findLocusFromProduct($productName)
     {
-        $qb = $this->createQueryBuilder('locus')
+        $query = $this->createQueryBuilder('locus')
             ->leftJoin('locus.features', 'features')
                 ->addSelect('features')
             ->leftJoin('features.productsFeatures', 'products')
@@ -70,19 +70,32 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('chromosome.strain', 'strain')
                 ->addSelect('strain')
             ->leftJoin('strain.species', 'species')
-                ->addSelect('species');
+                ->addSelect('species')
+            ->where('products.name = :productName')
+                ->setParameter('productName', $productName)
+            ->getQuery();
 
-        if (is_array($productName)) {
-            $qb->where('products.name IN(:productName)')
-                ->setParameter('productName', $productName);
+            return $query->getOneOrNullResult();
+    }
 
-            return $qb->getQuery()->getResult();
-        } else {
-            $qb->where('products.name = :productName')
-                ->setParameter('productName', $productName);
+    public function findLocusFromProductWithoutDnaSequence($productName)
+    {
+        $query = $this->createQueryBuilder('locus')
+            ->leftJoin('locus.features', 'features')
+                ->addSelect('features')
+            ->leftJoin('features.productsFeatures', 'products')
+                ->addSelect('products')
+            ->leftJoin('locus.chromosome', 'chromosome')
+                ->addSelect('chromosome')
+            ->leftJoin('chromosome.strain', 'strain')
+                ->addSelect('strain')
+            ->leftJoin('strain.species', 'species')
+                ->addSelect('species')
+            ->where('products.name IN(:productName)')
+                ->setParameter('productName', $productName)
+            ->getQuery();
 
-            return $qb->getQuery()->getOneOrNullResult();
-        }
+            return $query->getResult();
     }
 
     public function findLocusById($ids)
