@@ -54,6 +54,9 @@ services:
                 hard: 65536
         cap_add:
             - IPC_LOCK
+        ports:
+            - 127.0.0.1:9200:9200
+            - 127.0.0.1:9300:9300
         volumes:
             - es1_data:/usr/share/elasticsearch/data
             - ./docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
@@ -80,6 +83,14 @@ services:
         volumes:
             - es2_data:/usr/share/elasticsearch/data
             - ./docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+        networks:
+            - default
+
+    es-head:
+        container_name: grycii-elasticsearch-head
+        image: mobz/elasticsearch-head:5
+        ports:
+            - 127.0.0.1:9100:9100
         networks:
             - default
 

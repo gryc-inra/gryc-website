@@ -9,3 +9,7 @@ discovery.zen.minimum_master_nodes: 1
 # Disable xpack security (authentification)
 # Details: https://www.elastic.co/guide/en/x-pack/5.2/security-settings.html
 xpack.security.enabled: false
+
+# Do not use in prod, only dev for debug with ES-Head
+http.cors.enabled: true
+http.cors.allow-origin: "*"
