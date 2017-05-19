@@ -18,18 +18,25 @@
             {{ form_row(form.database) }}
             {{ form_row(form.strains) }}
             {{ form_row(form.query) }}
-            {{ form_row(form.filter) }}
-            {{ form_row(form.evalue) }}
-            {{ form_row(form.gapped) }}
-            {{ form_row(form.maxHits) }}
-            {{ form_row(form.matrix) }}
-            {{ form_row(form.otherOptions) }}
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-info"><span class="fa fa-cog" aria-hidden="true"></span> BLAST</button>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="reset" class="btn btn-default" onclick="event.preventDefault();document.getElementById('blast_query').value='';">
+                        Clear
+                    </button>
+                    <button type="submit" class="btn btn-info"><span class="fa fa-cog" aria-hidden="true"></span> BLAST</button>
+                </div>
             </div>
-        </div>
+
+            <fieldset>
+                <legend>Options</legend>
+                    {{ form_row(form.filter) }}
+                    {{ form_row(form.evalue) }}
+                    {{ form_row(form.gapped) }}
+                    {{ form_row(form.maxHits) }}
+                    {{ form_row(form.matrix) }}
+                    {{ form_row(form.otherOptions) }}
+            </fieldset>
         {{ form_end(form) }}
     </div>
 
@@ -50,8 +57,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $('#blast_strains').select2();
-
         var $blastType = $('#blast_blastType');
 
         // When genus gets selected ...
