@@ -63,14 +63,14 @@ fos_elastica:
                                     analyzer :        edge_ngram
                                     search_analyzer:  search
                     persistence:
-                      driver:                 orm
-                      model:                  AppBundle\Entity\User
-                      provider:               ~
-                      listener:               ~
-                      finder:                 ~
-                      repository:             AppBundle\SearchRepository\UserRepository
-                      elastica_to_model_transformer:
-                        ignore_missing: true
+                        driver:                 orm
+                        model:                  AppBundle\Entity\User
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\UserRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
                 locus:
                     properties:
                         name:
@@ -135,9 +135,11 @@ fos_elastica:
                                                     type:     text
                                                     analyzer: english_heavy
                     persistence:
-                      driver:                 orm
-                      model:                  AppBundle\Entity\Locus
-                      provider:               ~
-                      listener:               ~
-                      finder:                 ~
-                      repository:             AppBundle\SearchRepository\LocusRepository
+                        driver:                 orm
+                        model:                  AppBundle\Entity\Locus
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\LocusRepository
+                        elastica_to_model_transformer:
+                            query_builder_method: createSearchQueryBuilder
