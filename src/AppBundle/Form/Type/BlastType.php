@@ -44,15 +44,22 @@ class BlastType extends AbstractType
                 'class' => 'AppBundle\Entity\Strain',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('strain')
+                        ->leftJoin('strain.species', 'species')
+                            ->addSelect('species')
+                        ->leftJoin('species.clade', 'clade')
+                            ->addSelect('clade')
                         ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
+                        ->orderBy('species.scientificName', 'asc')
                         ->where('strain.public = true')
                         ->orWhere('authorizedUsers = :user')
-                        ->setParameter('user', $this->tokenStorage->getToken()->getUser());
+                            ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
                 'choice_value' => 'id',
-                'choice_label' => 'name',
+                'choice_label' => function (Strain $strain) {
+                    return $strain->getSpecies()->getScientificName().' ('.$strain->getName().')';
+                },
                 'group_by' => function (Strain $strain) {
-                    return $strain->getSpecies()->getScientificName();
+                    return $strain->getSpecies()->getGenus();
                 },
                 'multiple' => true,
             ])
