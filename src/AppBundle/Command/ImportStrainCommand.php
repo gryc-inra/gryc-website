@@ -284,7 +284,7 @@ class ImportStrainCommand extends ContainerAwareCommand
 
         // Test if Blast files exists
         $blastFilesName = ['cds_nucl.nhr', 'cds_nucl.nin', 'cds_nucl.nsq', 'cds_prot.phr', 'cds_prot.pin', 'cds_prot.psq', 'chr.nhr', 'chr.nin', 'chr.nsq'];
-        $blastFilesFolder = $input->getArgument('dir').'data/BLAST';
+        $blastFilesFolder = $input->getArgument('dir').'/data/BLAST';
         $blastFilesTargetFolder = $this->rootDir.'/../protected-files/blast';
 
         $blastFiles = array_map(function (&$file) use ($blastFilesFolder) {
@@ -293,7 +293,7 @@ class ImportStrainCommand extends ContainerAwareCommand
 
         if (!$this->fs->exists($blastFiles)) {
             throw new \RuntimeException(
-                '<error>At least one of the blastable files is missing.</error>'
+                'At least one of the blastable files is missing.'
             );
         }
 
@@ -301,6 +301,8 @@ class ImportStrainCommand extends ContainerAwareCommand
         $output->writeln('<comment>The transaction start, this may take some time (few minutes). Don\'t panic, take advantage there to have a break :)</comment>');
 
         // Now we flush it (this is a transaction)
+        // Before flush we need to increase the memory limit, because we want to a transaction on a complete Genome, we fix it on 512M
+        ini_set('memory_limit', $this->getContainer()->getParameter('genomes_memory_limit'));
         $this->getContainer()->get('doctrine')->getManager()->flush();
 
         // At the end of the transaction, we move blastable files

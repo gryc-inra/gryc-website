@@ -76,7 +76,7 @@ services:
 
     app.event_listener.strain:
         class: AppBundle\EventListener\StrainListener
-        arguments: ["@fos_elastica.object_persister.app.locus"]
+        arguments: ["@fos_elastica.object_persister.app.locus", "%genomes_memory_limit%"]
         tags:
             - { name: doctrine.event_listener, event: postUpdate, method: postUpdate }
 
