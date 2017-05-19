@@ -2,6 +2,7 @@
 
 namespace AppBundle\SearchRepository;
 
+use AppBundle\Controller\SearchController;
 use AppBundle\Entity\User;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
@@ -13,6 +14,8 @@ use FOS\ElasticaBundle\Repository;
 
 class LocusRepository extends Repository
 {
+    const HITS_PER_PAGE = 50;
+
     public function findByNameNoteAnnotation($keyword = null, User $user = null, $strains = null)
     {
         // Create the Query
@@ -125,6 +128,6 @@ class LocusRepository extends Repository
         }
 
         // Execute the query
-        return $this->find($query);
+        return $this->find($query, self::HITS_PER_PAGE);
     }
 }

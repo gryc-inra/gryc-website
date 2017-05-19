@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SearchController extends Controller
 {
-    const HITS_PER_PAGE = 50;
-
     /**
      * @Route("/search", options={"expose"=true}, name="quick-search")
      */
