@@ -13,6 +13,7 @@
     <div class="row">
         {{ form_start(form) }}
             {{ form_row(form.search) }}
+            {{ form_row(form.strainsFilter) }}
             {{ form_row(form.strains) }}
 
             <div class="form-group">
@@ -35,6 +36,10 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+        $(document).ready(function() {
+            strainsFilter($( "#advanced_search_strains" ), $( "#advanced_search_strainsFilter" ));
+        });
+
         $(document).ready(function() {
             $(".search-result > p").each( function() {
                 var html = $(this).html();

@@ -66,6 +66,7 @@ class BlastType extends AbstractType
                             ->addSelect('species')
                         ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
                         ->orderBy('species.scientificName', 'asc')
+                        ->addOrderBy('strain.name', 'asc')
                         ->where('strain.public = true')
                         ->orWhere('authorizedUsers = :user')
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser());
@@ -74,13 +75,9 @@ class BlastType extends AbstractType
                 'choice_label' => function (Strain $strain) {
                     return $strain->getSpecies()->getScientificName().' ('.$strain->getName().')';
                 },
-                'group_by' => function (Strain $strain) {
-                    return $strain->getSpecies()->getGenus();
-                },
                 'choice_attr' => function (Strain $strain) {
                     return ['data-genus' => $strain->getSpecies()->getGenus()];
                 },
-
                 'multiple' => true,
                 'expanded' => true,
             ])

@@ -30,21 +30,45 @@ class AdvancedSearchType extends AbstractType
                     new NotBlank(),
                 ],
             ])
-            ->add('strains', EntityType::class, [
-                'class' => 'AppBundle\Entity\Strain',
+            ->add('strainsFilter', EntityType::class, [
+                'class' => 'AppBundle\Entity\Species',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('strain')
+                    return $er->createQueryBuilder('species')
+                        ->leftJoin('species.strains', 'strain')
+                            ->addSelect('strain')
                         ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
-                        ->leftJoin('strain.species', 'species')
+                        ->orderBy('species.genus', 'asc')
                         ->where('strain.public = true')
                         ->orWhere('authorizedUsers = :user')
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
-                'choice_label' => function (Strain $strain) {
-                    return $strain->getSpecies()->getScientificName().' '.$strain->getName();
+                'choice_value' => 'genus',
+                'choice_label' => 'genus',
+                'placeholder' => 'All',
+                'required' => false,
+                'mapped' => false,
+            ])
+            ->add('strains', EntityType::class, [
+                'class' => 'AppBundle\Entity\Strain',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('strain')
+                        ->leftJoin('strain.species', 'species')
+                            ->addSelect('species')
+                        ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
+                        ->orderBy('species.scientificName', 'asc')
+                        ->addOrderBy('strain.name', 'asc')
+                        ->where('strain.public = true')
+                        ->orWhere('authorizedUsers = :user')
+                            ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
-                'group_by' => 'species.scientificName',
+                'choice_label' => function (Strain $strain) {
+                    return $strain->getSpecies()->getScientificName().' ('.$strain->getName().')';
+                },
+                'choice_attr' => function (Strain $strain) {
+                    return ['data-genus' => $strain->getSpecies()->getGenus()];
+                },
                 'multiple' => true,
+                'expanded' => true,
             ])
         ;
     }
