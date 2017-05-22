@@ -16,6 +16,7 @@
         {{ form_start(form) }}
             {{ form_row(form.blastType) }}
             {{ form_row(form.database) }}
+            {{ form_row(form.strainsFilter) }}
             {{ form_row(form.strains) }}
             {{ form_row(form.query) }}
 
@@ -57,34 +58,40 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        var $blastType = $('#blast_blastType');
+        $(document).ready(function () {
+            var $blastType = $('#blast_blastType');
 
-        // When genus gets selected ...
-        $blastType.change(function () {
-            // ... retrieve the corresponding form.
-            var $form = $(this).closest('form');
-            // Simulate form data, but only include the selected genus value.
-            var data = {};
-            data[$blastType.attr('name')] = $blastType.val();
+            // When genus gets selected ...
+            $blastType.change(function () {
+                // ... retrieve the corresponding form.
+                var $form = $(this).closest('form');
+                // Simulate form data, but only include the selected genus value.
+                var data = {};
+                data[$blastType.attr('name')] = $blastType.val();
 
-            // Submit data via AJAX to the form's action path.
-            $.ajax({
-                url: $form.attr('action'),
-                type: $form.attr('method'),
-                data: data,
-                success: function (html) {
-                    console.log(html);
-                    // Replace current position field ...
-                    $('select#blast_database').replaceWith(
-                        // ... with the returned one from the AJAX response.
-                        $(html).find('select#blast_database')
-                    );
-                    $('select#blast_matrix').replaceWith(
-                        // ... with the returned one from the AJAX response.
-                        $(html).find('select#blast_matrix')
-                    );
-                }
+                // Submit data via AJAX to the form's action path.
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: data,
+                    success: function (html) {
+                        console.log(html);
+                        // Replace current position field ...
+                        $('select#blast_database').replaceWith(
+                            // ... with the returned one from the AJAX response.
+                            $(html).find('select#blast_database')
+                        );
+                        $('select#blast_matrix').replaceWith(
+                            // ... with the returned one from the AJAX response.
+                            $(html).find('select#blast_matrix')
+                        );
+                    }
+                });
             });
+        });
+
+        $(document).ready(function() {
+            strainsFilter($( "#blast_strains" ), $( "#blast_strainsFilter" ));
         });
     </script>
 {% endblock %}

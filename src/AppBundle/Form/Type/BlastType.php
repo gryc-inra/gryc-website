@@ -40,14 +40,30 @@ class BlastType extends AbstractType
                     'tblastx' => 'tblastx',
                 ],
             ])
+            ->add('strainsFilter', EntityType::class, [
+                'class' => 'AppBundle\Entity\Species',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('species')
+                        ->leftJoin('species.strains', 'strain')
+                            ->addSelect('strain')
+                        ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
+                        ->orderBy('species.genus', 'asc')
+                        ->where('strain.public = true')
+                        ->orWhere('authorizedUsers = :user')
+                        ->setParameter('user', $this->tokenStorage->getToken()->getUser());
+                },
+                'choice_value' => 'genus',
+                'choice_label' => 'genus',
+                'placeholder' => 'All',
+                'required' => false,
+                'mapped' => false,
+            ])
             ->add('strains', EntityType::class, [
                 'class' => 'AppBundle\Entity\Strain',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('strain')
                         ->leftJoin('strain.species', 'species')
                             ->addSelect('species')
-                        ->leftJoin('species.clade', 'clade')
-                            ->addSelect('clade')
                         ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
                         ->orderBy('species.scientificName', 'asc')
                         ->where('strain.public = true')
@@ -61,7 +77,12 @@ class BlastType extends AbstractType
                 'group_by' => function (Strain $strain) {
                     return $strain->getSpecies()->getGenus();
                 },
+                'choice_attr' => function (Strain $strain) {
+                    return ['data-genus' => $strain->getSpecies()->getGenus()];
+                },
+
                 'multiple' => true,
+                'expanded' => true,
             ])
             ->add('query', TextareaType::class, [
                 'constraints' => [
