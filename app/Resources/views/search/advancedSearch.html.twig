@@ -35,8 +35,12 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $( function() {
-            $('#advanced_search_strains').select2();
+        $(document).ready(function() {
+            $(".search-result > p").each( function() {
+                var html = $(this).html();
+                html = html.replace(/({{ search }})/gi, '<b>$1</b>');
+                $(this).html(html);
+            });
         });
     </script>
 {% endblock %}

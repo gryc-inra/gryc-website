@@ -15,3 +15,16 @@
 
     {% include ":search:searchResults.html.twig" with { 'search': search } %}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $(".search-result > p").each( function() {
+                var html = $(this).html();
+                html = html.replace(/({{ search }})/gi, '<b>$1</b>');
+                $(this).html(html);
+            });
+        });
+    </script>
+{% endblock %}

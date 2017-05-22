@@ -50,6 +50,7 @@ class SearchController extends Controller
             // Return the view
             return $this->render('search\advancedSearch.html.twig', [
                 'form' => $form->createView(),
+                'search' => $data['search'],
                 'results' => $results,
             ]);
         }
@@ -57,6 +58,7 @@ class SearchController extends Controller
         // Return the view
         return $this->render('search\advancedSearch.html.twig', [
             'form' => $form->createView(),
+            'search' => $data['search'],
         ]);
     }
 }
