@@ -4,46 +4,17 @@
 
         {% for result in results %}
             <div class="search-result">
-                {% if result is locus %}
-                    <h4>
-                        <a href="{{ path('locus_view', { 'species_slug': result.chromosome.strain.species.slug, 'strain_slug': result.chromosome.strain.slug, 'chromosome_slug': result.chromosome.slug, 'locus_name': result.name }) }}">
-                            {{ result.name }}
-                        </a>
-                    </h4>
-                    <p>
-                        <span class="category">Locus</span><br />
-                        {{ result.note }}<br/>
-                        <a href="{{ path('cart_add', { 'id': result.id }) }}" class="btn btn-default btn-xs cart-add-btn">
-                            <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
-                        </a>
-                    </p>
-                {% elseif result is feature %}
-                    <h4>
-                        <a href="{{ path('locus_view', { 'species_slug': result.locus.chromosome.strain.species.slug, 'strain_slug': result.locus.chromosome.strain.slug, 'chromosome_slug': result.locus.chromosome.slug, 'locus_name': result.locus.name }) }}">
-                            {{ result.name }}
-                        </a>
-                    </h4>
-                    <p>
-                        <span class="category">Feature</span><br />
-                        {{ result.note }}<br>
-                        <a href="{{ path('cart_add', { 'id': result.locus.id }) }}" class="btn btn-default btn-xs cart-add-btn">
-                            <span class="fa fa-shopping-cart" aria-hidden="true" aria-hidden="true"></span> Add to cart
-                        </a>
-                    </p>
-                {% elseif result is product %}
-                    <h4>
-                        <a href="{{ path('locus_view', { 'species_slug': result.feature.locus.chromosome.strain.species.slug, 'strain_slug': result.feature.locus.chromosome.strain.slug, 'chromosome_slug': result.feature.locus.chromosome.slug, 'locus_name': result.feature.locus.name }) }}">
-                            {{ result.name }}
-                        </a>
-                    </h4>
-                    <p>
-                        <span class="category">Product</span><br />
-                        {{ result.note }}<br>
-                        <a href="{{ path('cart_add', { 'id': result.feature.locus.id }) }}" class="btn btn-default btn-xs cart-add-btn">
-                            <span class="fa fa-shopping-cart"></span> Add to cart
-                        </a>
-                    </p>
-                {% endif %}
+                <h4>
+                    <a href="{{ path('locus_view', { 'species_slug': result.chromosome.strain.species.slug, 'strain_slug': result.chromosome.strain.slug, 'chromosome_slug': result.chromosome.slug, 'locus_name': result.name }) }}">
+                        {{ result.name }}
+                    </a>
+                </h4>
+                <p>
+                    {{ result.note }}<br/>
+                    <a href="{{ path('cart_add', { 'id': result.id }) }}" class="btn btn-default btn-xs cart-add-btn">
+                        <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
+                    </a>
+                </p>
             </div>
         {% endfor %}
     {% else %}

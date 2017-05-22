@@ -13,6 +13,5 @@
     <h1>Results for "<i>{{ search }}</i>"</h1>
     <p>Too many results ? Try the <a href="{{ path('advanced-search-with-keyword', { 'search': search }) }}">Advanced Search</a></p>
 
-    {% include ":search:searchResults.html.twig" %}
-
+    {% include ":search:searchResults.html.twig" with { 'search': search } %}
 {% endblock %}

@@ -28,7 +28,7 @@
     </div>
 
     <div class="row">
-        {% include ":search:searchResults.html.twig" %}
+        {% include ":search:searchResults.html.twig" with { 'search': search } %}
     </div>
 {% endblock %}
 

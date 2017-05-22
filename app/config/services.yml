@@ -29,12 +29,6 @@ services:
        tags:
            - { name: twig.extension }
 
-    app.twig.instanceOf_extension:
-        class: AppBundle\Twig\InstanceOfExtension
-        tags:
-            - { name: twig.extension }
-        public:    false
-
 # Utils
     app.mailer:
         class: AppBundle\Utils\Mailer
