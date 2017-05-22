@@ -32,7 +32,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('species.seos', 'seos')
             ->addSelect('seos')
             ->orderBy('species.scientificName', 'ASC')
-            ->orderBy('strains.name', 'ASC');
+            ->addOrderBy('strains.name', 'ASC');
 
         return $query->getQuery()->getResult();
     }
