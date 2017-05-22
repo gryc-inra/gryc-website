@@ -22,7 +22,7 @@ class ListSpeciesCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $listSpecies = $em->getRepository('AppBundle:Species')->findAll();
+        $listSpecies = $em->getRepository('AppBundle:Species')->findBy([], ['scientificName' => 'ASC']);
 
         $table = new Table($output);
         $table->setHeaders(['ID', 'Genus', 'Species']);
