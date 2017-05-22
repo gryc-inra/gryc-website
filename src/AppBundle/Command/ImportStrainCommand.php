@@ -137,6 +137,9 @@ class ImportStrainCommand extends ContainerAwareCommand
             );
         }
 
+        // Before process we need to increase the memory limit, because we want to a transaction on a complete Genome
+        ini_set('memory_limit', $this->getContainer()->getParameter('genomes_memory_limit'));
+
         // Decode the Json file to do an array
         $data = json_decode($file, true);
 
@@ -301,8 +304,6 @@ class ImportStrainCommand extends ContainerAwareCommand
         $output->writeln('<comment>The transaction start, this may take some time (few minutes). Don\'t panic, take advantage there to have a break :)</comment>');
 
         // Now we flush it (this is a transaction)
-        // Before flush we need to increase the memory limit, because we want to a transaction on a complete Genome, we fix it on 512M
-        ini_set('memory_limit', $this->getContainer()->getParameter('genomes_memory_limit'));
         $this->getContainer()->get('doctrine')->getManager()->flush();
 
         // At the end of the transaction, we move blastable files
