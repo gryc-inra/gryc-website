@@ -47,7 +47,7 @@
                 <div class="panel-heading">BLAST history (10 last)</div>
                 <ul class="list-group">
                     {% for blast in previousBlasts %}
-                        <a href="{{ path('blast_job', { 'name': blast.name }) }}" class="list-group-item">{{ blast.created|date('Y/m/d H:i:s') }}</a>
+                        <li class="list-group-item"><a href="{{ path('blast_job', { 'name': blast.name }) }}">{{ blast.created|date('Y/m/d H:i:s') }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
