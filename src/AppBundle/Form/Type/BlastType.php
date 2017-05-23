@@ -166,7 +166,7 @@ class BlastType extends AbstractType
                 $queryConstrainst[] =
                     new Length([
                         'max' => 10100,
-                        'maxMessage' => 'This value is too long. It should have {{ limit }} characters or less. Create an account to improve the limit at 100.000 characters.'
+                        'maxMessage' => 'This value is too long. It should have {{ limit }} characters or less. Create an account to improve the limit at 100.000 characters.',
                     ])
                 ;
             }
