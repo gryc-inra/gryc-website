@@ -23,25 +23,25 @@ function strainsFilter(strainsCheckBoxesContainer, strainsFilterSelect) {
 
     // Create onClick event on Team filter
     strainsFilterSelect.change(function () {
-        // Get the genus
-        var genus = $(this).val();
+        // Get the clade
+        var clade = $(this).val();
 
-        // Call the function and give the genus
-        showHideStrains(genus);
+        // Call the function and give the clade
+        showHideStrains(clade);
     });
 
-    function showHideStrains(genus) {
-        if ('' === genus) {
+    function showHideStrains(clade) {
+        if ('' === clade) {
             strainsCheckboxes.show();
         } else {
             // Hide all Strains
             strainsCheckboxes.hide();
 
-            // Show genus strains
+            // Show clade strains
             strainsCheckboxes.each(function () {
-                var strainGenus = $( this ).find( ":checkbox" ).data('genus');
+                var strainClade = $( this ).find( ":checkbox" ).data('clade');
 
-                if (strainGenus === genus) {
+                if (strainClade === clade) {
                     $(this).show();
                 }
             });
@@ -51,46 +51,46 @@ function strainsFilter(strainsCheckBoxesContainer, strainsFilterSelect) {
     // Create onClick event on checkAllLink
     checkAllLink.click(function (e) {
         e.preventDefault();
-        var genusFiltered = strainsFilterSelect.val();
+        var cladeFiltered = strainsFilterSelect.val();
 
-        if ('' === genusFiltered) {
+        if ('' === cladeFiltered) {
             checkAll();
         } else {
-            checkAllGenus(genusFiltered);
+            checkAllClade(cladeFiltered);
         }
     });
 
     // Create onClick event on uncheckAllLink
     uncheckAllLink.click(function (e) {
         e.preventDefault();
-        var genusFiltered = strainsFilterSelect.val();
+        var cladeFiltered = strainsFilterSelect.val();
 
-        if ('' === genusFiltered) {
+        if ('' === cladeFiltered) {
             uncheckAll();
         } else {
-            uncheckAllGenus(genusFiltered);
+            uncheckAllClade(cladeFiltered);
         }
     });
 
     //
-    // Base functions: check/uncheck all checkboxes and check/uncheck specific strains (per genus)
+    // Base functions: check/uncheck all checkboxes and check/uncheck specific strains (per clade)
     //
 
-    function checkAllGenus(genusFiltered) {
+    function checkAllClade(cladeFiltered) {
         strainsCheckboxes.each(function () {
-            var strainGenus = $(this).find( "input:checkbox" ).data('genus');
+            var strainClade = $(this).find( "input:checkbox" ).data('clade');
 
-            if (strainGenus === genusFiltered) {
+            if (strainClade === cladeFiltered) {
                 $(this).find("input:checkbox").prop('checked', true);
             }
         });
     }
 
-    function uncheckAllGenus(genusFiltered) {
+    function uncheckAllClade(cladeFiltered) {
         strainsCheckboxes.each(function () {
-            var strainGenus = $(this).find( "input:checkbox" ).data('genus');
+            var strainClade = $(this).find( "input:checkbox" ).data('clade');
 
-            if (strainGenus === genusFiltered) {
+            if (strainClade === cladeFiltered) {
                 $(this).find("input:checkbox").prop('checked', false);
             }
         });

@@ -41,19 +41,21 @@ class BlastType extends AbstractType
                 ],
             ])
             ->add('strainsFilter', EntityType::class, [
-                'class' => 'AppBundle\Entity\Species',
+                'class' => 'AppBundle\Entity\Clade',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('species')
+                    return $er->createQueryBuilder('clade')
+                        ->leftJoin('clade.species', 'species')
+                            ->addSelect('species')
                         ->leftJoin('species.strains', 'strain')
                             ->addSelect('strain')
                         ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
-                        ->orderBy('species.genus', 'asc')
+                        ->orderBy('clade.name', 'asc')
                         ->where('strain.public = true')
                         ->orWhere('authorizedUsers = :user')
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
-                'choice_value' => 'genus',
-                'choice_label' => 'genus',
+                'choice_value' => 'name',
+                'choice_label' => 'name',
                 'placeholder' => 'All',
                 'required' => false,
                 'mapped' => false,
@@ -64,6 +66,8 @@ class BlastType extends AbstractType
                     return $er->createQueryBuilder('strain')
                         ->leftJoin('strain.species', 'species')
                             ->addSelect('species')
+                        ->leftJoin('species.clade', 'clade')
+                            ->addSelect('clade')
                         ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
                         ->orderBy('species.scientificName', 'asc')
                         ->addOrderBy('strain.name', 'asc')
@@ -76,7 +80,7 @@ class BlastType extends AbstractType
                     return $strain->getSpecies()->getScientificName().' ('.$strain->getName().')';
                 },
                 'choice_attr' => function (Strain $strain) {
-                    return ['data-genus' => $strain->getSpecies()->getGenus()];
+                    return ['data-clade' => $strain->getSpecies()->getClade()->getName()];
                 },
                 'multiple' => true,
                 'expanded' => true,
