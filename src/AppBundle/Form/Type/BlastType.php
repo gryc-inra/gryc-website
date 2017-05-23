@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -88,6 +89,11 @@ class BlastType extends AbstractType
                 },
                 'multiple' => true,
                 'expanded' => true,
+                'constraints' => [
+                    new Count([
+                        'min' => 1,
+                    ]),
+                ],
             ])
             ->add('filter', ChoiceType::class, [
                 'choices' => [

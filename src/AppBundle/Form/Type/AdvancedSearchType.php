@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AdvancedSearchType extends AbstractType
@@ -73,6 +74,11 @@ class AdvancedSearchType extends AbstractType
                 },
                 'multiple' => true,
                 'expanded' => true,
+                'constraints' => [
+                    new Count([
+                        'min' => 1,
+                    ]),
+                ],
             ])
         ;
     }
