@@ -89,7 +89,7 @@ services:
 
     app.form_type.blast:
         class: AppBundle\Form\Type\BlastType
-        arguments: ["@security.token_storage"]
+        arguments: ["@security.token_storage", "@security.authorization_checker"]
         tags:
             - { name: form.type }
 

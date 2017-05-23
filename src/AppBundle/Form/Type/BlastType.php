@@ -16,16 +16,20 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
 class BlastType extends AbstractType
 {
     private $tokenStorage;
+    private $authorizationChecker;
 
-    public function __construct(TokenStorage $tokenStorage)
+    public function __construct(TokenStorage $tokenStorage, AuthorizationChecker $authorizationChecker)
     {
         $this->tokenStorage = $tokenStorage;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -85,18 +89,6 @@ class BlastType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
-            ->add('query', TextareaType::class, [
-                'constraints' => [
-                  new NotBlank(),
-                  new Regex([
-                      'pattern' => '/^(?:>[\w\W]+\s(?:[A-Z]+\s?)+\s*)+$/',
-                      'message' => 'This is not a valid FASTA.',
-                  ]),
-                ],
-                'attr' => [
-                    'rows' => 10,
-                ],
-            ])
             ->add('filter', ChoiceType::class, [
                 'choices' => [
                     'Yes' => true,
@@ -148,6 +140,36 @@ class BlastType extends AbstractType
                     'BLOSUM90' => 'BLOSUM90',
                 ],
                 'disabled' => $isMatrixDisabled,
+            ]);
+
+            $queryConstrainst = [
+                new NotBlank(),
+                new Regex([
+                    'pattern' => '/^(?:>[\w\W]+\s(?:[A-Z]+\s?)+\s*)+$/',
+                    'message' => 'This is not a valid FASTA.',
+                ]),
+            ];
+
+            if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                $queryConstrainst[] =
+                    new Length([
+                        'max' => 50100,
+                    ])
+                ;
+            } else {
+                $queryConstrainst[] =
+                    new Length([
+                        'max' => 10100,
+                        'maxMessage' => 'This value is too long. It should have {{ limit }} characters or less. Create an account to improve the limit at 100.000 characters.'
+                    ])
+                ;
+            }
+
+            $form->add('query', TextareaType::class, [
+                'constraints' => $queryConstrainst,
+                'attr' => [
+                    'rows' => 10,
+                ],
             ]);
         };
 
