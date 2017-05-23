@@ -55,6 +55,10 @@ services:
         class:  AppBundle\Utils\BlastManager
         arguments: ["@app.token_generator","@doctrine.orm.entity_manager", "@event_dispatcher", "%kernel.root_dir%"]
 
+    app.cart_manager:
+        class: AppBundle\Utils\CartManager
+        arguments: ["@session", "@security.authorization_checker"]
+
 # Listeners
     app.event_listener.user:
         class: AppBundle\EventListener\UserSubscriber

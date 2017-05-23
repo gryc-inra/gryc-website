@@ -65,7 +65,13 @@
                                 <a href="{{ path('cart_view') }}" id="cart">
                                     <span class="fa fa-shopping-cart" title="Cart"></span>
                                     <span class="sr-only">Cart</span>
-                                    <span class="badge">{{ app.session.get('cart')|length }}</span>
+                                    <span class="badge">
+                                        {% if app.session.get('cart') is not empty %}
+                                            {{ app.session.get('cart').items|length }}
+                                        {% else %}
+                                            0
+                                        {% endif %}
+                                    </span>
                                 </a>
                             </li>
                             {# Si l'utilisateur est connecté #}
@@ -118,6 +124,14 @@
                         <div class="alert alert-warning alert-dismissible" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <strong>Warning!</strong> {{ flash_message }}
+                        </div>
+                    {% endfor %}
+
+                    {# On affiche tous les messages flash dont le nom est « info » #}
+                    {% for flash_message in app.session.flashbag.get('info') %}
+                        <div class="alert alert-info alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>Info!</strong> {{ flash_message }}
                         </div>
                     {% endfor %}
                 </div>

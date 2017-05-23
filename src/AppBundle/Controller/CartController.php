@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Locus;
 use AppBundle\Form\Type\CartType;
+use AppBundle\Utils\CartManager;
 use AppBundle\Utils\FastaGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -20,18 +21,19 @@ class CartController extends Controller
      */
     public function addAction(Locus $locus, Request $request)
     {
-        $session = $request->getSession();
+        $cartManager = $this->get('app.cart_manager');
+        $cartManager->addToCart($locus);
+        $cart = $cartManager->getCart();
 
-        // Retrieve the cart, else create it
-        if (!$cart = $session->get('cart')) {
-            $cart = [];
+        if (true === $cart['reached_limit']) {
+            $this->addFlash('warning', 'You can store '.CartManager::ANONYMOUS_NB_ITEMS.' elements maximum in your cart.');
+
+            if (!$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                $this->addFlash('info', 'You can create an account to increase the limit to '.CartManager::LOGGED_NB_ITEMS.'.');
+            }
         }
 
-        if (!in_array($locus->getId(), $cart)) {
-            $cart[] = $locus->getId();
-            $session->set('cart', $cart);
-        }
-
+        // At the end, send a json for an xml request, or a redirection if it's an html request
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse($cart);
         } else {
@@ -44,18 +46,9 @@ class CartController extends Controller
      */
     public function removeAction($id, Request $request)
     {
-        $session = $request->getSession();
-
-        // Retrieve the cart, else create it
-        if (!$cart = $session->get('cart')) {
-            $cart = [];
-        }
-
-        if (false !== $key = array_search($id, $cart)) {
-            unset($cart[$key]);
-            $cart = array_values($cart);
-            $session->set('cart', $cart);
-        }
+        $cartManager = $this->get('app.cart_manager');
+        $cartManager->removeToCart($id);
+        $cart = $cartManager->getCart();
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse($cart);
@@ -69,8 +62,8 @@ class CartController extends Controller
      */
     public function emptyAction(Request $request)
     {
-        $session = $request->getSession();
-        $session->set('cart', []);
+        $cartManager = $this->get('app.cart_manager');
+        $cartManager->emptyCart();
 
         return $this->redirectToRoute('cart_view');
     }
@@ -82,7 +75,7 @@ class CartController extends Controller
     {
         $cart = $request->getSession()->get('cart');
         $em = $this->getDoctrine()->getManager();
-        $cartElements = $em->getRepository('AppBundle:Locus')->findLocusById($cart);
+        $cartElements = $em->getRepository('AppBundle:Locus')->findLocusById($cart['items']);
 
         $form = $this->createForm(CartType::class);
         $form->handleRequest($request);

@@ -7,8 +7,13 @@ $(document).ready(function() {
 
         $.get( $url, function( data ) {
             // Count objects in data
-            var $nbItems = data.length;
+            var $nbItems = data.items.length;
             $cartBadge.text($nbItems);
+
+            // if reached limit
+            if (true === data.reached_limit) {
+                location.reload();
+            }
         });
     });
 
@@ -19,7 +24,7 @@ $(document).ready(function() {
 
         $.get( $url, function( data ) {
             // Count objects in data
-            var $nbItems = data.length;
+            var $nbItems = data.items.length;
             $cartBadge.text($nbItems);
 
             // Remove the line in the page
