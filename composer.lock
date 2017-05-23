@@ -931,16 +931,16 @@
         },
         {
             "name": "excelwebzone/recaptcha-bundle",
-            "version": "v1.4.6",
+            "version": "v1.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/excelwebzone/EWZRecaptchaBundle.git",
-                "reference": "62400d27be09d7dd9b1a3f4a813bd79aaf2d09f3"
+                "reference": "a1bbc1e0b0e887c8db51441a927d55bb17315da9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/excelwebzone/EWZRecaptchaBundle/zipball/62400d27be09d7dd9b1a3f4a813bd79aaf2d09f3",
-                "reference": "62400d27be09d7dd9b1a3f4a813bd79aaf2d09f3",
+                "url": "https://api.github.com/repos/excelwebzone/EWZRecaptchaBundle/zipball/a1bbc1e0b0e887c8db51441a927d55bb17315da9",
+                "reference": "a1bbc1e0b0e887c8db51441a927d55bb17315da9",
                 "shasum": ""
             },
             "require": {
@@ -974,7 +974,7 @@
             "keywords": [
                 "recaptcha"
             ],
-            "time": "2017-04-18T15:13:02+00:00"
+            "time": "2017-05-22T15:17:50+00:00"
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
@@ -982,12 +982,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "66b06af9cc0c00a849990fdb61e38449f769af9d"
+                "reference": "c83d034cb65a27574370e00299d17944fce131d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/66b06af9cc0c00a849990fdb61e38449f769af9d",
-                "reference": "66b06af9cc0c00a849990fdb61e38449f769af9d",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/c83d034cb65a27574370e00299d17944fce131d4",
+                "reference": "c83d034cb65a27574370e00299d17944fce131d4",
                 "shasum": ""
             },
             "require": {
@@ -1064,7 +1064,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2017-05-15 06:57:02"
+            "time": "2017-05-22 06:59:44"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -2408,21 +2408,21 @@
         },
         {
             "name": "symfony/swiftmailer-bundle",
-            "version": "v2.5.4",
+            "version": "v2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/swiftmailer-bundle.git",
-                "reference": "8ab32ce31a7156621fb92e0466586186beb89759"
+                "reference": "deabc81120c2086571f7c4484ab785c5e1b84f75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/8ab32ce31a7156621fb92e0466586186beb89759",
-                "reference": "8ab32ce31a7156621fb92e0466586186beb89759",
+                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/deabc81120c2086571f7c4484ab785c5e1b84f75",
+                "reference": "deabc81120c2086571f7c4484ab785c5e1b84f75",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
-                "swiftmailer/swiftmailer": ">=4.2.0,~5.0",
+                "swiftmailer/swiftmailer": "~4.2|~5.0",
                 "symfony/config": "~2.7|~3.0",
                 "symfony/dependency-injection": "~2.7|~3.0",
                 "symfony/http-kernel": "~2.7|~3.0"
@@ -2430,7 +2430,7 @@
             "require-dev": {
                 "symfony/console": "~2.7|~3.0",
                 "symfony/framework-bundle": "~2.7|~3.0",
-                "symfony/phpunit-bridge": "~2.7|~3.0",
+                "symfony/phpunit-bridge": "~3.3@dev",
                 "symfony/yaml": "~2.7|~3.0"
             },
             "suggest": {
@@ -2439,7 +2439,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -2463,7 +2463,7 @@
             ],
             "description": "Symfony SwiftmailerBundle",
             "homepage": "http://symfony.com",
-            "time": "2017-03-21T21:47:36+00:00"
+            "time": "2017-05-22T04:58:24+00:00"
         },
         {
             "name": "symfony/symfony",
