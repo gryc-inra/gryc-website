@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 class CartManager
 {
     const ANONYMOUS_NB_ITEMS = 20;
-    const LOGGED_NB_ITEMS = 100;
+    const AUTHENTICATED_NB_ITEMS = 100;
 
     private $session;
     private $authorizationChecker;
@@ -25,7 +25,7 @@ class CartManager
     public function addToCart(Locus $locus)
     {
         // Get the max nb of items
-        $itemsLimit = $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED') ? self::LOGGED_NB_ITEMS : self::ANONYMOUS_NB_ITEMS;
+        $itemsLimit = $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED') ? self::AUTHENTICATED_NB_ITEMS : self::ANONYMOUS_NB_ITEMS;
 
         // If the cart already contains the max
         if (count($this->cart['items']) >= $itemsLimit) {

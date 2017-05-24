@@ -29,7 +29,7 @@ class CartController extends Controller
             $this->addFlash('warning', 'You can store '.CartManager::ANONYMOUS_NB_ITEMS.' elements maximum in your cart.');
 
             if (!$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-                $this->addFlash('info', 'You can create an account to increase the limit to '.CartManager::LOGGED_NB_ITEMS.'.');
+                $this->addFlash('info', 'You can create an account to increase the limit to '.CartManager::AUTHENTICATED_NB_ITEMS.'.');
             }
         }
 
