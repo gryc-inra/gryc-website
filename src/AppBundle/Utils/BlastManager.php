@@ -69,7 +69,7 @@ class BlastManager
         return $job;
     }
 
-    public function getBlastForm(Job $job)
+    public function getBlastForm(Job $job = null)
     {
         if (null !== $job) {
             $formData = (array) $job->getFormData();
