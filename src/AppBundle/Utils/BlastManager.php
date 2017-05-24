@@ -9,6 +9,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
 
 class BlastManager
@@ -122,11 +123,20 @@ class BlastManager
 
         // blastn -task blastn -query fichier_query.fasta -db "path/db1 path/db2 path/db3" -out output.xml -outfmt 5 -evalue $evalue -num_threads 2
         $process = new Process($blastType.' '.$task.' -query '.$tmpQueryFilename.' -db "'.$db.'" -outfmt 5 -max_target_seqs 50 -max_hsps 30 -evalue '.$evalue.' '.$filter.' -num_threads 2');
-        $process->run();
+
+        // fix a timeout on 2 mins
+        set_time_limit(130);
+        $process->setTimeout(120);
+
+        try {
+            $process->run();
+        } catch (RuntimeException $exception) {
+            $job->setResult('error');
+        }
 
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            $job->setResult($process->getExitCode());
+            $job->setResult('error');
         } else {
             $job->setResult($process->getOutput());
         }
