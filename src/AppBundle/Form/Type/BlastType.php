@@ -24,6 +24,9 @@ use Symfony\Component\Validator\Constraints\Regex;
 
 class BlastType extends AbstractType
 {
+    const ANONYMOUS_QUERY_LENGTH = 10100;
+    const AUTHENTICATED_QUERY_LENGTH = 50100;
+
     private $tokenStorage;
     private $authorizationChecker;
 
@@ -159,13 +162,13 @@ class BlastType extends AbstractType
             if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
                 $queryConstrainst[] =
                     new Length([
-                        'max' => 50100,
+                        'max' => self::AUTHENTICATED_QUERY_LENGTH,
                     ])
                 ;
             } else {
                 $queryConstrainst[] =
                     new Length([
-                        'max' => 10100,
+                        'max' => self::ANONYMOUS_QUERY_LENGTH,
                         'maxMessage' => 'This value is too long. It should have {{ limit }} characters or less. Create an account to improve the limit at 100.000 characters.',
                     ])
                 ;
