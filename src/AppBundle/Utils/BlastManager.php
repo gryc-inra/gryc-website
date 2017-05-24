@@ -69,7 +69,8 @@ class BlastManager
         return $job;
     }
 
-    public function getBlastForm(Job $job) {
+    public function getBlastForm(Job $job)
+    {
         if (null !== $job) {
             $formData = (array) $job->getFormData();
             $formData['strains'] = $this->em->getRepository('AppBundle:Strain')->findById($formData['strains']);
