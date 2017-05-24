@@ -121,7 +121,7 @@ class BlastManager
         fwrite($tmpQueryHandle, $formData->query);
 
         // blastn -task blastn -query fichier_query.fasta -db "path/db1 path/db2 path/db3" -out output.xml -outfmt 5 -evalue $evalue -num_threads 2
-        $process = new Process($blastType.' '.$task.' -query '.$tmpQueryFilename.' -db "'.$db.'" -outfmt 5 -evalue '.$evalue.' '.$filter.' -num_threads 2');
+        $process = new Process($blastType.' '.$task.' -query '.$tmpQueryFilename.' -db "'.$db.'" -outfmt 5 -max_target_seqs 50 -max_hsps 30 -evalue '.$evalue.' '.$filter.' -num_threads 2');
         $process->run();
 
         // executes after the command finishes
