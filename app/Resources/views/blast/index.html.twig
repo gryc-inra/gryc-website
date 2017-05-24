@@ -47,7 +47,17 @@
                 <div class="panel-heading">BLAST history (10 last)</div>
                 <ul class="list-group">
                     {% for blast in previousBlasts %}
-                        <li class="list-group-item"><a href="{{ path('blast_job', { 'name': blast.name }) }}">{{ blast.created|date('Y/m/d H:i:s') }}</a></li>
+                        <li class="list-group-item">
+                            <a href="{{ path('blast_job', { 'name': blast.name }) }}">
+                                {{ blast.created|date('Y/m/d H:i:s') }}
+                            </a> -
+                            {% if null == blast.result %}
+                                <span class="text-info">Running</span>
+                            {% elseif 'error' == blast.result %}
+                                <span class="text-danger">Error</span>
+                            {% else %}
+                                <span class="text-success">Finished</span>
+                            {% endif %}
                     {% endfor %}
                 </ul>
             </div>
