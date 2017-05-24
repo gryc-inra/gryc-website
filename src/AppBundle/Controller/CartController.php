@@ -73,8 +73,12 @@ class CartController extends Controller
      */
     public function viewAction(Request $request)
     {
-        $cart = $request->getSession()->get('cart');
+        $cartManager = $this->get('app.cart_manager');
+        $cart = $cartManager->getCart();
+
         $em = $this->getDoctrine()->getManager();
+        // This repository method don't load sequence in memory, then the server do multiple sub request
+        // In this case it's better because chromosomes dna sequence have an iportant size
         $cartElements = $em->getRepository('AppBundle:Locus')->findLocusById($cart['items']);
 
         $form = $this->createForm(CartType::class);
