@@ -21,6 +21,9 @@
 
 {% block body %}
     <h1>Job result</h1>
+
+    <p><a href="{{ path('blast_index_prefilled', { 'job_name': job.name }) }}" class="btn btn-info" role="button"><span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query</a></p>
+
     {% if job.result is null %}
         <div class="text-center text-info">
             <span class="fa fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>

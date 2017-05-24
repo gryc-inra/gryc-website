@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Job;
 use AppBundle\Form\Type\BlastType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,16 +13,20 @@ class BlastController extends Controller
 {
     /**
      * @Route("/blast", name="blast_index")
+     * @Route("/blast/{job_name}", name="blast_index_prefilled")
+     * @ParamConverter("job", options={"mapping": {"job_name": "name"}})
      */
-    public function indexAction(Request $request)
+    public function indexAction(Job $job = null, Request $request)
     {
-        // Retrieve data form the previous form in session
-        $data = $request->getSession()->get('blast_form_data');
+        // Get blastManager
+        $blastManager = $this->get('app.blast_manager');
+        $data = (null === $job) ? $blastManager->getLastBlastForm() : $blastManager->getBlastForm($job);
+
         $form = $this->createForm(BlastType::class, $data);
 
         // Get previous user blast
+        $em = $this->getDoctrine()->getManager();
         if (null !== $this->getUser()) {
-            $em = $this->getDoctrine()->getManager();
             $previousBlasts = $em->getRepository('AppBundle:Job')->findBy(['createdBy' => $this->getUser()], ['created' => 'DESC'], Job::NB_KEPT_JOBS);
         } else {
             $previousBlasts = null;
@@ -29,14 +34,8 @@ class BlastController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Get the data from the form
             $data = $form->getData();
 
-            // Store data in Session, to autocomplete the form
-            $request->getSession()->set('blast_form_data', $data);
-
-            // Call Blast manager
-            $blastManager = $this->get('app.blast_manager');
             $job = $blastManager->createJob($data);
 
             return $this->redirectToRoute('blast_job', [

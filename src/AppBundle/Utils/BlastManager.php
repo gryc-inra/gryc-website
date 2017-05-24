@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Process\Process;
 
@@ -16,13 +17,15 @@ class BlastManager
     private $em;
     private $eventDispatcher;
     private $rootDir;
+    private $session;
 
-    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher, $rootDir)
+    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher, $rootDir, Session $session)
     {
         $this->tokenGenerator = $tokenGenerator;
         $this->em = $em;
         $this->eventDispatcher = $eventDispatcher;
         $this->rootDir = $rootDir;
+        $this->session = $session;
     }
 
     public function createJob($data)
@@ -46,6 +49,9 @@ class BlastManager
         $this->em->persist($job);
         $this->em->flush();
 
+        // Store the jobId in session
+        $this->session->set('blast_last_job', $job->getId());
+
         // Call an event, to process the job in background
         $this->eventDispatcher->addListener(KernelEvents::TERMINATE, function (Event $event) use ($job) {
             // Launch the job
@@ -53,6 +59,32 @@ class BlastManager
         });
 
         return $job;
+    }
+
+    public function getLastJob()
+    {
+        $lastJobId = $this->session->get('blast_last_job');
+        $job = $this->em->getRepository('AppBundle:Job')->findOneById($lastJobId);
+
+        return $job;
+    }
+
+    public function getBlastForm(Job $job) {
+        if (null !== $job) {
+            $formData = (array) $job->getFormData();
+            $formData['strains'] = $this->em->getRepository('AppBundle:Strain')->findById($formData['strains']);
+        } else {
+            $formData = null;
+        }
+
+        return $formData;
+    }
+
+    public function getLastBlastForm()
+    {
+        $lastJob = $this->getLastJob();
+
+        return $this->getBlastForm($lastJob);
     }
 
     private function blast(Job $job)

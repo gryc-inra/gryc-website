@@ -53,7 +53,7 @@ services:
 
     app.blast_manager:
         class:  AppBundle\Utils\BlastManager
-        arguments: ["@app.token_generator","@doctrine.orm.entity_manager", "@event_dispatcher", "%kernel.root_dir%"]
+        arguments: ["@app.token_generator","@doctrine.orm.entity_manager", "@event_dispatcher", "%kernel.root_dir%", "@session"]
 
     app.cart_manager:
         class: AppBundle\Utils\CartManager
