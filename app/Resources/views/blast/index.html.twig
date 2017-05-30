@@ -1,19 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Blast
+    BLAST - Basic Local Alignment Search Tool
 {% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="active">Blast</li>
+    <li class="active">BLAST - Basic Local Alignment Search Tool</li>
 {% endblock %}
 
 {% block body %}
-    <h1>BLAST</h1>
+    <h1>Basic Local Alignment Search Tool</h1>
 
-    <div  {{ (previousBlasts is not empty) ? 'class="col-md-9"' : 'class="col-md-12"' }}>
-        {{ form_start(form) }}
+    <div class="row">
+        Use the NCBI BLAST on our website to find regions of similarity in our sequences database.
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-9">
+            {{ form_start(form) }}
             {{ form_row(form.blastType) }}
             {{ form_row(form.database) }}
             {{ form_row(form.strainsFilter) }}
@@ -31,23 +38,23 @@
 
             <fieldset>
                 <legend>Options</legend>
-                    {{ form_row(form.filter) }}
-                    {{ form_row(form.evalue) }}
-                    {{ form_row(form.gapped) }}
-                    {{ form_row(form.maxHits) }}
-                    {{ form_row(form.matrix) }}
-                    {{ form_row(form.otherOptions) }}
+                {{ form_row(form.filter) }}
+                {{ form_row(form.evalue) }}
+                {{ form_row(form.gapped) }}
+                {{ form_row(form.maxHits) }}
+                {{ form_row(form.matrix) }}
+                {{ form_row(form.otherOptions) }}
             </fieldset>
-        {{ form_end(form) }}
-    </div>
+            {{ form_end(form) }}
+        </div>
 
-    {% if previousBlasts is not empty %}
         <div class="col-md-3">
             <div class="panel panel-info">
                 <div class="panel-heading">BLAST history (10 last)</div>
                 <ul class="list-group">
-                    {% for blast in previousBlasts %}
-                        <li class="list-group-item">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        {% for blast in previousBlasts %}
+                            <li class="list-group-item">
                             <a href="{{ path('blast_job', { 'name': blast.name }) }}">
                                 {{ blast.created|date('Y/m/d H:i:s') }}
                             </a> -
@@ -58,11 +65,20 @@
                             {% else %}
                                 <span class="text-success">Finished</span>
                             {% endif %}
-                    {% endfor %}
+                        {% else %}
+                            <li class="list-group-item">
+                                <i>No BLAST found</i>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="list-group-item">
+                            Only available for <a href="{{ path('user_registration') }}">registered users</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
-    {% endif %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
