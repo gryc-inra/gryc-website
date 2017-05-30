@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-The yeast genomes database - {{ parent() }}
+    GRYC: Genome Resources for Yeast Chromosomes
 {% endblock %}
 
 {% block metaTags %}
@@ -14,37 +14,41 @@ The yeast genomes database - {{ parent() }}
 {% endblock %}
 
 {% block body %}
-<h1>GRYC - Yeast genomes database</h1>
+<h1>GRYC: Genome Resources for Yeast Chromosomes</h1>
 
 <h2>Presentation</h2>
-<p>GRYC (for <strong>Genome Resources for Yeast Chromosomes</strong>) provides annotated sequence data for the genomes of basidio and ascomycete yeasts.
-    A particular attempt is made to propose high quality genome annotations (possibly with manual curations).</p>
+    <p>
+        <strong>GRYC</strong> provides annotated sequence data for the genomes of basidio and ascomycete yeasts.
+        A particular attempt is made to propose high quality genome annotations (possibly with manual curations).
+    </p>
 
-<p>The resources currently provided include genetic element pages, data sets for downloading, quick and advanced searches,
-    facilities for BLAST comparisons (powered by BLAST+ suite) and a genome browser (powered by JBrowse from GMOD).</p>
+    <p>
+        The resources currently provided include genetic element pages, data sets for downloading, quick and advanced searches,
+        facilities for BLAST comparisons (powered by BLAST+ suite) and a genome browser (powered by JBrowse from GMOD).
+    </p>
 
 <h3>iGenolevures</h3>
-<p>GRYC will be part of the <a href="http://www.igenolevures.org">iGenolevures</a> web resources.</p>
+    <p>GRYC will be part of the <a href="http://www.igenolevures.org">iGenolevures</a> web resources.</p>
 
 <h2>Available species</h2>
-<p>The current release of GRYC contains the following species/strains of yeast:</p>
-<ul>
-    {% if speciesList is not empty %}
-        {% for species in speciesList %}
-            {% for strain in species.strains %}
-                    <li>
-                        <a href="{{ path('strain_view', { 'species_slug': species.slug, 'strain_slug': strain.slug }) }}">{{ species.scientificname }} {{ strain.name }}</a>
-                        {{ (strain.isTypeStrain) ? ' <abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}
-                        {% if false == strain.public %}
-                            <span style="color:red;">*</span>
-                        {% endif %}
-                    </li>
+    <p>The current release of GRYC contains the following species/strains of yeast:</p>
+    <ul>
+        {% if speciesList is not empty %}
+            {% for species in speciesList %}
+                {% for strain in species.strains %}
+                        <li>
+                            <a href="{{ path('strain_view', { 'species_slug': species.slug, 'strain_slug': strain.slug }) }}">{{ species.scientificname }} {{ strain.name }}</a>
+                            {{ (strain.isTypeStrain) ? ' <abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}
+                            {% if false == strain.public %}
+                                <span style="color:red;">*</span>
+                            {% endif %}
+                        </li>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    {% else %}
-        <li>There is no available strains.</li>
-    {% endif %}
-</ul>
+        {% else %}
+            <li>There is no available strains.</li>
+        {% endif %}
+    </ul>
 
 {% if app.user %}
     <p><span style="color:red;">*</span>: Private strains</p>
