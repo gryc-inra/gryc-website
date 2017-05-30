@@ -1,6 +1,7 @@
 /app/config/parameters.yml
 /blast
 /bower_components
+deploy.js
 docker-compose.yml
 /node_modules
 .php_cs.cache
