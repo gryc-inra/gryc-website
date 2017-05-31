@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Download genomes
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Download genomes</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Download genomes</h1>
+    <p>
+        This page give you a link for each strain available on GRYC. On the strain page there are links to download files CDS (nuc and prot) and chromosomes (EMBL and FASTA).
+    </p>
+
+    {% for clade in clades %}
+        <div class="row">
+        <h2>{{ clade.name }}</h2>
+            {% for species in clade.species %}
+                {% if loop.index is divisible by(4) %}
+                    <div class="row">
+                {% endif %}
+
+                    <div class="col-md-3">
+                        <p>
+                            <i>{{ species.scientificName }}</i><br>
+                            {% for strain in species.strains %}
+                                <a href="{{ path('strain_view', { 'species_slug': species.slug, 'strain_slug': strain.slug }) }}">
+                                    {{ strain.name }}
+                                </a>{{ (loop.last) ? '' : ', ' }}
+                            {% endfor %}
+                        </p>
+                    </div>
+
+                {% if loop.index is divisible by(4) %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

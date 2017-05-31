@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\User;
+
 /**
  * CladeRepository.
  *
@@ -17,6 +19,24 @@ class CladeRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('clade.species', 'species')
                 ->addSelect('species')
             ->orderBy('clade.name', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function getAvailableStrains(User $user = null)
+    {
+        $query = $this->createQueryBuilder('clade')
+            ->leftJoin('clade.species', 'species')
+                ->addSelect('species')
+            ->leftJoin('species.strains', 'strains')
+                ->addSelect('strains')
+            ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
+            ->orderBy('clade.name', 'asc')
+            ->addOrderBy('species.scientificName', 'asc')
+            ->addOrderBy('strains.name', 'asc')
+            ->where('authorizedUsers = :user')
+                ->setParameter('user', $user)
             ->getQuery();
 
         return $query->getResult();
