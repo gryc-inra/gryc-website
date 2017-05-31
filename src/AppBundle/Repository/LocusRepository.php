@@ -132,6 +132,33 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    public function findPublicLocus($offset, $limit)
+    {
+        $query = $this->createQueryBuilder('locus')
+            ->select('partial locus.{id, name, chromosome}, partial chromosome.{id, slug, strain}, partial strain.{id, slug, species}, partial species.{id, slug}')
+            ->leftJoin('locus.chromosome', 'chromosome')
+            ->leftJoin('chromosome.strain', 'strain')
+            ->leftJoin('strain.species', 'species')
+            ->where('strain.public = true')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function countPublicLocus()
+    {
+        $query = $this->createQueryBuilder('locus')
+            ->select('COUNT(locus)')
+            ->leftJoin('locus.chromosome', 'chromosome')
+            ->leftJoin('chromosome.strain', 'strain')
+            ->where('strain.public = true')
+            ->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
+
     public function createSearchQueryBuilder($entityAlias)
     {
         $qb = $this->createQueryBuilder($entityAlias)

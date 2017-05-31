@@ -29,4 +29,5 @@ docker-compose.yml
 /web/css
 /web/js
 /web/fonts
+/web/sitemap*
 *~

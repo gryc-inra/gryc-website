@@ -59,6 +59,10 @@ services:
         class: AppBundle\Utils\CartManager
         arguments: ["@session", "@security.authorization_checker"]
 
+    app.sitemap:
+        class: AppBundle\Utils\Sitemap
+        arguments: ["@router", "@doctrine.orm.entity_manager", "@filesystem", "@twig"]
+
 # Listeners
     app.event_listener.user:
         class: AppBundle\EventListener\UserSubscriber
