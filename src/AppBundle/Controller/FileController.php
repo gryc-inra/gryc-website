@@ -98,10 +98,9 @@ class FileController extends Controller
         $this->denyAccessUnlessGranted('VIEW', $file->getChromosome()->getStrain());
 
         $rootDir = $this->get('kernel')->getRootDir();
-        $path = substr($rootDir, 0, strlen($rootDir) - strlen('app'));
 
         $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
-        $request->headers->set('X-Accel-Mapping', $path.'protected-files/=/protected_files/');
+        $request->headers->set('X-Accel-Mapping', '/var/www/html/current/protected-files/=/protected_files/');
 
         BinaryFileResponse::trustXSendfileTypeHeader();
         $response = new BinaryFileResponse($file->getAbsolutePath());
