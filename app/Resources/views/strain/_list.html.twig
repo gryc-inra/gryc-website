@@ -1,0 +1,27 @@
+{% for clade in clades %}
+    <div class="row">
+    <h2>{{ clade.name }}</h2>
+        {% for species in clade.species %}
+            {% if loop.index is divisible by(4) %}
+                <div class="row">
+            {% endif %}
+
+                <div class="col-md-3">
+                    <p>
+                        <a href="{{ path('species_view', { 'species_slug': species.slug }) }}">
+                            <u><i>{{ species.scientificName }}</i></u>
+                        </a><br>
+                        {% for strain in species.strains %}
+                            <a href="{{ path('strain_view', { 'species_slug': species.slug, 'strain_slug': strain.slug }) }}">
+                                {{ strain.name }}
+                            </a>{{ (loop.last) ? '' : ', ' }}
+                        {% endfor %}
+                    </p>
+                </div>
+
+            {% if loop.index is divisible by(4) %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endfor %}

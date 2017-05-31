@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    List of the strains in the database
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Strains list</li>
+{% endblock %}
+
+{% block body %}
+    <h1>List of the strains in the database</h1>
+
+    {% include 'strain/_list.html.twig' %}
+{% endblock %}

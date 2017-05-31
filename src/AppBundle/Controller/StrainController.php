@@ -29,4 +29,16 @@ class StrainController extends Controller
             'strain' => $strain,
         ]);
     }
+
+    /**
+     * @Route("/strain", name="strain_index")
+     */
+    public function listAction()
+    {
+        $clades = $this->getDoctrine()->getManager()->getRepository('AppBundle:Clade')->getAvailableStrains($this->getUser());
+
+        return $this->render('strain/index.html.twig', [
+            'clades' => $clades,
+        ]);
+    }
 }

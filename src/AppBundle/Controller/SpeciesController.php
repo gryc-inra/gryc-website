@@ -11,19 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class SpeciesController extends Controller
 {
     /**
-     * @Route("/species", name="species_homepage")
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $speciesList = $em->getRepository('AppBundle:Species')->getAvailableSpeciesAndStrains($this->getUser());
-
-        return $this->render('species/index.html.twig', [
-            'speciesList' => $speciesList,
-        ]);
-    }
-
-    /**
      * @Route("/db/{species_slug}", name="species_view")
      * @Route("/species/{species_slug}")
      */
