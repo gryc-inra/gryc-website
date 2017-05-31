@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Feature;
+use AppBundle\Entity\Locus;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,11 +13,24 @@ class LocusController extends Controller
 {
     /**
      * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_name}", name="locus_view")
-     * @Route("/locus/{locus_name}", name="locus_view_short")
+     * @ParamConverter("locus", class="AppBundle:Locus", options={
+     *   "mapping": {"locus_name": "name"},
+     * })
      */
-    public function viewAction($locus_name)
+    public function viewAction(Locus $locus)
+    {
+        return $this->render('locus/view.html.twig', [
+           'locus' => $locus,
+        ]);
+    }
+
+    /**
+    * @Route("/locus/{locus_name}", name="locus_view_short")
+    */
+    public function redirectAction($locus_name)
     {
         $em = $this->getDoctrine()->getManager();
+
         // Get the Locus, first try LocusName, then FeatureName, then ProductName
         if (null === $locus = $em->getRepository('AppBundle:Locus')->findLocus($locus_name)) {
             if (null === $locus = $em->getRepository('AppBundle:Locus')->findLocusFromFeature($locus_name)) {
@@ -27,10 +41,11 @@ class LocusController extends Controller
             }
         }
 
-        $this->denyAccessUnlessGranted('VIEW', $locus->getChromosome()->getStrain());
-
-        return $this->render('locus/view.html.twig', [
-           'locus' => $locus,
+        return $this->redirectToRoute('locus_view', [
+            'species_slug' => $locus->getChromosome()->getStrain()->getSpecies()->getSlug(),
+            'strain_slug' => $locus->getChromosome()->getStrain()->getSlug(),
+            'chromosome_slug' => $locus->getChromosome()->getSlug(),
+            'locus_name' => $locus->getName(),
         ]);
     }
 
