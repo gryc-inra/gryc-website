@@ -24,7 +24,7 @@
                         {% for flatFile in chromosome.flatFiles %}
                             {% if flatFile.featureType == 'cds' %}
                                 {% if flatFile.molType == 'nuc' %}
-                                    <a href="
+                                    <a rel="nofollow" href="
                                     {{ asset(path('file_downloadFlatFile', {
                                         'chromosomeName': chromosome.name,
                                         'featureType': flatFile.featureType,
@@ -33,7 +33,7 @@
                                     })) }}
                                     "><img src="{{ asset('images/down_fasta_nuc.png') }}" alt="CDS Nucleotides Fasta" /></a>
                                 {% elseif flatFile.molType == 'pro' %}
-                                    <a href="
+                                    <a rel="nofollow" href="
                                     {{ asset(path('file_downloadFlatFile', {
                                         'chromosomeName': chromosome.name,
                                         'featureType': flatFile.featureType,
@@ -49,7 +49,7 @@
                         {% for flatFile in chromosome.FlatFiles %}
                             {% if flatFile.featureType == 'chromosome' %}
                                 {% if flatFile.format == 'fsa' %}
-                                    <a href="
+                                    <a rel="nofollow" href="
                                     {{ asset(path('file_downloadFlatFile', {
                                         'chromosomeName': chromosome.name,
                                         'featureType': flatFile.featureType,
@@ -58,7 +58,7 @@
                                     })) }}
                                     "><img src="{{ asset('images/down_fasta.png') }}" alt="Chromosome Fasta" /></a>
                                 {% elseif flatFile.format == 'embl' %}
-                                    <a href="
+                                    <a rel="nofollow" href="
                                     {{ asset(path('file_downloadFlatFile', {
                                         'chromosomeName': chromosome.name,
                                         'featureType': flatFile.featureType,
@@ -82,7 +82,7 @@
                 <td></td>
                 <td></td>
                 <td>
-                    <a href="
+                    <a rel="nofollow" href="
                         {{ asset(path('file_downloadZipFlatFile', {
                         'strainName': strain.name,
                         'featureType': 'cds',
@@ -90,7 +90,7 @@
                         'format': 'fsa'
                     })) }}
                     "><img src="{{ asset('images/down_targz.png') }}" alt="All CDS Nucleotides Fasta" /></a>
-                    <a href="
+                    <a rel="nofollow" href="
                         {{ asset(path('file_downloadZipFlatFile', {
                         'strainName': strain.name,
                         'featureType': 'cds',
@@ -100,7 +100,7 @@
                     "><img src="{{ asset('images/down_targz.png') }}" alt="All CDS Proteins Fasta" /></a>
                 </td>
                 <td>
-                    <a href="
+                    <a rel="nofollow" href="
                         {{ asset(path('file_downloadZipFlatFile', {
                         'strainName': strain.name,
                         'featureType': 'chromosome',
@@ -108,7 +108,7 @@
                         'format': 'embl'
                     })) }}
                     "><img src="{{ asset('images/down_targz.png') }}" alt="All Chromosome Fasta" /></a>
-                    <a href="
+                    <a rel="nofollow" href="
                         {{ asset(path('file_downloadZipFlatFile', {
                         'strainName': strain.name,
                         'featureType': 'chromosome',
