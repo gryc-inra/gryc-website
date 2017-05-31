@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ locus.chromosome.strain.species.scientificname }} {{ locus.chromosome.strain.name }} {{ locus.chromosome.name }}
+    {{ locus.name }} - {{ locus.chromosome.strain.species.scientificname }} ({{ locus.chromosome.strain.name }})
 {% endblock %}
 
 {% block breadcrumb %}
@@ -14,11 +14,13 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ locus.name }} <small>{{ locus.type }}</small></h1>
-
+    <h1>{{ locus.name }} - <i>{{ locus.chromosome.strain.species.scientificName }}</i> ({{ locus.chromosome.strain.name }})</h1>
     <a href="{{ path('cart_add', { 'id': locus.id }) }}" class="btn btn-default btn-xs cart-add-btn pull-right"><span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart</a>
 
     <h2>Description</h2>
+    <p class="text-justify">
+        {{ locus.note|capitalize }}
+    </p>
 
     <div class="panel panel-default">
         <div class="panel-heading">

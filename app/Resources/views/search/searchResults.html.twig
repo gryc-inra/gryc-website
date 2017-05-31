@@ -6,7 +6,7 @@
             <div class="search-result">
                 <h4>
                     <a href="{{ path('locus_view', { 'species_slug': result.chromosome.strain.species.slug, 'strain_slug': result.chromosome.strain.slug, 'chromosome_slug': result.chromosome.slug, 'locus_name': result.name }) }}">
-                        {{ result.name }}
+                        {{ result.name }} ({{ result.chromosome.strain.species.scientificName }} - {{ result.chromosome.strain.name }})
                     </a>
                 </h4>
                 <p>
