@@ -51,4 +51,4 @@ ENV PATH=$PATH:/opt/ncbi-blast-2.6.0+/bin
 ##################
 # Define workdir #
 ##################
-WORKDIR /var/www/html
+WORKDIR /var/www/html/current
