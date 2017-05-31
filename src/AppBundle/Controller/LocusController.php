@@ -25,8 +25,8 @@ class LocusController extends Controller
     }
 
     /**
-    * @Route("/locus/{locus_name}", name="locus_view_short")
-    */
+     * @Route("/locus/{locus_name}", name="locus_view_short")
+     */
     public function redirectAction($locus_name)
     {
         $em = $this->getDoctrine()->getManager();

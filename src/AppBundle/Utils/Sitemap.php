@@ -35,10 +35,10 @@ class Sitemap
 
         // Create the sitemaps files
         for ($i = 0; $i < $nbFiles; ++$i) {
-            $offset = ($i*$nbUrlsMax);
+            $offset = ($i * $nbUrlsMax);
             $limit = $nbUrlsMax - 1;
             $urls = $this->generateLocusUrls($offset, $limit);
-            $this->filesystem->dumpFile('web/sitemap'.($i+1).'.xml', $this->twig->render('seo/sitemap.xml.twig', ['urls' => $urls]));
+            $this->filesystem->dumpFile('web/sitemap'.($i + 1).'.xml', $this->twig->render('seo/sitemap.xml.twig', ['urls' => $urls]));
         }
 
         // Create the sitemap index
@@ -52,19 +52,19 @@ class Sitemap
 
     private function generateLocusUrls($offset, $limit)
     {
-        $urls = array();
+        $urls = [];
 
         $locusList = $this->em->getRepository('AppBundle:Locus')->findPublicLocus($offset, $limit);
 
         foreach ($locusList as $locus) {
-            $urls[] = array(
+            $urls[] = [
                 'loc' => $this->router->generate('locus_view', [
                     'species_slug' => $locus->getChromosome()->getStrain()->getSpecies()->getSlug(),
                     'strain_slug' => $locus->getChromosome()->getStrain()->getSlug(),
                     'chromosome_slug' => $locus->getChromosome()->getSlug(),
                     'locus_name' => $locus->getName(),
-                ], UrlGeneratorInterface::ABSOLUTE_URL)
-            );
+                ], UrlGeneratorInterface::ABSOLUTE_URL),
+            ];
         }
 
         return $urls;
