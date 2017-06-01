@@ -1,12 +1,15 @@
 {% for clade in clades %}
     <div class="row">
-    <h2>{{ clade.name }}</h2>
+        <div  class="col-md-12">
+            <h2>{{ clade.name }}</h2>
+        </div>
+
         {% for species in clade.species %}
             {% if loop.index is divisible by(4) %}
                 <div class="row">
             {% endif %}
 
-                <div class="col-md-3">
+                <div class="col-md-3 col-sm-6 col-sm-12">
                     <p>
                         <a href="{{ path('species_view', { 'species_slug': species.slug }) }}">
                             <u><i>{{ species.scientificName }}</i></u>
