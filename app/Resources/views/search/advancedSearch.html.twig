@@ -19,27 +19,23 @@
 
     <hr>
 
-    <div class="row">
-        {{ form_start(form) }}
-            {{ form_row(form.search) }}
-            {{ form_row(form.strainsFilter) }}
-            {{ form_row(form.strains) }}
+    {{ form_start(form) }}
+        {{ form_row(form.search) }}
+        {{ form_row(form.strainsFilter) }}
+        {{ form_row(form.strains) }}
 
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default">
-                        <span class="fa fa-search" aria-hidden="true"></span> Search
-                    </button>
-                </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">
+                    <span class="fa fa-search" aria-hidden="true"></span> Search
+                </button>
             </div>
+        </div>
 
-            {{ form_rest(form) }}
-        {{ form_end(form) }}
-    </div>
+        {{ form_rest(form) }}
+    {{ form_end(form) }}
 
-    <div class="row">
-        {% include ":search:searchResults.html.twig" with { 'search': search } %}
-    </div>
+    {% include ":search:searchResults.html.twig" with { 'search': search } %}
 {% endblock %}
 
 {% block javascripts %}
