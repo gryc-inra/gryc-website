@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

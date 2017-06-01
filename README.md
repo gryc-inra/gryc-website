@@ -66,16 +66,6 @@ Now you have containers with nginx, php, mariadb and elasticsearch, config the a
     bin/console cache:warmup
     ```
 
-9. Use the same method to go in the db container, and create this table:
-    ```sql
-    CREATE TABLE `sessions` (
-        `sess_id` VARCHAR(128) NOT NULL PRIMARY KEY,
-        `sess_data` BLOB NOT NULL,
-        `sess_time` INTEGER UNSIGNED NOT NULL,
-        `sess_lifetime` MEDIUMINT NOT NULL
-    ) COLLATE utf8_bin, ENGINE = InnoDB;
-    ```
-
 Any files and folders created by PHP or in the container are root on the host machine. You have to do a chown command each time you want edit files (eg: with the bin/console doctrine:entity).
 
 
