@@ -112,7 +112,7 @@ class BlastManager
         // Get the DBs addresses
         $db = '';
         foreach ($formData->strains as $strain) {
-            $db .= ' '.$this->projectDir.'/protected-files/blast/'.$strain.'_'.$formData->database;
+            $db .= ' '.$this->projectDir.'/files/blast/'.$strain.'_'.$formData->database;
         }
 
         // Create a tempFile with the query

@@ -44,7 +44,7 @@ class FileController extends Controller
 
         // Get files and create the zip name
         $files = $em->getRepository('AppBundle:FlatFile')->findByStrainFeatureMolFormat($strainName, $featureType, $molType, $format);
-        $zipname = $this->get('kernel')->getRootDir().'/../protected-files/temp/'.uniqid().'.zip';
+        $zipname = $this->get('kernel')->getRootDir().'/../files/temp/'.uniqid().'.zip';
 
         if (!$zip = new \ZipArchive()) {
             throw new \Exception('The zip file can\'t be create.');
@@ -98,7 +98,7 @@ class FileController extends Controller
         $this->denyAccessUnlessGranted('VIEW', $file->getChromosome()->getStrain());
 
         $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
-        $request->headers->set('X-Accel-Mapping', '/var/www/html/current/protected-files/=/protected_files/');
+        $request->headers->set('X-Accel-Mapping', '/var/www/html/current/files/=/protected_files/');
 
         BinaryFileResponse::trustXSendfileTypeHeader();
         $response = new BinaryFileResponse($file->getAbsolutePath());

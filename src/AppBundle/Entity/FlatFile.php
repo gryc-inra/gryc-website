@@ -154,7 +154,7 @@ class FlatFile extends CopiedFile
     protected function getUploadRootDir()
     {
         // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return __DIR__.'/../../../protected-files/'.$this->getUploadDir();
+        return __DIR__.'/../../../files/'.$this->getUploadDir();
     }
 
     /**

@@ -696,7 +696,7 @@ class Strain
     public function removeUpload()
     {
         // Get files
-        $files = glob('/var/www/html/protected-files/blast/'.$this->tempId.'_*');
+        $files = glob('/var/www/html/files/blast/'.$this->tempId.'_*');
 
         // Remove files
         foreach ($files as $file) {
