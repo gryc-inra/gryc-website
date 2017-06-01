@@ -116,15 +116,11 @@ class BlastType extends AbstractType
                 $databaseChoices = [
                     'CDS (protein)' => 'cds_prot',
                 ];
-
-                $isMatrixDisabled = false;
             } else {
                 $databaseChoices = [
                     'CDS (nucleotides)' => 'cds_nucl',
                     'Chromosomes' => 'chr',
                 ];
-
-                $isMatrixDisabled = true;
             }
 
             $form->add('database', ChoiceType::class, [
