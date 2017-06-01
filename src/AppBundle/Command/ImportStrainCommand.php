@@ -23,11 +23,11 @@ class ImportStrainCommand extends ContainerAwareCommand
     private $species;
     private $speciesList;
     private $fs;
-    private $rootDir;
+    private $projectDir;
 
-    public function __construct($rootDir)
+    public function __construct($projectDir)
     {
-        $this->rootDir = $rootDir;
+        $this->projectDir = $projectDir;
 
         parent::__construct();
     }
@@ -288,7 +288,7 @@ class ImportStrainCommand extends ContainerAwareCommand
         // Test if Blast files exists
         $blastFilesName = ['cds_nucl.nhr', 'cds_nucl.nin', 'cds_nucl.nsq', 'cds_prot.phr', 'cds_prot.pin', 'cds_prot.psq', 'chr.nhr', 'chr.nin', 'chr.nsq'];
         $blastFilesFolder = $input->getArgument('dir').'/data/BLAST';
-        $blastFilesTargetFolder = $this->rootDir.'/../protected-files/blast';
+        $blastFilesTargetFolder = $this->projectDir.'/protected-files/blast';
 
         $blastFiles = array_map(function (&$file) use ($blastFilesFolder) {
             return $file = $blastFilesFolder.'/'.$file;

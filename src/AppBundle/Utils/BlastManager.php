@@ -17,15 +17,15 @@ class BlastManager
     private $tokenGenerator;
     private $em;
     private $eventDispatcher;
-    private $rootDir;
+    private $projectDir;
     private $session;
 
-    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher, $rootDir, Session $session)
+    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher, $projectDir, Session $session)
     {
         $this->tokenGenerator = $tokenGenerator;
         $this->em = $em;
         $this->eventDispatcher = $eventDispatcher;
-        $this->rootDir = $rootDir;
+        $this->projectDir = $projectDir;
         $this->session = $session;
     }
 
@@ -112,7 +112,7 @@ class BlastManager
         // Get the DBs addresses
         $db = '';
         foreach ($formData->strains as $strain) {
-            $db .= ' '.$this->rootDir.'/../protected-files/blast/'.$strain.'_'.$formData->database;
+            $db .= ' '.$this->projectDir.'/protected-files/blast/'.$strain.'_'.$formData->database;
         }
 
         // Create a tempFile with the query
