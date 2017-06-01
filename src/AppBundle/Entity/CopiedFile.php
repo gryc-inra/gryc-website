@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * A general class inherit by other copied files.
  *
  * @ORM\Entity
- * @ORM\Table(name="copiedFile")
+ * @ORM\Table(name="copied_file")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"copiedFile" = "CopiedFile", "flatfile" = "FlatFile"})

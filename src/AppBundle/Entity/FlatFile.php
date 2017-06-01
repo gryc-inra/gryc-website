@@ -51,16 +51,6 @@ class FlatFile extends CopiedFile
     private $chromosome;
 
     /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Set molType.
      *
      * @param string $molType
