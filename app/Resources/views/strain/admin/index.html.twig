@@ -24,6 +24,7 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Species</th>
+                <th>Clade</th>
                 <th>Public</th>
                 <th>Type strain</th>
                 <th>Actions</th>
@@ -33,6 +34,7 @@
                     <td>{{ loop.index }}</td>
                     <td>{{ strain.species.scientificname }}</td>
                     <td>{{ strain.name }}</td>
+                    <td>{{ strain.species.clade.name }}</td>
                     <td>{{ strain.isPublicToString }}</td>
                     <td>{{ strain.isTypeStrainToString }}</td>
                     <td>

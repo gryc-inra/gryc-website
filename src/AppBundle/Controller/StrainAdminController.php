@@ -22,7 +22,7 @@ class StrainAdminController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $strains = $em->getRepository('AppBundle:Strain')->getStrainsWithSpecies();
+        $strains = $em->getRepository('AppBundle:Strain')->getStrainsWithSpeciesAndClade();
 
         return $this->render('strain/admin/index.html.twig', [
             'strains' => $strains,
