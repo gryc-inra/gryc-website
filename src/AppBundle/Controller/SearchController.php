@@ -32,11 +32,10 @@ class SearchController extends Controller
 
     /**
      * @Route("/advanced-search", name="advanced-search")
-     * @Route("/advanced-search/{search}", name="advanced-search-with-keyword")
      */
-    public function advancedSearchAction(Request $request, $search = null)
+    public function advancedSearchAction(Request $request)
     {
-        $data = null !== $search ? ['search' => $search] : null;
+        $data = null !== $request->get('q') ? ['search' => $request->get('q')] : null;
         $form = $this->createForm(AdvancedSearchType::class, $data);
 
         $form->handleRequest($request);
