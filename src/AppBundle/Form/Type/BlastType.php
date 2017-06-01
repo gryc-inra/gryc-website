@@ -111,10 +111,6 @@ class BlastType extends AbstractType
                     'No' => false,
                 ],
             ])
-            ->add('maxHits', IntegerType::class)
-            ->add('otherOptions', TextType::class, [
-                'required' => false,
-            ])
         ;
 
         $formModifier = function (FormInterface $form, $blastType) {
@@ -135,20 +131,6 @@ class BlastType extends AbstractType
 
             $form->add('database', ChoiceType::class, [
                 'choices' => $databaseChoices,
-            ]);
-
-            $form->add('matrix', ChoiceType::class, [
-                'choices' => [
-                    'PAM30' => 'PAM30',
-                    'PAM70' => 'PAM70',
-                    'PAM250' => 'PAM250',
-                    'BLOSUM45' => 'BLOSUM45',
-                    'BLOSUM50' => 'BLOSUM50',
-                    'BLOSUM62' => 'BLOSUM62',
-                    'BLOSUM80' => 'BLOSUM80',
-                    'BLOSUM90' => 'BLOSUM90',
-                ],
-                'disabled' => $isMatrixDisabled,
             ]);
 
             $queryConstrainst = [
