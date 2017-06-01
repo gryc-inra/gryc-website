@@ -4,6 +4,10 @@
     SEO strain
 {% endblock %}
 
+{% block metaTags %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('admin_index') }}">Administration</a></li>

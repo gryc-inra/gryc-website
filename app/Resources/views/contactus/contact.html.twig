@@ -2,6 +2,10 @@
 
 {% block title %}Contact us - {{ parent() }}{% endblock %}
 
+{% block metaTags %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
 {% block breadcrumb %}{{ parent() }} <li class="active">Contact us</li>{% endblock %}
 
 {% block body %}

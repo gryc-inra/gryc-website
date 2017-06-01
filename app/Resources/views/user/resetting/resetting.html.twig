@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block metaTags %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">Reset password</li>

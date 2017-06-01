@@ -1,6 +1,10 @@
 {# app/Ressources/views/admin/user/edit-rights.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% block metaTags %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block title %}
     Edit {{ user.username }}
 {% endblock %}

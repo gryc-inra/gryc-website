@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% block metaTags %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('user_profile') }}">My profile</a></li>
     <li class="active">Edit</li>
 {% endblock %}
-
 
 {% block body %}
     {{ form_start(form) }}
