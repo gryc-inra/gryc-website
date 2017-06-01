@@ -35,7 +35,8 @@ class CladeRepository extends \Doctrine\ORM\EntityRepository
             ->orderBy('clade.name', 'asc')
             ->addOrderBy('species.scientificName', 'asc')
             ->addOrderBy('strains.name', 'asc')
-            ->where('authorizedUsers = :user')
+            ->where('strains.public = true')
+            ->orWhere('authorizedUsers = :user')
                 ->setParameter('user', $user)
             ->getQuery();
 
