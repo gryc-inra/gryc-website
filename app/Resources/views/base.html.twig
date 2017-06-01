@@ -13,11 +13,11 @@
 
         {% block stylesheets %}
             <!-- Fonts -->
-            <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-            <link rel="stylesheet" href="{{ asset('css/app.min.css') }}" />
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+            <link rel="stylesheet" href="{{ preload(asset('css/app.min.css')) }}" />
         {% endblock %}
 
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ preload(asset('favicon.ico')) }}" />
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,7 +31,7 @@
         <div class="wrapper">
             <header>
                 <div id="logo">
-                    <a href="{{ path('homepage') }}"><img src="{{ asset('images/GRYC_logo_beta_v2.png') }}" alt="GRYC" /></a>
+                    <a href="{{ path('homepage') }}"><img src="{{ preload(asset('images/GRYC_logo_beta_v2.png')) }}" alt="GRYC" /></a>
                 </div>
                 {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
                     <div style="position: absolute; right: 10px; top: 10px;">
@@ -158,7 +158,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-3 text-center hidden-xs hidden-sm">
-                        <a href="http://www.inra.fr" target="_blank"><img src="{{ asset('images/INRA.png') }}" alt="INRA" height="80"/></a>
+                        <a href="http://www.inra.fr" target="_blank"><img src="{{ preload(asset('images/INRA.png')) }}" alt="INRA" height="80"/></a>
                     </div>
 
                     <div class="col-md-3 text-justify hidden-xs hidden-sm">
@@ -190,15 +190,15 @@
                     </div>
 
                     <div class="col-md-3 text-center hidden-xs hidden-sm">
-                        <a href="http://igenolevures.org/" target="_blank"><img src="{{ asset('images/igenolevure.png') }}" alt="iGenoLevures" height="80"/></a>
+                        <a href="http://igenolevures.org/" target="_blank"><img src="{{ preload(asset('images/igenolevure.png')) }}" alt="iGenoLevures" height="80"/></a>
                     </div>
                 </div>
             </div><!-- /Container-Fluid -->
         </footer><!-- /Footer -->
 
         {% block javascripts %}
-            <script src="{{ asset('js/app.min.js') }}"></script>
-            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ preload(asset('js/app.min.js')) }}"></script>
+            <script src="{{ preload(asset('bundles/fosjsrouting/js/router.js')) }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         {% endblock %}
     </body>
