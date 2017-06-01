@@ -23,6 +23,12 @@ services:
         networks:
             - default
 
+    redis:
+        container_name: grycii-redis
+        image: redis:3.2.9
+        networks:
+            - default
+
     db:
         container_name: grycii-db
         image: mariadb:10.1.23
