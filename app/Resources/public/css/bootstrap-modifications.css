@@ -151,13 +151,9 @@ footer a {
  * Search result
  */
 .search-result {
-    margin-top: 20px;
+    margin-bottom: 25px;
 }
 
 .search-result h4 {
-    margin-bottom: 2px;
-}
-
-.search-result .category {
-    color: #236b2a;
+    margin-bottom: 5px;
 }
