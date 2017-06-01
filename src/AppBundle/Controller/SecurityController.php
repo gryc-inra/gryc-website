@@ -13,6 +13,12 @@ class SecurityController extends Controller
      */
     public function loginAction(Request $request)
     {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            // redirect authenticated users to homepage
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+
         $authenticationUtils = $this->get('security.authentication_utils');
 
         //get the login error if there is one
