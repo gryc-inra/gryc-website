@@ -93,8 +93,15 @@ class BlastManager
     {
         $formData = $job->getFormData();
         $blastType = $formData->blastType;
+
+        // Define blast options
+        // The task
         $task = 'tblastx' === $blastType ? null : '-task '.$blastType;
+
+        // The evalue
         $evalue = $formData->evalue;
+
+        // The filter
         if (true === $formData->filter) {
             if ('blastn' === $blastType) {
                 $filter = '-dust yes';
@@ -107,6 +114,13 @@ class BlastManager
             } else {
                 $filter = '-seg no';
             }
+        }
+
+        // The gaps
+        if (true === $formData->gapped) {
+            $gapped= '';
+        } else {
+            $gapped = '-ungapped';
         }
 
         // Get the DBs addresses
@@ -122,7 +136,7 @@ class BlastManager
         fwrite($tmpQueryHandle, $formData->query);
 
         // blastn -task blastn -query fichier_query.fasta -db "path/db1 path/db2 path/db3" -out output.xml -outfmt 5 -evalue $evalue -num_threads 2
-        $process = new Process($blastType.' '.$task.' -query '.$tmpQueryFilename.' -db "'.$db.'" -outfmt 5 -max_target_seqs 50 -max_hsps 30 -evalue '.$evalue.' '.$filter.' -num_threads 2');
+        $process = new Process($blastType.' '.$task.' -query '.$tmpQueryFilename.' -db "'.$db.'" -outfmt 5 -max_target_seqs 50 -max_hsps 30 -evalue '.$evalue.' '.$filter.' '.$gapped.' -num_threads 2');
 
         // fix a timeout on 2 mins
         set_time_limit(130);
