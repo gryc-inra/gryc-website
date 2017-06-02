@@ -38,34 +38,23 @@ class FileController extends Controller
         if (null === $strain = $em->getRepository('AppBundle:Strain')->findOneByName($strainName)) {
             throw $this->createNotFoundException("This strain doen't exists.");
         }
-        // If the user have not access to the strain, deny access
+
         $this->denyAccessUnlessGranted('VIEW', $strain);
 
-        // Get files and create the zip name
         $files = $em->getRepository('AppBundle:FlatFile')->findByStrainFeatureMolFormat($strainName, $featureType, $molType, $format);
-        $zipname = $this->get('kernel')->getRootDir().'/../files/temp/'.uniqid().'.zip';
 
-        if (!$zip = new \ZipArchive()) {
-            throw new \Exception('The zip file can\'t be create.');
+        $zip = new \ZipArchive();
+        $zipname = '/tmp/'.uniqid();
+        $zip->open($zipname, \ZipArchive::CREATE);
+        foreach ($files as $file) {
+            $zip->addFile($file->getAbsolutePath(), $file->getChromosome()->getName().'-'.$featureType.'-'.$molType.'.'.$format);
         }
+        $zip->close();
 
-        if ($zip->open($zipname, \ZipArchive::CREATE)) {
-            foreach ($files as $file) {
-                $zip->addFile($file->getAbsolutePath(), $file->getChromosome()->getName().'-'.$featureType.'-'.$molType.'.'.$format);
-            }
-            $zip->close();
-        } else {
-            throw new \Exception('The zip file can\'t be open.');
-        }
-
-        // Clear the cache because the file may be send without content when we make it in the same request
-        clearstatcache(false, $zipname);
-
-        // Here we don't use the X-Accel-Redirect, because the file isn't static, we delete it just after PHP make it, and nginx take it in charge
         $response = new BinaryFileResponse($zipname);
+        $response->headers->set('Content-Type', 'application/zip');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $strainName.'-'.$featureType.'-'.$molType.'-'.$format.'.zip');
         $response->headers->set('Cache-Control', 'no-cache');
-        // Delete the file
         $response->deleteFileAfterSend(true);
 
         return $response;
