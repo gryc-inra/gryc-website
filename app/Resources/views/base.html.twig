@@ -29,6 +29,11 @@
 
     <body data-spy="scroll" data-target=".scrollspy">
         <div class="wrapper">
+            <noscript>
+                <div id="js-disclaimer" class="alert alert-danger text-center">
+                    Please use <a href="http://browsehappy.com/">a modern browser</a> with JavaScript activated to navigate through this website
+                </div>
+            </noscript>
             <header>
                 <div id="logo">
                     <a href="{{ path('homepage') }}"><img src="{{ preload(asset('images/GRYC_logo_beta_v2.png')) }}" alt="GRYC" /></a>

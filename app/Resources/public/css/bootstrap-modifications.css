@@ -23,6 +23,10 @@ header {
     background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
 }
 
+#js-disclaimer {
+    margin-bottom: 0;
+}
+
 /* Sidebar
 -------------------------------------------------- */
 .affix {
