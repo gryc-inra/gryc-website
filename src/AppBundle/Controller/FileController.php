@@ -1,7 +1,5 @@
 <?php
 
-// src/AppBundle/Controller/FileController.php
-
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -65,7 +63,7 @@ class FileController extends Controller
         // Here we don't use the X-Accel-Redirect, because the file isn't static, we delete it just after PHP make it, and nginx take it in charge
         $response = new BinaryFileResponse($zipname);
         $response->headers->set('Content-Disposition', 'attachment;filename="'.$strainName.'-'.$featureType.'-'.$molType.'-'.$format.'.zip"');
-        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Cache-Control', 'no-cache');
         // Delete the file
         $response->deleteFileAfterSend(true);
 
@@ -88,22 +86,22 @@ class FileController extends Controller
      */
     public function downloadFlatFileAction(Request $request, $chromosomeName, $featureType, $molType, $format)
     {
-        $em = $this->getDoctrine()->getManager();
-        $file = $em->getRepository('AppBundle:FlatFile')->findOneByFeatureMolChromosomeFormat($featureType, $molType, $chromosomeName, $format);
+        $file = $this->getDoctrine()->getManager()->getRepository('AppBundle:FlatFile')
+            ->findOneByFeatureMolChromosomeFormat($featureType, $molType, $chromosomeName, $format);
 
         if (null === $file) {
-            throw $this->createNotFoundException("This file doen't exists.");
+            throw $this->createNotFoundException("This file doesn't exists.");
         }
 
         $this->denyAccessUnlessGranted('VIEW', $file->getChromosome()->getStrain());
 
         $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
-        $request->headers->set('X-Accel-Mapping', '/var/www/html/current/files/=/protected_files/');
+        $request->headers->set('X-Accel-Mapping', '/var/www/html/current/files/=/files-internal/');
 
         BinaryFileResponse::trustXSendfileTypeHeader();
         $response = new BinaryFileResponse($file->getAbsolutePath());
         $response->headers->set('Content-Disposition', 'attachment;filename="'.$chromosomeName.'-'.$featureType.'-'.$molType.'.'.$format.'"');
-        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Cache-Control', 'no-cache');
 
         return $response;
     }
