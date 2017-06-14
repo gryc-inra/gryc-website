@@ -22,9 +22,10 @@ class BlastController extends Controller
         $blastManager = $this->get('app.blast_manager');
         $data = (null === $job) ? $blastManager->getLastBlastForm() : $blastManager->getBlastForm($job);
 
+        // Create the form
         $form = $this->createForm(BlastType::class, $data);
 
-        // Get previous user blast
+        // Get previous user blasts
         $em = $this->getDoctrine()->getManager();
         if (null !== $this->getUser()) {
             $previousBlasts = $em->getRepository('AppBundle:Job')->findBy(['createdBy' => $this->getUser()], ['created' => 'DESC'], Job::NB_KEPT_JOBS);
@@ -34,9 +35,12 @@ class BlastController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // Get the formData
             $data = $form->getData();
 
+            // Create the job, and add it in rabbit mq
             $job = $blastManager->createJob($data);
+            $this->get('old_sound_rabbit_mq.blast_producer')->publish($job->getId());
 
             return $this->redirectToRoute('blast_job', [
                 'name' => $job->getName(),

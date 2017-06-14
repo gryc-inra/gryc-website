@@ -106,3 +106,29 @@ snc_redis:
         second_level_cache:
             client: default
             entity_manager: default
+
+# RabbitMQ
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:     "%rabbitmq_host%"
+            port:     "%rabbitmq_port%"
+            user:     "%rabbitmq_user%"
+            password: "%rabbitmq_password%"
+            vhost:    '/'
+            lazy:     true
+            connection_timeout: 3
+            read_write_timeout: 3
+    producers:
+        blast:
+            connection:       default
+            exchange_options: {name: 'blast', type: direct}
+            enable_logger: true
+    consumers:
+        blast:
+            connection:       default
+            exchange_options: {name: 'blast', type: direct}
+            queue_options:    {name: 'blast'}
+            callback:         app.consumer.blast
+            qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
+            enable_logger: true

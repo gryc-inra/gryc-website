@@ -9,7 +9,8 @@ RUN apt-get update && \
     apt-get install -y \
         zlib1g-dev \
         wget \
-        git
+        git \
+        supervisor
 
 # Remove lists
 RUN rm -rf /var/lib/apt/lists/*
@@ -24,7 +25,7 @@ RUN curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/5
 
 # Configure, install and enable php extensions
 RUN docker-php-ext-configure intl --with-icu-dir=/usr/local
-RUN docker-php-ext-install intl pdo pdo_mysql zip
+RUN docker-php-ext-install intl pdo pdo_mysql zip bcmath
 RUN docker-php-ext-enable opcache
 
 # Install Composer
@@ -52,3 +53,5 @@ ENV PATH=$PATH:/opt/ncbi-blast-2.6.0+/bin
 # Define workdir #
 ##################
 WORKDIR /var/www/html/current
+
+CMD /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf

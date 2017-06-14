@@ -5,10 +5,8 @@ namespace AppBundle\Utils;
 use AppBundle\Entity\Job;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
 
@@ -53,12 +51,6 @@ class BlastManager
         // Store the jobId in session
         $this->session->set('blast_last_job', $job->getId());
 
-        // Call an event, to process the job in background
-        $this->eventDispatcher->addListener(KernelEvents::TERMINATE, function (Event $event) use ($job) {
-            // Launch the job
-            $this->blast($job);
-        });
-
         return $job;
     }
 
@@ -89,8 +81,10 @@ class BlastManager
         return $this->getBlastForm($lastJob);
     }
 
-    private function blast(Job $job)
+    public function blast($jobId)
     {
+        $job = $this->em->getRepository('AppBundle:Job')->findOneById($jobId);
+
         $formData = $job->getFormData();
         $blastType = $formData->blastType;
 
@@ -118,7 +112,7 @@ class BlastManager
 
         // The gaps
         if (true === $formData->gapped) {
-            $gapped= '';
+            $gapped = '';
         } else {
             $gapped = '-ungapped';
         }
@@ -156,12 +150,13 @@ class BlastManager
         }
 
         // Add the file to the job, the status is automatically updated
+        $this->em->merge($job);
         $this->em->flush();
 
         // Delete the temp files
         fclose($tmpQueryHandle);
 
-        return;
+        return $job;
     }
 
     public function xmlToArray($xml, $formData)

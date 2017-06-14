@@ -38,7 +38,8 @@
         "friendsofsymfony/jsrouting-bundle": "^1.6",
         "stof/doctrine-extensions-bundle": "^1.2",
         "snc/redis-bundle": "2.x-dev",
-        "predis/predis": "^1.0"
+        "predis/predis": "^1.0",
+        "php-amqplib/rabbitmq-bundle": "^1.12"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
