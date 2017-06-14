@@ -19,6 +19,7 @@ services:
         volumes:
             - .:/var/www/html:rw
             - ./docker/php/php.ini:/usr/local/etc/php/php.ini:ro
+            - ./docker/php/supervisor/blast_consumer.conf:/etc/supervisor/conf.d/blast_consumer.conf:ro
         working_dir: /var/www/html
         networks:
             - default
@@ -97,6 +98,17 @@ services:
         image: mobz/elasticsearch-head:5
         ports:
             - 127.0.0.1:9100:9100
+        networks:
+            - default
+
+    rabbitmq:
+        container_name: grycii-rabbitmq
+        image: rabbitmq:3.6.10-management
+        environment:
+            - RABBITMQ_DEFAULT_USER=grycii
+            - RABBITMQ_DEFAULT_PASS=grycii
+        ports:
+            - 127.0.0.1:15672:15672
         networks:
             - default
 

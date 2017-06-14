@@ -15,6 +15,12 @@ parameters:
     elasticsearch_host: es1
     elasticsearch_port: ~
 
+    # The RabbitMq host
+    rabbitmq_host: rabbitmq
+    rabbitmq_port: 5672
+    rabbitmq_user: grycii
+    rabbitmq_password: grycii
+
     # The mailer configuration
     mailer_transport:  ~
     mailer_host:       ~
