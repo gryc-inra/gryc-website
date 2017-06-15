@@ -5,24 +5,19 @@ namespace AppBundle\Utils;
 use AppBundle\Entity\Blast;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
 
 class BlastManager
 {
-    private $tokenGenerator;
     private $em;
-    private $eventDispatcher;
     private $projectDir;
     private $session;
 
-    public function __construct(TokenGenerator $tokenGenerator, EntityManager $em, EventDispatcherInterface $eventDispatcher, $projectDir, Session $session)
+    public function __construct(EntityManager $em, $projectDir, Session $session)
     {
-        $this->tokenGenerator = $tokenGenerator;
         $this->em = $em;
-        $this->eventDispatcher = $eventDispatcher;
         $this->projectDir = $projectDir;
         $this->session = $session;
     }
@@ -122,7 +117,7 @@ class BlastManager
         return $blast;
     }
 
-    public function xmlToArray($blast)
+    public function xmlToArray(Blast $blast)
     {
         dump($blast);
 
