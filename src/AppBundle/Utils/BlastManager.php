@@ -2,7 +2,7 @@
 
 namespace AppBundle\Utils;
 
-use AppBundle\Entity\Job;
+use AppBundle\Entity\Blast;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -27,83 +27,42 @@ class BlastManager
         $this->session = $session;
     }
 
-    public function createJob($data)
+    public function getLastBlast()
     {
-        // Create a job token
-        $token = $this->tokenGenerator->generateToken();
+        $lastBlastId = $this->session->get('last_blast');
+        $blast = $this->em->getRepository('AppBundle:Blast')->findOneById($lastBlastId);
 
-        // Before add the job in database, transform the Strains array collection in Ids array
-        $strains = [];
-        foreach ($data['strains'] as $strain) {
-            $strains[] = $strain->getId();
-        }
-        $data['strains'] = $strains;
-
-        // Add the job in database
-        $job = new Job();
-        $job->setName($token);
-        $job->setFormData($data);
-
-        // Persist the job in database
-        $this->em->persist($job);
-        $this->em->flush();
-
-        // Store the jobId in session
-        $this->session->set('blast_last_job', $job->getId());
-
-        return $job;
-    }
-
-    public function getLastJob()
-    {
-        $lastJobId = $this->session->get('blast_last_job');
-        $job = $this->em->getRepository('AppBundle:Job')->findOneById($lastJobId);
-
-        return $job;
-    }
-
-    public function getBlastForm(Job $job = null)
-    {
-        if (null !== $job) {
-            $formData = (array) $job->getFormData();
-            $formData['strains'] = $this->em->getRepository('AppBundle:Strain')->findById($formData['strains']);
+        if (null !== $blast) {
+            $blast = clone $blast;
         } else {
-            $formData = null;
+            $blast = new Blast();
         }
 
-        return $formData;
+        return $blast;
     }
 
-    public function getLastBlastForm()
+    public function blast($blastId)
     {
-        $lastJob = $this->getLastJob();
+        $blast = $this->em->getRepository('AppBundle:Blast')->findToBlast($blastId);
 
-        return $this->getBlastForm($lastJob);
-    }
-
-    public function blast($jobId)
-    {
-        $job = $this->em->getRepository('AppBundle:Job')->findOneById($jobId);
-
-        $formData = $job->getFormData();
-        $blastType = $formData->blastType;
+        $tool = $blast->getTool();
 
         // Define blast options
         // The task
-        $task = 'tblastx' === $blastType ? null : '-task '.$blastType;
+        $task = 'tblastx' === $tool ? null : '-task '.$tool;
 
         // The evalue
-        $evalue = $formData->evalue;
+        $evalue = $blast->getEvalue();
 
         // The filter
-        if (true === $formData->filter) {
-            if ('blastn' === $blastType) {
+        if (true === $blast->getFilter()) {
+            if ('blastn' === $tool) {
                 $filter = '-dust yes';
             } else {
                 $filter = '-seg yes';
             }
         } else {
-            if ('blastn' === $blastType) {
+            if ('blastn' === $tool) {
                 $filter = '-dust no';
             } else {
                 $filter = '-seg no';
@@ -111,7 +70,7 @@ class BlastManager
         }
 
         // The gaps
-        if (true === $formData->gapped) {
+        if (true === $blast->getGapped()) {
             $gapped = '';
         } else {
             $gapped = '-ungapped';
@@ -119,18 +78,18 @@ class BlastManager
 
         // Get the DBs addresses
         $db = '';
-        foreach ($formData->strains as $strain) {
-            $db .= ' '.$this->projectDir.'/files/blast/'.$strain.'_'.$formData->database;
+        foreach ($blast->getStrains() as $strain) {
+            $db .= ' '.$this->projectDir.'/files/blast/'.$strain->getId().'_'.$blast->getDatabase();
         }
 
         // Create a tempFile with the query
         $tmpQueryHandle = tmpfile();
         $metaDatas = stream_get_meta_data($tmpQueryHandle);
         $tmpQueryFilename = $metaDatas['uri'];
-        fwrite($tmpQueryHandle, $formData->query);
+        fwrite($tmpQueryHandle, $blast->getQuery());
 
         // blastn -task blastn -query fichier_query.fasta -db "path/db1 path/db2 path/db3" -out output.xml -outfmt 5 -evalue $evalue -num_threads 2
-        $process = new Process($blastType.' '.$task.' -query '.$tmpQueryFilename.' -db "'.$db.'" -outfmt 5 -max_target_seqs 50 -max_hsps 30 -evalue '.$evalue.' '.$filter.' '.$gapped.' -num_threads 2');
+        $process = new Process($tool.' '.$task.' -query '.$tmpQueryFilename.' -db "'.$db.'" -outfmt 5 -max_target_seqs 50 -max_hsps 30 -evalue '.$evalue.' '.$filter.' '.$gapped.' -num_threads 2');
 
         // fix a timeout on 2 mins
         set_time_limit(130);
@@ -139,30 +98,36 @@ class BlastManager
         try {
             $process->run();
         } catch (RuntimeException $exception) {
-            $job->setResult('error');
+            $blast->setStatus('failed');
+            $blast->setOutputError($process->getErrorOutput());
         }
 
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            $job->setResult('error');
+            $blast->setStatus('failed');
+            $blast->setOutputError($process->getErrorOutput());
         } else {
-            $job->setResult($process->getOutput());
+            $blast->setStatus('finished');
+            $blast->setOutput($process->getOutput());
         }
 
-        // Add the file to the job, the status is automatically updated
-        $this->em->merge($job);
+        $blast->setExitCode($process->getExitCode());
+
+        $this->em->merge($blast);
         $this->em->flush();
 
         // Delete the temp files
         fclose($tmpQueryHandle);
 
-        return $job;
+        return $blast;
     }
 
-    public function xmlToArray($xml, $formData)
+    public function xmlToArray($blast)
     {
+        dump($blast);
+
         $crawler = new Crawler();
-        $crawler->addXmlContent($xml);
+        $crawler->addXmlContent($blast->getOutput());
 
         // Get the blast version
         $result['blast_version'] = $crawler->filterXPath('//BlastOutput/BlastOutput_version')->text();
@@ -262,7 +227,7 @@ class BlastManager
             });
         });
 
-        $result = $this->getBlastEntities($result, $formData);
+        $result = $this->getBlastEntities($result, $blast);
 
         return $result;
     }
@@ -379,10 +344,10 @@ class BlastManager
         return $hsp;
     }
 
-    private function getBlastEntities(array $blastResult, \stdClass $formData)
+    private function getBlastEntities(array $blastResult, Blast $blast)
     {
         // If the user don't blast against CDS, return
-        if ('chr' === $formData->database) {
+        if ('chr' === $blast->getDatabase()) {
             return $blastResult;
         }
 

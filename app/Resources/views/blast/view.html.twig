@@ -4,7 +4,7 @@
 
 {% block metaTags %}
     {{ parent() }}
-    {% if job.result is null %}
+    {% if 'pending' == blast.status %}
         <meta http-equiv="refresh" content="{{ refreshTime }};">
     {% endif %}
 {% endblock %}
@@ -16,22 +16,22 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('blast_index') }}">BLAST - Basic Local Alignment Search Tool</a></li>
-    <li class="active">Job result</li>
+    <li class="active">BLAST result</li>
 {% endblock %}
 
 {% block body %}
-    <h1>Job result</h1>
+    <h1>BLAST result</h1>
 
-    <p><a href="{{ path('blast_index_prefilled', { 'job_name': job.name }) }}" class="btn btn-info" role="button"><span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query</a></p>
+    <p><a href="{{ path('blast_index_prefilled', { 'name': blast.name }) }}" class="btn btn-info" role="button"><span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query</a></p>
 
-    {% if job.result is null %}
+    {% if 'pending' == blast.status %}
         <div class="text-center text-info">
             <span class="fa fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
             <span class="sr-only">Loading...</span>
 
             <h2>Your BLAST is processing, the page automatically refresh every {{ refreshTime }} seconds.</h2>
         </div>
-    {% elseif 'error' == job.result %}
+    {% elseif 'failed' == blast.status %}
         <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
         {% include 'blast/result.html.twig' with {'result': result} %}

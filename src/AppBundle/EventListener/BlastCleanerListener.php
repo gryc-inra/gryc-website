@@ -17,12 +17,12 @@ class BlastCleanerListener
     {
         // In 10% of page load, we clean the old blast results
         if (rand(1, 100) <= 10) {
-            // Get all expired jobs
-            $jobs = $this->em->getRepository('AppBundle:Job')->findExpiredJobs();
+            // Get all expired blasts
+            $blasts = $this->em->getRepository('AppBundle:Blast')->findExpiredBlasts();
 
-            // Remove expired jobs
-            foreach ($jobs as $job) {
-                $this->em->remove($job);
+            // Remove expired blasts
+            foreach ($blasts as $blast) {
+                $this->em->remove($blast);
             }
 
             // Persist in database

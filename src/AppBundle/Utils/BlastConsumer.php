@@ -18,7 +18,7 @@ class BlastConsumer implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         echo date('d/m/Y H:i:s'), ' [x] Received ', $msg->body, "\n";
-        // Blast the job
+        // Execute the blast
         $this->blastManager->blast($msg->body);
         echo date('d/m/Y H:i:s'),' [x] Done ', "\n";
     }

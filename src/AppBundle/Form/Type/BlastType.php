@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Validator\Constraints\Count;
@@ -37,7 +38,7 @@ class BlastType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('blastType', ChoiceType::class, [
+            ->add('tool', ChoiceType::class, [
                 'choices' => [
                     'blastn' => 'blastn',
                     'blastp' => 'blastp',
@@ -81,7 +82,6 @@ class BlastType extends AbstractType
                         ->orWhere('authorizedUsers = :user')
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
-                'choice_value' => 'id',
                 'choice_label' => function (Strain $strain) {
                     return $strain->getSpecies()->getScientificName().' ('.$strain->getName().')';
                 },
@@ -111,8 +111,8 @@ class BlastType extends AbstractType
             ])
         ;
 
-        $formModifier = function (FormInterface $form, $blastType) {
-            if ('blastp' === $blastType || 'blastx' === $blastType) {
+        $formModifier = function (FormInterface $form, $tool) {
+            if ('blastp' === $tool || 'blastx' === $tool) {
                 $databaseChoices = [
                     'CDS (protein)' => 'cds_prot',
                 ];
@@ -161,34 +161,29 @@ class BlastType extends AbstractType
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifier) {
-                if (null === $event->getData()) {
-                    $event->setData([
-                        'blastType' => 'blastp',
-                        'database' => 'cds_prot',
-                        'query' => ">my-query\n",
-                        'filter' => false,
-                        'evalue' => 0.001,
-                        'gapped' => true,
-                        'maxHits' => 100,
-                        'matrix' => 'BLOSUM62',
-                    ]);
-                }
-
-                $formModifier($event->getForm(), $event->getData()['blastType']);
+                $blast = $event->getData();
+                $formModifier($event->getForm(), $blast->getTool());
             }
         );
 
-        $builder->get('blastType')->addEventListener(
+        $builder->get('tool')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($formModifier) {
                 // It's important here to fetch $event->getForm()->getData(), as
                 // $event->getData() will get you the client data (that is, the ID)
-                $blastType = $event->getForm()->getData();
+                $tool = $event->getForm()->getData();
 
                 // since we've added the listener to the child, we'll have to pass on
                 // the parent to the callback functions!
-                $formModifier($event->getForm()->getParent(), $blastType);
+                $formModifier($event->getForm()->getParent(), $tool);
             }
         );
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\Blast',
+        ]);
     }
 }

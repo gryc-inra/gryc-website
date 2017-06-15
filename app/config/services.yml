@@ -70,6 +70,12 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+    app.event_listener.blast:
+        class: AppBundle\EventListener\BlastListener
+        arguments: ["@app.token_generator"]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
     app.event_listener.blast_cleaner:
         class: AppBundle\EventListener\BlastCleanerListener
         arguments: ["@doctrine.orm.entity_manager"]

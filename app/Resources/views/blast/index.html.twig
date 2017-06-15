@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-md-9">
             {{ form_start(form) }}
-            {{ form_row(form.blastType) }}
+            {{ form_row(form.tool) }}
             {{ form_row(form.database) }}
             {{ form_row(form.strainsFilter) }}
             {{ form_row(form.strains) }}
@@ -52,14 +52,14 @@
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         {% for blast in previousBlasts %}
                             <li class="list-group-item">
-                            <a href="{{ path('blast_job', { 'name': blast.name }) }}">
+                            <a href="{{ path('blast_view', { 'name': blast.name }) }}">
                                 {{ blast.created|date('Y/m/d H:i:s') }}
                             </a> -
-                            {% if null == blast.result %}
+                            {% if 'pending' == blast.status %}
                                 <span class="text-info">Running</span>
-                            {% elseif 'error' == blast.result %}
+                            {% elseif 'failed' == blast.status %}
                                 <span class="text-danger">Error</span>
-                            {% else %}
+                            {% elseif 'finished' == blast.status %}
                                 <span class="text-success">Finished</span>
                             {% endif %}
                         {% else %}
@@ -82,15 +82,15 @@
     {{ parent() }}
     <script>
         $(document).ready(function () {
-            var $blastType = $('#blast_blastType');
+            var $tool = $('#blast_tool');
 
             // When genus gets selected ...
-            $blastType.change(function () {
+            $tool.change(function () {
                 // ... retrieve the corresponding form.
                 var $form = $(this).closest('form');
                 // Simulate form data, but only include the selected genus value.
                 var data = {};
-                data[$blastType.attr('name')] = $blastType.val();
+                data[$tool.attr('name')] = $tool.val();
 
                 // Submit data via AJAX to the form's action path.
                 $.ajax({

@@ -2,10 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Job;
+use AppBundle\Entity\Blast;
 use AppBundle\Form\Type\BlastType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -13,37 +12,41 @@ class BlastController extends Controller
 {
     /**
      * @Route("/blast", name="blast_index")
-     * @Route("/blast/{job_name}", name="blast_index_prefilled")
-     * @ParamConverter("job", options={"mapping": {"job_name": "name"}})
+     * @Route("/blast/{name}", name="blast_index_prefilled")
      */
-    public function indexAction(Job $job = null, Request $request)
+    public function indexAction(Blast $blast = null, Request $request)
     {
-        // Get blastManager
         $blastManager = $this->get('app.blast_manager');
-        $data = (null === $job) ? $blastManager->getLastBlastForm() : $blastManager->getBlastForm($job);
+        if (null === $blast && null === $blast = $blastManager->getLastBlast()) {
+            $blast = new Blast();
+        } else {
+            $blast = clone $blast;
+        }
 
-        // Create the form
-        $form = $this->createForm(BlastType::class, $data);
+        $form = $this->createForm(BlastType::class, $blast);
 
         // Get previous user blasts
         $em = $this->getDoctrine()->getManager();
         if (null !== $this->getUser()) {
-            $previousBlasts = $em->getRepository('AppBundle:Job')->findBy(['createdBy' => $this->getUser()], ['created' => 'DESC'], Job::NB_KEPT_JOBS);
+            $previousBlasts = $em->getRepository('AppBundle:Blast')->findBy(['createdBy' => $this->getUser()], ['created' => 'DESC'], Blast::NB_KEPT_BLAST);
         } else {
             $previousBlasts = null;
         }
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Get the formData
-            $data = $form->getData();
+            $em->persist($blast);
+            $em->flush();
 
-            // Create the job, and add it in rabbit mq
-            $job = $blastManager->createJob($data);
-            $this->get('old_sound_rabbit_mq.blast_producer')->publish($job->getId());
+            // Add the Blast in RabbitMq Queue
+            $this->get('old_sound_rabbit_mq.blast_producer')->publish($blast->getId());
 
-            return $this->redirectToRoute('blast_job', [
-                'name' => $job->getName(),
+            // Add the blast as last blast in user session
+            $request->getSession()->set('last_blast', $blast->getId());
+
+            // Redirect the user on the result page
+            return $this->redirectToRoute('blast_view', [
+                'name' => $blast->getName(),
             ]);
         }
 
@@ -54,18 +57,18 @@ class BlastController extends Controller
     }
 
     /**
-     * @Route("/blast/job/{name}", name="blast_job")
+     * @Route("/blast/view/{name}", name="blast_view")
      */
-    public function viewAction(Job $job)
+    public function viewAction(Blast $blast)
     {
-        if (null !== $job->getResult() && 'error' !== $job->getResult()) {
-            $result = $this->get('app.blast_manager')->xmlToArray($job->getResult(), $job->getFormData());
+        if ('finished' === $blast->getStatus()) {
+            $result = $this->get('app.blast_manager')->xmlToArray($blast);
         } else {
             $result = null;
         }
 
         return $this->render('blast/view.html.twig', [
-            'job' => $job,
+            'blast' => $blast,
             'result' => $result,
         ]);
     }
