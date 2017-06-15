@@ -119,8 +119,6 @@ class BlastManager
 
     public function xmlToArray(Blast $blast)
     {
-        dump($blast);
-
         $crawler = new Crawler();
         $crawler->addXmlContent($blast->getOutput());
 
@@ -168,7 +166,7 @@ class BlastManager
                 $hit['id'] = $node->filterXPath('//Hit_id')->text();
                 $queryDef = explode(' ', $node->filterXPath('//Hit_def')->text(), 2);
                 $hit['name'] = $queryDef[0];
-                $hit['desc'] = $queryDef[1];
+                $hit['desc'] = isset($queryDef[1]) ? $queryDef[1] : null;
                 $hit['len'] = $node->filterXPath('//Hit_len')->text();
 
                 // Add the hit to the result array
