@@ -341,7 +341,7 @@ class GeneticEntry
         return $this->note;
     }
 
-    public function getSequence($showUtr = true, $showIntron = true, $upstream = 0, $downstream = 0, $html = true)
+    public function getSequence($showUtr = true, $showIntron = true, $upstream = 0, $downstream = 10, $html = true)
     {
         $class = explode('\\', get_class($this))[2];
         switch ($class) {
@@ -366,11 +366,13 @@ class GeneticEntry
         $positionsArray = [];
 
         // First, define the upstream
-        if ($upstream > 0) {
-            if (($locusStart - $upstream) < 0) {
+        if (($upstream > 0 && 1 === $this->strand) || ($downstream > 0 && 1 !== $this->strand)) {
+            $stream = (1 === $this->strand) ? $upstream : $downstream;
+
+            if (($locusStart - $stream) < 0) {
                 $positionsArray['upstream']['start'] = 1;
             } else {
-                $positionsArray['upstream']['start'] = $locusStart - $upstream;
+                $positionsArray['upstream']['start'] = $locusStart - $stream;
             }
             $positionsArray['upstream']['end'] = $locusStart - 1;
             $positionsArray['upstream']['legend'] = 'stream';
@@ -425,14 +427,16 @@ class GeneticEntry
         }
 
         // Then, define the downstream
-        if ($downstream > 0) {
+        if (($downstream > 0 && 1 === $this->strand) || ($upstream > 0 && 1 !== $this->strand)) {
+            $stream = (1 === $this->strand) ? $downstream : $upstream;
+
             $positionsArray['downstream']['start'] = $locusEnd + 1;
             $positionsArray['downstream']['legend'] = 'stream';
 
-            if (($locusEnd + $downstream) > strlen($chromosomeDna)) {
+            if (($locusEnd + $stream) > strlen($chromosomeDna)) {
                 $positionsArray['downstream']['end'] = strlen($chromosomeDna);
             } else {
-                $positionsArray['downstream']['end'] = $locusEnd + $downstream;
+                $positionsArray['downstream']['end'] = $locusEnd + $stream;
             }
         } else {
             $positionsArray['downstream'] = false;
@@ -443,10 +447,12 @@ class GeneticEntry
             --$item;
         });
 
+        dump($positionsArray);
         if (1 !== $this->strand) {
             $positionsArray = array_reverse($positionsArray);
             $sequenceManipulator = new SequenceManipulator();
         }
+        dump($positionsArray);
 
         $sequences = [];
         foreach ($positionsArray as $position) {
