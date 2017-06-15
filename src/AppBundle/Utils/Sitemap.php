@@ -24,8 +24,6 @@ class Sitemap
 
     public function generate()
     {
-        ini_set('memory_limit', '256M');
-
         // Count the number of urls
         $nbLocus = $this->em->getRepository('AppBundle:Locus')->countPublicLocus();
 

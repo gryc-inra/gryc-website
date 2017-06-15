@@ -33,6 +33,3 @@ parameters:
     # The ReCaptcha API key
     recaptcha_public_key:    ~
     recaptcha_private_key:   ~
-
-    # When PHP need to manipulate complete Genome, the memory usage is important, set the max memory allocated for this operations
-    genomes_memory_limit: 512M

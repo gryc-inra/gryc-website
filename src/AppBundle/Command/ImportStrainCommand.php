@@ -137,9 +137,6 @@ class ImportStrainCommand extends ContainerAwareCommand
             );
         }
 
-        // Before process we need to increase the memory limit, because we want to a transaction on a complete Genome
-        ini_set('memory_limit', $this->getContainer()->getParameter('genomes_memory_limit'));
-
         // Decode the Json file to do an array
         $data = json_decode($file, true);
 
