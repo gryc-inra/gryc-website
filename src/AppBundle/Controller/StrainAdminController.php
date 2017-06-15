@@ -67,9 +67,6 @@ class StrainAdminController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($strain);
-
-            // Because we need to retrieve the complete Genome, we fix the memory limit on 512M
-            ini_set('memory_limit', $this->getParameter('genomes_memory_limit'));
             $em->flush();
 
             $this->addFlash('success', 'The strain was successfully deleted.');
