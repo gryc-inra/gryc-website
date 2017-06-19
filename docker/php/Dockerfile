@@ -49,6 +49,11 @@ RUN wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2
 # Set environment variables for BLAST
 ENV PATH=$PATH:/opt/ncbi-blast-2.6.0+/bin
 
+########################
+# Copy supervisor conf #
+########################
+COPY supervisor/blast_consumer.conf /etc/supervisor/conf.d/blast_consumer.conf
+
 ##################
 # Define workdir #
 ##################
