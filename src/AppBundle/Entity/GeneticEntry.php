@@ -341,7 +341,7 @@ class GeneticEntry
         return $this->note;
     }
 
-    public function getSequence($showUtr = true, $showIntron = true, $upstream = 0, $downstream = 10, $html = true)
+    public function getSequence($showUtr = true, $showIntron = true, $upstream = 0, $downstream = 0, $html = true)
     {
         $class = explode('\\', get_class($this))[2];
         switch ($class) {
