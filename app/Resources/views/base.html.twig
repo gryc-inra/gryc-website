@@ -14,6 +14,7 @@
         {% block stylesheets %}
             <!-- Fonts -->
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cousine">
             <link rel="stylesheet" href="{{ preload(asset('css/app.min.css')) }}" />
         {% endblock %}
 
@@ -64,6 +65,13 @@
                             <li><a href="{{ path('advanced-search') }}"><span class="fa fa-search" aria-hidden="true"></span> Search</a></li>
                             <li><a href="{{ path('blast_index') }}"><span class="fa fa-cog" aria-hidden="true"></span> BLAST</a></li>
                             <li><a href="{{ path('strain_index') }}"><span class="fa fa-list" aria-hidden="true"></span> Available strains</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-cog" aria-hidden="true"></span>  Tools</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path("blast_index") }}">Blast</a></li>
+                                    <li><a href="{{ path("multiple_alignment_index") }}">Multiple Sequences Alignment</a></li>
+                                </ul>
+                            </li>
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">

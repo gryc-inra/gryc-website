@@ -44,6 +44,8 @@ twig:
     strict_variables: "%kernel.debug%"
     form_themes:
         - form/fields.html.twig
+    globals:
+        fasta_generator: "@app.fasta_generator"
 
 # Doctrine Configuration
 doctrine:
@@ -92,20 +94,6 @@ snc_redis:
             dsn: "redis://%env(REDIS_HOST)%"
     session:
         client: default
-#    doctrine:
-#        metadata_cache:
-#            client: default
-#            entity_manager: default          # the name of your entity_manager connection
-#            document_manager: default        # the name of your document_manager connection
-#        result_cache:
-#            client: default
-#            entity_manager: [default, read]  # you may specify multiple entity_managers
-#        query_cache:
-#            client: default
-#            entity_manager: default
-#        second_level_cache:
-#            client: default
-#            entity_manager: default
 
 # RabbitMQ
 old_sound_rabbit_mq:
@@ -124,11 +112,22 @@ old_sound_rabbit_mq:
             connection:       default
             exchange_options: {name: 'blast', type: direct}
             enable_logger: true
+        multiple_alignment:
+            connection:       default
+            exchange_options: {name: 'multiple-alignment', type: direct}
+            enable_logger: true
     consumers:
         blast:
             connection:       default
             exchange_options: {name: 'blast', type: direct}
             queue_options:    {name: 'blast'}
             callback:         app.consumer.blast
+            qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
+            enable_logger: true
+        multiple_alignment:
+            connection:       default
+            exchange_options: {name: 'multiple-alignment', type: direct}
+            queue_options:    {name: 'multiple-alignment'}
+            callback:         app.consumer.multiple_alignment
             qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
             enable_logger: true

@@ -107,4 +107,57 @@ class FastaGenerator
 
         return $handle;
     }
+
+    public function fastaToArray($fasta)
+    {
+        // FASTA
+        // >SequenceName
+        // AAATGAGCTAGCATCGACTACGACTACG\n
+        // [...]
+        // AGAGTAG\n
+
+        // First, separate sequences in a sequences array
+        $sequences = explode('>', $fasta);
+        // We cut on >, then the first line is empty, remove it
+        unset($sequences[0]);
+        $sequences = array_values($sequences);
+
+        $basesTable = [];
+        $i = 0;
+        foreach ($sequences as $sequence) {
+            // Explode the sequence on newline char, then define the sequence as an array
+            $explodedSequence = explode("\n", $sequence);
+            $sequenceName = array_shift($explodedSequence);
+            $sequenceName = strlen($sequenceName) > 20 ? substr($sequenceName, 0, 17).'...' : $sequenceName;
+            $basesLines = array_slice($explodedSequence, 0, -1);
+
+            // Create the table from the end
+            $basesLinesCount = count($basesLines) - 1;
+            $longerPosition = 0;
+            for ($j = $basesLinesCount; $j >= 0; --$j) {
+                // Define positions
+                $start = $j * 60 + 1;
+                $end = ($j + 1) * 60;
+
+                // Because we start from the end, the first position is the longer
+                if ($basesLinesCount === $j) {
+                    $longerPosition = strlen($end);
+                }
+
+                $line['name'] = str_pad($sequenceName, 20, ' ', STR_PAD_RIGHT);
+                $line['bases'] = str_split($basesLines[$j]);
+                $line['start'] = str_pad($start, $longerPosition, ' ', STR_PAD_LEFT);
+                $line['stop'] = $end;
+
+                $basesTable[$j][$i] = $line;
+            }
+
+            // Sort the table per key order (because we create the array from the end)
+            ksort($basesTable);
+
+            ++$i;
+        }
+
+        return $basesTable;
+    }
 }

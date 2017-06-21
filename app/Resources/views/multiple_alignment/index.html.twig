@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Multiple alignments tool
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Multiple sequences alignment</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Multiple sequences alignment</h1>
+
+    <div class="row">
+        Use the MAFFT tool on our website to align multiple sequences.
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-9">
+            {{ form_start(form) }}
+                {{ form_row(form.query) }}
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="reset" class="btn btn-default">
+                            Clear
+                        </button>
+                        <button type="submit" class="btn btn-info"><span class="fa fa-align-center" aria-hidden="true"></span> Align</button>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">Alignment history (10 last)</div>
+                <ul class="list-group">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        {% for alignment in previousMultipleAlignments %}
+                            <li class="list-group-item">
+                            <a href="{{ path('multiple_alignment_view', { 'name': alignment.name }) }}">
+                                {{ alignment.created|date('Y/m/d H:i:s') }}
+                            </a> -
+                            {% if 'pending' == alignment.status %}
+                                <span class="text-warning">Pending</span>
+                            {% elseif 'running' == alignment.status %}
+                                <span class="text-info">Running</span>
+                            {% elseif 'failed' == alignment.status %}
+                                <span class="text-danger">Error</span>
+                            {% elseif 'finished' == alignment.status %}
+                                <span class="text-success">Finished</span>
+                            {% endif %}
+                        {% else %}
+                            <li class="list-group-item">
+                                <i>No alignment found</i>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="list-group-item">
+                            Only available for <a href="{{ path('login') }}">logged users</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

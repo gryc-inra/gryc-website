@@ -1,0 +1,52 @@
+{% set refreshTime = 2 %}
+
+{% extends 'base.html.twig' %}
+
+{% block metaTags %}
+    {{ parent() }}
+    {% if 'pending' == alignment.status or 'running' == alignment.status %}
+        <meta http-equiv="refresh" content="{{ refreshTime }};">
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+    Multiple sequences alignment result
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('multiple_alignment_index') }}">Multiple sequences alignment</a></li>
+    <li class="active">Result</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Multiple sequences alignment result</h1>
+
+    <p><a href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" class="btn btn-info" role="button"><span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query</a></p>
+    <hr>
+
+    {% if 'pending' == alignment.status or 'running' == alignment.status %}
+        <div class="text-center text-info">
+            <span class="fa fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
+            <span class="sr-only">Loading...</span>
+
+            <h2>Your alignment is processing, the page automatically refresh every {{ refreshTime }} seconds.</h2>
+        </div>
+    {% elseif 'failed' == alignment.status %}
+        <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
+    {% else %}
+        {% set lines = fasta_generator.fastaToArray(alignment.output) %}
+
+        <div class="alignment">
+            {% for line in lines %}
+                <div class="alignment-row">
+                    {% for sequenceLine in line %}
+                        <div class="sequence-row">
+                            <span class="sequence-name">{{ sequenceLine.name }}</span> <span class="sequence-position">{{ sequenceLine.start }}</span> {{ sequenceLine.bases|join }} <span class="sequence-position">{{ sequenceLine.stop }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

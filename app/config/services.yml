@@ -48,11 +48,18 @@ services:
     app.sequence_manipulator:
         class: AppBundle\Utils\SequenceManipulator
 
+    app.fasta_generator:
+        class: AppBundle\Utils\FastaGenerator
+
     app.taxid:
         class: AppBundle\Utils\TaxId
 
     app.blast_manager:
         class:  AppBundle\Utils\BlastManager
+        arguments: ["@doctrine.orm.entity_manager", "%kernel.project_dir%", "@session"]
+
+    app.multiple_alignment_manager:
+        class:  AppBundle\Utils\MultipleAlignmentManager
         arguments: ["@doctrine.orm.entity_manager", "%kernel.project_dir%", "@session"]
 
     app.cart_manager:
@@ -72,6 +79,12 @@ services:
 
     app.event_listener.blast:
         class: AppBundle\EventListener\BlastListener
+        arguments: ["@app.token_generator"]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
+    app.event_listener.multiple_alignment:
+        class: AppBundle\EventListener\MultipleAlignmentListener
         arguments: ["@app.token_generator"]
         tags:
             - { name: doctrine.event_listener, event: prePersist }
@@ -107,6 +120,12 @@ services:
         tags:
             - { name: form.type }
 
+    app.form_type.multiple_alignment:
+        class: AppBundle\Form\Type\MultipleAlignmentType
+        arguments: ["@security.token_storage", "@security.authorization_checker"]
+        tags:
+            - { name: form.type }
+
 # Voters
     app.voter.strain:
         class: AppBundle\Security\StrainVoter
@@ -118,3 +137,7 @@ services:
     app.consumer.blast:
         class: AppBundle\Utils\BlastConsumer
         arguments: ["@app.blast_manager"]
+
+    app.consumer.multiple_alignment:
+        class: AppBundle\Utils\MultipleAlignmentConsumer
+        arguments: ["@app.multiple_alignment_manager"]

@@ -100,6 +100,26 @@ footer a {
 
 /* Sequence display
 -------------------------------------------------- */
+.alignment {
+    font-family: 'Cousine', monospace;
+}
+
+.alignment .alignment-row {
+    margin-bottom: 15px;
+}
+
+.alignment .alignment-row .sequence-row {
+
+}
+
+.alignment .alignment-row .sequence-row .sequence-name {
+    white-space: pre;
+}
+
+.alignment .alignment-row .sequence-row .sequence-position {
+    white-space: pre;
+}
+
 .fasta {
     font-family: "Courier New", Courier, monospace;
     font-size: 18px;

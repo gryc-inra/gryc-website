@@ -447,12 +447,10 @@ class GeneticEntry
             --$item;
         });
 
-        dump($positionsArray);
         if (1 !== $this->strand) {
             $positionsArray = array_reverse($positionsArray);
             $sequenceManipulator = new SequenceManipulator();
         }
-        dump($positionsArray);
 
         $sequences = [];
         foreach ($positionsArray as $position) {
