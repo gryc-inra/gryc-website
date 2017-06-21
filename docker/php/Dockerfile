@@ -59,7 +59,7 @@ RUN rm -rf /var/lib/apt/lists/*
 ########################
 # Copy supervisor conf #
 ########################
-COPY supervisor/blast_consumer.conf /etc/supervisor/conf.d/blast_consumer.conf
+COPY supervisor-programs.conf /etc/supervisor/conf.d/supervisor-programs.conf
 
 ##################
 # Define workdir #
