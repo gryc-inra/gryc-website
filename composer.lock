@@ -1040,12 +1040,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "e2f665a1591fbb80a3f96f62dfbe5d4847448644"
+                "reference": "9d55dc256dc424ce936b4a725c2e1fd1d0da5972"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/e2f665a1591fbb80a3f96f62dfbe5d4847448644",
-                "reference": "e2f665a1591fbb80a3f96f62dfbe5d4847448644",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/9d55dc256dc424ce936b4a725c2e1fd1d0da5972",
+                "reference": "9d55dc256dc424ce936b4a725c2e1fd1d0da5972",
                 "shasum": ""
             },
             "require": {
@@ -1123,7 +1123,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2017-06-07 21:06:43"
+            "time": "2017-06-15 07:39:15"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -1465,16 +1465,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.22.1",
+            "version": "1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0"
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1e044bc4b34e91743943479f1be7a1d5eb93add0",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
                 "shasum": ""
             },
             "require": {
@@ -1495,7 +1495,7 @@
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "ruflin/elastica": ">=0.90 <3.0",
                 "sentry/sentry": "^0.13",
-                "swiftmailer/swiftmailer": "~5.3"
+                "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -1539,7 +1539,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-03-13T07:08:03+00:00"
+            "time": "2017-06-19T01:22:40+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -2293,12 +2293,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/snc/SncRedisBundle.git",
-                "reference": "abfb9da499934d7a16475b21e9028886a125c806"
+                "reference": "60b82fd31432c78d976470eae179211af7d17c60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/snc/SncRedisBundle/zipball/abfb9da499934d7a16475b21e9028886a125c806",
-                "reference": "abfb9da499934d7a16475b21e9028886a125c806",
+                "url": "https://api.github.com/repos/snc/SncRedisBundle/zipball/60b82fd31432c78d976470eae179211af7d17c60",
+                "reference": "60b82fd31432c78d976470eae179211af7d17c60",
                 "shasum": ""
             },
             "require": {
@@ -2350,7 +2350,7 @@
                 "redis",
                 "symfony"
             ],
-            "time": "2017-06-08 17:42:18"
+            "time": "2017-06-15 08:51:06"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
