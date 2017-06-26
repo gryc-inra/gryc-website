@@ -61,8 +61,15 @@ class MultipleAlignmentController extends Controller
      */
     public function viewAction(MultipleAlignment $multipleAlignment)
     {
+        if ('finished' === $multipleAlignment->getStatus()) {
+            $result = $this->get('app.multiple_alignment_manager')->fastaToArray($multipleAlignment->getOutput());
+        } else {
+            $result = null;
+        }
+
         return $this->render('multiple_alignment/view.html.twig', [
             'alignment' => $multipleAlignment,
+            'result' => $result,
         ]);
     }
 }

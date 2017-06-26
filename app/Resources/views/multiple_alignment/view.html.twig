@@ -35,18 +35,41 @@
     {% elseif 'failed' == alignment.status %}
         <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
-        {% set lines = fasta_generator.fastaToArray(alignment.output) %}
+            <div class="panel panel-default">
+                <div class="panel-heading">Legend</div>
+                <div class="panel-body alignment">
+                    <span class="identical-60">>=60 and <80%</span>
+                    <span class="identical-80">>=80 and <100%</span>
+                    <span class="identical-100">=100%</span>
+                </div>
+            </div>
 
-        <div class="alignment">
-            {% for line in lines %}
-                <div class="alignment-row">
-                    {% for sequenceLine in line %}
-                        <div class="sequence-row">
-                            <span class="sequence-name">{{ sequenceLine.name }}</span> <span class="sequence-position">{{ sequenceLine.start }}</span> {{ sequenceLine.bases|join }} <span class="sequence-position">{{ sequenceLine.stop }}</span>
+            <div class="panel panel-default">
+                <div class="panel-heading">Legend</div>
+                <div class="panel-body alignment">
+                    {% set nbSequences = result.0.alignment_rows|length %}
+
+                    {% for row in result %}
+                        <div class="alignment-row">
+                            {% for alignmentRow in row['alignment_rows'] %}
+                                <div class="sequence-row">
+                                    <span class="sequence-name">{{ alignmentRow.name }}</span>
+                                    <span class="sequence-position">{{ alignmentRow.start }}</span>
+                                    <span class="sequence-bases">
+                                            {%- for base in alignmentRow.bases -%}
+                                                {%- if null != base.style -%}
+                                                    <span class="{{ base.style }}">{{ base.letter }}</span>
+                                                {%- else -%}
+                                                    <span>{{ base.letter }}</span>
+                                                {%- endif -%}
+                                            {%- endfor -%}
+                                    </span>
+                                    <span class="sequence-position">{{ alignmentRow.end }}</span>
+                                </div>
+                            {% endfor %}
                         </div>
                     {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
+            </div>
     {% endif %}
 {% endblock %}

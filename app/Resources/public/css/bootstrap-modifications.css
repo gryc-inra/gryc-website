@@ -108,15 +108,31 @@ footer a {
     margin-bottom: 15px;
 }
 
-.alignment .alignment-row .sequence-row {
-
+.alignment .sequence-row {
+    margin-bottom: -5px;
+    padding: 0;
 }
 
-.alignment .alignment-row .sequence-row .sequence-name {
+.alignment .sequence-name {
     white-space: pre;
 }
 
-.alignment .alignment-row .sequence-row .sequence-position {
+.alignment .identical-100 {
+    color: white;
+    background-color: #3c3c3c;
+}
+
+.alignment .identical-80 {
+    color: white;
+    background-color: #737373;
+}
+
+.alignment .identical-60 {
+    color: black;
+    background-color: #d3d3d3;
+}
+
+.alignment .sequence-position {
     white-space: pre;
 }
 
