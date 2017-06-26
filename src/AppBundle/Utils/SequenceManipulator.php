@@ -43,7 +43,8 @@ class SequenceManipulator
         return $this->complement($this->reverse($sequence));
     }
 
-    public function fastaToSequencesArray($fasta) {
+    public function fastaToSequencesArray($fasta)
+    {
         // First, separate sequences in a sequences array
         $sequences = explode('>', $fasta);
         // We cut on >, then the first line is empty, remove it
@@ -55,7 +56,7 @@ class SequenceManipulator
             $explodedSequence = explode("\r\n", $sequences[$i]);
             unset($sequences[$i]);
             $sequences[$i]['name'] = array_shift($explodedSequence);
-            $sequences[$i]['sequence'] = join($explodedSequence);
+            $sequences[$i]['sequence'] = implode($explodedSequence);
         }
 
         return $sequences;

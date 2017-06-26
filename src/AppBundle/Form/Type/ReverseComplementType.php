@@ -31,7 +31,7 @@ class ReverseComplementType extends AbstractType
                     'Reverse-Complement' => 'reverse-complement',
                     'Reverse' => 'reverse',
                     'Complement' => 'complement',
-                ]
+                ],
             ])
         ;
     }

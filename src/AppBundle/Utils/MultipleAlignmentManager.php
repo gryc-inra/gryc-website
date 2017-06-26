@@ -136,7 +136,7 @@ class MultipleAlignmentManager
             // Check all bases for each position
             // We count the letters, and add it in a table
             for ($i = 0; $i <= $sequenceLength; ++$i) {
-                for ($j = 0; $j <= $sequenceNumber; ++$j ) {
+                for ($j = 0; $j <= $sequenceNumber; ++$j) {
                     $base = $value['alignment_rows'][$j]['bases'][$i];
 
                     // Do not count '-'
@@ -156,8 +156,8 @@ class MultipleAlignmentManager
 
         // Define color % identical
         $identical100 = $nbSequences;
-        $identical80 = floor($nbSequences*0.8);
-        $identical60 = floor($nbSequences*0.6);
+        $identical80 = floor($nbSequences * 0.8);
+        $identical60 = floor($nbSequences * 0.6);
 
         foreach ($alignment as &$row) {
             foreach ($row['alignment_rows'] as &$alignmentRow) {
