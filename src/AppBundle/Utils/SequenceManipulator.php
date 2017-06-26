@@ -32,7 +32,7 @@ class SequenceManipulator
 
         $bases = str_split($sequence, 1);
         foreach ($bases as &$base) {
-            $base = $complementaryTable[$base];
+            $base = $complementaryTable[strtoupper($base)];
         }
 
         return implode('', $bases);
@@ -41,5 +41,23 @@ class SequenceManipulator
     public function reverseComplement($sequence)
     {
         return $this->complement($this->reverse($sequence));
+    }
+
+    public function fastaToSequencesArray($fasta) {
+        // First, separate sequences in a sequences array
+        $sequences = explode('>', $fasta);
+        // We cut on >, then the first line is empty, remove it
+        unset($sequences[0]);
+        $sequences = array_values($sequences);
+
+        for ($i = 0; $i <= count($sequences) - 1; ++$i) {
+            // Explode the sequence on newline char, then define the sequence as an array
+            $explodedSequence = explode("\r\n", $sequences[$i]);
+            unset($sequences[$i]);
+            $sequences[$i]['name'] = array_shift($explodedSequence);
+            $sequences[$i]['sequence'] = join($explodedSequence);
+        }
+
+        return $sequences;
     }
 }

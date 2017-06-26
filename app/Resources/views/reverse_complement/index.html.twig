@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Reverse complement tool
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Reverse complement</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Reverse complement</h1>
+
+    {{ form_start(form) }}
+        {{ form_rest(form) }}
+
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-info">Reverse complement</button>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

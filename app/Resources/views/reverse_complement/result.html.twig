@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Sequence manipulation
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('reverse_complement') }}">Reverse complement</a></li>
+    <li class="active">Result: {{ action }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Sequence Manipulation: {{ action }}</h1>
+
+    <div class="col-sm-12">
+        <textarea rows="20" class="form-control alignment">
+            {%- for sequence in sequences -%}
+                {%- if not loop.first -%}
+                    {{ "\n\n" }}
+                {%- endif -%}
+                >{{- sequence.name ~"\n" -}}
+                {{- sequence.sequence|wordwrap(60, "\n") -}}
+            {%- endfor -%}
+        </textarea>
+    </div>
+{% endblock %}
