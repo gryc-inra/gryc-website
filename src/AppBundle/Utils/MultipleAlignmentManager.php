@@ -12,11 +12,13 @@ class MultipleAlignmentManager
 {
     private $em;
     private $session;
+    private $sequenceManipulator;
 
-    public function __construct(EntityManager $em, Session $session)
+    public function __construct(EntityManager $em, Session $session, SequenceManipulator $sequenceManipulator)
     {
         $this->em = $em;
         $this->session = $session;
+        $this->sequenceManipulator = $sequenceManipulator;
     }
 
     public function initAlignment(MultipleAlignment $multipleAlignment = null)
@@ -93,26 +95,58 @@ class MultipleAlignmentManager
 
     public function fastaToArray($fasta)
     {
-        // First, separate sequences in a sequences array
-        $sequences = explode('>', $fasta);
-        // We cut on >, then the first line is empty, remove it
-        unset($sequences[0]);
-        $sequences = array_values($sequences);
+        $alignment = [];
+
+        // Transform the fasta to an array
+        $sequences = $this->sequenceManipulator->fastaToSequencesArray($fasta, "\n");
         $nbSequences = count($sequences);
 
-        $alignment = [];
+
+        // Is a fasta of nucleotides or amino acids ?
+        // To define it, count all letters, and do statistics (90% of atcg => nucleotides)
+        // We define it on the first sequence, to avoid bug if user mix amino acids and nucleotides sequences
+        // Get the number of a, t, c, g
+        // The ascii code are:
+        // 65 -> A, 97 -> a
+        // 67 -> C, 99 -> c
+        // 71 -> G, 103 -> g
+        // 84 -> T, 116 -> t
+        // 45 -> -
+        $charsCount = count_chars($sequences[0]['sequence'], 1);
+        // Remove '-' from the array
+        unset($charsCount[45]);
+
+        $nucCount = 0;
+        $totalCount = 0;
+
+        foreach ($charsCount as $i => $val) {
+            // Add the number of chars to the totalCount
+            $totalCount += $val;
+
+            // If the letter is a a, t, c, g, add it to the nucCount
+            if (in_array($i, [65, 97, 67, 99, 71, 103, 84, 116])) {
+                $nucCount += $val;
+            }
+        }
+
+        // Then decide, is it nuc or prot ? (if percentage of acgt is > to 90 % => nuc)
+        if (($nucCount/$totalCount) > 0.9) {
+            $alignment['sequence_type'] = 'nuc';
+        } else {
+            $alignment['sequence_type'] = 'prot';
+        }
+
+        // Add all sequences compared at each row in alignment array
         $i = 0;
         foreach ($sequences as $key => $value) {
-            // Explode the sequence on newline char, then define the sequence as an array
-            $explodedSequence = explode("\n", $value);
-            $sequenceName = array_shift($explodedSequence);
-            $sequenceName = strlen($sequenceName) > 20 ? substr($sequenceName, 0, 17).'...' : $sequenceName;
-            $basesLines = array_slice($explodedSequence, 0, -1);
+            // Define the sequence name and an array of bases (60 per line)
+            $sequenceName = strlen($value['name']) > 20 ? substr($value['name'], 0, 17).'...' : $value['name'];
+            $basesLines = str_split($value['sequence'], 60);
 
             // Create the table
             $basesLinesCount = count($basesLines) - 1;
             $end = 0;
-            $longerPosition = strlen(count($explodedSequence) * 60);
+            $longerPosition = strlen($basesLinesCount * 60);
             for ($j = 0; $j <= $basesLinesCount; ++$j) {
                 $basesLength = strlen($basesLines[$j]);
 
@@ -120,24 +154,25 @@ class MultipleAlignmentManager
                 $start = $end + 1;
                 $end = $start + $basesLength - 1;
 
-                // Define name and bases
+                // Define name and bases (add spaces, to align text)
                 $line['name'] = str_pad($sequenceName, 20, ' ', STR_PAD_RIGHT);
                 $line['bases'] = str_split($basesLines[$j]);
                 $line['start'] = str_pad($start, $longerPosition, ' ', STR_PAD_LEFT);
-                $line['end'] = $end;
+                $line['end'] = (string) $end;
 
                 // Assign to the array
-                $alignment[$j]['alignment_rows'][$i] = $line;
+                $alignment['rows'][$j]['alignment_rows'][$i] = $line;
 
-                if (!isset($alignment[$j]['length'])) { // Define the length only one time
-                    $alignment[$j]['length'] = $basesLength;
+                if (!isset($alignment['rows'][$j]['length'])) { // Define the length only one time
+                    $alignment['rows'][$j]['length'] = $basesLength;
                 }
             }
 
             ++$i;
         }
 
-        foreach ($alignment as $key => $value) {
+        // Count the bases, and add an array of it in the alignment array
+        foreach ($alignment['rows'] as $key => $value) {
             $sequenceLength = $value['length'] - 1;
             $sequenceNumber = count($value['alignment_rows']) - 1;
             $basesCount = [];
@@ -160,42 +195,68 @@ class MultipleAlignmentManager
             }
 
             // Add the basesCount table as "bases_count"
-            $alignment[$key]['bases_count'] = $basesCount;
+            $alignment['rows'][$key]['bases_count'] = $basesCount;
         }
 
-        // Define color % identical
-        $identical100 = $nbSequences;
-        $identical80 = floor($nbSequences * 0.8);
-        $identical60 = floor($nbSequences * 0.6);
+        dump($alignment);
 
-        foreach ($alignment as &$row) {
-            foreach ($row['alignment_rows'] as &$alignmentRow) {
-                $i = 0;
-                foreach ($alignmentRow['bases'] as &$base) {
-                    // Define the syle for each letter
-                    $style = null;
+        // If nucleotides
+        if ('nuc' === $alignment['sequence_type']) {
+            // Define color % identical
+            $identical100 = $nbSequences;
+            $identical80 = floor($nbSequences * 0.8);
+            $identical60 = floor($nbSequences * 0.6);
 
-                    if ('-' !== $base) {
-                        $count = $row['bases_count'][$i][$base];
+            // Add class o do the coloration of nucleotides
+            foreach ($alignment['rows'] as &$row) {
+                foreach ($row['alignment_rows'] as &$alignmentRow) {
+                    $i = 0;
+                    foreach ($alignmentRow['bases'] as &$base) {
+                        // Define the syle for each letter
+                        $style = null;
 
-                        if ($count == $identical100) {
-                            $style = 'identical-100';
-                        } elseif ($count >= $identical80) {
-                            $style = 'identical-80';
-                        } elseif ($count >= $identical60) {
-                            $style = 'identical-60';
+                        if ('-' !== $base) {
+                            $count = $row['bases_count'][$i][$base];
+
+                            if ($count == $identical100) {
+                                $style = 'identical-100';
+                            } elseif ($count >= $identical80) {
+                                $style = 'identical-80';
+                            } elseif ($count >= $identical60) {
+                                $style = 'identical-60';
+                            }
                         }
+
+                        $base = [
+                            'letter' => $base,
+                            'style' => $style,
+                        ];
+
+                        ++$i;
                     }
+                }
+            }
+        } else { // It's a protein
+            // Add class o do the coloration of nucleotides
+            foreach ($alignment['rows'] as &$row) {
+                foreach ($row['alignment_rows'] as &$alignmentRow) {
+                    $i = 0;
+                    foreach ($alignmentRow['bases'] as &$base) {
+                        // Define the syle for each letter
+                        $style = null;
 
-                    $base = [
-                        'letter' => $base,
-                        'style' => $style,
-                    ];
+                        $base = [
+                            'letter' => $base,
+                            'style' => $style,
+                        ];
 
-                    ++$i;
+                        ++$i;
+                    }
                 }
             }
         }
+
+        dump($alignment);
 
         return $alignment;
     }

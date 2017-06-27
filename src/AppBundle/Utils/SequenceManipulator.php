@@ -43,7 +43,7 @@ class SequenceManipulator
         return $this->complement($this->reverse($sequence));
     }
 
-    public function fastaToSequencesArray($fasta)
+    public function fastaToSequencesArray($fasta, $delimiter = "\r\n")
     {
         // First, separate sequences in a sequences array
         $sequences = explode('>', $fasta);
@@ -53,7 +53,7 @@ class SequenceManipulator
 
         for ($i = 0; $i <= count($sequences) - 1; ++$i) {
             // Explode the sequence on newline char, then define the sequence as an array
-            $explodedSequence = explode("\r\n", $sequences[$i]);
+            $explodedSequence = explode($delimiter, $sequences[$i]);
             unset($sequences[$i]);
             $sequences[$i]['name'] = array_shift($explodedSequence);
             $sequences[$i]['sequence'] = implode($explodedSequence);

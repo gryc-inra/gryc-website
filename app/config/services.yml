@@ -60,7 +60,7 @@ services:
 
     app.multiple_alignment_manager:
         class:  AppBundle\Utils\MultipleAlignmentManager
-        arguments: ["@doctrine.orm.entity_manager", "@session"]
+        arguments: ["@doctrine.orm.entity_manager", "@session", "@app.sequence_manipulator"]
 
     app.cart_manager:
         class: AppBundle\Utils\CartManager
