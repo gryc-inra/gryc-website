@@ -94,13 +94,13 @@ class BlastManager
             $process->run();
         } catch (RuntimeException $exception) {
             $blast->setStatus('failed');
-            $blast->setOutputError($process->getErrorOutput());
+            $blast->setErrorOutput($process->getErrorOutput());
         }
 
         // executes after the command finishes
         if (!$process->isSuccessful()) {
             $blast->setStatus('failed');
-            $blast->setOutputError($process->getErrorOutput());
+            $blast->setErrorOutput($process->getErrorOutput());
         } else {
             $blast->setStatus('finished');
             $blast->setOutput($process->getOutput());
