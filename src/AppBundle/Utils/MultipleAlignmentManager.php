@@ -101,7 +101,6 @@ class MultipleAlignmentManager
         $sequences = $this->sequenceManipulator->fastaToSequencesArray($fasta, "\n");
         $nbSequences = count($sequences);
 
-
         // Is a fasta of nucleotides or amino acids ?
         // To define it, count all letters, and do statistics (90% of atcg => nucleotides)
         // We define it on the first sequence, to avoid bug if user mix amino acids and nucleotides sequences
@@ -130,7 +129,7 @@ class MultipleAlignmentManager
         }
 
         // Then decide, is it nuc or prot ? (if percentage of acgt is > to 90 % => nuc)
-        if (($nucCount/$totalCount) > 0.9) {
+        if (($nucCount / $totalCount) > 0.9) {
             $alignment['sequence_type'] = 'nuc';
         } else {
             $alignment['sequence_type'] = 'prot';
@@ -198,8 +197,6 @@ class MultipleAlignmentManager
             $alignment['rows'][$key]['bases_count'] = $basesCount;
         }
 
-        dump($alignment);
-
         // If nucleotides
         if ('nuc' === $alignment['sequence_type']) {
             // Define color % identical
@@ -237,6 +234,41 @@ class MultipleAlignmentManager
                 }
             }
         } else { // It's a protein
+            // Class table
+            $classTable = [
+                'G' => 'aa-gavli',
+                'A' => 'aa-gavli',
+                'V' => 'aa-gavli',
+                'L' => 'aa-gavli',
+                'I' => 'aa-gavli',
+                'F' => 'aa-fyw',
+                'Y' => 'aa-fyw',
+                'W' => 'aa-fyw',
+                'C' => 'aa-cm',
+                'M' => 'aa-cm',
+                'S' => 'aa-st',
+                'T' => 'aa-st',
+                'K' => 'aa-krh',
+                'R' => 'aa-krh',
+                'H' => 'aa-krh',
+                'D' => 'aa-de',
+                'E' => 'aa-de',
+                'N' => 'aa-nq',
+                'Q' => 'aa-nq',
+                'P' => 'aa-p',
+            ];
+
+            $classTable = [
+                'aa-gavli' => ['G', 'A', 'V', 'L', 'I'],
+                'aa-fyw' => ['F', 'Y', 'W'],
+                'aa-cm' => ['C', 'M'],
+                'aa-st' => ['S', 'T'],
+                'aa-krh' => ['K', 'R', 'H'],
+                'aa-de' => ['D', 'E'],
+                'aa-nq' => ['N', 'Q'],
+                'aa-p' => ['P'],
+            ];
+
             // Add class o do the coloration of nucleotides
             foreach ($alignment['rows'] as &$row) {
                 foreach ($row['alignment_rows'] as &$alignmentRow) {
@@ -244,6 +276,15 @@ class MultipleAlignmentManager
                     foreach ($alignmentRow['bases'] as &$base) {
                         // Define the syle for each letter
                         $style = null;
+
+                        if ('-' !== $base) {
+                            foreach ($classTable as $class => $aas) {
+                                if (in_array($base, $aas)) {
+                                    $style = $class;
+                                }
+                            }
+                        }
+                        dump($style);
 
                         $base = [
                             'letter' => $base,
@@ -255,8 +296,6 @@ class MultipleAlignmentManager
                 }
             }
         }
-
-        dump($alignment);
 
         return $alignment;
     }

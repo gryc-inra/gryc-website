@@ -132,6 +132,38 @@ footer a {
     background-color: #d3d3d3;
 }
 
+.alignment .aa-gavli {
+    background-color: grey;
+}
+
+.alignment .aa-fyw {
+    background-color: orangered;
+}
+
+.alignment .aa-cm {
+    background-color: yellow;
+}
+
+.alignment .aa-st {
+    background-color: greenyellow;
+}
+
+.alignment .aa-krh {
+    background-color: red;
+}
+
+.alignment .aa-de {
+    background-color: cornflowerblue;
+}
+
+.alignment .aa-nq {
+    background-color: sandybrown;
+}
+
+.alignment .aa-p {
+    background-color: hotpink;
+}
+
 .alignment .sequence-position {
     white-space: pre;
 }
