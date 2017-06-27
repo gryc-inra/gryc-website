@@ -11,13 +11,11 @@ use Symfony\Component\Process\Process;
 class MultipleAlignmentManager
 {
     private $em;
-    private $projectDir;
     private $session;
 
-    public function __construct(EntityManager $em, $projectDir, Session $session)
+    public function __construct(EntityManager $em, Session $session)
     {
         $this->em = $em;
-        $this->projectDir = $projectDir;
         $this->session = $session;
     }
 
