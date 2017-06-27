@@ -17,11 +17,7 @@ class MultipleAlignmentController extends Controller
     public function indexAction(MultipleAlignment $multipleAlignment = null, Request $request)
     {
         $multipleAlignmentManager = $this->get('app.multiple_alignment_manager');
-        if (null === $multipleAlignment && null === $multipleAlignment = $multipleAlignmentManager->getLastAlignment()) {
-            $multipleAlignment = new MultipleAlignment();
-        } else {
-            $multipleAlignment = clone $multipleAlignment;
-        }
+        $multipleAlignment = $multipleAlignmentManager->initAlignment($multipleAlignment);
 
         $form = $this->createForm(MultipleAlignmentType::class, $multipleAlignment);
 

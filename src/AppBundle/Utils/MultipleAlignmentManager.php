@@ -21,6 +21,17 @@ class MultipleAlignmentManager
         $this->session = $session;
     }
 
+    public function initAlignment(MultipleAlignment $multipleAlignment = null)
+    {
+        if (null === $multipleAlignment && null === $multipleAlignment = $this->getLastAlignment()) {
+            $multipleAlignment = new MultipleAlignment();
+        } else {
+            $multipleAlignment = clone $multipleAlignment;
+        }
+
+        return $multipleAlignment;
+    }
+
     public function getLastAlignment()
     {
         $lastMultipleAlignmentId = $this->session->get('last_multiple_alignment');
