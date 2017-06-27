@@ -5,13 +5,11 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Locus;
 use AppBundle\Form\Type\CartType;
 use AppBundle\Utils\CartManager;
-use AppBundle\Utils\FastaGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CartController extends Controller
 {
