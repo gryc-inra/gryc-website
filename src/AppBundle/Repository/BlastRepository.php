@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class BlastRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findExpiredBlasts()
+    public function findExpired()
     {
         $date = new \DateTime();
         $date->modify('-1 day');

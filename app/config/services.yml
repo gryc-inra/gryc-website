@@ -89,8 +89,8 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
 
-    app.event_listener.blast_cleaner:
-        class: AppBundle\EventListener\BlastCleanerListener
+    app.event_listener.entities_cleaner:
+        class: AppBundle\EventListener\EntitiesCleanerListener
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: kernel.event_listener, event: kernel.terminate, method: 'onTerminate' }

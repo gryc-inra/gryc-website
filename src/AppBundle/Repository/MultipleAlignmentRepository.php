@@ -10,4 +10,16 @@ namespace AppBundle\Repository;
  */
 class MultipleAlignmentRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findExpired()
+    {
+        $date = new \DateTime();
+        $date->modify('-1 day');
+
+        $query = $this->createQueryBuilder('multiple_alignment')
+            ->where('multiple_alignment.created < :date')
+            ->setParameter('date', $date)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
