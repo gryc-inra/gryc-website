@@ -71,9 +71,7 @@ class ResettingController extends Controller
             return $this->redirectToRoute('login');
         }
 
-        if (null === $user->getConfirmationToken() ||
-            !hash_equals($user->getConfirmationToken(), $token)
-        ) {
+        if (null === $user->getConfirmationToken() || !hash_equals($user->getConfirmationToken(), $token)) {
             $this->addFlash('warning', 'The confirmation token is not valid.');
 
             return $this->redirectToRoute('login');
@@ -82,10 +80,8 @@ class ResettingController extends Controller
         $form = $this->createForm(ResetPasswordType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Encode the password
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-            // Delete the token
+            // Update the password
+            $this->get('app.user_manager')->updateUser($user, false);
             $user->setConfirmationToken(null);
             $em->flush();
 
