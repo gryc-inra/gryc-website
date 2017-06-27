@@ -39,26 +39,23 @@
                 <div class="panel-heading">Legend</div>
                 <div class="panel-body alignment">
                     {% if 'nuc' == result.sequence_type %}
-                        <span class="identical-60">&#8805; 60%</span>
-                        <span class="identical-80">&#8805; 80%</span>
-                        <span class="identical-100">= 100%</span>
+                        Conservation:<br>
+                        <span class="conservation-100">&nbsp;&nbsp;&nbsp;</span> = 100%<br>
+                        <span class="conservation-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
+                        <span class="conservation-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
                     {% else %}
                         {% spaceless %}
-                        <span class="aa-gavli">G, A, V, L, I,</span>
-                        <span class="aa-fyw"> F, Y, W,</span>
-                        <span class="aa-cm"> C, M,</span>
-                        <span class="aa-st"> S, T,</span>
-                        <span class="aa-krh"> K, R, H,</span>
-                        <span class="aa-de"> D, E,</span>
-                        <span class="aa-nq"> N, Q,</span>
-                        <span class="aa-p"> P</span>
+                        <span class="aa-basic">&nbsp;&nbsp;&nbsp;</span> Basic<br>
+                        <span class="aa-nonpolar">&nbsp;&nbsp;&nbsp;</span> Nonpolar (hydrophobic)<br>
+                        <span class="aa-polar">&nbsp;&nbsp;&nbsp;</span> Polar, uncharged<br>
+                        <span class="aa-acidic">&nbsp;&nbsp;&nbsp;</span> Acidic
                         {% endspaceless %}
                     {% endif %}
                 </div>
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading">Legend</div>
+                <div class="panel-heading">Alignment</div>
                 <div class="panel-body alignment">
                     {% for row in result.rows %}
                         <div class="alignment-row">

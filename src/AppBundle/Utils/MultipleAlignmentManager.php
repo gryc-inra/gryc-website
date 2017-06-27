@@ -216,11 +216,11 @@ class MultipleAlignmentManager
                             $count = $row['bases_count'][$i][$base];
 
                             if ($count == $identical100) {
-                                $style = 'identical-100';
+                                $style = 'conservation-100';
                             } elseif ($count >= $identical80) {
-                                $style = 'identical-80';
+                                $style = 'conservation-80';
                             } elseif ($count >= $identical60) {
-                                $style = 'identical-60';
+                                $style = 'conservation-60';
                             }
                         }
 
@@ -236,37 +236,10 @@ class MultipleAlignmentManager
         } else { // It's a protein
             // Class table
             $classTable = [
-                'G' => 'aa-gavli',
-                'A' => 'aa-gavli',
-                'V' => 'aa-gavli',
-                'L' => 'aa-gavli',
-                'I' => 'aa-gavli',
-                'F' => 'aa-fyw',
-                'Y' => 'aa-fyw',
-                'W' => 'aa-fyw',
-                'C' => 'aa-cm',
-                'M' => 'aa-cm',
-                'S' => 'aa-st',
-                'T' => 'aa-st',
-                'K' => 'aa-krh',
-                'R' => 'aa-krh',
-                'H' => 'aa-krh',
-                'D' => 'aa-de',
-                'E' => 'aa-de',
-                'N' => 'aa-nq',
-                'Q' => 'aa-nq',
-                'P' => 'aa-p',
-            ];
-
-            $classTable = [
-                'aa-gavli' => ['G', 'A', 'V', 'L', 'I'],
-                'aa-fyw' => ['F', 'Y', 'W'],
-                'aa-cm' => ['C', 'M'],
-                'aa-st' => ['S', 'T'],
-                'aa-krh' => ['K', 'R', 'H'],
-                'aa-de' => ['D', 'E'],
-                'aa-nq' => ['N', 'Q'],
-                'aa-p' => ['P'],
+                'aa-basic' => ['H', 'R', 'K'],
+                'aa-nonpolar' => ['F', 'A', 'L', 'M', 'I', 'W', 'P', 'V'],
+                'aa-polar' => ['C', 'G', 'Q', 'N', 'S', 'Y', 'T'],
+                'aa-acidic' => ['D', 'E'],
             ];
 
             // Add class o do the coloration of nucleotides
@@ -281,10 +254,10 @@ class MultipleAlignmentManager
                             foreach ($classTable as $class => $aas) {
                                 if (in_array($base, $aas)) {
                                     $style = $class;
+                                    break;
                                 }
                             }
                         }
-                        dump($style);
 
                         $base = [
                             'letter' => $base,
