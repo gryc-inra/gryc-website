@@ -64,7 +64,7 @@ services:
 
     app.cart_manager:
         class: AppBundle\Utils\CartManager
-        arguments: ["@session", "@security.authorization_checker"]
+        arguments: ["@session", "@security.authorization_checker", "@doctrine.orm.entity_manager"]
 
     app.sitemap:
         class: AppBundle\Utils\Sitemap

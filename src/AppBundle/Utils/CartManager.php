@@ -3,7 +3,9 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Locus;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class CartManager
@@ -14,12 +16,14 @@ class CartManager
     private $session;
     private $authorizationChecker;
     private $cart;
+    private $em;
 
-    public function __construct(Session $session, AuthorizationChecker $authorizationChecker)
+    public function __construct(Session $session, AuthorizationChecker $authorizationChecker, EntityManager $entityManager)
     {
         $this->session = $session;
         $this->authorizationChecker = $authorizationChecker;
         $this->initCart();
+        $this->em = $entityManager;
     }
 
     public function addToCart(Locus $locus)
@@ -81,5 +85,26 @@ class CartManager
     public function saveCart()
     {
         $this->session->set('cart', $this->cart);
+    }
+
+    public function getCartEntities()
+    {
+        return $this->em->getRepository('AppBundle:Locus')->findLocusById($this->cart['items']);
+    }
+
+    public function streamCart($entities, $form)
+    {
+        $fileName = 'Gryc-cart-export-'.date('Y-m-d_h:i:s');
+        $response = new StreamedResponse();
+        $response->setCallback(function () use ($form, $entities) {
+            $fastaGenerator = new FastaGenerator();
+            $fastaGenerator->generateFasta($form->getData(), $entities);
+        });
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/plain; charset=utf-8');
+        $response->headers->set('Cache-Control', 'no-cache');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$fileName.'.fasta"');
+
+        return $response;
     }
 }

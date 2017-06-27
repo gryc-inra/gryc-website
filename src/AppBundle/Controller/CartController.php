@@ -74,12 +74,7 @@ class CartController extends Controller
     public function viewAction(Request $request)
     {
         $cartManager = $this->get('app.cart_manager');
-        $cart = $cartManager->getCart();
-
-        $em = $this->getDoctrine()->getManager();
-        // This repository method don't load sequence in memory, then the server do multiple sub request
-        // In this case it's better because chromosomes dna sequence have an iportant size
-        $cartElements = $em->getRepository('AppBundle:Locus')->findLocusById($cart['items']);
+        $cartElements = $cartManager->getCartEntities();
 
         $form = $this->createForm(CartType::class);
         $form->handleRequest($request);
@@ -90,17 +85,8 @@ class CartController extends Controller
                 return $this->redirectToRoute('cart_view');
             }
 
-            $fileName = 'Gryc-cart-export-'.date('Y-m-d_h:i:s');
-            $response = new StreamedResponse();
-            $response->setCallback(function () use ($form, $cartElements) {
-                $fastaGenerator = new FastaGenerator();
-                $fastaGenerator->generateFasta($form->getData(), $cartElements);
-            });
-            $response->setStatusCode(200);
-            $response->headers->set('Content-Type', 'text/plain; charset=utf-8');
-            $response->headers->set('Content-Disposition', 'attachment; filename="'.$fileName.'.fasta"');
-
-            return $response;
+            // Return a Streamed response
+            return $cartManager->streamCart($cartElements, $form);
         }
 
         return $this->render('cart/view.html.twig', [
