@@ -130,7 +130,7 @@ class BlastType extends AbstractType
             $queryConstrainst = [
                 new NotBlank(),
                 new Regex([
-                    'pattern' => '/^(?:>[\w\W]+\s(?:[A-Z]+\s?)+\s*)+$/',
+                    'pattern' => '/^(?:>[\w\W]+\s(?:[A-Z]+\s?)+\s*)+$/i',
                     'message' => 'This is not a valid FASTA.',
                 ]),
             ];

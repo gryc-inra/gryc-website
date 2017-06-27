@@ -17,11 +17,7 @@ class BlastController extends Controller
     public function indexAction(Blast $blast = null, Request $request)
     {
         $blastManager = $this->get('app.blast_manager');
-        if (null === $blast && null === $blast = $blastManager->getLastBlast()) {
-            $blast = new Blast();
-        } else {
-            $blast = clone $blast;
-        }
+        $blast = $blastManager->initBlast($blast);
 
         $form = $this->createForm(BlastType::class, $blast);
 

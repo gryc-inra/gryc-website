@@ -22,6 +22,18 @@ class BlastManager
         $this->session = $session;
     }
 
+    public function initBlast(Blast $blast = null)
+    {
+        if (null === $blast && null === $blast = $this->getLastBlast()) {
+            $blast = new Blast();
+        } else {
+            // Here, clone the Blast give by the user, or the last blast (In the if, we define blast and test it after the &&)
+            $blast = clone $blast;
+        }
+
+        return $blast;
+    }
+
     public function getLastBlast()
     {
         $lastBlastId = $this->session->get('last_blast');
