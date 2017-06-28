@@ -93,7 +93,7 @@ class MultipleAlignmentManager
         return $multipleAlignment;
     }
 
-    public function fastaToArray($fasta, $colorationType = null)
+    public function fastaToArray($fasta, $colorationType = null, $identitiesColorationLevel = null)
     {
         $alignment = [];
 
@@ -221,9 +221,16 @@ class MultipleAlignmentManager
         // Color with the appropriate method
         if ('identities' === $colorationType) {
             // Conservation coloration
-            $identical100 = $nbSequences;
-            $identical80 = floor($nbSequences * 0.8);
-            $identical60 = floor($nbSequences * 0.6);
+            $identities100 = $nbSequences;
+            $identities80 = floor($nbSequences * 0.8);
+            $identities60 = floor($nbSequences * 0.6);
+
+            // Set the $identitiesColorationLevel default value
+            if (null === $identitiesColorationLevel or !ctype_digit($identitiesColorationLevel)) {
+                $identitiesColorationLevel = 3;
+            }
+
+            $alignment['identities_coloration_level'] = $identitiesColorationLevel;
 
             foreach ($alignment['rows'] as &$row) {
                 foreach ($row['alignment_rows'] as &$alignmentRow) {
@@ -234,11 +241,11 @@ class MultipleAlignmentManager
                         if ('-' !== $base) {
                             $count = $row['bases_count'][$i][$base];
 
-                            if ($count == $identical100) {
+                            if ($count == $identities100) {
                                 $style = 'identities-100';
-                            } elseif ($count >= $identical80) {
+                            } elseif ($count >= $identities80 && (2 == $identitiesColorationLevel || 3 == $identitiesColorationLevel)) {
                                 $style = 'identities-80';
-                            } elseif ($count >= $identical60) {
+                            } elseif ($count >= $identities60 && 3 == $identitiesColorationLevel) {
                                 $style = 'identities-60';
                             }
                         }

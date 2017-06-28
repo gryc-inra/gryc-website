@@ -37,14 +37,35 @@
     {% else %}
         <h3>Coloration:</h3>
         <div class="btn-group" role="group" aria-label="...">
-            <a type="button" class="btn btn-default {{ 'identities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities' }) }}">
-                Identities
-            </a>
+
+            <!-- Split button -->
+            <div class="btn-group">
+                <a type="button" class="btn btn-default {{ 'identities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities' }) }}">
+                        Identities
+                </a>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 1 }) }}">
+                        1 level
+                    </a></li>
+                    <li><a href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 2 }) }}">
+                            2 levels
+                    </a></li>
+                    <li><a href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 3 }) }}">
+                            3 levels
+                    </a></li>
+                </ul>
+            </div>
+
             {% if 'prot' == result.sequence_type %}
                 <a type="button" class="btn btn-default {{ 'similarities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'similarities' }) }}">
                     Similarities
                 </a>
             {% endif %}
+
             <a type="button" class="btn btn-default {{ 'none' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'none' }) }}">
                 None
             </a>
@@ -59,8 +80,12 @@
                     {% if 'identities' == result.coloration %}
                         Conservation:<br>
                         <span class="identities-100">&nbsp;&nbsp;&nbsp;</span> = 100%<br>
-                        <span class="identities-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
-                        <span class="identities-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
+                        {% if '2' == result.identities_coloration_level or '3' == result.identities_coloration_level %}
+                            <span class="identities-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
+                        {% endif %}
+                        {% if '3' == result.identities_coloration_level %}
+                            <span class="identities-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
+                        {% endif %}
                     {% elseif 'similarities' == result.coloration %}
                         Properties:<br>
                         {% spaceless %}

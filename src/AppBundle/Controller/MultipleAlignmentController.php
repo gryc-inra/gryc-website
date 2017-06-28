@@ -58,7 +58,7 @@ class MultipleAlignmentController extends Controller
     public function viewAction(MultipleAlignment $multipleAlignment, Request $request)
     {
         if ('finished' === $multipleAlignment->getStatus()) {
-            $result = $this->get('app.multiple_alignment_manager')->fastaToArray($multipleAlignment->getOutput(), $request->query->get('coloration'));
+            $result = $this->get('app.multiple_alignment_manager')->fastaToArray($multipleAlignment->getOutput(), $request->query->get('coloration'), $request->query->get('level'));
         } else {
             $result = null;
         }
