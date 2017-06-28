@@ -17,6 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -102,7 +103,13 @@ class BlastType extends AbstractType
                     'No' => false,
                 ],
             ])
-            ->add('evalue', NumberType::class)
+            ->add('evalue', NumberType::class, [
+                'constraints' => [
+                    new GreaterThan([
+                        'value' => 0,
+                    ])
+                ]
+            ])
             ->add('gapped', ChoiceType::class, [
                 'choices' => [
                     'Yes' => true,
