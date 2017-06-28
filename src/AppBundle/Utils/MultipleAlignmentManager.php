@@ -93,7 +93,7 @@ class MultipleAlignmentManager
         return $multipleAlignment;
     }
 
-    public function fastaToArray($fasta)
+    public function fastaToArray($fasta, $colorationType = null)
     {
         $alignment = [];
 
@@ -197,30 +197,49 @@ class MultipleAlignmentManager
             $alignment['rows'][$key]['bases_count'] = $basesCount;
         }
 
-        // If nucleotides
-        if ('nuc' === $alignment['sequence_type']) {
-            // Define color % identical
+        // Color the sequence
+        // Possibilities (*=> default):
+        // nuc: none, *conservation*
+        // prot: none, conservation, *properties*
+
+        // Define a default value
+        if ('identities' !== $colorationType && 'similarities' !== $colorationType && 'none' !== $colorationType) {
+            if ('nuc' === $alignment['sequence_type']) {
+                $colorationType = 'identities';
+            } else {
+                $colorationType = 'similarities';
+            }
+        }
+
+        // Verify the coloration type for nuc (similarities: not possible)
+        if ('nuc' === $alignment['sequence_type'] && 'similarities' === $colorationType) {
+            $colorationType = 'identities';
+        }
+
+        $alignment['coloration'] = $colorationType;
+
+        // Color with the appropriate method
+        if ('identities' === $colorationType) {
+            // Conservation coloration
             $identical100 = $nbSequences;
             $identical80 = floor($nbSequences * 0.8);
             $identical60 = floor($nbSequences * 0.6);
 
-            // Add class o do the coloration of nucleotides
             foreach ($alignment['rows'] as &$row) {
                 foreach ($row['alignment_rows'] as &$alignmentRow) {
                     $i = 0;
                     foreach ($alignmentRow['bases'] as &$base) {
-                        // Define the syle for each letter
                         $style = null;
 
                         if ('-' !== $base) {
                             $count = $row['bases_count'][$i][$base];
 
                             if ($count == $identical100) {
-                                $style = 'conservation-100';
+                                $style = 'identities-100';
                             } elseif ($count >= $identical80) {
-                                $style = 'conservation-80';
+                                $style = 'identities-80';
                             } elseif ($count >= $identical60) {
-                                $style = 'conservation-60';
+                                $style = 'identities-60';
                             }
                         }
 
@@ -233,16 +252,15 @@ class MultipleAlignmentManager
                     }
                 }
             }
-        } else { // It's a protein
-            // Class table
+        } elseif ('similarities' === $colorationType) {
+            // Properties coloration
             $classTable = [
-                'aa-basic' => ['H', 'R', 'K'],
-                'aa-nonpolar' => ['F', 'A', 'L', 'M', 'I', 'W', 'P', 'V'],
-                'aa-polar' => ['C', 'G', 'Q', 'N', 'S', 'Y', 'T'],
-                'aa-acidic' => ['D', 'E'],
+                'similarities-basic' => ['H', 'R', 'K'],
+                'similarities-nonpolar' => ['F', 'A', 'L', 'M', 'I', 'W', 'P', 'V'],
+                'similarities-polar' => ['C', 'G', 'Q', 'N', 'S', 'Y', 'T'],
+                'similarities-acidic' => ['D', 'E'],
             ];
 
-            // Add class o do the coloration of nucleotides
             foreach ($alignment['rows'] as &$row) {
                 foreach ($row['alignment_rows'] as &$alignmentRow) {
                     $i = 0;
@@ -262,6 +280,21 @@ class MultipleAlignmentManager
                         $base = [
                             'letter' => $base,
                             'style' => $style,
+                        ];
+
+                        ++$i;
+                    }
+                }
+            }
+        } else {
+            // No coloration
+            foreach ($alignment['rows'] as &$row) {
+                foreach ($row['alignment_rows'] as &$alignmentRow) {
+                    $i = 0;
+                    foreach ($alignmentRow['bases'] as &$base) {
+                        $base = [
+                            'letter' => $base,
+                            'style' => null,
                         ];
 
                         ++$i;

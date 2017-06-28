@@ -35,24 +35,44 @@
     {% elseif 'failed' == alignment.status %}
         <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
+        <h3>Coloration:</h3>
+        <div class="btn-group" role="group" aria-label="...">
+            <a type="button" class="btn btn-default {{ 'identities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities' }) }}">
+                Identities
+            </a>
+            {% if 'prot' == result.sequence_type %}
+                <a type="button" class="btn btn-default {{ 'similarities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'similarities' }) }}">
+                    Similarities
+                </a>
+            {% endif %}
+            <a type="button" class="btn btn-default {{ 'none' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'none' }) }}">
+                None
+            </a>
+        </div>
+
+        <hr>
+
+        {% if 'none' != result.coloration %}
             <div class="panel panel-default">
                 <div class="panel-heading">Legend</div>
                 <div class="panel-body alignment">
-                    {% if 'nuc' == result.sequence_type %}
+                    {% if 'identities' == result.coloration %}
                         Conservation:<br>
-                        <span class="conservation-100">&nbsp;&nbsp;&nbsp;</span> = 100%<br>
-                        <span class="conservation-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
-                        <span class="conservation-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
-                    {% else %}
+                        <span class="identities-100">&nbsp;&nbsp;&nbsp;</span> = 100%<br>
+                        <span class="identities-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
+                        <span class="identities-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
+                    {% elseif 'similarities' == result.coloration %}
+                        Properties:<br>
                         {% spaceless %}
-                        <span class="aa-basic">&nbsp;&nbsp;&nbsp;</span> Basic<br>
-                        <span class="aa-nonpolar">&nbsp;&nbsp;&nbsp;</span> Nonpolar (hydrophobic)<br>
-                        <span class="aa-polar">&nbsp;&nbsp;&nbsp;</span> Polar, uncharged<br>
-                        <span class="aa-acidic">&nbsp;&nbsp;&nbsp;</span> Acidic
+                        <span class="similarities-basic">&nbsp;&nbsp;&nbsp;</span> Basic<br>
+                        <span class="similarities-nonpolar">&nbsp;&nbsp;&nbsp;</span> Nonpolar (hydrophobic)<br>
+                        <span class="similarities-polar">&nbsp;&nbsp;&nbsp;</span> Polar, uncharged<br>
+                        <span class="similarities-acidic">&nbsp;&nbsp;&nbsp;</span> Acidic
                         {% endspaceless %}
                     {% endif %}
                 </div>
             </div>
+        {% endif %}
 
             <div class="panel panel-default">
                 <div class="panel-heading">Alignment</div>

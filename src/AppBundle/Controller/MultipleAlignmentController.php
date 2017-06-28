@@ -55,10 +55,10 @@ class MultipleAlignmentController extends Controller
     /**
      * @Route("/tool/multiple-alignment/view/{name}", name="multiple_alignment_view")
      */
-    public function viewAction(MultipleAlignment $multipleAlignment)
+    public function viewAction(MultipleAlignment $multipleAlignment, Request $request)
     {
         if ('finished' === $multipleAlignment->getStatus()) {
-            $result = $this->get('app.multiple_alignment_manager')->fastaToArray($multipleAlignment->getOutput());
+            $result = $this->get('app.multiple_alignment_manager')->fastaToArray($multipleAlignment->getOutput(), $request->query->get('coloration'));
         } else {
             $result = null;
         }
