@@ -226,7 +226,7 @@ class MultipleAlignmentManager
             $identities60 = floor($nbSequences * 0.6);
 
             // Set the $identitiesColorationLevel default value
-            if (null === $identitiesColorationLevel or !ctype_digit($identitiesColorationLevel)) {
+            if (null === $identitiesColorationLevel || !ctype_digit($identitiesColorationLevel)) {
                 $identitiesColorationLevel = 3;
             }
 
