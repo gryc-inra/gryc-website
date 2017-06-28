@@ -107,8 +107,8 @@ class BlastType extends AbstractType
                 'constraints' => [
                     new GreaterThan([
                         'value' => 0,
-                    ])
-                ]
+                    ]),
+                ],
             ])
             ->add('gapped', ChoiceType::class, [
                 'choices' => [
