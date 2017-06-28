@@ -13,8 +13,14 @@
 {% block body %}
     <h1>Sequence Manipulation: {{ action }}</h1>
 
+    <button id="copy-button" class="btn btn-default">
+        <span class="fa fa-clipboard" aria-hidden="true"></span> Copy the result in clipboard
+    </button>
+
+    <hr>
+
     <div class="col-sm-12">
-        <textarea rows="20" class="form-control fasta-input">
+        <textarea id="reverse-complement-result" class="form-control fasta-input" rows="20" >
             {%- for sequence in sequences -%}
                 {%- if not loop.first -%}
                     {{ "\n\n" }}
@@ -24,4 +30,14 @@
             {%- endfor -%}
         </textarea>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $("#copy-button").click(function(){
+            $("#reverse-complement-result").select();
+            document.execCommand('copy');
+        });
+    </script>
 {% endblock %}
