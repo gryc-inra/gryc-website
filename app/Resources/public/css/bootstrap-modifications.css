@@ -13,7 +13,7 @@ body {
 -------------------------------------------------- */
 header {
     /* Set the fixed height of the header here */
-    height: 134px;
+    height: 150px;
     padding: 10px;
     /* Set the background of the header here */
     background: #527EB1; /* For browsers that do not support gradients */
