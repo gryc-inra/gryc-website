@@ -36,7 +36,8 @@ framework:
         handler_id: snc_redis.session.handler
     fragments:       ~
     http_method_override: true
-    assets: ~
+    assets:
+        version: 'v1'
 
 # Twig Configuration
 twig:
