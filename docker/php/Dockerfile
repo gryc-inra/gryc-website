@@ -30,6 +30,7 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-d
 
 # Copy the php.ini file
 COPY php.ini /usr/local/etc/php/
+COPY php-cli.ini /usr/local/etc/php/
 
 #################
 # Install BLAST #
