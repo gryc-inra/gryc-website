@@ -27,6 +27,16 @@ header {
     margin-bottom: 0;
 }
 
+/* Print
+-------------------------------------------------- */
+@media print {
+    a[href]:after {
+        content: none !important;
+    }
+
+
+}
+
 /* Sidebar
 -------------------------------------------------- */
 .affix {
