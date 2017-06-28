@@ -13,12 +13,15 @@ RUN apt-get update && \
         supervisor
 
 # Compile ICU (required by intl php extension)
-RUN curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/58.2/icu4c-58_2-src.tgz && \
+RUN curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/59.1/icu4c-59_1-src.tgz && \
     tar -zxf /tmp/icu.tar.gz -C /tmp && \
     cd /tmp/icu/source && \
     ./configure --prefix=/usr/local && \
     make && \
     make install
+
+# PHP_CPPFLAGS are used by the docker-php-ext-* scripts
+ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
 
 # Configure, install and enable php extensions
 RUN docker-php-ext-configure intl --with-icu-dir=/usr/local
