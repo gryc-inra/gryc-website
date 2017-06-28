@@ -25,6 +25,7 @@ class MultipleAlignmentType extends AbstractType
                 'attr' => [
                     'rows' => 10,
                 ],
+                'label' => 'Fasta',
             ])
         ;
     }

@@ -13,6 +13,7 @@
     <h1>Reverse complement</h1>
 
     {{ form_start(form) }}
+        {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
         {{ form_rest(form) }}
 
         <div class="col-sm-offset-2 col-sm-10">

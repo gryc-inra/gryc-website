@@ -14,7 +14,7 @@ class ReverseComplementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fasta', TextareaType::class, [
+            ->add('query', TextareaType::class, [
                 'constraints' => [
                     new NotBlank(),
                     new Regex([
@@ -25,6 +25,7 @@ class ReverseComplementType extends AbstractType
                 'attr' => [
                     'rows' => 10,
                 ],
+                'label' => 'Fasta',
             ])
             ->add('action', ChoiceType::class, [
                 'choices' => [

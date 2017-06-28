@@ -162,6 +162,28 @@ footer a {
     white-space: pre;
 }
 
+/* BLAST
+-------------------------------------------------- */
+.blast-alignment {
+    font-family: 'Cousine', monospace;
+    font-size: 14px;
+    word-break: break-all;
+    margin-bottom: 50px;
+}
+
+.blast-alignment .alignment-row {
+    margin-bottom: 10px;
+}
+
+/*
+ * Query Forms
+ */
+.fasta-input {
+    font-family: 'Cousine', monospace;
+}
+
+/* Sequence display
+-------------------------------------------------- */
 .fasta {
     font-family: "Courier New", Courier, monospace;
     font-size: 18px;
@@ -191,26 +213,6 @@ footer a {
 
 .locus-feature li {
     list-style-type: none;
-}
-
-/* Alignment
--------------------------------------------------- */
-.blast-alignment {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 14px;
-    word-break: break-all;
-    margin-bottom: 50px;
-}
-
-.blast-alignment .alignment-row {
-    margin-bottom: 10px;
-}
-
-/*
- * Blast Form
- */
-#blast_query {
-    font-family: "Courier New", Courier, monospace;
 }
 
 /*

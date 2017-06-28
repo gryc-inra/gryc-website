@@ -14,7 +14,7 @@
     <h1>Sequence Manipulation: {{ action }}</h1>
 
     <div class="col-sm-12">
-        <textarea rows="20" class="form-control alignment">
+        <textarea rows="20" class="form-control fasta-input">
             {%- for sequence in sequences -%}
                 {%- if not loop.first -%}
                     {{ "\n\n" }}

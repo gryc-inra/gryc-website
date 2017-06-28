@@ -19,7 +19,7 @@ class ReverseComplementController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Transform the fasta in an array
-            $sequences = $this->get('app.sequence_manipulator')->fastaToSequencesArray($form->getData()['fasta']);
+            $sequences = $this->get('app.sequence_manipulator')->fastaToSequencesArray($form->getData()['query']);
 
             // For each sequence proceed to the selected action
             foreach ($sequences as &$sequence) {
@@ -39,7 +39,7 @@ class ReverseComplementController extends Controller
             }
 
             return $this->render('reverse_complement/result.html.twig', [
-                'query' => $form->getData()['fasta'],
+                'query' => $form->getData()['query'],
                 'action' => $form->getData()['action'],
                 'sequences' => $sequences,
             ]);
