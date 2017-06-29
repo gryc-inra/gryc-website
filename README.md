@@ -1,4 +1,4 @@
-![GrycII](./web/images/GRYC_logo_beta_v2.png)
+![GrycII](./web/images/logo.png)
 # GRYC - Readme
 
 ### Summary
