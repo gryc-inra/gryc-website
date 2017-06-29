@@ -22,8 +22,9 @@
 {% block body %}
     <h1>Multiple sequences alignment result</h1>
 
-    <p><a href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" class="btn btn-info" role="button"><span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query</a></p>
-    <hr>
+    <p class="hidden-print">
+        <a href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" class="btn btn-info" role="button"><span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query</a>
+    </p>
 
     {% if 'pending' == alignment.status or 'running' == alignment.status %}
         <div class="text-center text-info">
@@ -35,8 +36,8 @@
     {% elseif 'failed' == alignment.status %}
         <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
-        <h3>Coloration:</h3>
-        <div class="btn-group" role="group" aria-label="...">
+        <h3 class="hidden-print">Coloration:</h3>
+        <div class="btn-group hidden-print" role="group" aria-label="...">
 
             <!-- Split button -->
             <div class="btn-group">
@@ -71,7 +72,7 @@
             </a>
         </div>
 
-        <hr>
+        <hr class="hidden-print">
 
         {% if 'none' != result.coloration %}
             <div class="panel panel-default">
