@@ -28,7 +28,7 @@ services:
     es:
         container_name: gryc-prod-elasticsearch
         volumes:
-            - es1_data:/usr/share/elasticsearch/data
+            - es_data:/usr/share/elasticsearch/data
 
     rabbitmq:
         container_name: gryc-prod-rabbitmq
