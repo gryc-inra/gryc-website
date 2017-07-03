@@ -3,7 +3,7 @@
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     database_host:     db
-    database_port:     ~
+    database_port:     3306
     database_name:     grycii
     env(DATABASE_USER): grycii
     env(DATABASE_PASSWORD): grycii
@@ -12,7 +12,7 @@ parameters:
     env(REDIS_HOST): redis
 
     # The Elasticsearch host
-    elasticsearch_host: es1
+    elasticsearch_host: es
     elasticsearch_port: ~
 
     # The RabbitMq host

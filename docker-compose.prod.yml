@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+    nginx:
+        container_name: grycii-prod-nginx
+        ports:
+            - 127.0.0.1:8082:80
+        volumes_from:
+            - app
+
+    app:
+        container_name: grycii-prod-app
+        volumes:
+            - ./files:/var/www/html/files:rw
+            - ./app/config/parameters.yml:/var/www/html/app/config/parameters.yml:ro
+
+    redis:
+        container_name: grycii-prod-redis
+
+    db:
+        container_name: grycii-prod-db
+        environment:
+            - MYSQL_ROOT_PASSWORD=grycii
+            - MYSQL_USER=grycii
+            - MYSQL_PASSWORD=grycii
+            - MYSQL_DATABASE=grycii
+
+    es:
+        container_name: grycii-prod-elasticsearch
+        volumes:
+            - es1_data:/usr/share/elasticsearch/data
+
+    rabbitmq:
+        container_name: grycii-prod-rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=grycii
+            - RABBITMQ_DEFAULT_PASS=grycii

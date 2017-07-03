@@ -25,8 +25,5 @@ docker-compose.yml
 !var/SymfonyRequirements.php
 /vendor
 /web/bundles
-/web/css
-/web/js
-/web/fonts
 /web/sitemap*
 *~
