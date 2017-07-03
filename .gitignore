@@ -2,6 +2,8 @@
 /bower_components
 deploy.js
 docker-compose.yml
+docker-compose.override.yml
+docker-compose.prod.yml
 /node_modules
 .php_cs.cache
 /phpunit.xml

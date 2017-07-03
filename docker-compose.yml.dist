@@ -1,56 +1,31 @@
-version: '3'
+version: '2'
 
 services:
     nginx:
-        container_name: grycii-nginx
         build: ./docker/nginx
-        ports:
-            - 127.0.0.1:8082:80
-        volumes:
-            - .:/var/www/html:ro
-            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
         networks:
             - default
 
-    php:
-        container_name: grycii-php
-        build: ./docker/php
-        volumes:
-            - .:/var/www/html:rw
-            - ./docker/php/php.ini:/usr/local/etc/php/php.ini:ro
-            - ./docker/php/php-cli.ini:/usr/local/etc/php/php-cli.ini:ro
-            - ./docker/php/supervisor-programs.conf:/etc/supervisor/conf.d/supervisor-programs.conf:ro
-        working_dir: /var/www/html
+    app:
+        image: mpiot/grycii:latest
         networks:
             - default
 
     redis:
-        container_name: grycii-redis
         image: redis:3.2.9
         networks:
             - default
 
     db:
-        container_name: grycii-db
-        image: mariadb:10.1.23
-        environment:
-            - MYSQL_ROOT_PASSWORD=grycii
-            - MYSQL_USER=grycii
-            - MYSQL_PASSWORD=grycii
-            - MYSQL_DATABASE=grycii
-        ports:
-            - 127.0.0.1:3308:3306
+        image: mariadb:10.3.0
         volumes:
             - db_data:/var/lib/mysql
         networks:
             - default
 
-    es1:
-        container_name: grycii-elasticsearch-1
+    es:
         build: ./docker/elasticsearch
         environment:
-            - cluster.name=grycii-cluster
             - bootstrap.memory_lock=true
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         ulimits:
@@ -62,63 +37,20 @@ services:
                 hard: 65536
         cap_add:
             - IPC_LOCK
-        ports:
-            - 127.0.0.1:9200:9200
-            - 127.0.0.1:9300:9300
         volumes:
-            - es1_data:/usr/share/elasticsearch/data
-            - ./docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-        networks:
-            - default
-
-    es2:
-        container_name: grycii-elasticsearch-2
-        build: ./docker/elasticsearch
-        environment:
-            - cluster.name=grycii-cluster
-            - bootstrap.memory_lock=true
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-            - "discovery.zen.ping.unicast.hosts=es1"
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
-            nofile:
-                soft: 65536
-                hard: 65536
-        cap_add:
-            - IPC_LOCK
-        volumes:
-            - es2_data:/usr/share/elasticsearch/data
-            - ./docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-        networks:
-            - default
-
-    es-head:
-        container_name: grycii-elasticsearch-head
-        image: mobz/elasticsearch-head:5
-        ports:
-            - 127.0.0.1:9100:9100
+            - es_data:/usr/share/elasticsearch/data
         networks:
             - default
 
     rabbitmq:
-        container_name: grycii-rabbitmq
         image: rabbitmq:3.6.10-management
-        environment:
-            - RABBITMQ_DEFAULT_USER=grycii
-            - RABBITMQ_DEFAULT_PASS=grycii
-        ports:
-            - 127.0.0.1:15672:15672
         networks:
             - default
 
 volumes:
     db_data:
         driver: local
-    es1_data:
-        driver: local
-    es2_data:
+    es_data:
         driver: local
 
 networks:

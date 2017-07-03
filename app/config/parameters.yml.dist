@@ -4,9 +4,9 @@
 parameters:
     database_host:     db
     database_port:     3306
-    database_name:     grycii
-    env(DATABASE_USER): grycii
-    env(DATABASE_PASSWORD): grycii
+    database_name:     gryc
+    env(DATABASE_USER): gryc
+    env(DATABASE_PASSWORD): gryc
 
     # The redis host
     env(REDIS_HOST): redis
@@ -18,8 +18,8 @@ parameters:
     # The RabbitMq host
     rabbitmq_host: rabbitmq
     rabbitmq_port: 5672
-    rabbitmq_user: grycii
-    rabbitmq_password: grycii
+    rabbitmq_user: gryc
+    rabbitmq_password: gryc
 
     # The mailer configuration
     mailer_transport:  ~
