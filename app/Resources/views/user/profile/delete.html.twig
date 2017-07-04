@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block metaTags %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('user_profile') }}">My profile</a></li>
+    <li class="active">Delete my account</li>
+{% endblock %}
+
+{% block body %}
+    <div class="alert alert-danger">
+        This action is irreversible, if you continue, all informations about you will be deleted from the database.
+        But, you will be able to recreate an account in the future.
+    </div>
+
+    <div class="alert alert-info">
+        Fill the field with you current password, and click on "Delete my account" to definitively delete it.
+    </div>
+
+    {{ form_start(form) }}
+        {{ form_rest(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="login" class="btn btn-danger" value="Delete my account" />
+            </div>
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}
