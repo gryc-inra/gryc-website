@@ -4,15 +4,15 @@ services:
     nginx:
         container_name: gryc-prod-nginx
         ports:
-            - 127.0.0.1:8082:80
+            - 127.0.0.1:8080:80
         volumes_from:
             - app
 
     app:
         container_name: gryc-prod-app
         volumes:
-            - ./files:/var/www/html/files:rw
-            - ./app/config/parameters.yml:/var/www/html/app/config/parameters.yml:ro
+            - ./shared/files:/var/www/html/files:rw
+            - ./shared/parameters.yml:/var/www/html/app/config/parameters.yml:ro
 
     redis:
         container_name: gryc-prod-redis
