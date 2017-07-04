@@ -33,13 +33,14 @@ class Mailer
      * @param string       $subject
      * @param string       $body
      */
-    protected function sendEmailMessage($from, $to, $subject, $body)
+    protected function sendEmailMessage($from, $replyTo = null, $to, $subject, $body)
     {
         $message = \Swift_Message::newInstance();
         $message
             ->setFrom($from)
             ->setTo($to)
             ->setFrom($from)
+            ->setReplyTo($replyTo)
             ->setSubject($subject)
             ->setBody($body)
             ->setCharset('utf-8')
@@ -62,7 +63,7 @@ class Mailer
             'user' => $user,
         ]);
 
-        $this->sendEmailMessage($from, $to, $subject, $body);
+        $this->sendEmailMessage($from, null, $to, $subject, $body);
     }
 
     /**
@@ -79,7 +80,7 @@ class Mailer
             'user' => $user,
         ]);
 
-        $this->sendEmailMessage($from, $to, $subject, $body);
+        $this->sendEmailMessage($from, null, $to, $subject, $body);
     }
 
     /**
@@ -90,11 +91,12 @@ class Mailer
     public function sendContactMessage($data)
     {
         $from = [$data['email'] => $data['firstName'].' '.$data['lastName']];
+        $replyTo = $from;
         $to = [$this->from => $this->name];
-        $subject = '[GRYC Contact] '.$data['subject'];
+        $subject = '[GRYC Contact]['.$data['category'].'] '.$data['subject'];
         $body = $this->templating->render('mail/contactMessage.html.twig', ['data' => $data]);
 
-        $this->sendEmailMessage($from, $to, $subject, $body);
+        $this->sendEmailMessage($from, $replyTo, $to, $subject, $body);
 
         $this->sendConfirmationContactMessage($data);
     }
@@ -111,6 +113,6 @@ class Mailer
         $subject = 'Reception of your message';
         $body = $this->templating->render('mail/confirmationContactMessage.html.twig', ['data' => $data]);
 
-        $this->sendEmailMessage($from, $to, $subject, $body);
+        $this->sendEmailMessage($from, null, $to, $subject, $body);
     }
 }
