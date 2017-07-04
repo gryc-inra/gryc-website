@@ -2,8 +2,13 @@
 
 ### Summary
 1. How to install the project ?
-2. How to control your code syntax ?
-3. Follow the best practice
+  1.1. In Development
+    1.1.1. Install Docker and create containers
+    1.1.2. Configure the app
+  1.2. In Production
+2. Help us
+  2.1. Follow the best practice
+  2.2. How to control your code syntax ?
 
 ## 1. How to install the project ?
 These explanation are for install the project with Docker in devlopment, and in production.
