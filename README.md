@@ -1,4 +1,4 @@
-![GrycII](https://github.com/mpiot/gryc/blob/master/web/images/logo.png)
+![GrycII](https://raw.githubusercontent.com/mpiot/gryc/master/web/images/logo.png)
 
 ### Summary
 1. [How to install the project ?](#1)
