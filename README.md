@@ -85,7 +85,7 @@ Install GRYC in production is easier, you need to create a folder on your machin
 
 In the parameters.yml, you need to configure the app, see 1.1.1. Install Docker and create containers.
 
-## 2. Help us
+## 2. Help us
 
 ### 2.1. Follow the best practice
 There is a **beautiful** guide about the best practice :) You can find it on the [Symfony Documentation - Best Practice](http://symfony.com/doc/current/best_practices/index.html).
