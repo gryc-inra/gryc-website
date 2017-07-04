@@ -6,6 +6,7 @@
         1. [Install Docker and create containers](#1-1-1)
         2. [Configure the app](#1-1-2)
     2. [In Production](#1-2)
+    3. [For both: backup database](#1-3)
 2. [Help us](#2)
     1. [Follow the best practice](#2-1)
     2. [How to control your code syntax ?](#2-2)
@@ -89,6 +90,18 @@ Install GRYC in production is easier, you need to create a folder on your machin
         │  parameters.yml (copy of app/config/parameters.yml.dist)
 
 In the parameters.yml, you need to configure the app, see 1.1.1. Install Docker and create containers.
+
+Create images, containers, volumes, network with `docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d`.
+
+### 1.3. <a name="1-3"></a>For both: backup database
+
+To dump the database:
+
+    docker exec CONTAINER /usr/bin/mysqldump -u root --password=root DATABASE > backup.sql`
+
+To restaure the database:
+
+    cat backup.sql | docker exec -i CONTAINER /usr/bin/mysql -u root --password=root DATABASE
 
 ## 2. <a name="2"></a>Help us
 
