@@ -9,6 +9,8 @@ use Elastica\Query\Match;
 use Elastica\Query\MultiMatch;
 use Elastica\Query\Nested;
 use Elastica\Query\Term;
+use Elastica\Query\Terms;
+use Elastica\Query\HasParent;
 use FOS\ElasticaBundle\Repository;
 
 class LocusRepository extends Repository
@@ -105,13 +107,15 @@ class LocusRepository extends Repository
         $userId = null !== $user ? $user->getId() : '';
         // Set a user filter
         $userFilter = new Term();
-        $userFilter->setTerm('authorized_users_id', $userId);
-        $boolFilter->addShould($userFilter);
+        $userFilter->setTerm('authorizedUsersId', $userId);
+        $parentUserFilterQuery = new HasParent($userFilter, 'strain');
+        $boolFilter->addShould($parentUserFilterQuery);
 
         // Set a public filter
         $publicFilter = new Term();
         $publicFilter->setTerm('public', true);
-        $boolFilter->addShould($publicFilter);
+        $parentPublicFilterQuery = new HasParent($publicFilter, 'strain');
+        $boolFilter->addShould($parentPublicFilterQuery);
 
         // If the user set a list of strain, create a filter
         if (null !== $strains) {
@@ -121,9 +125,10 @@ class LocusRepository extends Repository
                 $strainsId[] = $strain->getId();
             }
 
-            $strainsFilter = new Query\Terms();
-            $strainsFilter->setTerms('strain_id', $strainsId);
-            $query->addFilter($strainsFilter);
+            $strainsFilter = new Terms();
+            $strainsFilter->setTerms('id', $strainsId);
+            $parentStrainsFilterQuery = new HasParent($strainsFilter, 'strain');
+            $query->addFilter($parentStrainsFilterQuery);
         }
 
         // Execute the query

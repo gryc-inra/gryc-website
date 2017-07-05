@@ -95,12 +95,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.terminate, method: 'onTerminate' }
 
-    app.event_listener.strain:
-        class: AppBundle\EventListener\StrainListener
-        arguments: ["@fos_elastica.object_persister.app.locus"]
-        tags:
-            - { name: doctrine.event_listener, event: preUpdate }
-
 # Form
     app.form_type.contact:
         class: AppBundle\Form\Type\ContactUsType
