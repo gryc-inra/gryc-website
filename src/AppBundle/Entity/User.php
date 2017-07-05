@@ -492,6 +492,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function addAuthorizedStrain(Strain $strain)
     {
+        $strain->addAuthorizedUser($this);
         $this->authorizedStrains[] = $strain;
 
         return $this;
@@ -504,6 +505,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function removeAuthorizedStrain(Strain $strain)
     {
+        $strain->removeAuthorizedUser($this);
         $this->authorizedStrains->removeElement($strain);
     }
 

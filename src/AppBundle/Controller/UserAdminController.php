@@ -87,21 +87,20 @@ class UserAdminController extends Controller
      */
     public function strainAction(Request $request, User $user)
     {
-        $species = $this->getDoctrine()->getManager()->getRepository('AppBundle:Species')->getAllSpeciesWithAvailableStrains($this->getUser());
+        $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm(AdminUserRightsType::class, $user);
-        $form->add('save', SubmitType::class);
 
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The user rights were edited !');
+            $this->addFlash('success', 'The user rights were edited !');
 
             return $this->redirectToRoute('user_index');
         }
+
+        $species = $em->getRepository('AppBundle:Species')->getAvailableSpeciesAndStrains($this->getUser());
 
         return $this->render('user/admin/strain_access.twig', [
             'user' => $user,

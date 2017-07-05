@@ -15,6 +15,7 @@ class AdminUserRightsType extends AbstractType
             ->add('authorizedStrains', EntityType::class, [
                 'class' => 'AppBundle\Entity\Strain',
                 'choice_label' => 'name',
+                'by_reference' => false,
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,

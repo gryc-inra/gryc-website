@@ -21,7 +21,6 @@ class StrainRightsType extends AbstractType
                         ->addOrderBy('user.firstName', 'ASC');
                 },
                 'choice_label' => 'fullName',
-                'by_reference' => false,
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,
