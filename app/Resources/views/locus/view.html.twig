@@ -14,8 +14,46 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ locus.name }} - <i>{{ locus.chromosome.strain.species.scientificName }}</i> ({{ locus.chromosome.strain.name }})</h1>
-    <a href="{{ path('cart_add', { 'id': locus.id }) }}" class="btn btn-default btn-xs cart-add-btn pull-right"><span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart</a>
+    <div class="row">
+        <div class="col-md-10">
+            <h1>{{ locus.name }} - <i>{{ locus.chromosome.strain.species.scientificName }}</i> ({{ locus.chromosome.strain.name }})</h1>
+        </div>
+
+        <div class="col-md-2 text-right">
+            <a href="{{ path('cart_add', { 'id': locus.id }) }}" class="btn btn-default btn-xs cart-add-btn">
+                <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
+            </a>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-6">
+            {% if locus.previousLocus %}
+                <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.previousLocus }) }}"
+                   type="button" class="btn btn-default">
+                    <span class="fa fa-arrow-left" aria-hidden="true"></span> {{ locus.previousLocus }}
+                </a>
+            {% else %}
+                <button type="button" class="btn btn-default" disabled>
+                    <span class="fa fa-arrow-left" aria-hidden="true"></span> No previous locus
+                </button>
+            {% endif %}
+        </div>
+
+        <div class="col-xs-6 text-right">
+            {% if locus.nextLocus %}
+                <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.nextLocus }) }}"
+                   type="button" class="btn btn-default">
+                    {{ locus.nextLocus }} <span class="fa fa-arrow-right" aria-hidden="true"></span>
+                </a>
+            {% else %}
+                <button type="button" class="btn btn-default" disabled>
+                    No next locus <span class="fa fa-arrow-right" aria-hidden="true"></span>
+                </button>
+            {% endif %}
+        </div>
+    </div>
 
     <h2>Description</h2>
     <p class="text-justify">
@@ -124,14 +162,14 @@
                 <b>Protein length:</b> {{ product.translation|length }} aa.<br>
                 <b>Product:</b> {{ product.product is not empty ? product.product|join(', '): product.note }}<br>
                 <b>Annotation:</b>
-                    <ul>
-                    {% if product.annotation['gene'] is defined %}
-                        <li>Gene: {{ product.annotation['gene']|join(', ') }}</li>
-                    {% endif %}
-                    {% if product.annotation['EC_number'] is defined %}
-                        <li>EC number: {{ product.annotation['EC_number']|join(', ') }}</li>
-                    {% endif %}
-                    </ul>
+            <ul>
+                {% if product.annotation['gene'] is defined %}
+                    <li>Gene: {{ product.annotation['gene']|join(', ') }}</li>
+                {% endif %}
+                {% if product.annotation['EC_number'] is defined %}
+                    <li>EC number: {{ product.annotation['EC_number']|join(', ') }}</li>
+                {% endif %}
+            </ul>
             </p>
             <div class="fasta">
                 <span class="header">>{{ product.name }}</span>

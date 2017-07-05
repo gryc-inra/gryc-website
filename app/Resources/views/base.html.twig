@@ -126,29 +126,23 @@
             </nav>
 
             <div class="container">
-                <div class="row">
-                    {% for label, messages in app.flashes(['success', 'info', 'warning', 'danger']) %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ label }} alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong>{{ label|capitalize }}!</strong> {{ message }}
-                            </div>
-                        {% endfor %}
+                {% for label, messages in app.flashes(['success', 'info', 'warning', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }} alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>{{ label|capitalize }}!</strong> {{ message }}
+                        </div>
                     {% endfor %}
-                </div>
+                {% endfor %}
 
-                <div class="row hidden-print">
-                    <ol class="breadcrumb">
-                        {% block breadcrumb %}
-                            <li><a href="{{ path('homepage') }}"><span class="fa fa-home" aria-hidden="true"></span>&nbsp; Home</a></li>
-                        {% endblock %}
-                    </ol>
-                </div>
-
-                <div class="row">
-                    {% block body %}
+                <ol class="breadcrumb">
+                    {% block breadcrumb %}
+                        <li><a href="{{ path('homepage') }}"><span class="fa fa-home" aria-hidden="true"></span>&nbsp; Home</a></li>
                     {% endblock %}
-                </div>
+                </ol>
+
+                {% block body %}
+                {% endblock %}
             </div>
 
             <div class="push"></div>
