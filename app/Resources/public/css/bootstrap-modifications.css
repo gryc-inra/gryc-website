@@ -35,45 +35,44 @@ header {
     }
 }
 
-/* Sidebar
+/* BLAST Sidebar
 -------------------------------------------------- */
 .affix {
     top: 20px;
 }
 
-div .scrollspy .nav .active {
+div.scrollspy ul.nav li ul {
+    display: none;
+}
+
+div.scrollspy ul.nav li.active {
     font-weight: bold;
 }
 
-div .scrollspy .nav .nav {
-    display: none;
-}
-
-div .scrollspy .nav .nav .nav {
-    display: none;
-}
-
-div .scrollspy .nav .active .nav {
+div.scrollspy ul.nav li.active ul {
     display: block;
 }
 
-div .scrollspy .nav .nav a {
-    font-weight: normal;
-    font-size: .85em;
+div.scrollspy ul.nav li.active ul li {
+    display: none;
 }
 
-div .scrollspy .nav .nav .active a,
-div .scrollspy .nav .nav .active:hover a,
-div .scrollspy .nav .nav .active:focus a {
-    font-weight: bold;
+div.scrollspy ul.nav li.active ul li.active,
+div.scrollspy ul.nav li.active ul li.display
+{
+    display: block;
     padding-left: 20px;
+}
+
+div.scrollspy ul.nav li.active ul li.active {
+    font-weight: bold;
+    padding-left: 18px;
     border-left: 2px solid #337ab7;
 }
 
-div .scrollspy .nav .nav .active span,
-div .scrollspy .nav .nav .active:hover span,
-div .scrollspy .nav .nav .active:focus span {
-    display: none;
+div.scrollspy ul.nav ul.nav a {
+    font-weight: normal;
+    font-size: .85em;
 }
 
 /* Sticky footer
