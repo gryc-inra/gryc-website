@@ -41,7 +41,6 @@ class Locus extends GeneticEntry
      */
     private $nextLocusDistance;
 
-
     public function __construct()
     {
         $this->features = new ArrayCollection();
