@@ -34,6 +34,7 @@
                    type="button" class="btn btn-default">
                     <span class="fa fa-arrow-left" aria-hidden="true"></span> {{ locus.previousLocus }}
                 </a>
+                <p>Intergene: {{ locus.previousLocusDistance >= 0 ? locus.previousLocusDistance ~ ' nuc.' : 'overlapping' }}</p>
             {% else %}
                 <button type="button" class="btn btn-default" disabled>
                     <span class="fa fa-arrow-left" aria-hidden="true"></span> No previous locus
@@ -47,6 +48,7 @@
                    type="button" class="btn btn-default">
                     {{ locus.nextLocus }} <span class="fa fa-arrow-right" aria-hidden="true"></span>
                 </a>
+                <p>Intergene: {{ locus.nextLocusDistance >= 0 ? locus.nextLocusDistance ~ ' nuc.' : 'overlapping' }}</p>
             {% else %}
                 <button type="button" class="btn btn-default" disabled>
                     No next locus <span class="fa fa-arrow-right" aria-hidden="true"></span>
