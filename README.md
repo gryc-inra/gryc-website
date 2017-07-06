@@ -32,7 +32,7 @@ These explanation are for install the project with Docker in devlopment, and in 
 #### 1.1.2. <a name="1-1-2"></a>Configure the app
 Now you have all the needed containers by the app, let's configure the app.
 
-1. First of all, install [Bower](https://bower.io/) and [Grunt](https://gruntjs.com/). To install Grunt dependencies: `npm install`, and `bower install` to download Bootstrap, jQuery, ...  To execute uglify `grunt default`.
+1. First of all, install  [Grunt](https://gruntjs.com/). To install Grunt dependencies: `npm install`. To execute uglify `grunt default`.
 1. Set the rights to allow PHP create files (in container www-data user have UID 33):
     ```bash
     setfacl -R -m u:33:rwX -m u:`whoami`:rwX var/ protected-files/
