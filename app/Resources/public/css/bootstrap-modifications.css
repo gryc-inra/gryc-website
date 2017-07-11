@@ -217,6 +217,28 @@ footer a {
     color: #c0504d;
 }
 
+@media screen, print {
+    .stream {
+        color: darkgrey !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .utr {
+        color: forestgreen !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .exon {
+        color: dodgerblue !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .intron {
+        color: #c0504d !important;
+        -webkit-print-color-adjust: exact;
+    }
+}
+
 .locus-feature li {
     list-style-type: none;
 }

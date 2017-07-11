@@ -19,7 +19,7 @@
             <h1>{{ locus.name }} - <i>{{ locus.chromosome.strain.species.scientificName }}</i> ({{ locus.chromosome.strain.name }})</h1>
         </div>
 
-        <div class="col-md-2 text-right">
+        <div class="col-md-2 text-right hidden-print">
             <a href="{{ path('cart_add', { 'id': locus.id }) }}" class="btn btn-default btn-xs cart-add-btn">
                 <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
             </a>
@@ -27,7 +27,7 @@
     </div>
 
 
-    <div class="row">
+    <div class="row hidden-print">
         <div class="col-xs-6">
             {% if locus.previousLocus %}
                 <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.previousLocus }) }}"
@@ -126,7 +126,7 @@
                         <span class="intron">Intron</span>
                     </p>
 
-                    <form class="hidden">
+                    <form class="hidden-print">
                         <div class="form-group">
                             <label>Upstream</label>
                             <input type="number" class="form-control" name="upstream">
