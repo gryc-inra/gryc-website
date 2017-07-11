@@ -82,8 +82,8 @@ swiftmailer:
 
 # ReCaptcha
 ewz_recaptcha:
-    public_key:  "%recaptcha_public_key%"
-    private_key: "%recaptcha_private_key%"
+    public_key:  "%env(RECAPTCHA_PUBLIC_KEY)%"
+    private_key: "%env(RECAPTCHA_PRIVATE_KEY)%"
     locale_key:  "%kernel.default_locale%"
 
 # Redis
@@ -92,7 +92,7 @@ snc_redis:
         default:
             type: predis
             alias: default
-            dsn: "redis://%env(REDIS_HOST)%"
+            dsn: "redis://%redis_host%"
     session:
         client: default
 
@@ -102,8 +102,8 @@ old_sound_rabbit_mq:
         default:
             host:     "%rabbitmq_host%"
             port:     "%rabbitmq_port%"
-            user:     "%rabbitmq_user%"
-            password: "%rabbitmq_password%"
+            user:     "%env(RABBITMQ_USER)%"
+            password: "%env(RABBITMQ_PASSWORD)%"
             vhost:    '/'
             lazy:     true
             connection_timeout: 3
