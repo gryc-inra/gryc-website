@@ -27,6 +27,12 @@ header {
     margin-bottom: 0;
 }
 
+nav.navbar.affix {
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+}
+
 /* Print
 -------------------------------------------------- */
 @media print {
@@ -37,7 +43,7 @@ header {
 
 /* BLAST Sidebar
 -------------------------------------------------- */
-.affix {
+#blast-scrollspy .affix {
     top: 20px;
 }
 
