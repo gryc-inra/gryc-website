@@ -33,3 +33,6 @@ parameters:
     # The ReCaptcha API key
     env(RECAPTCHA_PUBLIC_KEY):    __RECAPTCHA_PUBLIC_KEY__
     env(RECAPTCHA_PRIVATE_KEY):   __RECAPTCHA_PRIVATE_KEY__
+
+    # A version for assets
+    app_version:            __APP_VERSION__

@@ -17,10 +17,10 @@
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cousine">
             <!-- CSS -->
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-            <link rel="stylesheet" href="{{ preload(asset('css/app.min.css')) }}" />
+            <link rel="stylesheet" href="{{ preload(asset('css/app.min.css', 'css')) }}" />
         {% endblock %}
 
-        <link rel="icon" type="image/x-icon" href="{{ preload(asset('favicon.ico')) }}" />
+        <link rel="icon" type="image/x-icon" href="{{ preload(asset('favicon.ico', 'image')) }}" />
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -154,7 +154,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-3 text-center hidden-xs hidden-sm">
-                        <a href="http://www.inra.fr" target="_blank"><img src="{{ preload(asset('images/INRA.png')) }}" alt="INRA" height="80"/></a>
+                        <a href="http://www.inra.fr" target="_blank"><img src="{{ preload(asset('images/INRA.png', 'image')) }}" alt="INRA" height="80"/></a>
                     </div>
 
                     <div class="col-md-3 text-justify">
@@ -171,7 +171,7 @@
                     </div>
 
                     <div class="col-md-3 text-center hidden-xs hidden-sm">
-                        <a href="http://igenolevures.org/" target="_blank"><img src="{{ preload(asset('images/igenolevure.png')) }}" alt="iGenoLevures" height="80"/></a>
+                        <a href="http://igenolevures.org/" target="_blank"><img src="{{ preload(asset('images/igenolevure.png', 'image')) }}" alt="iGenoLevures" height="80"/></a>
                     </div>
                 </div>
             </div><!-- /Container-Fluid -->
@@ -181,8 +181,8 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
             <script src="https://use.fontawesome.com/a7304d3ab9.js"></script>
-            <script src="{{ preload(asset('js/app.min.js')) }}"></script>
-            <script src="{{ preload(asset('bundles/fosjsrouting/js/router.js')) }}"></script>
+            <script src="{{ preload(asset('js/app.min.js', 'js')) }}"></script>
+            <script src="{{ preload(asset('bundles/fosjsrouting/js/router.js', 'js')) }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         {% endblock %}
     </body>
