@@ -22,7 +22,11 @@
 {% block body %}
     <h1>BLAST result</h1>
 
-    <p><a href="{{ path('blast_index_prefilled', { 'name': blast.name }) }}" class="btn btn-info" role="button"><span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query</a></p>
+    <p class="hidden-print">
+        <a href="{{ path('blast_index_prefilled', { 'name': blast.name }) }}" class="btn btn-info" role="button">
+            <span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query
+        </a>
+    </p>
 
     {% if 'pending' == blast.status %}
         <div class="text-center text-info">

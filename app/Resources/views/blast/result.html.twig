@@ -140,7 +140,7 @@
                     <th>Max bit score</th>
                     <th>Min E.value</th>
                     <th>Max ident.</th>
-                    <th>Links</th>
+                    <th class="hidden-print">Links</th>
                 </tr>
 
                 {% for hit in query.hits %}
@@ -163,7 +163,7 @@
                         <td>{{ hit.hsps.0.bit_score }}</td>
                         <td>{{ hit.hsps.0.evalue }}</td>
                         <td>{{ hit.hsps.0.identity }}</td>
-                        <td>
+                        <td class="hidden-print">
                             {% if hit.locus_entity is defined %}
                                 <a href="{{ path('cart_add', { 'id': hit.locus_entity.id }) }}" class="btn btn-default btn-xs cart-add-btn">
                                     <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
