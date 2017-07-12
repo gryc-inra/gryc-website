@@ -27,7 +27,9 @@ header {
     margin-bottom: 0;
 }
 
-nav.navbar.affix {
+nav.navbar.affix,
+nav.navbar.affix-top
+{
     z-index: 1000;
     position: sticky;
     top: 0;

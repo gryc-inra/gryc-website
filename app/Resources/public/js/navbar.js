@@ -1,9 +1,10 @@
 function setNavbarAffix() {
     var $header = $('header');
+    var $offset = $header.is(":visible") ? $header.height() : 0;
 
     $('nav.navbar').affix({
         offset: {
-            top: $header.is(":visible") ? $header.height() : 0
+            top: $offset
         }
     });
 }
