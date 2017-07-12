@@ -26,36 +26,31 @@
         </div>
     </div>
 
-
-    <div class="row hidden-print">
-        <div class="col-xs-6">
+    <nav class="hidden-print" aria-label="Previous and next locus">
+        <ul class="pager">
             {% if locus.previousLocus %}
-                <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.previousLocus }) }}"
-                   type="button" class="btn btn-default">
-                    <span class="fa fa-arrow-left" aria-hidden="true"></span> {{ locus.previousLocus }}
-                </a>
-                <p>Intergene: {{ locus.previousLocusDistance >= 0 ? locus.previousLocusDistance ~ ' nuc.' : 'overlapping' }}</p>
+                <li class="previous">
+                    <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.previousLocus }) }}"
+                    data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.previousLocusDistance >= 0 ? locus.previousLocusDistance ~ ' nuc.' : 'overlapping' }}">
+                        <span class="fa fa-arrow-left" aria-hidden="true"></span> {{ locus.previousLocus }}<br>
+                    </a>
+                </li>
             {% else %}
-                <button type="button" class="btn btn-default" disabled>
-                    <span class="fa fa-arrow-left" aria-hidden="true"></span> No previous locus
-                </button>
+                <li class="previous disabled"><a href="#"><span class="fa fa-arrow-left" aria-hidden="true"></span> No previous locus</a></li>
             {% endif %}
-        </div>
 
-        <div class="col-xs-6 text-right">
             {% if locus.nextLocus %}
-                <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.nextLocus }) }}"
-                   type="button" class="btn btn-default">
-                    {{ locus.nextLocus }} <span class="fa fa-arrow-right" aria-hidden="true"></span>
-                </a>
-                <p>Intergene: {{ locus.nextLocusDistance >= 0 ? locus.nextLocusDistance ~ ' nuc.' : 'overlapping' }}</p>
+                <li class="next">
+                    <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.nextLocus }) }}"
+                    data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.nextLocusDistance >= 0 ? locus.nextLocusDistance ~ ' nuc.' : 'overlapping' }}">
+                        {{ locus.nextLocus }} <span class="fa fa-arrow-right" aria-hidden="true"></span><br>
+                    </a>
+                </li>
             {% else %}
-                <button type="button" class="btn btn-default" disabled>
-                    No next locus <span class="fa fa-arrow-right" aria-hidden="true"></span>
-                </button>
+                <li class="next disabled"><a href="#">No next locus <span class="fa fa-arrow-right" aria-hidden="true"></span></a></li>
             {% endif %}
-        </div>
-    </div>
+        </ul>
+    </nav>
 
     <h2>Description</h2>
     <p class="text-justify">
@@ -186,6 +181,10 @@
 
     <script>
         $(document).ready(function(){
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+
             $('div.locus-feature').each(function(index) {
                 var locus = $( this ).data("locus");
                 var feature = $( this ).data("feature");
