@@ -98,12 +98,6 @@ footer a {
 .wrapper {
     min-height: 100%;
     height: auto !important;
-    height: 100%;
-    margin: 0 auto -63px;
-}
-
-.push {
-    height: 63px;
 }
 
 /* Red * after required label
