@@ -36,8 +36,8 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @Assert\Length(max=4096)
-     * @Assert\Regex("/[A-z]/", message="Your password must contain at least one letter.")
-     * @Assert\Regex("/[A-Z]/", message="Your password must contain at least one capital letter.")
+     * @Assert\Regex("/[a-z]/", message="Your password must contain at least one lowercase letter.")
+     * @Assert\Regex("/[A-Z]/", message="Your password must contain at least one uppercase letter.")
      * @Assert\Regex("/[\d]/", message="Your password must contain at least one number.")
      * @Assert\Length(min=8, max=4096)
      */

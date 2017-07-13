@@ -31,15 +31,33 @@ class RegistrationType extends AbstractType
                 'first_options' => [
                     'label' => 'Password',
                     'attr' => [
-                        'data-help' => 'Your password must contain:<br>
-                            * at least one letter<br>
-                            * at least one capital letter<br>
-                            * at least on number<br>
-                            * at least 8 characters',
+                        'data-help' => '
+                            <div class="row password-control">
+                                <div class="col-sm-6">
+                                    <span id="number-chars" class="fa fa-times" style="color:#FF0004;"></span> 8 Characters Long<br>
+                                    <span id="upper-case" class="fa fa-times" style="color:#FF0004;"></span> One Uppercase Letter
+                                </div>
+                                <div class="col-sm-6">
+                                    <span id="lower-case" class="fa fa-times" style="color:#FF0004;"></span> One Lowercase Letter<br>
+                                    <span id="number" class="fa fa-times" style="color:#FF0004;"></span> One Number
+                                </div>
+                            </div>
+                        ',
                     ],
                 ],
-                'second_options' => ['label' => 'Repeat Password'],
-                ])
+                'second_options' => [
+                    'label' => 'Repeat Password',
+                    'attr' => [
+                        'data-help' => '
+                            <div class="row password-control">
+                                <div class="col-sm-12">
+                                    <span id="password-match" class="fa fa-times" style="color:#FF0004;"></span> Passwords Match
+                                </div>
+                            </div>
+                        '
+                    ],
+                ],
+            ])
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
             ->add('company', TextType::class)
