@@ -47,7 +47,7 @@ class ChangePasswordType extends AbstractType
                                     <span id="password-match" class="fa fa-times" style="color:#FF0004;"></span> Passwords Match
                                 </div>
                             </div>
-                        '
+                        ',
                     ],
                 ],
             ])
