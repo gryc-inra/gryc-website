@@ -45,6 +45,10 @@ services:
         class: AppBundle\Utils\UserManager
         arguments: ["@app.password_updater", "@doctrine.orm.entity_manager"]
 
+    app.login_brute_force:
+        class: AppBundle\Utils\LoginBruteForce
+        arguments: ["@cache.app", "@request_stack"]
+
     app.sequence_manipulator:
         class: AppBundle\Utils\SequenceManipulator
 
@@ -95,6 +99,12 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.terminate, method: 'onTerminate' }
 
+    app.event_listener.authentication_subscriber:
+        class: AppBundle\EventListener\AuthenticationSubscriber
+        arguments: ["@app.login_brute_force"]
+        tags:
+            - { name: kernel.event_subscriber }
+
 # Form
     app.form_type.contact:
         class: AppBundle\Form\Type\ContactUsType
@@ -126,6 +136,11 @@ services:
         tags:
             - { name: security.voter }
         public: false
+
+# Security
+    app.security.form_login_authenticator:
+        class: AppBundle\Security\FormLoginAuthenticator
+        arguments: ["@router", "@security.password_encoder", "@app.login_brute_force"]
 
 # Rabbit Consumer
     app.consumer.blast:

@@ -85,6 +85,10 @@ class ResettingController extends Controller
             $user->setConfirmationToken(null);
             $em->flush();
 
+            // Reinit the brute-force counter for this username
+            $this->get('app.login_brute_force')->resetUsername($username);
+
+            // Add a flash message
             $this->addFlash('success', 'Your password have been successfully changed. You can now log in with this new one.');
 
             return $this->redirectToRoute('login');

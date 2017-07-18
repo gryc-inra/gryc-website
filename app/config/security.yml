@@ -24,6 +24,11 @@ security:
 
         main:
             pattern: ^/
+
+            guard:
+                authenticators:
+                    - app.security.form_login_authenticator
+
             form_login:
                 # login and check paths
                 check_path: /login
