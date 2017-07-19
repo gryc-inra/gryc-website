@@ -46,7 +46,7 @@ nav.navbar.affix-top
 /* BLAST Sidebar
 -------------------------------------------------- */
 #blast-scrollspy .affix {
-    top: 20px;
+    top: 70px;
 }
 
 div.scrollspy ul.nav li ul {
