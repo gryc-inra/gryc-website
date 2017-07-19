@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Utils\SequenceManipulator;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -338,5 +339,160 @@ class GeneticEntry
     public function getNote()
     {
         return $this->note;
+    }
+
+    public function getSequence($showUtr = true, $showIntron = true, $upstream = 0, $downstream = 0, $html = true)
+    {
+        $class = explode('\\', get_class($this))[2];
+        switch ($class) {
+            case 'Locus':
+                $chromosomeDna = $this->getChromosome()->getDnaSequence()->getDna();
+                $locusStart = $this->start;
+                $locusEnd = $this->end;
+                break;
+            case 'Feature':
+                $chromosomeDna = $this->getLocus()->getChromosome()->getDnaSequence()->getDna();
+                $locusStart = $this->getLocus()->getStart();
+                $locusEnd = $this->getLocus()->getEnd();
+                break;
+            case 'Product':
+                $chromosomeDna = $this->getFeature()->getLocus()->getChromosome()->getDnaSequence()->getDna();
+                $locusStart = $this->getFeature()->getLocus()->getStart();
+                $locusEnd = $this->getFeature()->getLocus()->getEnd();
+                break;
+        }
+
+        // Create a positionsArray
+        $positionsArray = [];
+
+        // First, define the upstream
+        if (($upstream > 0 && 1 === $this->strand) || ($downstream > 0 && 1 !== $this->strand)) {
+            $stream = (1 === $this->strand) ? $upstream : $downstream;
+
+            if (($locusStart - $stream) < 0) {
+                $positionsArray['upstream']['start'] = 1;
+            } else {
+                $positionsArray['upstream']['start'] = $locusStart - $stream;
+            }
+            $positionsArray['upstream']['end'] = $locusStart - 1;
+            $positionsArray['upstream']['legend'] = 'stream';
+        } else {
+            $positionsArray['upstream'] = false;
+        }
+
+        // Is there 5'UTR region ?
+        $firstExonCoord = explode('..', $this->coordinates[0]);
+        // If the first exon start position is greater than the locus start position, there is a 5'UTR
+        if (true === $showUtr && $firstExonCoord[0] > $locusStart) {
+            $positionsArray['5UTR']['start'] = $locusStart;
+            $positionsArray['5UTR']['end'] = $firstExonCoord[0] - 1;
+            $positionsArray['5UTR']['legend'] = 'utr';
+        } else {
+            $positionsArray['5UTR'] = false;
+        }
+
+        // Do a while on coordinates to get all exon and determine introns
+        $i = 0;
+        $nbExons = count($this->coordinates);
+        $nbIntrons = $nbExons - 1;
+        $haveIntron = $nbIntrons > 0 ? true : false;
+        foreach ($this->coordinates as $coordinate) {
+            $coord = explode('..', $coordinate);
+
+            // If the strain have intron, had them
+            // Intron only between the 2nd and before last loop
+            if (true === $showIntron && $haveIntron && $i > 0 && $i < $nbExons) {
+                $positionsArray['intron-'.($i - 1)]['start'] = $positionsArray['exon-'.($i - 1)]['end'] + 1;
+                $positionsArray['intron-'.($i - 1)]['end'] = (int) $coord[0] - 1;
+                $positionsArray['intron-'.($i - 1)]['legend'] = 'intron';
+            }
+
+            // Set the exon
+            $positionsArray['exon-'.$i]['start'] = (int) $coord[0];
+            $positionsArray['exon-'.$i]['end'] = (int) $coord[1];
+            $positionsArray['exon-'.$i]['legend'] = 'exon';
+
+            ++$i;
+        }
+
+        // Is there 3'UTR region ?
+        $lastExonCoord = explode('..', $this->coordinates[$nbExons - 1]);
+        // If the last exon end position is smaller than the locus end position, there is a 3'UTR
+        if (true === $showUtr && $lastExonCoord[1] < $locusEnd) {
+            $positionsArray['3UTR']['start'] = $lastExonCoord[1] + 1;
+            $positionsArray['3UTR']['end'] = $locusEnd;
+            $positionsArray['3UTR']['legend'] = 'utr';
+        } else {
+            $positionsArray['3UTR'] = false;
+        }
+
+        // Then, define the downstream
+        if (($downstream > 0 && 1 === $this->strand) || ($upstream > 0 && 1 !== $this->strand)) {
+            $stream = (1 === $this->strand) ? $downstream : $upstream;
+
+            $positionsArray['downstream']['start'] = $locusEnd + 1;
+            $positionsArray['downstream']['legend'] = 'stream';
+
+            if (($locusEnd + $stream) > strlen($chromosomeDna)) {
+                $positionsArray['downstream']['end'] = strlen($chromosomeDna);
+            } else {
+                $positionsArray['downstream']['end'] = $locusEnd + $stream;
+            }
+        } else {
+            $positionsArray['downstream'] = false;
+        }
+
+        // Convert positions from human logic to computer logic
+        array_walk_recursive($positionsArray, function (&$item) {
+            --$item;
+        });
+
+        if (1 !== $this->strand) {
+            $positionsArray = array_reverse($positionsArray);
+            $sequenceManipulator = new SequenceManipulator();
+        }
+
+        $sequences = [];
+        foreach ($positionsArray as $position) {
+            if ($position) {
+                $sequenceLength = $position['end'] - $position['start'] + 1;
+                $sequence = substr($chromosomeDna, $position['start'], $sequenceLength);
+
+                if (1 !== $this->strand) {
+                    $sequence = $sequenceManipulator->reverseComplement($sequence);
+                }
+
+                if ($html) {
+                    $sequences[] = '<span class="'.$position['legend'].'">'.$sequence.'</span>';
+                } else {
+                    $sequences[] = $sequence;
+                }
+            }
+        }
+
+        $sequence = implode($sequences);
+
+        // Cut the sequence in array with 60 nucleotides per line
+        $letters = str_split($sequence, 1);
+        $sequence = [];
+        $sequence[0] = '';
+        $i = 0;
+        $l = 0;
+        foreach ($letters as $letter) {
+            $type = ctype_upper($letter);
+
+            if (!$type) {
+                $sequence[$l] .= $letter;
+            } elseif ($type && $i < 60) {
+                ++$i;
+                $sequence[$l] .= $letter;
+            } else {
+                ++$l;
+                $i = 1;
+                $sequence[$l] = $letter;
+            }
+        }
+
+        return $sequence;
     }
 }
