@@ -35,7 +35,7 @@
                 <li class="previous">
                     <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.previousLocus }) }}"
                     data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.previousLocusDistance >= 0 ? locus.previousLocusDistance ~ ' nuc.' : 'overlapping' }}">
-                        <span class="fa fa-arrow-left" aria-hidden="true"></span> {{ locus.previousLocus }}<br>
+                        <span class="fa fa-arrow-left" aria-hidden="true"></span> <span class="hidden-xs">{{ locus.previousLocus }}</span><span class="hidden-sm hidden-md hidden-lg">Previous locus</span>
                     </a>
                 </li>
             {% else %}
@@ -46,7 +46,7 @@
                 <li class="next">
                     <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.nextLocus }) }}"
                     data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.nextLocusDistance >= 0 ? locus.nextLocusDistance ~ ' nuc.' : 'overlapping' }}">
-                        {{ locus.nextLocus }} <span class="fa fa-arrow-right" aria-hidden="true"></span><br>
+                        <span class="hidden-xs">{{ locus.nextLocus }}</span> <span class="hidden-sm hidden-md hidden-lg">Next locus</span> <span class="fa fa-arrow-right" aria-hidden="true"></span>
                     </a>
                 </li>
             {% else %}
@@ -78,30 +78,49 @@
         <div class="panel-heading">
             <h3 class="panel-title">Summary</h3>
         </div>
-        <table class="table">
-            <tr>
-                <td class="col-md-3"><b>Species</b></td>
-                <td class="col-md-3"><i>{{ locus.chromosome.strain.species.scientificName }}</i></td>
-                <td class="col-md-3"><b>Positions</b></td>
-                <td class="col-md-3">{{ locus.start }}..{{ locus.end }}</td>
-            </tr>
-            <tr>
-                <td><b>Strain</b></td>
-                <td>{{ locus.chromosome.strain.name }}</td>
-                <td><b>Strand</b></td>
-                <td>{{ 1 == locus.strand ? 'Sense' : 'Antisense' }}</td>
-            </tr>
-            <tr>
-                <td><b>Chromosome</b></td>
-                <td>{{ locus.chromosome.name }}</td>
-                <td><b>Total length</b></td>
-                <td>{{ locus.end - locus.start + 1 }} (nuc.)</td>
-            </tr>
-            <tr>
-                <td><b>Product number</b></td>
-                <td>{{ locus.countProductNumber }}</td>
-            </tr>
-        </table>
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <td class="col-md-3"><b>Species</b></td>
+                    <td class="col-md-3">
+                        <a href="{{ path('species_view', { 'species_slug': locus.chromosome.strain.species.slug }) }}">
+                            <i>{{ locus.chromosome.strain.species.scientificName }}</i>
+                        </a>
+                    </td>
+                    <td class="col-md-3"><b>Positions</b></td>
+                    <td class="col-md-3">{{ locus.start }}..{{ locus.end }}</td>
+                </tr>
+                <tr>
+                    <td><b>Strain</b></td>
+                    <td>
+                        <a href="{{ path('strain_view', {
+                            'species_slug': locus.chromosome.strain.species.slug,
+                            'strain_slug': locus.chromosome.strain.slug }) }}">
+                            {{ locus.chromosome.strain.name }}
+                        </a>
+                    </td>
+                    <td><b>Strand</b></td>
+                    <td>{{ 1 == locus.strand ? 'Sense' : 'Antisense' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Chromosome</b></td>
+                    <td>
+                        <a href="{{ path('chromosome_view', {
+                            'species_slug': locus.chromosome.strain.species.slug,
+                            'strain_slug': locus.chromosome.strain.slug,
+                            'chromosome_slug': locus.chromosome.slug }) }}">
+                            {{ locus.chromosome.name }}
+                        </a>
+                    </td>
+                    <td><b>Total length</b></td>
+                    <td>{{ locus.end - locus.start + 1 }} (nuc.)</td>
+                </tr>
+                <tr>
+                    <td><b>Product number</b></td>
+                    <td>{{ locus.countProductNumber }}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <h2>Sequence</h2>
@@ -109,20 +128,25 @@
         <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-locus="{{ locus.name }}" data-feature="{{ feature.name }}">
             <h3 class="page-header">{{ feature.name }}</h3>
             <div class="row">
-                <div class="col-md-8 fasta fasta-nuc">
+                <div class="col-md-9 fasta fasta-nuc">
                     <span class="header">>{{ feature.name }}</span>
                     {% for line in feature.sequence %}
                         {{ line|raw }}<br>
                     {% endfor %}
                 </div>
 
-                <div class="col-md-2 legend">
-                    <p>
-                        <span class="stream">Upstream/Downstream</span><br>
-                        <span class="utr">UTR</span><br>
-                        <span class="exon">Exon</span><br>
-                        <span class="intron">Intron</span>
-                    </p>
+                <hr class="hidden-lg hidden-md">
+
+                <div class="col-md-3">
+                    <p>Legend:</p>
+                    <ul>
+                        <li class="stream">Upstream/Downstream</li>
+                        <li class="utr">UTR</li>
+                        <li class="exon">Exon</li>
+                        <li class="intron">Intron</li>
+                    </ul>
+
+                    <hr>
 
                     <form class="hidden-print">
                         <div class="form-group">

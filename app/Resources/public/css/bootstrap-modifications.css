@@ -195,7 +195,7 @@ footer a {
 .fasta {
     font-family: "Courier New", Courier, monospace;
     font-size: 18px;
-    word-break: break-all;
+    overflow-y: scroll;
     margin-bottom: 10px;
 }
 
@@ -239,10 +239,6 @@ footer a {
         color: #c0504d !important;
         -webkit-print-color-adjust: exact;
     }
-}
-
-.locus-feature li {
-    list-style-type: none;
 }
 
 /*
