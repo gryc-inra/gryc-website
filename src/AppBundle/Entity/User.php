@@ -108,6 +108,11 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $authorizedStrains;
 
+    /**
+     * @ORM\Column(name="session_id", type="string", length=255, nullable=true)
+     */
+    private $sessionId;
+
     public function __construct()
     {
         $this->roles = [];
@@ -517,5 +522,17 @@ class User implements AdvancedUserInterface, \Serializable
     public function getAuthorizedStrains()
     {
         return $this->authorizedStrains;
+    }
+
+    public function setSessionId($sessionId)
+    {
+        $this->sessionId = $sessionId;
+
+        return $this;
+    }
+
+    public function getSessionId()
+    {
+        return $this->sessionId;
     }
 }

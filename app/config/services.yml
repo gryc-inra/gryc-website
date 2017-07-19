@@ -105,6 +105,22 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    app.event_listener.security_interactive_login:
+        class: AppBundle\EventListener\SecurityInteractiveLoginListener
+        arguments: ["@app.user_manager"]
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login }
+
+    app.event_listener.kernel_request:
+        class: AppBundle\EventListener\KernelRequestListener
+        arguments:
+            - "@security.token_storage"
+            - "@security.authorization_checker"
+            - "@session"
+            - "@router"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 0 }
+
 # Form
     app.form_type.contact:
         class: AppBundle\Form\Type\ContactUsType
