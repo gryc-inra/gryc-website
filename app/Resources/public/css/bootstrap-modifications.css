@@ -35,6 +35,10 @@ nav.navbar.affix-top
     top: 0;
 }
 
+.navbar-brand {
+    padding: 5px 0 5px 0;
+}
+
 /* Print
 -------------------------------------------------- */
 @media print {
