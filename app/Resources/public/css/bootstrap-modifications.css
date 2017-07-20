@@ -199,7 +199,7 @@ footer a {
 .fasta {
     font-family: "Courier New", Courier, monospace;
     font-size: 18px;
-    overflow-y: scroll;
+    overflow-x: auto;
     margin-bottom: 10px;
 }
 
