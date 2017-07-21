@@ -2,7 +2,7 @@
 
 namespace AppBundle\Utils;
 
-use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -18,7 +18,7 @@ class LoginBruteForce
     private $cacheAdapter;
     private $requestStack;
 
-    public function __construct(AdapterInterface $cacheAdapter, RequestStack $requestStack)
+    public function __construct(CacheItemPoolInterface $cacheAdapter, RequestStack $requestStack)
     {
         $this->cacheAdapter = $cacheAdapter;
         $this->requestStack = $requestStack;

@@ -2,12 +2,22 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Utils\Sitemap;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SitemapCommand extends ContainerAwareCommand
 {
+    private $sitemap;
+
+    public function __construct(Sitemap $sitemap)
+    {
+        $this->sitemap = $sitemap;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -19,6 +29,6 @@ class SitemapCommand extends ContainerAwareCommand
     {
         $output->writeln('<comment>The generation of the sitemap file start. This may take some times.</comment>');
 
-        $this->getContainer()->get('app.sitemap')->generate();
+        $this->sitemap->generate();
     }
 }

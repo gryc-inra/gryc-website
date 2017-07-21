@@ -27,7 +27,7 @@ security:
 
             guard:
                 authenticators:
-                    - app.security.form_login_authenticator
+                    - AppBundle\Security\FormLoginAuthenticator
 
             form_login:
                 # login and check paths

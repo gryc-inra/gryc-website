@@ -54,7 +54,7 @@ twig:
     form_themes:
         - form/fields.html.twig
     globals:
-        fasta_generator: '@app.fasta_generator'
+        fasta_generator: '@AppBundle\Utils\FastaGenerator'
 
 # Doctrine Configuration
 doctrine:
@@ -130,13 +130,13 @@ old_sound_rabbit_mq:
             connection:       default
             exchange_options: {name: 'blast', type: direct}
             queue_options:    {name: 'blast'}
-            callback:         app.consumer.blast
+            callback:         AppBundle\Utils\BlastConsumer
             qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
             enable_logger: true
         multiple_alignment:
             connection:       default
             exchange_options: {name: 'multiple-alignment', type: direct}
             queue_options:    {name: 'multiple-alignment'}
-            callback:         app.consumer.multiple_alignment
+            callback:         AppBundle\Utils\MultipleAlignmentConsumer
             qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
             enable_logger: true

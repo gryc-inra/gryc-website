@@ -38,12 +38,12 @@ class ResettingController extends Controller
             }
 
             // Generate a token, to activate account
-            $tokenGenerator = $this->get('app.token_generator');
+            $tokenGenerator = $this->get('AppBundle\Utils\TokenGenerator');
             $user->setConfirmationToken($tokenGenerator->generateToken());
             $em->flush();
 
             // Send an email with the reset link
-            $this->get('app.mailer')->sendPasswordResetting($user);
+            $this->get('AppBundle\Utils\Mailer')->sendPasswordResetting($user);
 
             return $this->redirectToRoute('login');
         }
@@ -81,12 +81,12 @@ class ResettingController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Update the password
-            $this->get('app.user_manager')->updateUser($user, false);
+            $this->get('AppBundle\Utils\UserManager')->updateUser($user, false);
             $user->setConfirmationToken(null);
             $em->flush();
 
             // Reinit the brute-force counter for this username
-            $this->get('app.login_brute_force')->resetUsername($username);
+            $this->get('AppBundle\Utils\LoginBruteForce')->resetUsername($username);
 
             // Add a flash message
             $this->addFlash('success', 'Your password have been successfully changed. You can now log in with this new one.');

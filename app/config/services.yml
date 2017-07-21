@@ -4,24 +4,35 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: false
 
-# Session handler
-    session.handler.pdo:
-        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
-        public:    false
-        arguments:
-            - 'mysql:host=%database_host%;port=%database_port%;dbname=%database_name%'
-            - { db_username: "%env(DATABASE_USER)%", db_password: "%env(DATABASE_PASSWORD)%" }
+    # makes classes in src/AppBundle available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    AppBundle\:
+        resource: '../../src/AppBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
 
-# Command
-    app.command.import_strain:
-        class: AppBundle\Command\ImportStrainCommand
-        arguments: ["%kernel.project_dir%"]
-        tags:
-            - { name: console.command }
+    # controllers are imported separately to make sure they're public
+    # and have a tag that allows actions to type-hint services
+    AppBundle\Controller\:
+        resource: '../../src/AppBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
+    # add more services, or override services that need manual wiring
+    # AppBundle\Service\ExampleService:
+    #     arguments:
+    #         $someArgument: 'some_value'
 
 # Twig
     twig.extension.text:
@@ -29,140 +40,58 @@ services:
        tags:
            - { name: twig.extension }
 
-# Utils
-    app.mailer:
-        class: AppBundle\Utils\Mailer
-        arguments: ["@mailer", "@templating"]
+# Comands
+    AppBundle\Command\ImportStrainCommand:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
 
-    app.token_generator:
-        class: AppBundle\Utils\TokenGenerator
+# Utils
+    AppBundle\Utils\BlastManager:
+        public: true
+        arguments:
+            $projectDir: '%kernel.project_dir%'
 
-    app.password_updater:
-        class: AppBundle\Utils\PasswordUpdater
-        arguments: ["@security.password_encoder"]
+    AppBundle\Utils\MultipleAlignmentManager:
+        public: true
 
-    app.user_manager:
-        class: AppBundle\Utils\UserManager
-        arguments: ["@app.password_updater", "@doctrine.orm.entity_manager"]
+    AppBundle\Utils\SequenceManipulator:
+        public: true
 
-    app.login_brute_force:
-        class: AppBundle\Utils\LoginBruteForce
-        arguments: ["@cache.app", "@request_stack"]
+    AppBundle\Utils\CartManager:
+        public: true
 
-    app.sequence_manipulator:
-        class: AppBundle\Utils\SequenceManipulator
+    AppBundle\Utils\UserManager:
+        public: true
 
-    app.fasta_generator:
-        class: AppBundle\Utils\FastaGenerator
+    AppBundle\Utils\TokenGenerator:
+        public: true
 
-    app.taxid:
-        class: AppBundle\Utils\TaxId
+    AppBundle\Utils\LoginBruteForce:
+        public: true
 
-    app.blast_manager:
-        class:  AppBundle\Utils\BlastManager
-        arguments: ["@doctrine.orm.entity_manager", "%kernel.project_dir%", "@session"]
+    AppBundle\Utils\Mailer:
+        public: true
 
-    app.multiple_alignment_manager:
-        class:  AppBundle\Utils\MultipleAlignmentManager
-        arguments: ["@doctrine.orm.entity_manager", "@session", "@app.sequence_manipulator"]
-
-    app.cart_manager:
-        class: AppBundle\Utils\CartManager
-        arguments: ["@session", "@security.authorization_checker", "@doctrine.orm.entity_manager"]
-
-    app.sitemap:
-        class: AppBundle\Utils\Sitemap
-        arguments: ["@router", "@doctrine.orm.entity_manager", "@filesystem", "@twig"]
+    AppBundle\Utils\TaxId:
+        public: true
 
 # Listeners
-    app.event_listener.user:
-        class: AppBundle\EventListener\UserSubscriber
-        arguments: ["@app.password_updater", "@app.token_generator"]
-        tags:
-            - { name: doctrine.event_subscriber }
-
-    app.event_listener.blast:
-        class: AppBundle\EventListener\BlastListener
-        arguments: ["@app.token_generator"]
+    AppBundle\EventListener\BlastListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
 
-    app.event_listener.multiple_alignment:
-        class: AppBundle\EventListener\MultipleAlignmentListener
-        arguments: ["@app.token_generator"]
+    AppBundle\EventListener\MultipleAlignmentListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
 
-    app.event_listener.entities_cleaner:
-        class: AppBundle\EventListener\EntitiesCleanerListener
-        arguments: ["@doctrine.orm.entity_manager"]
+    AppBundle\EventListener\EntitiesCleanerListener:
         tags:
             - { name: kernel.event_listener, event: kernel.terminate, method: 'onTerminate' }
 
-    app.event_listener.authentication_subscriber:
-        class: AppBundle\EventListener\AuthenticationSubscriber
-        arguments: ["@app.login_brute_force"]
-        tags:
-            - { name: kernel.event_subscriber }
-
-    app.event_listener.security_interactive_login:
-        class: AppBundle\EventListener\SecurityInteractiveLoginListener
-        arguments: ["@app.user_manager"]
+    AppBundle\EventListener\SecurityInteractiveLoginListener:
         tags:
             - { name: kernel.event_listener, event: security.interactive_login }
 
-    app.event_listener.kernel_request:
-        class: AppBundle\EventListener\KernelRequestListener
-        arguments:
-            - "@security.token_storage"
-            - "@security.authorization_checker"
-            - "@session"
-            - "@router"
+    AppBundle\EventListener\KernelRequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 0 }
-
-# Form
-    app.form_type.contact:
-        class: AppBundle\Form\Type\ContactUsType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.advanced_search:
-        class: AppBundle\Form\Type\AdvancedSearchType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.blast:
-        class: AppBundle\Form\Type\BlastType
-        arguments: ["@security.token_storage", "@security.authorization_checker"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.multiple_alignment:
-        class: AppBundle\Form\Type\MultipleAlignmentType
-        arguments: ["@security.token_storage", "@security.authorization_checker"]
-        tags:
-            - { name: form.type }
-
-# Voters
-    app.voter.strain:
-        class: AppBundle\Security\StrainVoter
-        tags:
-            - { name: security.voter }
-        public: false
-
-# Security
-    app.security.form_login_authenticator:
-        class: AppBundle\Security\FormLoginAuthenticator
-        arguments: ["@router", "@security.password_encoder", "@app.login_brute_force"]
-
-# Rabbit Consumer
-    app.consumer.blast:
-        class: AppBundle\Utils\BlastConsumer
-        arguments: ["@app.blast_manager"]
-
-    app.consumer.multiple_alignment:
-        class: AppBundle\Utils\MultipleAlignmentConsumer
-        arguments: ["@app.multiple_alignment_manager"]

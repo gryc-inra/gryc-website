@@ -19,7 +19,7 @@ class CartController extends Controller
      */
     public function addAction(Locus $locus, Request $request)
     {
-        $cartManager = $this->get('app.cart_manager');
+        $cartManager = $this->get('AppBundle\Utils\CartManager');
         $cartManager->addToCart($locus);
         $cart = $cartManager->getCart();
 
@@ -44,7 +44,7 @@ class CartController extends Controller
      */
     public function removeAction($id, Request $request)
     {
-        $cartManager = $this->get('app.cart_manager');
+        $cartManager = $this->get('AppBundle\Utils\CartManager');
         $cartManager->removeToCart($id);
         $cart = $cartManager->getCart();
 
@@ -60,7 +60,7 @@ class CartController extends Controller
      */
     public function emptyAction(Request $request)
     {
-        $cartManager = $this->get('app.cart_manager');
+        $cartManager = $this->get('AppBundle\Utils\CartManager');
         $cartManager->emptyCart();
 
         return $this->redirectToRoute('cart_view');
@@ -71,7 +71,7 @@ class CartController extends Controller
      */
     public function viewAction(Request $request)
     {
-        $cartManager = $this->get('app.cart_manager');
+        $cartManager = $this->get('AppBundle\Utils\CartManager');
         $cartElements = $cartManager->getCartEntities();
 
         $form = $this->createForm(CartType::class);

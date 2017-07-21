@@ -16,7 +16,7 @@ class MultipleAlignmentController extends Controller
      */
     public function indexAction(MultipleAlignment $multipleAlignment = null, Request $request)
     {
-        $multipleAlignmentManager = $this->get('app.multiple_alignment_manager');
+        $multipleAlignmentManager = $this->get('AppBundle\Utils\MultipleAlignmentManager');
         $multipleAlignment = $multipleAlignmentManager->initAlignment($multipleAlignment);
 
         $form = $this->createForm(MultipleAlignmentType::class, $multipleAlignment);
@@ -58,7 +58,7 @@ class MultipleAlignmentController extends Controller
     public function viewAction(MultipleAlignment $multipleAlignment, Request $request)
     {
         if ('finished' === $multipleAlignment->getStatus()) {
-            $result = $this->get('app.multiple_alignment_manager')->fastaToArray($multipleAlignment->getOutput(), $request->query->get('coloration'), $request->query->get('level'));
+            $result = $this->get('AppBundle\Utils\MultipleAlignmentManager')->fastaToArray($multipleAlignment->getOutput(), $request->query->get('coloration'), $request->query->get('level'));
         } else {
             $result = null;
         }

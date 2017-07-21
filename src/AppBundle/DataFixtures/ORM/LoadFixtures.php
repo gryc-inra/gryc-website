@@ -21,7 +21,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         //---------//
         //  Users  //
         //---------//
-        $userManager = $this->container->get('app.user_manager');
+        $userManager = $this->container->get('AppBundle\Utils\UserManager');
 
         // Create a user Mathieu
         $user = $userManager->createUser();

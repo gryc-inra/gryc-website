@@ -19,7 +19,7 @@ class Mailer
     private $from = 'gryc.inra@gmail.com';
     private $name = 'GRYC - The yeast genomics database';
 
-    public function __construct($mailer, EngineInterface $templating)
+    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;

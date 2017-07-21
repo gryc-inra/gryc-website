@@ -128,6 +128,6 @@ class SpeciesAdminController extends Controller
      */
     public function getJsonAction($taxid)
     {
-        return new JsonResponse($this->get('app.taxid')->getArray($taxid));
+        return new JsonResponse($this->get('AppBundle\Utils\TaxId')->getArray($taxid));
     }
 }

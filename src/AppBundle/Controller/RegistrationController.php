@@ -14,7 +14,7 @@ class RegistrationController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $userManager = $this->get('app.user_manager');
+        $userManager = $this->get('AppBundle\Utils\UserManager');
         $user = $userManager->createUser();
         $form = $this->createForm(RegistrationType::class, $user);
 
@@ -26,7 +26,7 @@ class RegistrationController extends Controller
             $em->flush();
 
             // Add notifications: mails and flash
-            $this->get('app.mailer')->sendUserConfirmation($user);
+            $this->get('AppBundle\Utils\Mailer')->sendUserConfirmation($user);
             $this->addFlash('success', 'You have been successfully registered, before login you must validate your email address by clicking on the link in the mail that was sent to you.');
 
             return $this->redirectToRoute('login');
@@ -43,7 +43,7 @@ class RegistrationController extends Controller
      */
     public function activateAction($token)
     {
-        $userManager = $this->get('app.user_manager');
+        $userManager = $this->get('AppBundle\Utils\UserManager');
         $user = $userManager->findUserByConfirmationToken($token);
 
         // If the user doesn't exists

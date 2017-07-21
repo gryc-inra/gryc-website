@@ -18,7 +18,7 @@ class ContactUsController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('app.mailer')->sendContactMessage($form->getData());
+            $this->get('AppBundle\Utils\Mailer')->sendContactMessage($form->getData());
 
             $this->addFlash('success', 'Your message has been submitted.');
 
