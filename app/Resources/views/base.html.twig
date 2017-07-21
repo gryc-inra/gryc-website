@@ -50,7 +50,7 @@
             </header>
 
             <!-- Navbar -->
-            <nav class="navbar navbar-default">
+            <nav class="navbar navbar-default navbar-fixed-top">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -67,12 +67,10 @@
 
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-left">
-                            <li><a href="{{ path('homepage') }}"><span class="fa fa-home" aria-hidden="true"></span>&nbsp; Home</a></li>
                             <li><a href="{{ path('advanced-search') }}"><span class="fa fa-search" aria-hidden="true"></span> Search</a></li>
-                            <li><a href="{{ path('blast_index') }}"><span class="fa fa-cog" aria-hidden="true"></span> BLAST</a></li>
                             <li><a href="{{ path('strain_index') }}"><span class="fa fa-list" aria-hidden="true"></span> Strains</a></li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-cog" aria-hidden="true"></span>  Tools</a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-cog" aria-hidden="true"></span>  Tools <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ path("blast_index") }}">Blast</a></li>
                                     <li><a href="{{ path("multiple_alignment_index") }}">Multiple Sequences Alignment</a></li>
@@ -98,8 +96,9 @@
                             {# Si l'utilisateur est connecté #}
                             {% if app.user %}
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.username }} <span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My account <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
+                                        <li class="dropdown-header">{{ app.user.username }}</li>
                                         {# Si l'utilisateur est un administrateur #}
                                         {% if is_granted('ROLE_ADMIN') %}
                                             <li><a href="{{ path('admin_index') }}"><span class="fa fa-cog" aria-hidden="true"></span> Administration</a></li>
@@ -116,9 +115,9 @@
 
                         </ul>
 
-                        <form id="quick-search-form" class="navbar-form navbar-right hidden-sm" action="{{ path('quick-search') }}" method="GET">
+                        <form id="quick-search-form" class="navbar-form navbar-right" role="search" action="{{ path('quick-search') }}" method="GET">
                             <div class="input-group">
-                                <input type="text" name="q" class="form-control" placeholder="Search...">
+                                <input type="search" name="q" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
                                     <button id="quick-search-submit" class="btn btn-default" type="submit" >
                                         <span class="fa fa-search" title="Search"></span>
