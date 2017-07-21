@@ -18,22 +18,22 @@ services:
 
 framework:
     #esi:             ~
-    translator:      { fallbacks: ["%locale%"] }
-    secret:          "%secret%"
+    translator:      { fallbacks: ['%locale%'] }
+    secret:          '%secret%'
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: '%kernel.project_dir%/app/config/routing.yml'
         strict_requirements: ~
-    form:            ~
+    form: ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
     #serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
-    default_locale:  "%locale%"
+    default_locale:  '%locale%'
     trusted_hosts:   ~
     session:
         handler_id: snc_redis.session.handler
-    fragments:       ~
+    fragments: ~
     http_method_override: true
     assets:
         version_format: '%%s?version=%%s'
@@ -44,29 +44,31 @@ framework:
                 version: '%app_version%'
             image:
                 version: '%app_version%'
+    php_errors:
+        log: true
 
 # Twig Configuration
 twig:
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
     form_themes:
         - form/fields.html.twig
     globals:
-        fasta_generator: "@app.fasta_generator"
+        fasta_generator: '@app.fasta_generator'
 
 # Doctrine Configuration
 doctrine:
     dbal:
         driver:   pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%env(DATABASE_USER)%"
-        password: "%env(DATABASE_PASSWORD)%"
+        host:     '%database_host%'
+        port:     '%database_port%'
+        dbname:   '%database_name%'
+        user:     '%env(DATABASE_USER)%'
+        password: '%env(DATABASE_PASSWORD)%'
         charset:  UTF8
 
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
@@ -80,17 +82,17 @@ stof_doctrine_extensions:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
+    transport: '%mailer_transport%'
+    host:      '%mailer_host%'
+    username:  '%mailer_user%'
+    password:  '%mailer_password%'
     spool:     { type: memory }
 
 # ReCaptcha
 ewz_recaptcha:
-    public_key:  "%env(RECAPTCHA_PUBLIC_KEY)%"
-    private_key: "%env(RECAPTCHA_PRIVATE_KEY)%"
-    locale_key:  "%kernel.default_locale%"
+    public_key:  '%env(RECAPTCHA_PUBLIC_KEY)%'
+    private_key: '%env(RECAPTCHA_PRIVATE_KEY)%'
+    locale_key:  '%kernel.default_locale%'
 
 # Redis
 snc_redis:
@@ -98,7 +100,7 @@ snc_redis:
         default:
             type: predis
             alias: default
-            dsn: "redis://%redis_host%"
+            dsn: 'redis://%redis_host%'
     session:
         client: default
 
@@ -106,10 +108,10 @@ snc_redis:
 old_sound_rabbit_mq:
     connections:
         default:
-            host:     "%rabbitmq_host%"
-            port:     "%rabbitmq_port%"
-            user:     "%env(RABBITMQ_USER)%"
-            password: "%env(RABBITMQ_PASSWORD)%"
+            host:     '%rabbitmq_host%'
+            port:     '%rabbitmq_port%'
+            user:     '%env(RABBITMQ_USER)%'
+            password: '%env(RABBITMQ_PASSWORD)%'
             vhost:    '/'
             lazy:     true
             connection_timeout: 3
