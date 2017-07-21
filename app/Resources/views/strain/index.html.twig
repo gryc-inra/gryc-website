@@ -12,5 +12,39 @@
 {% block body %}
     <h1>List of the strains in the database</h1>
 
-    {% include 'strain/_list.html.twig' %}
+    <p>
+        This page present all the available strains of yeast, there is a link on each strain of the genomic database.
+        On the strain page there are links to download files CDS (nuc and prot) and chromosomes (EMBL and FASTA), and some informations about the genome.
+    </p>
+
+    {% for clade in clades %}
+        <div class="row">
+            <div  class="col-md-12">
+                <h2>{{ clade.name }}</h2>
+            </div>
+
+            {% for species in clade.species %}
+                {% if loop.index is divisible by(4) %}
+                    <div class="row">
+                {% endif %}
+
+                <div class="col-md-3 col-sm-6 col-sm-12">
+                    <p>
+                        <a href="{{ path('species_view', { 'species_slug': species.slug }) }}">
+                            <u><i>{{ species.scientificName }}</i></u>
+                        </a><br>
+                        {% for strain in species.strains %}
+                        <a href="{{ path('strain_view', { 'species_slug': species.slug, 'strain_slug': strain.slug }) }}">
+                            {{ strain.name }}
+                            </a>{{ (loop.last) ? '' : ', ' }}
+                        {% endfor %}
+                    </p>
+                </div>
+
+                {% if loop.index is divisible by(4) %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
 {% endblock %}
