@@ -3,10 +3,10 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Locus;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class CartManager
 {
@@ -18,7 +18,7 @@ class CartManager
     private $cart;
     private $em;
 
-    public function __construct(Session $session, AuthorizationChecker $authorizationChecker, EntityManager $entityManager)
+    public function __construct(SessionInterface $session, AuthorizationCheckerInterface $authorizationChecker, EntityManagerInterface $entityManager)
     {
         $this->session = $session;
         $this->authorizationChecker = $authorizationChecker;

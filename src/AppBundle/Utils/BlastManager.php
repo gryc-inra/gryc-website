@@ -3,9 +3,9 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Blast;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
 
@@ -15,7 +15,7 @@ class BlastManager
     private $projectDir;
     private $session;
 
-    public function __construct(EntityManager $em, $projectDir, Session $session)
+    public function __construct(EntityManagerInterface $em, $projectDir, SessionInterface $session)
     {
         $this->em = $em;
         $this->projectDir = $projectDir;

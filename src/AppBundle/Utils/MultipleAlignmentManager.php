@@ -3,8 +3,8 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\MultipleAlignment;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
 
@@ -14,7 +14,7 @@ class MultipleAlignmentManager
     private $session;
     private $sequenceManipulator;
 
-    public function __construct(EntityManager $em, Session $session, SequenceManipulator $sequenceManipulator)
+    public function __construct(EntityManagerInterface $em, SessionInterface $session, SequenceManipulator $sequenceManipulator)
     {
         $this->em = $em;
         $this->session = $session;

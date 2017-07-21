@@ -3,7 +3,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\User;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class UserManager
 {
@@ -11,7 +11,7 @@ class UserManager
     protected $repository;
     protected $passwordUpdater;
 
-    public function __construct(PasswordUpdater $passwordUpdater, EntityManager $em)
+    public function __construct(PasswordUpdater $passwordUpdater, EntityManagerInterface $em)
     {
         $this->entityManager = $em;
         $this->repository = $em->getRepository('AppBundle:User');

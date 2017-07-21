@@ -4,7 +4,7 @@ namespace AppBundle\Security;
 
 use AppBundle\Utils\LoginBruteForce;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -18,7 +18,7 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator
     private $encoder;
     private $loginBruteForce;
 
-    public function __construct(Router $router, UserPasswordEncoderInterface $encoder, LoginBruteForce $loginBruteForce)
+    public function __construct(RouterInterface $router, UserPasswordEncoderInterface $encoder, LoginBruteForce $loginBruteForce)
     {
         $this->router = $router;
         $this->encoder = $encoder;

@@ -3,11 +3,11 @@
 namespace AppBundle\EventListener;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 
 class KernelRequestListener
@@ -18,9 +18,9 @@ class KernelRequestListener
     private $router;
 
     public function __construct(
-        TokenStorage $tokenStorage,
-        AuthorizationChecker $authorizationChecker,
-        Session $session,
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker,
+        SessionInterface $session,
         RouterInterface $router
     ) {
         $this->tokenStorage = $tokenStorage;
