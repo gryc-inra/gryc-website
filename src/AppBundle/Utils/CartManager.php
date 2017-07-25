@@ -92,13 +92,15 @@ class CartManager
         return $this->em->getRepository('AppBundle:Locus')->findLocusById($this->cart['items']);
     }
 
-    public function streamCart($entities, $form)
+    public function streamCart($form)
     {
+        $data = $form->getData();
+
         $fileName = 'Gryc-cart-export-'.date('Y-m-d_h:i:s');
         $response = new StreamedResponse();
-        $response->setCallback(function () use ($form, $entities) {
-            $fastaGenerator = new FastaGenerator();
-            $fastaGenerator->generateFasta($form->getData(), $entities);
+        $response->setCallback(function () use ($data) {
+            $fastaGenerator = new FastaGenerator(true);
+            $fastaGenerator->generateFasta($this->getCartEntities(), $data['type'], $data['feature'], $data['intronSplicing'], $data['upstream'], $data['downstream']);
         });
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'text/plain; charset=utf-8');

@@ -84,7 +84,7 @@ class CartController extends Controller
             }
 
             // Return a Streamed response
-            return $cartManager->streamCart($cartElements, $form);
+            return $cartManager->streamCart($form);
         }
 
         return $this->render('cart/view.html.twig', [

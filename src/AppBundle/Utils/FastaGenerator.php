@@ -6,28 +6,41 @@ class FastaGenerator
 {
     const FASTA_LINE_LENGTH = 60;
 
-    public function generateFasta(array $formData, array $locusList)
+    private $stream = false;
+
+    public function __construct($stream = false)
     {
-        if ('prot' === $formData['type']) {
-            $this->aminoAcidsFasta($locusList);
+        $this->stream = $stream;
+    }
+
+    public function generateFasta($locusList, $type = 'nuc', $feature = 'locus', $intronSplicing = false, $upstream = 0, $downstream = 0)
+    {
+        if ('prot' === $type) {
+            $fasta = $this->aminoAcidsFasta($locusList);
         } else {
             // The user want nucleotides
-            $this->nucleotideFasta($formData, $locusList);
+            $fasta = $this->nucleotideFasta($locusList, $feature, $intronSplicing, $upstream, $downstream);
+        }
+
+        if ($this->stream) {
+            return $this->streamFasta($fasta);
+        } else {
+            return $fasta;
         }
     }
 
-    private function nucleotideFasta($formData, $locusList)
+    private function nucleotideFasta($locusList, $feature, $intronSplicing, $upstream, $downstream)
     {
         // if feature is locus do not use intronSplicing
         // Per security, we set it to false here
-        if ('locus' === $formData['feature']) {
-            $formData['intronSplicing'] = false;
+        if ('locus' === $feature) {
+            $intronSplicing = false;
         }
 
         // if the intron splicing is true, remove upstream and downstream
-        if (true === $formData['intronSplicing']) {
-            $formData['upstream'] = 0;
-            $formData['downstream'] = 0;
+        if (true === $intronSplicing) {
+            $upstream = 0;
+            $downstream = 0;
         }
 
         // Then generate a fastaData array
@@ -36,26 +49,26 @@ class FastaGenerator
         // While on Locus
         foreach ($locusList as $locus) {
             // If the user want locus, compute it
-            if ('locus' === $formData['feature']) {
+            if ('locus' === $feature) {
                 $fastaData[] = [
                     'name' => $locus->getName(),
-                    'sequence' => $locus->getSequence(true, true, $formData['upstream'], $formData['downstream'], false),
+                    'sequence' => $locus->getSequence(true, true, $upstream, $downstream, false),
                 ];
             // Else, do a while on Features
             } else {
                 foreach ($locus->getFeatures() as $feature) {
                     // If the user want feature, compute it
-                    if ('feature' === $formData['feature']) {
+                    if ('feature' === $feature) {
                         $fastaData[] = [
                             'name' => $feature->getName(),
-                            'sequence' => $feature->getSequence(false, !$formData['intronSplicing'], $formData['upstream'], $formData['downstream'], false),
+                            'sequence' => $feature->getSequence(false, !$intronSplicing, $upstream, $downstream, false),
                         ];
                     // Else, do a while on Products and compute it
                     } else {
                         foreach ($feature->getProductsFeatures() as $product) {
                             $fastaData[] = [
                                 'name' => $product->getName(),
-                                'sequence' => $product->getSequence(false, !$formData['intronSplicing'], $formData['upstream'], $formData['downstream'], false),
+                                'sequence' => $product->getSequence(false, !$intronSplicing, $upstream, $downstream, false),
                             ];
                         }
                     }
@@ -63,7 +76,7 @@ class FastaGenerator
             }
         }
 
-        $this->arrayToFasta($fastaData);
+        return $this->arrayToFasta($fastaData);
     }
 
     private function aminoAcidsFasta($locusList)
@@ -83,7 +96,7 @@ class FastaGenerator
             }
         }
 
-        $this->arrayToFasta($fastaData);
+        return $this->arrayToFasta($fastaData);
     }
 
     private function arrayToFasta($fastaData)
@@ -101,6 +114,10 @@ class FastaGenerator
             }
         }
 
+        return $fasta;
+    }
+
+    private function streamFasta($fasta) {
         $handle = fopen('php://output', 'w+');
         fwrite($handle, $fasta);
         fclose($handle);
