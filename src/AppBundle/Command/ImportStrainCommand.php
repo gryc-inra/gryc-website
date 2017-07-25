@@ -245,10 +245,10 @@ class ImportStrainCommand extends ContainerAwareCommand
                 $locus->setNote($locusData['note']);
                 $locus->setStart($locusData['start']);
                 $locus->setEnd($locusData['end']);
-                $locus->setPreviousLocus($locusData['previous_locus']);
-                $locus->setNextLocus($locusData['next_locus']);
-                $locus->setPreviousLocusDistance($locusData['previous_dist']);
-                $locus->setNextLocusDistance($locusData['next_dist']);
+                isset($locusData['previous_locus']) ? $locus->setPreviousLocus($locusData['previous_locus']) : null;
+                isset($locusData['next_locus']) ? $locus->setNextLocus($locusData['next_locus']) : null;
+                isset($locusData['previous_dist']) ? $locus->setPreviousLocusDistance($locusData['previous_dist']) : null;
+                isset($locusData['next_dist']) ? $locus->setNextLocusDistance($locusData['next_dist']) : null;
 
                 foreach ($locusData['feature'] as $featureData) {
                     $feature = new Feature();
