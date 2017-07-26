@@ -7,6 +7,7 @@ use AppBundle\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Templating\EngineInterface;
+
 /**
  * Notifies user.
  */
@@ -35,9 +36,9 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param \Swift_Mailer         $mailer
-     * @param EngineInterface       $templating
-     * @param string                $sender
+     * @param \Swift_Mailer   $mailer
+     * @param EngineInterface $templating
+     * @param string          $sender
      */
     public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, $senderMail, $senderName)
     {
@@ -59,7 +60,6 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
      */
     public function onContactMessage(GenericEvent $event)
     {
-
         /** @var array $data */
         $data = $event->getSubject();
 
@@ -71,7 +71,7 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
     {
         $subject = '[GRYC Contact]['.$data['category'].'] '.$data['subject'];
         $body = $this->templating->render('mail/contactMessage.html.twig', [
-            'data' => $data
+            'data' => $data,
         ]);
 
         $message = \Swift_Message::newInstance()
@@ -88,7 +88,7 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
     {
         $subject = 'Reception of your message';
         $body = $this->templating->render('mail/confirmationContactMessage.html.twig', [
-        'data' => $data]
+        'data' => $data, ]
         );
 
         $message = \Swift_Message::newInstance()

@@ -7,6 +7,7 @@ use AppBundle\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Templating\EngineInterface;
+
 /**
  * Notifies user.
  */
@@ -35,9 +36,9 @@ class UserNotificationSubscriber implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param \Swift_Mailer         $mailer
-     * @param EngineInterface       $templating
-     * @param string                $sender
+     * @param \Swift_Mailer   $mailer
+     * @param EngineInterface $templating
+     * @param string          $sender
      */
     public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, $senderMail, $senderName)
     {
