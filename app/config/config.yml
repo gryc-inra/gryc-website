@@ -39,11 +39,11 @@ framework:
         version_format: '%%s?version=%%s'
         packages:
             css:
-                version: '%app_version%'
+                version: '%app.version%'
             js:
-                version: '%app_version%'
+                version: '%app.version%'
             image:
-                version: '%app_version%'
+                version: '%app.version%'
     php_errors:
         log: true
 

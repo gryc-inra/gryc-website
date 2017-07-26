@@ -39,4 +39,4 @@ parameters:
     env(SYMFONY_SECRET):            ThisTokenIsNotSoSecretChangeIt
 
     # A version for assets
-    app_version:                    __APP_VERSION__
+    app.version:                    __APP_VERSION__
