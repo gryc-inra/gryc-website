@@ -62,7 +62,7 @@ doctrine:
         driver:   pdo_mysql
         host:     '%database_host%'
         port:     '%database_port%'
-        dbname:   '%database_name%'
+        dbname:   '%env(DATABASE_NAME)%'
         user:     '%env(DATABASE_USER)%'
         password: '%env(DATABASE_PASSWORD)%'
         charset:  UTF8
@@ -84,8 +84,8 @@ stof_doctrine_extensions:
 swiftmailer:
     transport: '%mailer_transport%'
     host:      '%mailer_host%'
-    username:  '%mailer_user%'
-    password:  '%mailer_password%'
+    username:  '%env(MAILER_USER)%'
+    password:  '%env(MAILER_PASSWORD)%'
     spool:     { type: memory }
 
 # ReCaptcha
