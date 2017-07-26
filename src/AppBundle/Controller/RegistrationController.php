@@ -2,9 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Events;
 use AppBundle\Form\Type\RegistrationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 class RegistrationController extends Controller
@@ -12,7 +15,7 @@ class RegistrationController extends Controller
     /**
      * @Route("/register", name="user_registration")
      */
-    public function registerAction(Request $request)
+    public function registerAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         $userManager = $this->get('AppBundle\Utils\UserManager');
         $user = $userManager->createUser();
@@ -25,8 +28,10 @@ class RegistrationController extends Controller
             $em->persist($user);
             $em->flush();
 
-            // Add notifications: mails and flash
-            $this->get('AppBundle\Utils\Mailer')->sendUserConfirmation($user);
+            // Dispatch an event
+            $event = new GenericEvent($user);
+            $eventDispatcher->dispatch(Events::USER_REGISTERED, $event);
+
             $this->addFlash('success', 'You have been successfully registered, before login you must validate your email address by clicking on the link in the mail that was sent to you.');
 
             return $this->redirectToRoute('login');
@@ -61,9 +66,8 @@ class RegistrationController extends Controller
             return $this->redirectToRoute('login');
         }
 
-        // Active the account and remove the token
+        // Active the account
         $user->setIsActive(true);
-        $user->setConfirmationToken(null);
         $userManager->updateUser($user);
 
         // Add notification

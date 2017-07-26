@@ -291,6 +291,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
+        $this->confirmationToken = null;
 
         return $this;
     }

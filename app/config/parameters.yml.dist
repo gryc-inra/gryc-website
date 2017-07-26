@@ -36,3 +36,6 @@ parameters:
 
     # A version for assets
     app_version:            __APP_VERSION__
+
+    app.notifications.email_sender: 'gryc.inra@gmail.com'
+    app.notifications.name_sender: 'GRYC - The yeast genomics database'

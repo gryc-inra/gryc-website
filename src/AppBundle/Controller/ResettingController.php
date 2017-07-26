@@ -2,10 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Events;
 use AppBundle\Form\Type\ResetPasswordType;
 use AppBundle\Form\Type\ResettingType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 class ResettingController extends Controller
@@ -13,7 +16,7 @@ class ResettingController extends Controller
     /**
      * @Route("/resetting/request", name="user_resetting_request")
      */
-    public function resettingRequestAction(Request $request)
+    public function resettingRequestAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         $form = $this->createForm(ResettingType::class);
 
@@ -42,8 +45,9 @@ class ResettingController extends Controller
             $user->setConfirmationToken($tokenGenerator->generateToken());
             $em->flush();
 
-            // Send an email with the reset link
-            $this->get('AppBundle\Utils\Mailer')->sendPasswordResetting($user);
+            // Dispatch an event
+            $event = new GenericEvent($user);
+            $eventDispatcher->dispatch(Events::USER_RESET, $event);
 
             return $this->redirectToRoute('login');
         }

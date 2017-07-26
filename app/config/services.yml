@@ -95,3 +95,11 @@ services:
     AppBundle\EventListener\KernelRequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 0 }
+
+    AppBundle\EventListener\UserNotificationSubscriber:
+        $senderMail: '%app.notifications.email_sender%'
+        $senderName: '%app.notifications.name_sender%'
+
+    AppBundle\EventListener\UserSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
