@@ -17,28 +17,36 @@
 
     <div class="row">
         <div class="col-md-9">
-            {{ form_start(form) }}
-            {{ form_row(form.tool) }}
-            {{ form_row(form.database) }}
-            {{ form_row(form.strainsFilter) }}
-            {{ form_row(form.strains) }}
-            {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_row(form.tool) }}
+                {{ form_row(form.database) }}
+                {{ form_row(form.strainsFilter) }}
+                {{ form_row(form.strains) }}
+                {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
 
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="reset" class="btn btn-default" onclick="event.preventDefault();document.getElementById('blast_query').value='';">
-                        Clear
-                    </button>
-                    <button type="submit" class="btn btn-info"><span class="fa fa-cog" aria-hidden="true"></span> BLAST</button>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="reset" class="btn btn-default" onclick="event.preventDefault();document.getElementById('blast_query').value='';">
+                            Clear
+                        </button>
+                        {{ form_widget(form.blastFromCart) }}
+                        {{ form_widget(form.blast, { 'attr' : { 'class': 'btn-primary' } }) }}
+                    </div>
                 </div>
-            </div>
 
-            <fieldset>
-                <legend>Options</legend>
-                {{ form_row(form.filter) }}
-                {{ form_row(form.evalue) }}
-                {{ form_row(form.gapped) }}
-            </fieldset>
+                <fieldset>
+                    <legend>Options</legend>
+                    {{ form_row(form.filter) }}
+                    {{ form_row(form.evalue) }}
+                    {{ form_row(form.gapped) }}
+                </fieldset>
+
+                <fieldset>
+                    <legend>BLAST from cart setup</legend>
+                    {% include 'cart/_form_fields.html.twig' with { 'form': form.cart } only %}
+                </fieldset>
+
+                {{ form_rest(form) }}
             {{ form_end(form) }}
         </div>
 
