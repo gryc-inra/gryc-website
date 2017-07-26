@@ -147,7 +147,7 @@ class BlastType extends AbstractType
             $queryConstrainst = [
                 new NotBlank(),
                 new Regex([
-                    'pattern' => '/^(?:>[\w\W]+\s(?:[A-Z]+\s?)+\s*)+$/i',
+                    'pattern' => '/^(?:>[\w-]+\R(?:[A-Z]+\R?)+\R*)+$/i',
                     'message' => 'This is not a valid FASTA.',
                 ]),
             ];
@@ -188,8 +188,6 @@ class BlastType extends AbstractType
             FormEvents::PRE_SUBMIT,
             function (FormEvent $event) {
                 $data = $event->getData();
-
-                dump($data);
 
                 // If the user have clicked on Align from cart
                 if (isset($data['blastFromCart'])) {

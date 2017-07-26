@@ -29,7 +29,7 @@ class MultipleAlignmentType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Regex([
-                        'pattern' => '/(?:>[\w-]+\s(?:[A-Z]+\s?)+\s*){2,}/',
+                        'pattern' => '/^(?:>[\w-]+\R(?:[A-Z]+\R?)+\R*){2,}$/i',
                         'message' => 'This is not a valid FASTA.',
                     ]),
                 ],
