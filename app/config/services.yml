@@ -63,9 +63,6 @@ services:
     AppBundle\Utils\UserManager:
         public: true
 
-    AppBundle\Utils\TokenGenerator:
-        public: true
-
     AppBundle\Utils\LoginBruteForce:
         public: true
 
