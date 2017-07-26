@@ -21,4 +21,11 @@ final class Events
      * @var string
      */
     const USER_RESET = 'user.reset';
+
+    /**
+     * @Event("Symfony\Component\EventDispatcher\GenericEvent")
+     *
+     * @var string
+     */
+    const CONTACT_MESSAGE = 'contact.message';
 }

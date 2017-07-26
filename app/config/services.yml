@@ -69,9 +69,6 @@ services:
     AppBundle\Utils\LoginBruteForce:
         public: true
 
-    AppBundle\Utils\Mailer:
-        public: true
-
     AppBundle\Utils\TaxId:
         public: true
 
@@ -97,6 +94,10 @@ services:
             - { name: kernel.event_listener, event: kernel.request, priority: 0 }
 
     AppBundle\EventListener\UserNotificationSubscriber:
+        $senderMail: '%app.notifications.email_sender%'
+        $senderName: '%app.notifications.name_sender%'
+
+    AppBundle\EventListener\ContactNotificationSubscriber:
         $senderMail: '%app.notifications.email_sender%'
         $senderName: '%app.notifications.name_sender%'
 
