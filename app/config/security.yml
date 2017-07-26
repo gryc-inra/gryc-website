@@ -51,7 +51,7 @@ security:
                 require_previous_session: true
 
             remember_me:
-                secret: "%secret%"
+                secret: "%env(SYMFONY_SECRET)%"
                 lifetime: 604800
                 path:     /
 

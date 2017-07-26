@@ -2,40 +2,41 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host:          db
-    database_port:          3306
-    database_name:          __DATABASE_NAME__
-    env(DATABASE_USER):     __DATABASE_USER__
-    env(DATABASE_PASSWORD): __DATABASE_PASSWORD__
+    # Database settings
+    database_host:                 db
+    database_port:                 3306
+    database_name:                  __DATABASE_NAME__
+    env(DATABASE_USER):             __DATABASE_USER__
+    env(DATABASE_PASSWORD):         __DATABASE_PASSWORD__
 
-    # The redis host
-    redis_host:             redis
+    # Redis settings
+    redis_host:                     redis
 
-    # The Elasticsearch host
-    elasticsearch_host:     es
-    elasticsearch_port:     9200
+    # ElasticSearch settings
+    elasticsearch_host:             es
+    elasticsearch_port:             9200
 
-    # The RabbitMq host
-    rabbitmq_host:          rabbitmq
-    rabbitmq_port:          5672
-    env(RABBITMQ_USER):     __RABBITMQ_USER__
-    env(RABBITMQ_PASSWORD): __RABBITMQ_PASSWORD__
+    # RabbitMq settings
+    rabbitmq_host:                  rabbitmq
+    rabbitmq_port:                  5672
+    env(RABBITMQ_USER):             __RABBITMQ_USER__
+    env(RABBITMQ_PASSWORD):         __RABBITMQ_PASSWORD__
 
-    # The mailer configuration
-    mailer_transport:       __MAILER_TRANSPORT__
-    mailer_host:            __MAILER_HOST__
-    mailer_user:            __MAILER_USER__
-    mailer_password:        __MAILER_PASSWORD__
-
-    # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
-
-    # The ReCaptcha API key
-    env(RECAPTCHA_PUBLIC_KEY):    __RECAPTCHA_PUBLIC_KEY__
-    env(RECAPTCHA_PRIVATE_KEY):   __RECAPTCHA_PRIVATE_KEY__
-
-    # A version for assets
-    app_version:            __APP_VERSION__
+    # Mailer settings
+    mailer_transport:               __MAILER_TRANSPORT__
+    mailer_host:                    __MAILER_HOST__
+    mailer_user:                    __MAILER_USER__
+    mailer_password:                __MAILER_PASSWORD__
 
     app.notifications.email_sender: 'gryc.inra@gmail.com'
-    app.notifications.name_sender: 'GRYC - The yeast genomics database'
+    app.notifications.name_sender:  'GRYC - The yeast genomics database'
+
+    # ReCaptcha API key
+    env(RECAPTCHA_PUBLIC_KEY):      __RECAPTCHA_PUBLIC_KEY__
+    env(RECAPTCHA_PRIVATE_KEY):     __RECAPTCHA_PRIVATE_KEY__
+
+    # A secret key that's used to generate certain security-related tokens
+    env(SYMFONY_SECRET):            ThisTokenIsNotSoSecretChangeIt
+
+    # A version for assets
+    app_version:                    __APP_VERSION__
