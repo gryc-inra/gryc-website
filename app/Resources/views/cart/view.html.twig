@@ -44,15 +44,7 @@
     <h2>Setup download</h2>
 
     {{ form_start(form) }}
-        {{ form_row(form.type) }}
-
-        <fieldset>
-            <legend>Configure</legend>
-            {{ form_row(form.feature) }}
-            {{ form_row(form.intronSplicing) }}
-            {{ form_row(form.upstream) }}
-            {{ form_row(form.downstream) }}
-        </fieldset>
+        {{ include('cart/_form_fields.html.twig') }}
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -60,13 +52,4 @@
             </div>
         </div>
     {{ form_end(form) }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $(document).ready(function() {
-            showHideCartField();
-        });
-    </script>
 {% endblock %}

@@ -117,7 +117,8 @@ class FastaGenerator
         return $fasta;
     }
 
-    private function streamFasta($fasta) {
+    private function streamFasta($fasta)
+    {
         $handle = fopen('php://output', 'w+');
         fwrite($handle, $fasta);
         fclose($handle);

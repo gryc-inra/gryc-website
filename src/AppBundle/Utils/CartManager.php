@@ -92,6 +92,13 @@ class CartManager
         return $this->em->getRepository('AppBundle:Locus')->findLocusById($this->cart['items']);
     }
 
+    public function getCartFasta($type = 'nuc', $feature = 'locus', $intronSplicing = false, $upstream = 0, $downstream = 0)
+    {
+        $fastaGenerator = new FastaGenerator();
+
+        return $fastaGenerator->generateFasta($this->getCartEntities(), $type, $feature, $intronSplicing, $upstream, $downstream);
+    }
+
     public function streamCart($form)
     {
         $data = $form->getData();

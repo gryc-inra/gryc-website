@@ -1,10 +1,10 @@
-function showHideCartField() {
-    var $type = $('#cart_type');
-    var $feature = $('#cart_feature');
-    var $intronSplicing = $('#cart_intronSplicing');
-    var $upstream = $('#cart_upstream');
-    var $downstream = $('#cart_downstream');
-    var $setup = $feature.closest('fieldset');
+function showHideCartSetup() {
+    var $type = $('select[id$=\'cart_type\']');
+    var $feature = $('select[id$=\'cart_feature\']');
+    var $intronSplicing = $('select[id$=\'cart_intronSplicing\']');
+    var $upstream = $('input[id$=\'cart_upstream\']');
+    var $downstream = $('input[id$=\'cart_downstream\']');
+    var $setup = $feature.closest('#cart-setup');
 
     if ('prot' === $type.val()) {
         $setup.hide();
@@ -28,14 +28,16 @@ function showHideCartField() {
     }
 
     $type.change(function() {
-        showHideCartField();
+        showHideCartSetup();
     });
 
     $feature.change(function() {
-        showHideCartField();
+        showHideCartSetup();
     });
 
     $intronSplicing.change(function() {
-        showHideCartField();
+        showHideCartSetup();
     });
 }
+
+showHideCartSetup();

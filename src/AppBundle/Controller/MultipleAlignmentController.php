@@ -37,7 +37,7 @@ class MultipleAlignmentController extends Controller
             // Add the Blast in RabbitMq Queue
             $this->get('old_sound_rabbit_mq.multiple_alignment_producer')->publish($multipleAlignment->getId());
 
-            // Add the blast as last blast in user session
+            // Add the alignment as last alignment in user session
             $request->getSession()->set('last_multiple_alignment', $multipleAlignment->getId());
 
             // Redirect the user on the result page
