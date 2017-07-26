@@ -1,7 +1,8 @@
 <?php
 
-namespace AppBundle\Utils;
+namespace AppBundle\Consumer;
 
+use AppBundle\Utils\MultipleAlignmentManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -18,7 +19,7 @@ class MultipleAlignmentConsumer implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         echo date('d/m/Y H:i:s'), ' [x] Received ', $msg->body, "\n";
-        // Execute the blast
+        // Execute the multiple alignment
         $this->multipleAlignmentManager->align($msg->body);
         echo date('d/m/Y H:i:s'),' [x] Done ', "\n";
     }
