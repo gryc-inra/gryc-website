@@ -5,6 +5,7 @@ namespace AppBundle\Form\Type;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -67,7 +68,21 @@ class RegistrationType extends AbstractType
                 'constraints' => [
                     new RecaptchaTrue(),
                 ],
-            ]);
+                'attr' => [
+                    'options' => [
+                        'theme' => 'light',
+                        'type'  => 'image',
+                        'size' => 'invisible',
+                        'defer' => true,
+                        'async' => true,
+                        'bind' => 'registration_submit', // this is the id of the form submit button
+                    ],
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Register',
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

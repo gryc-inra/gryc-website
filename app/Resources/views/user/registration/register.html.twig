@@ -8,7 +8,7 @@
 
 {% block body %}
     <h1>Join CollectionManager</h1>
-    {{ form_start(form) }}
+    {{ form_start(form, { 'attr': { 'class': 'recaptcha-form' } }) }}
 
         <fieldset>
             <legend>Account informations</legend>
@@ -21,15 +21,11 @@
             <legend>Personal information</legend>
                 {{ form_row(form.firstName) }}
                 {{ form_row(form.lastName) }}
+                {{ form_row(form.company) }}
         </fieldset>
 
+        {{ form_row(form.submit) }}
         {{ form_rest(form) }}
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input type="submit" name="login" class="btn btn-default" value="Validate" />
-            </div>
-        </div>
     {{ form_end(form) }}
 
     <div class="row">

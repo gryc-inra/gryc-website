@@ -7,6 +7,7 @@ use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
@@ -57,11 +58,25 @@ class ContactUsType extends AbstractType
                 ],
             ])
             ->add('recaptcha', EWZRecaptchaType::class, [
-                'mapped' => false,
+                'label' => false,
                 'constraints' => [
                     new RecaptchaTrue(),
                 ],
-            ]);
+                'attr' => [
+                    'options' => [
+                        'theme' => 'light',
+                        'type'  => 'image',
+                        'size' => 'invisible',
+                        'defer' => true,
+                        'async' => true,
+                        'bind' => 'contact_us_submit', // this is the id of the form submit button
+                    ],
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Send',
+            ])
+        ;
 
         $formModifier = function (FormInterface $form, $user = null) {
             $form
