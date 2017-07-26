@@ -25,9 +25,10 @@ class ResettingController extends Controller
             $email = $form->getData()['email'];
 
             // Get user
-            $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('AppBundle:User')->findOneByEmail($email);
+            $userManager = $this->get('AppBundle\Utils\UserManager');
+            $user = $userManager->findUserBy(['email' => $email]);
 
+            // Control the User
             if (null === $user) {
                 $this->addFlash('warning', 'There is no user with this email address.');
 
@@ -40,10 +41,9 @@ class ResettingController extends Controller
                 return $this->redirectToRoute('login');
             }
 
-            // Generate a token, to activate account
-            $tokenGenerator = $this->get('AppBundle\Utils\TokenGenerator');
-            $user->setConfirmationToken($tokenGenerator->generateToken());
-            $em->flush();
+            // Generate a token, to reset password
+            $userManager->generateToken($user);
+            $userManager->updateUser($user);
 
             // Dispatch an event
             $event = new GenericEvent($user);
@@ -66,9 +66,11 @@ class ResettingController extends Controller
         $username = rawurldecode($username);
         $token = rawurldecode($token);
 
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->findOneByEmail($username);
+        // Get user
+        $userManager = $this->get('AppBundle\Utils\UserManager');
+        $user = $userManager->findUserBy(['email' => $username]);
 
+        // Check the User
         if (!$user->isEnabled()) {
             $this->addFlash('warning', 'Your account is not activated.');
 
@@ -85,9 +87,8 @@ class ResettingController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Update the password
-            $this->get('AppBundle\Utils\UserManager')->updateUser($user, false);
-            $user->setConfirmationToken(null);
-            $em->flush();
+            $userManager->removeToken($user);
+            $userManager->updateUser($user);
 
             // Reinit the brute-force counter for this username
             $this->get('AppBundle\Utils\LoginBruteForce')->resetUsername($username);

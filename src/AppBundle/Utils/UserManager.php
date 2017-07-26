@@ -10,12 +10,14 @@ class UserManager
     protected $entityManager;
     protected $repository;
     protected $passwordUpdater;
+    protected $tokenGenerator;
 
-    public function __construct(PasswordUpdater $passwordUpdater, EntityManagerInterface $em)
+    public function __construct(PasswordUpdater $passwordUpdater, EntityManagerInterface $em, TokenGenerator $tokenGenerator)
     {
         $this->entityManager = $em;
         $this->repository = $em->getRepository('AppBundle:User');
         $this->passwordUpdater = $passwordUpdater;
+        $this->tokenGenerator = $tokenGenerator;
     }
 
     public function createUser()
@@ -59,5 +61,16 @@ class UserManager
     public function updatePassword(User $user)
     {
         $this->passwordUpdater->encodePassword($user);
+    }
+
+    public function generateToken(User $user)
+    {
+        $token = $this->tokenGenerator->generateToken();
+        $user->setConfirmationToken($token);
+    }
+
+    public function removeToken(User $user)
+    {
+        $user->setConfirmationToken(null);
     }
 }
