@@ -39,11 +39,11 @@ framework:
         version_format: '%%s?version=%%s'
         packages:
             css:
-                version: '%app.version%'
+                version: 1
             js:
-                version: '%app.version%'
+                version: 1
             image:
-                version: '%app.version%'
+                version: 1
     php_errors:
         log: true
 
@@ -59,13 +59,7 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
-        host:     '%database_host%'
-        port:     '%database_port%'
-        dbname:   '%env(DATABASE_NAME)%'
-        user:     '%env(DATABASE_USER)%'
-        password: '%env(DATABASE_PASSWORD)%'
-        charset:  UTF8
+        url: '%env(DATABASE_URL)%'
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -82,10 +76,7 @@ stof_doctrine_extensions:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: '%mailer_transport%'
-    host:      '%mailer_host%'
-    username:  '%env(MAILER_USER)%'
-    password:  '%env(MAILER_PASSWORD)%'
+    url: '%env(MAILER_URL)%'
     spool:     { type: memory }
 
 # ReCaptcha
@@ -100,7 +91,7 @@ snc_redis:
         default:
             type: predis
             alias: default
-            dsn: 'redis://%redis_host%'
+            dsn: '%env(REDIS_DSN)%'
     session:
         client: default
 
@@ -108,14 +99,7 @@ snc_redis:
 old_sound_rabbit_mq:
     connections:
         default:
-            host:     '%rabbitmq_host%'
-            port:     '%rabbitmq_port%'
-            user:     '%env(RABBITMQ_USER)%'
-            password: '%env(RABBITMQ_PASSWORD)%'
-            vhost:    '/'
-            lazy:     true
-            connection_timeout: 3
-            read_write_timeout: 3
+            url: '%env(RABBITMQ_URL)%'
     producers:
         blast:
             connection:       default

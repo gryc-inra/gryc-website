@@ -1,7 +1,11 @@
 #FOSElasticaBundle
 fos_elastica:
     clients:
-        default: { host: "%elasticsearch_host%", port: "%elasticsearch_port%" }
+        default:
+            connections:
+                - url: '%env(ELASTICSEARCH_URL)%'
+            connectionStrategy: RoundRobin
+
     indexes:
         app:
             client: default

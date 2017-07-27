@@ -3,40 +3,25 @@
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     # Database settings
-    database_host:                 db
-    database_port:                 3306
-    env(DATABASE_NAME):            gryc
-    env(DATABASE_USER):            gryc
-    env(DATABASE_PASSWORD):        gryc
+    env(DATABASE_URL):              'mysql://login:password@host:port/dbName'
 
     # Redis settings
-    redis_host:                    redis
+    env(REDIS_DSN):                 'redis://host'
 
     # ElasticSearch settings
-    elasticsearch_host:             es
-    elasticsearch_port:             9200
+    env(ELASTICSEARCH_URL):         'http://host:port'
 
     # RabbitMq settings
-    rabbitmq_host:                  rabbitmq
-    rabbitmq_port:                  5672
-    env(RABBITMQ_USER):             gryc
-    env(RABBITMQ_PASSWORD):         gryc
+    env(RABBITMQ_URL):              'amqp://login:password@host:port/vhost?lazy=1&connection_timeout=3&read_write_timeout=3'
 
     # Mailer settings
-    mailer_transport:               ~
-    mailer_host:                    ~
-    env(MAILER_USER):               ~
-    env(MAILER_PASSWORD):           ~
-
-    app.notifications.email_sender: 'gryc.inra@gmail.com'
-    app.notifications.name_sender:  'GRYC - The yeast genomics database'
-
-    # ReCaptcha API key
-    env(RECAPTCHA_PUBLIC_KEY):      ~
-    env(RECAPTCHA_PRIVATE_KEY):     ~
+    env(MAILER_URL):                'smtp://login:password@host?encryption=ssl&auth_mode=login'
+    env(MAILER_SENDER_ADDRESS):     'me@myhost.tld'
+    env(MAILER_SENDER_NAME):        'My site name'
 
     # A secret key that's used to generate certain security-related tokens
     env(SYMFONY_SECRET):            ThisTokenIsNotSoSecretChangeIt
 
-    # A version for assets
-    app.version:                    ~
+    # ReCaptcha API key
+    env(RECAPTCHA_PUBLIC_KEY):      ~
+    env(RECAPTCHA_PRIVATE_KEY):     ~

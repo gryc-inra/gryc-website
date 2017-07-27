@@ -91,12 +91,12 @@ services:
             - { name: kernel.event_listener, event: kernel.request, priority: 0 }
 
     AppBundle\EventListener\UserNotificationSubscriber:
-        $senderMail: '%app.notifications.email_sender%'
-        $senderName: '%app.notifications.name_sender%'
+        $senderMail: '%env(MAILER_SENDER_ADDRESS)%'
+        $senderName: '%env(MAILER_SENDER_NAME)%'
 
     AppBundle\EventListener\ContactNotificationSubscriber:
-        $senderMail: '%app.notifications.email_sender%'
-        $senderName: '%app.notifications.name_sender%'
+        $senderMail: '%env(MAILER_SENDER_ADDRESS)%'
+        $senderName: '%env(MAILER_SENDER_NAME)%'
 
     AppBundle\EventListener\UserSubscriber:
         tags:
