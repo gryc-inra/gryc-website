@@ -7,6 +7,11 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+framework:
+    cache:
+        app: cache.adapter.redis
+        default_redis_provider: '%env(REDIS_DSN)%'
+
 monolog:
     handlers:
         main:
