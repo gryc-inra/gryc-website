@@ -32,13 +32,13 @@ class ResettingType extends AbstractType
                 'attr' => [
                     'options' => [
                         'theme' => 'light',
-                        'type'  => 'image',
+                        'type' => 'image',
                         'size' => 'invisible',
                         'defer' => true,
                         'async' => true,
                         'bind' => 'resetting_submit', // this is the id of the form submit button
                     ],
-                ]
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Ask a new password',

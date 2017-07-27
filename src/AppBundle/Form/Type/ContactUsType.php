@@ -65,13 +65,13 @@ class ContactUsType extends AbstractType
                 'attr' => [
                     'options' => [
                         'theme' => 'light',
-                        'type'  => 'image',
+                        'type' => 'image',
                         'size' => 'invisible',
                         'defer' => true,
                         'async' => true,
                         'bind' => 'contact_us_submit', // this is the id of the form submit button
                     ],
-                ]
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Send',
