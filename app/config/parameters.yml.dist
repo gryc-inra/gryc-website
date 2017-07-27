@@ -3,16 +3,16 @@
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     # Database settings
-    env(DATABASE_URL):              'mysql://login:password@host:port/dbName'
+    env(DATABASE_URL):              'mysql://login:password@host:3306/databaseName'
 
     # Redis settings
     env(REDIS_DSN):                 'redis://host'
 
     # ElasticSearch settings
-    env(ELASTICSEARCH_URL):         'http://host:port'
+    env(ELASTICSEARCH_URL):         'http://host:9200'
 
     # RabbitMq settings
-    env(RABBITMQ_URL):              'amqp://login:password@host:port/vhost?lazy=1&connection_timeout=3&read_write_timeout=3'
+    env(RABBITMQ_URL):              'amqp://login:password@host:5672/vhost?lazy=1&connection_timeout=3&read_write_timeout=3'
 
     # Mailer settings
     env(MAILER_URL):                'smtp://login:password@host?encryption=ssl&auth_mode=login'
