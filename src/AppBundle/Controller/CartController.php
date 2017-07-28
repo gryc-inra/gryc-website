@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CartController extends Controller
 {
@@ -90,6 +91,32 @@ class CartController extends Controller
         return $this->render('cart/view.html.twig', [
             'cartElements' => $cartElements,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/cart/fasta", name="cart_fasta", condition="request.isXmlHttpRequest()")
+     */
+    public function fastaAction(Request $request, $fastaTextarea = null)
+    {
+        // Add an explicit action, because this controller will be include in a view
+        $form = $this->createForm(CartType::class, null, [
+            'action' => $this->generateUrl('cart_fasta'),
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $cartManager = $this->get('AppBundle\Utils\CartManager');
+            $fasta =  $cartManager->getCartFasta($data['type'], $data['feature'], $data['intronSplicing'], $data['upstream'], $data['downstream']);
+
+            return new Response($fasta);
+        }
+
+        return $this->render('cart/fasta.html.twig', [
+            'form' => $form->createView(),
+            'fastaTextarea' => $fastaTextarea,
         ]);
     }
 }

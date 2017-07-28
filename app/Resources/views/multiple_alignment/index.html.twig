@@ -17,27 +17,29 @@
 
     <div class="row">
         <div class="col-md-9">
-            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            {{ form_start(form) }}
                 {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
 
+                {{ form_rest(form) }}
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="reset" class="btn btn-default">
                             Clear
                         </button>
-                        {{ form_widget(form.alignFromCart) }}
-                        {{ form_widget(form.align, { 'attr' : { 'class': 'btn-primary' } }) }}
+
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cartFormModal">
+                            <span class="fa fa-copy" aria-hidden="true"></span> Use cart sequences
+                        </button>
+
+                        <button type="submit" class="btn btn-info">
+                            <span class="fa fa-align-center" aria-hidden="true"></span> Align
+                        </button>
                     </div>
                 </div>
-
-                <fieldset>
-                    <legend>Align from cart setup</legend>
-                    {% include 'cart/_form_fields.html.twig' with { 'form': form.cart } only %}
-                </fieldset>
-
-                {{ form_rest(form) }}
             {{ form_end(form) }}
         </div>
+
+        {{ render(controller('AppBundle:Cart:fasta', { 'fastaTextarea': '#multiple_alignment_query' })) }}
 
         <div class="col-md-3">
             <div class="panel panel-info">

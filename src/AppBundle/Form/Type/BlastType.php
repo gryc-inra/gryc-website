@@ -120,12 +120,6 @@ class BlastType extends AbstractType
                     'No' => false,
                 ],
             ])
-            ->add('cart', CartType::class, [
-                'mapped' => false,
-                'label' => 'Cart parameters',
-            ])
-            ->add('blast', SubmitType::class, ['label' => 'Blast'])
-            ->add('blastFromCart', SubmitType::class, ['label' => 'Blast from cart'])
         ;
 
         $formModifier = function (FormInterface $form, $tool) {
@@ -181,26 +175,6 @@ class BlastType extends AbstractType
             function (FormEvent $event) use ($formModifier) {
                 $blast = $event->getData();
                 $formModifier($event->getForm(), $blast->getTool());
-            }
-        );
-
-        $builder->addEventListener(
-            FormEvents::PRE_SUBMIT,
-            function (FormEvent $event) {
-                $data = $event->getData();
-
-                // If the user have clicked on Align from cart
-                if (isset($data['blastFromCart'])) {
-                    // Cart Fasta Parameters
-                    $parameters = $data['cart'];
-                    $parameters['intronSplicing'] = isset($parameters['intronSplicing']) ? $parameters['intronSplicing'] : false;
-
-                    // Get fasta
-                    $fasta = $this->cartManager->getCartFasta($parameters['type'], $parameters['feature'], (bool) $parameters['intronSplicing'], (int) $parameters['upstream'], (int) $parameters['downstream']);
-                    // Replace the query by the generated fasta and edit the data
-                    $data['query'] = $fasta;
-                    $event->setData($data);
-                }
             }
         );
 

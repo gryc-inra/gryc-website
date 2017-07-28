@@ -29,8 +29,14 @@
                         <button type="reset" class="btn btn-default" onclick="event.preventDefault();document.getElementById('blast_query').value='';">
                             Clear
                         </button>
-                        {{ form_widget(form.blastFromCart) }}
-                        {{ form_widget(form.blast, { 'attr' : { 'class': 'btn-primary' } }) }}
+
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cartFormModal">
+                            <span class="fa fa-copy" aria-hidden="true"></span> Use cart sequences
+                        </button>
+
+                        <button type="submit" class="btn btn-info">
+                            <span class="fa fa-cog" aria-hidden="true"></span> BLAST
+                        </button>
                     </div>
                 </div>
 
@@ -41,14 +47,11 @@
                     {{ form_row(form.gapped) }}
                 </fieldset>
 
-                <fieldset>
-                    <legend>BLAST from cart setup</legend>
-                    {% include 'cart/_form_fields.html.twig' with { 'form': form.cart } only %}
-                </fieldset>
-
                 {{ form_rest(form) }}
             {{ form_end(form) }}
         </div>
+
+        {{ render(controller('AppBundle:Cart:fasta', { 'fastaTextarea': '#blast_query' })) }}
 
         <div class="col-md-3">
             <div class="panel panel-info">
