@@ -3,7 +3,6 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Strain;
-use AppBundle\Utils\CartManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -30,13 +29,11 @@ class BlastType extends AbstractType
 
     private $tokenStorage;
     private $authorizationChecker;
-    private $cartManager;
 
-    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker, CartManager $cartManager)
+    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
-        $this->cartManager = $cartManager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
