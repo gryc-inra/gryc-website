@@ -80,7 +80,6 @@ class QueuingEntitySuperclass
         $this->createdBy = null;
     }
 
-
     public function setName($name)
     {
         $this->name = $name;

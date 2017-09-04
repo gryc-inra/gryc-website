@@ -30,8 +30,6 @@ class MultipleAlignment extends QueuingEntitySuperclass
      */
     private $query;
 
-
-
     public function __construct()
     {
         parent::__construct();
