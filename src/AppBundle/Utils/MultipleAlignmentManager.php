@@ -279,6 +279,7 @@ class MultipleAlignmentManager
                             foreach ($classTable as $class => $aas) {
                                 if (in_array($base, $aas)) {
                                     $style = $class;
+
                                     break;
                                 }
                             }
