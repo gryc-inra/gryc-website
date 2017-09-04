@@ -10,9 +10,9 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('admin_index') }}">Administration</a></li>
-    <li><a href="{{ path('strain_admin_index') }}">Strains list</a></li>
-    <li class="active">User's authorizations for {{ strain.name }}</li>
+    <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('strain_admin_index') }}">Strains list</a></li>
+    <li class="breadcrumb-item active">User's authorizations for {{ strain.name }}</li>
 {% endblock %}
 
 {% block body %}

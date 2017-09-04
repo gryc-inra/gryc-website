@@ -2,7 +2,10 @@
 
 {% block title %}FAQ - {{ parent() }}{% endblock %}
 
-{% block breadcrumb %}{{ parent() }} <li class="active">FAQ</li>{% endblock %}
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">FAQ</li>
+{% endblock %}
 
 {% block body %}
     <h1>FAQ <sub>Frequently Asked Questions</sub></h1>

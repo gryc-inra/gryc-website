@@ -10,7 +10,10 @@
     <meta name="robots" content="noindex">
 {% endblock %}
 
-{% block breadcrumb %}{{ parent() }} <li class="active">Error 404 !</li>{% endblock %}
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Error 404 !</li>
+{% endblock %}
 
 {% block body %}
     <div class="text-center row">

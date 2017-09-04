@@ -2,7 +2,10 @@
 
 {% block title %}Privacy Policy - {{ parent() }}{% endblock %}
 
-{% block breadcrumb %}{{ parent() }} <li class="active">Privacy Policy</li>{% endblock %}
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Privacy Policy</li>
+{% endblock %}
 
 {% block body %}
     <h1>Cookies</h1>

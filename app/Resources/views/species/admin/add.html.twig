@@ -11,9 +11,9 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('admin_index') }}">Administration</a></li>
-    <li><a href="{{ path('species_list') }}">Species management</a></li>
-    <li class="active">Add a species</li>
+    <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('species_list') }}">Species management</a></li>
+    <li class="breadcrumb-item active">Add a species</li>
 {% endblock %}
 
 {% block body %}

@@ -6,8 +6,8 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('user_profile') }}">My profile</a></li>
-    <li class="active">Change password</li>
+    <li class="breadcrumb-item"><a href="{{ path('user_profile') }}">My profile</a></li>
+    <li class="breadcrumb-item active">Change password</li>
 {% endblock %}
 
 

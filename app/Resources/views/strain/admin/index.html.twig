@@ -11,8 +11,8 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('admin_index') }}">Administration</a></li>
-    <li class="active">Strain management</li>
+    <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li class="breadcrumb-item active">Strain management</li>
 {% endblock %}
 
 {% block body %}

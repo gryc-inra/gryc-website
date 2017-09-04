@@ -6,7 +6,10 @@
     <meta name="robots" content="noindex">
 {% endblock %}
 
-{% block breadcrumb %}{{ parent() }} <li class="active">Contact us</li>{% endblock %}
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Contact us</li>
+{% endblock %}
 
 {% block body %}
 <h2>Contact us</h2>

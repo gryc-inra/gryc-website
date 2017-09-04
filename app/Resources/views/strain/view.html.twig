@@ -15,9 +15,9 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('strain_index') }}">Species & strains list</a></li>
-    <li><a href="{{ path('species_view', { 'species_slug': strain.species.slug }) }}"><i>{{ strain.species.scientificname }}</i></a></li>
-    <li class="active">{{ strain.name }}</li>
+    <li class="breadcrumb-item"><a href="{{ path('strain_index') }}">Species & strains list</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('species_view', { 'species_slug': strain.species.slug }) }}"><i>{{ strain.species.scientificname }}</i></a></li>
+    <li class="breadcrumb-item active">{{ strain.name }}</li>
 {% endblock %}
 
 {% block body %}

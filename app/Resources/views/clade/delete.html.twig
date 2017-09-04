@@ -11,9 +11,9 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('admin_index') }}">Administration</a></li>
-    <li><a href="{{ path('clade_index') }}">Clade management</a></li>
-    <li class="active">Delete the clade: {{ clade.name }}</li>
+    <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Administration</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('clade_index') }}">Clade management</a></li>
+    <li class="breadcrumb-item active">Delete the clade: {{ clade.name }}</li>
 {% endblock %}
 
 {% block body %}
