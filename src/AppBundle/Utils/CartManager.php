@@ -4,6 +4,7 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Locus;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -99,7 +100,7 @@ class CartManager
         return $fastaGenerator->generateFasta($this->getCartEntities(), $type, $feature, $intronSplicing, $upstream, $downstream);
     }
 
-    public function streamCart($form)
+    public function streamCart(Form $form)
     {
         $data = $form->getData();
 
