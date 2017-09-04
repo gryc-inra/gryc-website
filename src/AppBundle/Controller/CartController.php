@@ -109,7 +109,7 @@ class CartController extends Controller
             $data = $form->getData();
 
             $cartManager = $this->get('AppBundle\Utils\CartManager');
-            $fasta =  $cartManager->getCartFasta($data['type'], $data['feature'], $data['intronSplicing'], $data['upstream'], $data['downstream']);
+            $fasta = $cartManager->getCartFasta($data['type'], $data['feature'], $data['intronSplicing'], $data['upstream'], $data['downstream']);
 
             return new Response($fasta);
         }
