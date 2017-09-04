@@ -35,6 +35,11 @@ class KernelRequestListener
             return;
         }
 
+        // Don't check if admin impersonnate a user
+        if ($this->authorizationChecker->isGranted('ROLE_PREVIOUS_ADMIN')) {
+            return;
+        }
+
         $sessionId = $this->session->getId();
         $user = $this->tokenStorage->getToken()->getUser();
 
