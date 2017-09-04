@@ -11,6 +11,10 @@ body {
 
 /* Header
 -------------------------------------------------- */
+#js-disclaimer {
+    margin-bottom: 0;
+}
+
 header {
     /* Set the fixed height of the header here */
     height: 150px;
@@ -23,20 +27,8 @@ header {
     background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
 }
 
-#js-disclaimer {
-    margin-bottom: 0;
-}
-
-nav.navbar.affix,
-nav.navbar.affix-top
-{
-    z-index: 1000;
-    position: sticky;
-    top: 0;
-}
-
-.navbar-brand {
-    padding: 5px 0 5px 0;
+.navbar {
+    margin-bottom: 1rem;
 }
 
 /* Print
