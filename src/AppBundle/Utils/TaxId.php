@@ -28,6 +28,7 @@ class TaxId
             if ('HTTP/' === substr($header, 0, 5)) {
                 $httpStatus = explode(' ', $header, 3);
                 $statusCode = (int) $httpStatus[1];
+
                 break;
             }
         }

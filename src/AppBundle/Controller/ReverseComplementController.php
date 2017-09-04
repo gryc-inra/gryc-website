@@ -26,14 +26,17 @@ class ReverseComplementController extends Controller
                 switch ($form->getData()['action']) {
                     case 'reverse-complement':
                         $sequence['sequence'] = $this->get('AppBundle\Utils\SequenceManipulator')->reverseComplement($sequence['sequence']);
+
                         break;
 
                     case 'reverse':
                         $sequence['sequence'] = $this->get('AppBundle\Utils\SequenceManipulator')->reverse($sequence['sequence']);
+
                         break;
 
                     case 'complement':
                         $sequence['sequence'] = $this->get('AppBundle\Utils\SequenceManipulator')->complement($sequence['sequence']);
+
                         break;
                 }
             }

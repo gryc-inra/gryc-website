@@ -349,16 +349,19 @@ class GeneticEntry
                 $chromosomeDna = $this->getChromosome()->getDnaSequence()->getDna();
                 $locusStart = $this->start;
                 $locusEnd = $this->end;
+
                 break;
             case 'Feature':
                 $chromosomeDna = $this->getLocus()->getChromosome()->getDnaSequence()->getDna();
                 $locusStart = $this->getLocus()->getStart();
                 $locusEnd = $this->getLocus()->getEnd();
+
                 break;
             case 'Product':
                 $chromosomeDna = $this->getFeature()->getLocus()->getChromosome()->getDnaSequence()->getDna();
                 $locusStart = $this->getFeature()->getLocus()->getStart();
                 $locusEnd = $this->getFeature()->getLocus()->getEnd();
+
                 break;
         }
 
