@@ -2,31 +2,58 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Utils\UserManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\SecurityEvents;
 
-class KernelRequestListener
+class OneSessionPerUserSubscriber
 {
+    private $userManager;
     private $tokenStorage;
     private $authorizationChecker;
     private $session;
     private $router;
 
     public function __construct(
+        UserManager $userManager,
         TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authorizationChecker,
         SessionInterface $session,
         RouterInterface $router
     ) {
+        $this->userManager = $userManager;
         $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
         $this->session = $session;
         $this->router = $router;
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            SecurityEvents::INTERACTIVE_LOGIN => 'onSecurityInteractiveLogin',
+            KernelEvents::REQUEST => 'onKernelRequest',
+        ];
+    }
+
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    {
+        $request = $event->getRequest();
+        $session = $request->getSession();
+        $session->has('id'); // Just to fix a bug on Remember Me
+        $user = $event->getAuthenticationToken()->getUser();
+
+        // Set the session ID on user and save it in database
+        $user->setSessionId($session->getId());
+        $this->userManager->updateUser($user);
     }
 
     public function onKernelRequest(GetResponseEvent $event)
