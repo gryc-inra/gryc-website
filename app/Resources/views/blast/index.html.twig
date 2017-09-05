@@ -20,8 +20,8 @@
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
                 {{ form_row(form.tool) }}
                 {{ form_row(form.database) }}
-                {{ form_row(form.strainsFilter.filter) }}
-                {{ form_row(form.strainsFilter.strains) }}
+                {{ form_row(form.strainsFilter) }}
+                {{ form_row(form.strains) }}
                 {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
 
                 <div class="form-group">
@@ -122,7 +122,7 @@
         });
 
         $(document).ready(function() {
-            strainsFilter($( "#blast_strainsFilter_strains" ), $( "#blast_strainsFilter_filter" ));
+            strainsFilter($( "#blast_strains" ), $( "#blast_strainsFilter" ));
         });
     </script>
 {% endblock %}
