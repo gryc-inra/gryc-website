@@ -10,7 +10,7 @@
                 <p>
                     {{ result.note }}<br/>
 
-                    <a class="btn btn-light btn-sm cart-add-btn d-print-none" href="{{ path('cart_add', { 'id': result.id }) }}">
+                    <a class="btn btn-light btn-sm cart-add-btn" href="{{ path('cart_add', { 'id': result.id }) }}" role="button">
                         <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
                     </a>
                 </p>
