@@ -24,68 +24,73 @@
 
     <div class="row">
         <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">General informations</div>
-                <div class="panel-body">
+            <div class="card mb-3">
+                <h4 class="card-header">General informations</h4>
+                <div class="card-body">
                     <p>Genus: <i>{{ species.genus }}</i></p>
                     <p>Species: <i>{{ species.species }}</i></p>
                     {% if species.taxid is not null %}
                         <p>TaxId: <a target="_blank" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ species.taxid }}">{{ species.taxid }}</a></p>
                     {% endif %}
                     <p>Synonymes:</p>
-                        <ul>
-                            {% if species.synonymes is not null %}
-                                    {% for synonyme in species.synonymes %}
-                                        <li>{{ synonyme|capitalize }}</li>
-                                    {% endfor %}
-                            {% else %}
-                                <li>There is not synonyme.</li>
+                    <ul>
+                        {% if species.synonymes is not null %}
+                            {% for synonyme in species.synonymes %}
+                                <li>{{ synonyme|capitalize }}</li>
+                            {% endfor %}
+                        {% else %}
+                            <li>There is not synonyme.</li>
+                        {% endif %}
+                    </ul>
+                    <p>Lineage:</p>
+                    <ul>
+                        {% for lineage in species.lineages %}
+                            <li>{{ lineage|capitalize }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="card-header">Genetics informations</div>
+                        <div class="card-body">
+                            <p>Genetic code: {{ species.geneticCode }}</p>
+                            <p>Mitochondrial code: {{ species.mitoCode }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="card-header">Strains</div>
+                        <ul class="list-group list-group-flush">
+                            {% set displayedStrain = 0 %}
+                            {% for strain in species.strains %}
+                                {% if is_granted('VIEW', strain) %}
+                                    <a  class="list-group-item list-group-item-action" href="{{ path('strain_view', {'species_slug': species.slug, 'strain_slug': strain.slug }) }}">{{ strain.name }}</a> {{ (strain.isTypeStrain) ? '<abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}
+                                    {% set displayedStrain = displayedStrain + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if displayedStrain == 0 %}
+                                <li class="list-group-item">No strains available</li>
                             {% endif %}
                         </ul>
-                    <p>Lineage:</p>
-                        <ul>
-                            {% for lineage in species.lineages %}
-                                <li>{{ lineage|capitalize }}</li>
-                            {% endfor %}
-                        </ul>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Genetics informations</div>
-                <div class="panel-body">
-                    <p>Genetic code: {{ species.geneticCode }}</p>
-                    <p>Mitochondrial code: {{ species.mitoCode }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Strains</div>
-                <ul class="list-group">
-                    {% set displayedStrain = 0 %}
-                    {% for strain in species.strains %}
-                        {% if is_granted('VIEW', strain) %}
-                            <li class="list-group-item"><a href="{{ path('strain_view', {'species_slug': species.slug, 'strain_slug': strain.slug }) }}">{{ strain.name }}</a> {{ (strain.isTypeStrain) ? '<abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}</li>
-                            {% set displayedStrain = displayedStrain + 1 %}
-                        {% endif %}
-                    {% endfor %}
-                    {% if displayedStrain == 0 %}
-                    <li class="list-group-item">No strains available</li>
-                    {% endif %}
-                </ul>
             </div>
         </div>
     </div>
+
     {% if species.description is not null %}
         <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Description</div>
-                    <div class="panel-body">
+            <div class="col">
+                <div class="card mb-3">
+                    <div class="card-header">Description</div>
+                    <div class="card-body">
                         {{ species.description|raw }}
                     </div>
                 </div>

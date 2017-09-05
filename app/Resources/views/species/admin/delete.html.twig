@@ -34,7 +34,7 @@
             <b>CAUTION !</b> You are about to delete a species !<br>
             The following strains are linked on this species:
             <ul>
-                    <li>No strain linked on this species</li>
+                <li>No strain linked on this species</li>
             </ul>
         </div>
     {% endif %}
@@ -50,7 +50,7 @@
 
         {{ form_row(form.confirm) }}
         <div class="btn-group" role="group">
-            <a href="{{ path('species_list') }}" class="btn btn-default" >
+            <a class="btn btn-secondary" href="{{ path('species_list') }}">
                 <span class="fa fa-chevron-left" aria-hidden="true"></span>
                 Back
             </a>

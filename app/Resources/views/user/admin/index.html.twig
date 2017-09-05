@@ -6,23 +6,20 @@
 
 {% block breadcrumb %}
     {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Administration</a></li>
     <li class="breadcrumb-item active">User list</li>
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <form id="user-search-form" method="get">
-            <div class="col-md-3">
-                <input type="text" id="user-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
-            </div>
+    <form class="form-inline mb-3" id="user-search-form" method="get">
 
-            <div class="col-md-1">
-                <button id="type-search-button" class="btn btn-default" type="submit">
-                    <span class="fa fa-search" aria-hidden="true"></span> Search
-                </button>
-            </div>
-        </form>
-    </div>
+        <label class="sr-only" for="user-search-field">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="user-search-field" name="q" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+
+        <button id="type-search-button" class="btn btn-default" type="submit">
+            <span class="fa fa-search" aria-hidden="true"></span> Search
+        </button>
+    </form>
 
     {{ list.content|raw }}
 {% endblock %}

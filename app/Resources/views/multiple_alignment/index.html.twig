@@ -16,7 +16,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-8">
             {{ form_start(form) }}
                 {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
 
@@ -41,10 +41,10 @@
 
         {{ render(controller('AppBundle:Cart:fasta', { 'fastaTextarea': '#multiple_alignment_query' })) }}
 
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">Alignment history (10 last)</div>
-                <ul class="list-group">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">Alignment history (10 last)</div>
+                <ul class="list-group list-group-flush">
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         {% for alignment in previousMultipleAlignments %}
                             <li class="list-group-item">

@@ -22,15 +22,15 @@
 {% block body %}
     <h1>Multiple sequences alignment result</h1>
 
-    <div class="row hidden-print">
-        <div class="col-xs-10">
-            <a href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" class="btn btn-info" role="button">
+    <div class="row d-print-none my-3">
+        <div class="col-10">
+            <a class="btn btn-info btn-sm" href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" role="button">
                 <span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query
             </a>
         </div>
 
-        <div class="col-xs-2 text-right ">
-            <button class="btn btn-xs btn-default" onClick="window.print()">
+        <div class="col-2 text-right">
+            <button class="btn btn-default btn-sm" onClick="window.print()">
                 <span class="fa fa-print" aria-hidden="true"></span> Print
             </button>
         </div>
@@ -46,38 +46,33 @@
     {% elseif 'failed' == alignment.status %}
         <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
-        <h3 class="hidden-print">Coloration:</h3>
-        <div class="btn-group hidden-print" role="group" aria-label="...">
+        <h3 class="d-print-none">Coloration:</h3>
 
-            <!-- Split button -->
-            <div class="btn-group">
-                <a type="button" class="btn btn-default {{ 'identities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities' }) }}">
-                        Identities
-                </a>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
+        <div class="btn-group d-print-none" role="group" aria-label="Coloration selection buttons">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-light dropdown-toggle {{ 'identities' == result.coloration ? 'active' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Identities
                 </button>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 1 }) }}">
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 1 }) }}">
                         1 level
-                    </a></li>
-                    <li><a href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 2 }) }}">
-                            2 levels
-                    </a></li>
-                    <li><a href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 3 }) }}">
-                            3 levels
-                    </a></li>
-                </ul>
+                    </a>
+                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 2 }) }}">
+                        2 levels
+                    </a>
+                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 3 }) }}">
+                        3 levels
+                    </a>
+                </div>
             </div>
 
             {% if 'prot' == result.sequence_type %}
-                <a type="button" class="btn btn-default {{ 'similarities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'similarities' }) }}">
+                <a class="btn btn-light {{ 'similarities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'similarities' }) }}" role="button">
                     Similarities
                 </a>
             {% endif %}
 
-            <a type="button" class="btn btn-default {{ 'none' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'none' }) }}">
+            <a class="btn btn-light {{ 'none' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'none' }) }}" role="button">
                 None
             </a>
         </div>
@@ -85,9 +80,9 @@
         <hr class="hidden-print">
 
         {% if 'none' != result.coloration %}
-            <div class="panel panel-default">
-                <div class="panel-heading">Legend</div>
-                <div class="panel-body alignment">
+            <div class="card mb-3">
+                <div class="card-header">Legend</div>
+                <div class="card-body alignment">
                     {% if 'identities' == result.coloration %}
                         Conservation:<br>
                         <span class="identities-100">&nbsp;&nbsp;&nbsp;</span> = 100%<br>
@@ -110,9 +105,9 @@
             </div>
         {% endif %}
 
-            <div class="panel panel-default">
-                <div class="panel-heading">Alignment</div>
-                <div class="panel-body alignment">
+            <div class="card mb-3">
+                <div class="card-header">Alignment</div>
+                <div class="card-body alignment">
                     {% for row in result.rows %}
                         <div class="alignment-row">
                             {% for alignmentRow in row['alignment_rows'] %}

@@ -25,9 +25,9 @@
 
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">General</div>
-                <div class="panel-body">
+            <div class="card mb-3">
+                <div class="card-header">General</div>
+                <div class="card-body">
                     <p>Species: <a href="{{ path('species_view', {'species_slug': strain.species.slug }) }}"><i>{{ strain.species.scientificname }}</i></a></p>
                     <p>Synonymes:</p>
                     <ul>
@@ -44,9 +44,9 @@
         </div>
 
         <div class="col-md-9">
-            <div class="panel panel-default">
-                <div class="panel-heading">Genomes informations</div>
-                <div class="panel-body">
+            <div class="card mb-3 d-none d-md-block">
+                <div class="card-header">Genomes informations</div>
+                <div class="card-body">
                     <p>Status: <b style="color:{{ 'complete' == strain.status|lower ? 'green' : 'orange' }};">{{ strain.status }}</b></p>
                     <p>Total length: {{ strain.length|number_format }}</p>
                     <p>Number of CDS: {{ strain.cdsCount|number_format }}</p>
@@ -94,9 +94,9 @@
                 </div>
             </div>
 
-            <div class="panel panel-default visible-xs">
-                <div class="panel-heading">Chromosomes</div>
-                <ul class="list-group">
+            <div class="card mb-3 d-md-none">
+                <div class="card-header">Chromosomes</div>
+                <ul class="list-group list-group-flush">
                     {% for chromosome in strain.chromosomes %}
                         <li class="list-group-item"><a href="{{ path('chromosome_view', { 'species_slug': strain.species.slug, 'strain_slug': strain.slug, 'chromosome_slug': chromosome.slug }) }}">{{ chromosome.name }}</a></li>
                     {% endfor %}
@@ -107,9 +107,9 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">Downloads</div>
-                <div class="panel-body">
+            <div class="card mb-3">
+                <div class="card-header">Downloads</div>
+                <div class="card-body">
                     {% include ':strain:dowloadBlock.html.twig' %}
                 </div>
             </div>

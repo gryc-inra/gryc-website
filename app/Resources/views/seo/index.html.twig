@@ -17,50 +17,48 @@
 {% block body %}
     <h1>Search Engine Optimization management</h1>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <tr>
-                <th>Species</th>
-                <th>Strain</th>
-                <th>Chromosome</th>
-                <th>Number of SEO</th>
-                <th>Actions</th>
+    <table class="table table-responsive table-striped">
+        <tr>
+            <th>Species</th>
+            <th>Strain</th>
+            <th>Chromosome</th>
+            <th>Number of SEO</th>
+            <th>Actions</th>
+        </tr>
+        {% for species in speciesList %}
+            {% set nbSeo = species.seos|length %}
+            <tr {{ (nbSeo < 1) ? 'class="danger"' : '' }}>
+                <td><a href="{{ path('species_view', { 'species_slug': species.slug }) }}">{{ species.scientificname }}</a></td>
+                <td></td>
+                <td></td>
+                <td>{{ nbSeo }}</td>
+                <td>
+                    <a class="btn btn-success btn-sm" href="{{ path('seo_species', { 'slug': species.slug }) }}" ><span class="fa fa-plus" aria-hidden="true"></span> Add SEO</a>
+                </td>
             </tr>
-            {% for species in speciesList %}
-                {% set nbSeo = species.seos|length %}
-                <tr {{ (nbSeo < 1) ? 'class="danger"' : '' }}>
-                    <td><a href="{{ path('species_view', { 'species_slug': species.slug }) }}">{{ species.scientificname }}</a></td>
-                    <td></td>
-                    <td></td>
-                    <td>{{ nbSeo }}</td>
-                    <td>
-                        <a class="btn btn-xs btn-success" href="{{ path('seo_species', { 'slug': species.slug }) }}" ><span class="fa fa-plus" aria-hidden="true"></span> Add SEO</a>
-                    </td>
-                </tr>
-                {% if species.strains|length > 0 %}
-                    {% for strain in species.strains %}
-                        {% set nbSeo = strain.seos|length %}
-                        <tr {{ (nbSeo < 1) ? 'class="danger"' : '' }}>
-                            <td></td>
-                            <td><a href="{{ path('strain_view', {'species_slug': strain.species.slug, 'strain_slug': strain.slug}) }}">{{ strain.name }}</a></td>
-                            <td></td>
-                            <td>{{ strain.seos|length }}</td>
-                            <td>
-                                <a class="btn btn-xs btn-success" href="{{ path('seo_strain', { 'slug': strain.slug }) }}" ><span class="fa fa-plus" aria-hidden="true"></span> Add SEO</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
+            {% if species.strains|length > 0 %}
+                {% for strain in species.strains %}
+                    {% set nbSeo = strain.seos|length %}
+                    <tr {{ (nbSeo < 1) ? 'class="danger"' : '' }}>
                         <td></td>
-                        <td>No strains</td>
+                        <td><a href="{{ path('strain_view', {'species_slug': strain.species.slug, 'strain_slug': strain.slug}) }}">{{ strain.name }}</a></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{ strain.seos|length }}</td>
+                        <td>
+                            <a class="btn btn-success btn-sm" href="{{ path('seo_strain', { 'slug': strain.slug }) }}" ><span class="fa fa-plus" aria-hidden="true"></span> Add SEO</a>
+                        </td>
                     </tr>
-                {% endif %}
-            {% endfor %}
-        </table>
-    </div>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td></td>
+                    <td>No strains</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
 
 {% endblock %}

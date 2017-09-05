@@ -1,123 +1,121 @@
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Sequence ID</th>
-                <th>Length</th>
-                <th>%GC</th>
-                <th>#CDS</th>
-                <th>Release</th>
-                <th>Get CDS</th>
-                <th>Get Chromosomes</th>
-            </tr>
-        </thead>
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>Sequence ID</th>
+            <th>Length</th>
+            <th>%GC</th>
+            <th>#CDS</th>
+            <th>Release</th>
+            <th>Get CDS</th>
+            <th>Get Chromosomes</th>
+        </tr>
+    </thead>
 
-        <tbody>
-            {% for chromosome in strain.chromosomes %}
-                <tr>
-                    <td>{{ chromosome.name }}</td>
-                    <td>{{ chromosome.length|number_format }}</td>
-                    <td>{{ chromosome.gc|round(2) }}</td>
-                    <td>{{ chromosome.cdsCount|number_format }}</td>
-                    <td>{{ chromosome.dateReleased|date("Y-m-d") }}</td>
-                    <td>
-                        {% for flatFile in chromosome.flatFiles %}
-                            {% if flatFile.featureType == 'cds' %}
-                                {% if flatFile.molType == 'nuc' %}
-                                    <a rel="nofollow" href="
-                                    {{ asset(path('file_downloadFlatFile', {
-                                        'chromosomeName': chromosome.name,
-                                        'featureType': flatFile.featureType,
-                                        'molType': flatFile.molType,
-                                        'format': flatFile.format
-                                    })) }}
-                                    "><img src="{{ asset('images/down_fasta_nuc.png', 'image') }}" alt="CDS Nucleotides Fasta" /></a>
-                                {% elseif flatFile.molType == 'pro' %}
-                                    <a rel="nofollow" href="
-                                    {{ asset(path('file_downloadFlatFile', {
-                                        'chromosomeName': chromosome.name,
-                                        'featureType': flatFile.featureType,
-                                        'molType': flatFile.molType,
-                                        'format': flatFile.format
-                                    })) }}
-                                    "><img src="{{ asset('images/down_fasta_pro.png', 'image') }}" alt="CDS Proteins Fasta" /></a>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                    <td>
-                        {% for flatFile in chromosome.FlatFiles %}
-                            {% if flatFile.featureType == 'chromosome' %}
-                                {% if flatFile.format == 'fsa' %}
-                                    <a rel="nofollow" href="
-                                    {{ asset(path('file_downloadFlatFile', {
-                                        'chromosomeName': chromosome.name,
-                                        'featureType': flatFile.featureType,
-                                        'molType': flatFile.molType,
-                                        'format': flatFile.format
-                                    })) }}
-                                    "><img src="{{ asset('images/down_fasta.png', 'image') }}" alt="Chromosome Fasta" /></a>
-                                {% elseif flatFile.format == 'embl' %}
-                                    <a rel="nofollow" href="
-                                    {{ asset(path('file_downloadFlatFile', {
-                                        'chromosomeName': chromosome.name,
-                                        'featureType': flatFile.featureType,
-                                        'molType': flatFile.molType,
-                                        'format': flatFile.format
-                                    })) }}
-                                    "><img src="{{ asset('images/down_embl.png', 'image') }}" alt="Chromosome EMBL" /></a>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-
-        <tfoot>
+    <tbody>
+        {% for chromosome in strain.chromosomes %}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ chromosome.name }}</td>
+                <td>{{ chromosome.length|number_format }}</td>
+                <td>{{ chromosome.gc|round(2) }}</td>
+                <td>{{ chromosome.cdsCount|number_format }}</td>
+                <td>{{ chromosome.dateReleased|date("Y-m-d") }}</td>
                 <td>
-                    <a rel="nofollow" href="
-                        {{ asset(path('file_downloadZipFlatFile', {
-                        'strainName': strain.name,
-                        'featureType': 'cds',
-                        'molType': 'nuc',
-                        'format': 'fsa'
-                    })) }}
-                    "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All CDS Nucleotides Fasta" /></a>
-                    <a rel="nofollow" href="
-                        {{ asset(path('file_downloadZipFlatFile', {
-                        'strainName': strain.name,
-                        'featureType': 'cds',
-                        'molType': 'pro',
-                        'format': 'fsa'
-                    })) }}
-                    "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All CDS Proteins Fasta" /></a>
+                    {% for flatFile in chromosome.flatFiles %}
+                        {% if flatFile.featureType == 'cds' %}
+                            {% if flatFile.molType == 'nuc' %}
+                                <a rel="nofollow" href="
+                                {{ asset(path('file_downloadFlatFile', {
+                                    'chromosomeName': chromosome.name,
+                                    'featureType': flatFile.featureType,
+                                    'molType': flatFile.molType,
+                                    'format': flatFile.format
+                                })) }}
+                                "><img src="{{ asset('images/down_fasta_nuc.png', 'image') }}" alt="CDS Nucleotides Fasta" /></a>
+                            {% elseif flatFile.molType == 'pro' %}
+                                <a rel="nofollow" href="
+                                {{ asset(path('file_downloadFlatFile', {
+                                    'chromosomeName': chromosome.name,
+                                    'featureType': flatFile.featureType,
+                                    'molType': flatFile.molType,
+                                    'format': flatFile.format
+                                })) }}
+                                "><img src="{{ asset('images/down_fasta_pro.png', 'image') }}" alt="CDS Proteins Fasta" /></a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 </td>
                 <td>
-                    <a rel="nofollow" href="
-                        {{ asset(path('file_downloadZipFlatFile', {
-                        'strainName': strain.name,
-                        'featureType': 'chromosome',
-                        'molType': 'nuc',
-                        'format': 'embl'
-                    })) }}
-                    "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All Chromosome Fasta" /></a>
-                    <a rel="nofollow" href="
-                        {{ asset(path('file_downloadZipFlatFile', {
-                        'strainName': strain.name,
-                        'featureType': 'chromosome',
-                        'molType': 'nuc',
-                        'format': 'fsa'
-                    })) }}
-                    "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All Chromosome EMBL" /></a>
+                    {% for flatFile in chromosome.FlatFiles %}
+                        {% if flatFile.featureType == 'chromosome' %}
+                            {% if flatFile.format == 'fsa' %}
+                                <a rel="nofollow" href="
+                                {{ asset(path('file_downloadFlatFile', {
+                                    'chromosomeName': chromosome.name,
+                                    'featureType': flatFile.featureType,
+                                    'molType': flatFile.molType,
+                                    'format': flatFile.format
+                                })) }}
+                                "><img src="{{ asset('images/down_fasta.png', 'image') }}" alt="Chromosome Fasta" /></a>
+                            {% elseif flatFile.format == 'embl' %}
+                                <a rel="nofollow" href="
+                                {{ asset(path('file_downloadFlatFile', {
+                                    'chromosomeName': chromosome.name,
+                                    'featureType': flatFile.featureType,
+                                    'molType': flatFile.molType,
+                                    'format': flatFile.format
+                                })) }}
+                                "><img src="{{ asset('images/down_embl.png', 'image') }}" alt="Chromosome EMBL" /></a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 </td>
             </tr>
-        </tfoot>
-    </table>
-</div>
+        {% endfor %}
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <a rel="nofollow" href="
+                    {{ asset(path('file_downloadZipFlatFile', {
+                    'strainName': strain.name,
+                    'featureType': 'cds',
+                    'molType': 'nuc',
+                    'format': 'fsa'
+                })) }}
+                "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All CDS Nucleotides Fasta" /></a>
+                <a rel="nofollow" href="
+                    {{ asset(path('file_downloadZipFlatFile', {
+                    'strainName': strain.name,
+                    'featureType': 'cds',
+                    'molType': 'pro',
+                    'format': 'fsa'
+                })) }}
+                "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All CDS Proteins Fasta" /></a>
+            </td>
+            <td>
+                <a rel="nofollow" href="
+                    {{ asset(path('file_downloadZipFlatFile', {
+                    'strainName': strain.name,
+                    'featureType': 'chromosome',
+                    'molType': 'nuc',
+                    'format': 'embl'
+                })) }}
+                "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All Chromosome Fasta" /></a>
+                <a rel="nofollow" href="
+                    {{ asset(path('file_downloadZipFlatFile', {
+                    'strainName': strain.name,
+                    'featureType': 'chromosome',
+                    'molType': 'nuc',
+                    'format': 'fsa'
+                })) }}
+                "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All Chromosome EMBL" /></a>
+            </td>
+        </tr>
+    </tfoot>
+</table>

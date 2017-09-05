@@ -54,9 +54,9 @@
         {{ render(controller('AppBundle:Cart:fasta', { 'fastaTextarea': '#blast_query' })) }}
 
         <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">BLAST history (10 last)</div>
-                <ul class="list-group">
+            <div class="card">
+                <div class="card-header">BLAST history (10 last)</div>
+                <ul class="list-group list-group-flush">
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         {% for blast in previousBlasts %}
                             <li class="list-group-item">

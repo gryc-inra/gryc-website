@@ -9,10 +9,11 @@
                 </h4>
                 <p>
                     {{ result.note }}<br/>
+
+                    <a class="btn btn-light btn-sm cart-add-btn d-print-none" href="{{ path('cart_add', { 'id': result.id }) }}">
+                        <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
+                    </a>
                 </p>
-                <a href="{{ path('cart_add', { 'id': result.id }) }}" class="btn btn-default btn-xs cart-add-btn hidden-print">
-                    <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
-                </a>
             </div>
         {% endfor %}
     {% else %}

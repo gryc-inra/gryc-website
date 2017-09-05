@@ -1,39 +1,36 @@
 <div id="user-list">
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
+    <table class="table table-responsive table-striped">
+        <thead>
             <tr>
-                <th class="col-md-1">#</th>
-                <th class="col-md-3">Email</th>
-                <th class="col-md-3">Name</th>
-                <th class="col-md-4">Roles</th>
-                <th class="col-md-1">Actions</th>
+                <th>#</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Roles</th>
+                <th>Actions</th>
             </tr>
-            </thead>
-            <tbody>
-                {% if usersList is not empty %}
-                    {% for user in usersList %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.fullName }}</td>
-                            <td>{{ user.roles|join(',') }}</td>
-                            <td>
-                                {% if app.user != user %}
-                                    <a href="{{ path('homepage', { '_switch_user': user.username }) }}">Impersonate</a>
-                                {% endif %}
-                                <a href="{{ path('user_roles', { 'id': user.id }) }}">Edit roles</a>
-                                <a href="{{ path('user_strains', { 'id': user.id }) }}">Strain access rights</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <td class="text-center" colspan="5">There is no results.</td>
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
+        </thead>
+        <tbody>
+            {% if usersList is not empty %}
+                {% for user in usersList %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.fullName }}</td>
+                        <td>{{ user.roles|join(',') }}</td>
+                        <td>
+                            {% if app.user != user %}
+                                <a class="btn btn-outline-secondary" href="{{ path('homepage', { '_switch_user': user.username }) }}" role="button">Impersonate</a>
+                            {% endif %}
+                            <a class="btn btn-outline-secondary" href="{{ path('user_roles', { 'id': user.id }) }}" role="button">Edit roles</a>
+                            <a class="btn btn-outline-secondary" href="{{ path('user_strains', { 'id': user.id }) }}" role="button">Strain access rights</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <td class="text-center" colspan="5">There is no results.</td>
+            {% endif %}
+        </tbody>
+    </table>
 
     <ul class="pagination">
         {% set nbExtremPages, nbBorderPages = 3, 2 %}

@@ -15,80 +15,84 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-9">
             <h1>{{ locus.name }} - <i>{{ locus.chromosome.strain.species.scientificName }}</i> ({{ locus.chromosome.strain.name }})</h1>
         </div>
 
-        <div class="col-md-2 text-right hidden-print">
-            <a href="{{ path('cart_add', { 'id': locus.id }) }}" class="btn btn-default btn-xs cart-add-btn">
+        <div class="col-3 text-right d-print-none">
+            <a class="btn btn-light btn-sm cart-add-btn" href="{{ path('cart_add', { 'id': locus.id }) }}">
                 <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
             </a>
-            <button class="btn btn-xs btn-default" onClick="window.print()">
+            <button class="btn btn-light btn-sm" onClick="window.print()">
                 <span class="fa fa-print" aria-hidden="true"></span> Print
             </button>
         </div>
     </div>
 
-    <nav class="hidden-print" aria-label="Previous and next locus">
-        <ul class="pager">
+    <div class="row justify-content-between d-print-none my-3" aria-label="Previous and next locus">
+        <div class="col-4">
             {% if locus.previousLocus %}
-                <li class="previous">
-                    <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.previousLocus }) }}"
-                    data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.previousLocusDistance >= 0 ? locus.previousLocusDistance ~ ' nuc.' : 'overlapping' }}">
-                        <span class="fa fa-arrow-left" aria-hidden="true"></span> <span class="hidden-xs">{{ locus.previousLocus }}</span><span class="hidden-sm hidden-md hidden-lg">Previous locus</span>
-                    </a>
-                </li>
+                <a class="btn btn-primary" href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.previousLocus }) }}"
+                data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.previousLocusDistance >= 0 ? locus.previousLocusDistance ~ ' nuc.' : 'overlapping' }}"
+                role="button">
+                    <span class="fa fa-arrow-left" aria-hidden="true"></span>
+                    <span class="d-none d-sm-inline">{{ locus.previousLocus }}</span>
+                    <span class="d-sm-none">Previous locus</span>
+                </a>
             {% else %}
-                <li class="previous disabled"><a href="#"><span class="fa fa-arrow-left" aria-hidden="true"></span> No previous locus</a></li>
+                <a class="btn btn-primary disabled" href="#" role="button"><span class="fa fa-arrow-left" aria-hidden="true"></span> No previous locus</a>
             {% endif %}
+        </div>
 
+        <div class="col-4 text-right">
             {% if locus.nextLocus %}
-                <li class="next">
-                    <a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.nextLocus }) }}"
-                    data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.nextLocusDistance >= 0 ? locus.nextLocusDistance ~ ' nuc.' : 'overlapping' }}">
-                        <span class="hidden-xs">{{ locus.nextLocus }}</span> <span class="hidden-sm hidden-md hidden-lg">Next locus</span> <span class="fa fa-arrow-right" aria-hidden="true"></span>
-                    </a>
-                </li>
+                <a class="btn btn-primary" href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.nextLocus }) }}"
+                data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.nextLocusDistance >= 0 ? locus.nextLocusDistance ~ ' nuc.' : 'overlapping' }}"
+                role="button">
+                    <span class="d-none d-sm-inline">{{ locus.nextLocus }}</span>
+                    <span class="d-sm-none">Next locus</span>
+                    <span class="fa fa-arrow-right" aria-hidden="true"></span>
+                </a>
             {% else %}
-                <li class="next disabled"><a href="#">No next locus <span class="fa fa-arrow-right" aria-hidden="true"></span></a></li>
+                <a class="btn btn-primary disabled" href="#"  role="button">No next locus <span class="fa fa-arrow-right" aria-hidden="true"></span></a>
             {% endif %}
-        </ul>
-    </nav>
+        </div>
+    </div>
 
     <h2>Description</h2>
     <p class="text-justify">
         {{ locus.note|capitalize }}
     </p>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Annotation</h3>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h3>Annotation</h3>
         </div>
         <table class="table">
             {% for key, annotation in locus.annotation %}
                 <tr>
-                    <td class="col-md-6"><b>{{ key }}</b></td>
-                    <td class="col-md-6">{{ annotation[0] }}</td>
+                    <td><b>{{ key }}</b></td>
+                    <td>{{ annotation[0] }}</td>
                 </tr>
             {% endfor %}
         </table>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Summary</h3>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h3>Summary</h3>
         </div>
         <div class="table-responsive">
             <table class="table">
                 <tr>
-                    <td class="col-md-3"><b>Species</b></td>
-                    <td class="col-md-3">
+                    <td><b>Species</b></td>
+                    <td>
                         <a href="{{ path('species_view', { 'species_slug': locus.chromosome.strain.species.slug }) }}">
                             <i>{{ locus.chromosome.strain.species.scientificName }}</i>
                         </a>
                     </td>
-                    <td class="col-md-3"><b>Positions</b></td>
-                    <td class="col-md-3">{{ locus.start }}..{{ locus.end }}</td>
+                    <td><b>Positions</b></td>
+                    <td>{{ locus.start }}..{{ locus.end }}</td>
                 </tr>
                 <tr>
                     <td><b>Strain</b></td>
@@ -123,7 +127,7 @@
         </div>
     </div>
 
-    <h2>Sequence</h2>
+    <h2 class="mb-3">Sequence</h2>
     {% for feature in locus.features %}
         <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-locus="{{ locus.name }}" data-feature="{{ feature.name }}">
             <h3 class="page-header">{{ feature.name }}</h3>
@@ -177,7 +181,7 @@
 
     <hr>
 
-    <h2>Product(s)</h2>
+    <h2 class="mb-3">Product(s)</h2>
     {% for feature in locus.features %}
         {% for product in feature.productsFeatures %}
             <h3 class="page-header">{{ product.name }}</h3>
