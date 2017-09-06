@@ -57,7 +57,7 @@ class UserAdminController extends Controller
     }
 
     /**
-     * @Route("/admii/user/roles/{id}", name="user_roles")
+     * @Route("/admin/user/roles/{id}", name="user_roles")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function rolesAction(User $user, Request $request)
@@ -71,7 +71,7 @@ class UserAdminController extends Controller
 
             $this->addFlash('success', 'The user\'s roles have been successfully edited.');
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/admin/roles.html.twig', [
