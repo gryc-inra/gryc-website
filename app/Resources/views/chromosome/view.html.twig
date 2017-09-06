@@ -16,9 +16,9 @@
     <h1>{{ chromosome.name }}</h1>
     <p>{{ chromosome.description }}</p>
     <div>
-        <div class="panel panel-default">
-            <div class="panel-heading">Informations</div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header">Informations</div>
+            <div class="card-body">
                 <p>Accessions: {{ chromosome.accessions|join('; ') }}</p>
                 <p>Keywords:</p>
                     <ul>
