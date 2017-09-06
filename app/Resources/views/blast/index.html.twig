@@ -24,21 +24,17 @@
                 {{ form_row(form.strains) }}
                 {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
 
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="reset" class="btn btn-secondary" onclick="event.preventDefault();document.getElementById('blast_query').value='';">
-                            Clear
-                        </button>
+                <button type="reset" class="btn btn-secondary" onclick="event.preventDefault();document.getElementById('blast_query').value='';">
+                    Clear
+                </button>
 
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cartFormModal">
-                            <span class="fa fa-copy" aria-hidden="true"></span> Use cart sequences
-                        </button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cartFormModal">
+                    <span class="fa fa-copy" aria-hidden="true"></span> Use cart sequences
+                </button>
 
-                        <button type="submit" class="btn btn-info">
-                            <span class="fa fa-cog" aria-hidden="true"></span> BLAST
-                        </button>
-                    </div>
-                </div>
+                <button type="submit" class="btn btn-info">
+                    <span class="fa fa-cog" aria-hidden="true"></span> BLAST
+                </button>
 
                 <fieldset>
                     <legend>Options</legend>
