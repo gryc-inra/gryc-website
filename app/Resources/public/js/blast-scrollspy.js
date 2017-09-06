@@ -1,10 +1,10 @@
-$('#blast-scrollspy').on('activate.bs.scrollspy', function () {
+$(window).on('activate.bs.scrollspy', function () {
     // Remove all display class
-    var $allLi = $('div.scrollspy ul.nav li.active ul li');
+    var $allLi = $('nav#blast-scrollspy nav a.active + nav a');
     $allLi.removeClass('display');
 
     // Add display class on 2 before and 2 after
-    var $activeLi = $('div.scrollspy ul.nav li.active ul li.active');
+    var $activeLi = $('nav#blast-scrollspy nav a.active + nav a.active');
     $activeLi.prev().addClass('display');
     $activeLi.prev().prev().addClass('display');
     $activeLi.next().addClass('display');

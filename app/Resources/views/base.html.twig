@@ -23,7 +23,7 @@
         <link rel="icon" type="image/x-icon" href="{{ preload(asset('favicon.ico', 'image')) }}" />
     </head>
 
-    <body data-spy="scroll" data-target=".scrollspy">
+    <body data-spy="scroll" data-target=".scrollspy" data-offset="0">
         <div class="wrapper">
             <noscript>
                 <div id="js-disclaimer" class="alert alert-danger text-center">
@@ -183,9 +183,10 @@
 
             <script src="https://use.fontawesome.com/a7304d3ab9.js"></script>
 
-            <script src="{{ preload(asset('js/app.min.js', 'js')) }}"></script>
             <script src="{{ preload(asset('bundles/fosjsrouting/js/router.js', 'js')) }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+            <script src="{{ preload(asset('js/app.min.js', 'js')) }}"></script>
         {% endblock %}
     </body>
 </html>

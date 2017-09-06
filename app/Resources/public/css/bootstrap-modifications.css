@@ -27,7 +27,10 @@ header {
     background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
 }
 
-.navbar {
+nav.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     margin-bottom: 1rem;
 }
 
@@ -41,42 +44,36 @@ header {
 
 /* BLAST Sidebar
 -------------------------------------------------- */
-#blast-scrollspy .affix {
+nav#blast-scrollspy {
+    position: sticky;
     top: 70px;
+    z-index: 1000;
 }
 
-div.scrollspy ul.nav li ul {
+nav#blast-scrollspy nav nav {
     display: none;
 }
 
-div.scrollspy ul.nav li.active {
-    font-weight: bold;
+nav#blast-scrollspy nav a.active {
+    /*font-weight: bold;*/
 }
 
-div.scrollspy ul.nav li.active ul {
+nav#blast-scrollspy nav a.active + nav {
     display: block;
 }
 
-div.scrollspy ul.nav li.active ul li {
+nav#blast-scrollspy nav a.active + nav a {
     display: none;
 }
 
-div.scrollspy ul.nav li.active ul li.active,
-div.scrollspy ul.nav li.active ul li.display
+nav#blast-scrollspy nav a.active + nav a.active,
+nav#blast-scrollspy nav a.active + nav a.display
 {
     display: block;
-    padding-left: 20px;
 }
 
-div.scrollspy ul.nav li.active ul li.active {
-    font-weight: bold;
-    padding-left: 18px;
+nav#blast-scrollspy nav a.active + nav a.active {
     border-left: 2px solid #337ab7;
-}
-
-div.scrollspy ul.nav ul.nav a {
-    font-weight: normal;
-    font-size: .85em;
 }
 
 /* Sticky footer
