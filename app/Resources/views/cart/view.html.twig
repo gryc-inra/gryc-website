@@ -11,7 +11,7 @@
 
 {% block body %}
     <div class="pull-right">
-        <a href="{{ path('cart_empty') }}" class="btn btn-xs btn-danger"><span class="fa fa-trash" aria-hidden="true"></span> Empty cart</a>
+        <a href="{{ path('cart_empty') }}" class="btn btn-sm btn-danger"><span class="fa fa-trash" aria-hidden="true"></span> Empty cart</a>
     </div>
 
     <h2>Content</h2>
@@ -33,7 +33,7 @@
                 <td>{{ locus.chromosome.name }}</td>
                 <td>{{ locus.note|truncate }}</td>
                 <td>
-                    <a class="btn btn-light btn-sm cart-remove-btn" href="{{ path('cart_remove', {'id': locus.id}) }}" role="button">
+                    <a class="btn btn-secondary btn-sm cart-remove-btn" href="{{ path('cart_remove', {'id': locus.id}) }}" role="button">
                         <span class="fa fa-times" aria-hidden="true"></span>
                     </a>
                 </td>

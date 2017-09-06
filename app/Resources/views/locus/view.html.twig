@@ -20,11 +20,11 @@
         </div>
 
         <div class="col-3 text-right d-print-none">
-            <a class="btn btn-light btn-sm cart-add-btn" href="{{ path('cart_add', { 'id': locus.id }) }}" role="button">
+            <a class="btn btn-secondary btn-sm cart-add-btn" href="{{ path('cart_add', { 'id': locus.id }) }}" role="button">
                 <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
             </a>
 
-            <button class="btn btn-light btn-sm" onClick="window.print()">
+            <button class="btn btn-secondary btn-sm" onClick="window.print()">
                 <span class="fa fa-print" aria-hidden="true"></span> Print
             </button>
         </div>
@@ -171,7 +171,7 @@
                                 <input type="checkbox" name="showIntron"checked> Show Intron
                             </label>
                         </div>
-                        <button type="reset" class="btn btn-default" value="Reset">Reset</button>
+                        <button type="reset" class="btn btn-secondary" value="Reset">Reset</button>
                         <button type="submit" class="btn btn-primary">Valid</button>
                     </form>
                 </div>
