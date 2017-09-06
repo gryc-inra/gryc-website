@@ -83,49 +83,48 @@
         <div class="card-header">
             <h3>Summary</h3>
         </div>
-        <div class="table-responsive">
-            <table class="table">
-                <tr>
-                    <td><b>Species</b></td>
-                    <td>
-                        <a href="{{ path('species_view', { 'species_slug': locus.chromosome.strain.species.slug }) }}">
-                            <i>{{ locus.chromosome.strain.species.scientificName }}</i>
-                        </a>
-                    </td>
-                    <td><b>Positions</b></td>
-                    <td>{{ locus.start }}..{{ locus.end }}</td>
-                </tr>
-                <tr>
-                    <td><b>Strain</b></td>
-                    <td>
-                        <a href="{{ path('strain_view', {
-                            'species_slug': locus.chromosome.strain.species.slug,
-                            'strain_slug': locus.chromosome.strain.slug }) }}">
-                            {{ locus.chromosome.strain.name }}
-                        </a>
-                    </td>
-                    <td><b>Strand</b></td>
-                    <td>{{ 1 == locus.strand ? 'Sense' : 'Antisense' }}</td>
-                </tr>
-                <tr>
-                    <td><b>Chromosome</b></td>
-                    <td>
-                        <a href="{{ path('chromosome_view', {
-                            'species_slug': locus.chromosome.strain.species.slug,
-                            'strain_slug': locus.chromosome.strain.slug,
-                            'chromosome_slug': locus.chromosome.slug }) }}">
-                            {{ locus.chromosome.name }}
-                        </a>
-                    </td>
-                    <td><b>Total length</b></td>
-                    <td>{{ locus.end - locus.start + 1 }} (nuc.)</td>
-                </tr>
-                <tr>
-                    <td><b>Product number</b></td>
-                    <td>{{ locus.countProductNumber }}</td>
-                </tr>
-            </table>
-        </div>
+
+        <table class="table table-responsive">
+            <tr>
+                <td><b>Species</b></td>
+                <td>
+                    <a href="{{ path('species_view', { 'species_slug': locus.chromosome.strain.species.slug }) }}">
+                        <i>{{ locus.chromosome.strain.species.scientificName }}</i>
+                    </a>
+                </td>
+                <td><b>Positions</b></td>
+                <td>{{ locus.start }}..{{ locus.end }}</td>
+            </tr>
+            <tr>
+                <td><b>Strain</b></td>
+                <td>
+                    <a href="{{ path('strain_view', {
+                        'species_slug': locus.chromosome.strain.species.slug,
+                        'strain_slug': locus.chromosome.strain.slug }) }}">
+                        {{ locus.chromosome.strain.name }}
+                    </a>
+                </td>
+                <td><b>Strand</b></td>
+                <td>{{ 1 == locus.strand ? 'Sense' : 'Antisense' }}</td>
+            </tr>
+            <tr>
+                <td><b>Chromosome</b></td>
+                <td>
+                    <a href="{{ path('chromosome_view', {
+                        'species_slug': locus.chromosome.strain.species.slug,
+                        'strain_slug': locus.chromosome.strain.slug,
+                        'chromosome_slug': locus.chromosome.slug }) }}">
+                        {{ locus.chromosome.name }}
+                    </a>
+                </td>
+                <td><b>Total length</b></td>
+                <td>{{ locus.end - locus.start + 1 }} (nuc.)</td>
+            </tr>
+            <tr>
+                <td><b>Product number</b></td>
+                <td>{{ locus.countProductNumber }}</td>
+            </tr>
+        </table>
     </div>
 
     <h2 class="mb-3">Sequence</h2>
