@@ -21,8 +21,8 @@
 
     {{ form_start(form) }}
         {{ form_row(form.search) }}
-        {{ form_row(form.strainsFilter.filter) }}
-        {{ form_row(form.strainsFilter.strains) }}
+        {{ form_row(form.strainsFilter) }}
+        {{ form_row(form.strains) }}
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -42,7 +42,7 @@
     {{ parent() }}
     <script>
         $(document).ready(function() {
-            strainsFilter($( "#advanced_search_strainsFilter_strains" ), $( "#advanced_search_strainsFilter_filter" ));
+            strainsFilter($( "#advanced_search_strains" ), $( "#advanced_search_strainsFilter" ));
         });
 
         $(document).ready(function() {
