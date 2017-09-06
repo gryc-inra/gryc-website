@@ -16,8 +16,6 @@
         {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
         {{ form_rest(form) }}
 
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-info">Reverse complement</button>
-        </div>
+        <button type="submit" class="btn btn-primary">Reverse complement</button>
     {{ form_end(form) }}
 {% endblock %}

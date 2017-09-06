@@ -19,21 +19,19 @@
 
     <hr>
 
-    {{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_start(form) }}
         {{ form_row(form.search) }}
         {{ form_row(form.strainsFilter) }}
         {{ form_row(form.strains) }}
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-secondary">
-                    <span class="fa fa-search" aria-hidden="true"></span> Search
-                </button>
-            </div>
-        </div>
+        <button type="submit" class="btn btn-primary">
+            <span class="fa fa-search" aria-hidden="true"></span> Search
+        </button>
 
         {{ form_rest(form) }}
-    {{ form_end(form) }}
+        {{ form_end(form) }}
+    </div>
 
     {% include ":search:searchResults.html.twig" with { 'search': search } %}
 {% endblock %}

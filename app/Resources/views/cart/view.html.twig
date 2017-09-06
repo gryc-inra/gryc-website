@@ -50,10 +50,6 @@
     {{ form_start(form) }}
         {{ include('cart/_form_fields.html.twig') }}
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-info" {{ cartElements is empty ? 'disabled' }}><span class="fa fa-download" aria-hidden="true"></span> Download</button>
-            </div>
-        </div>
+        <button type="submit" class="btn btn-primary" {{ cartElements is empty ? 'disabled' }}><span class="fa fa-download" aria-hidden="true"></span> Download</button>
     {{ form_end(form) }}
 {% endblock %}
