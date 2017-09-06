@@ -12,7 +12,7 @@
     {{ parent() }}
     <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Administration</a></li>
     <li class="breadcrumb-item"><a href="{{ path('strain_admin_index') }}">Strain management</a></li>
-    <li  class="breadcrumb-item active">Edit the strain: {{ strain.species.scientificname }} {{ strain.name }}</li>
+    <li class="breadcrumb-item active">Edit the strain: {{ strain.species.scientificname }} {{ strain.name }}</li>
 {% endblock %}
 
 {% block body %}

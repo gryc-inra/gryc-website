@@ -13,7 +13,7 @@
     {{ parent() }}
     <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Administration</a></li>
     <li class="breadcrumb-item"><a href="{{ path('species_list') }}">Clade management</a></li>
-    <li  class="breadcrumb-item active">Delete the species: {{ species.scientificname }}</li>
+    <li class="breadcrumb-item active">Delete the species: {{ species.scientificname }}</li>
 {% endblock %}
 
 {% block body %}
