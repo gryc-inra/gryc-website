@@ -131,7 +131,7 @@
     <h2 class="mb-3">Sequence</h2>
     {% for feature in locus.features %}
         <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-locus="{{ locus.name }}" data-feature="{{ feature.name }}">
-            <h3 class="page-header">{{ feature.name }}</h3>
+            <h3>{{ feature.name }}</h3>
             <div class="row">
                 <div class="col-md-9 fasta fasta-nuc">
                     <span class="header">>{{ feature.name }}</span>
@@ -185,7 +185,7 @@
     <h2 class="mb-3">Product(s)</h2>
     {% for feature in locus.features %}
         {% for product in feature.productsFeatures %}
-            <h3 class="page-header">{{ product.name }}</h3>
+            <h3>{{ product.name }}</h3>
             <p>
                 <b>Product type:</b> protein<br>
                 <b>Protein length:</b> {{ product.translation|length }} aa.<br>
