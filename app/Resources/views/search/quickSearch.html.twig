@@ -11,7 +11,7 @@
 
 {% block body %}
     <h1>Results for "<i>{{ search }}</i>"</h1>
-    <p class="hidden-print">Too many results ? Try the <a href="{{ path('advanced-search', { 'q': search }) }}">Advanced Search</a></p>
+    <p class="d-print-none">Too many results ? Try the <a href="{{ path('advanced-search', { 'q': search }) }}">Advanced Search</a></p>
 
     {% include ":search:searchResults.html.twig" with { 'search': search } %}
 {% endblock %}
