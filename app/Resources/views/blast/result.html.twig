@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-9">
+    <div class="col-lg-9 col-xs-12 ">
         {% if result.iterations|length > 1 %}
             <div class="row">
                 <div class="col-lg-4">
@@ -24,7 +24,7 @@
         {% endif %}
 
         {% for query in result.iterations %}
-            <h2 id="{{ "query-" ~ query.query_num }}">Query description</h2>
+            <h2 class="anchor" id="{{ "query-" ~ query.query_num }}">Query description</h2>
             <table class="table">
                 <tr>
                     <th>Query</th>
@@ -41,7 +41,7 @@
             </table>
 
             {% if query.hits is not empty %}
-                <h3 id="{{ "query-" ~ query.query_num ~ "-summary" }}">Graphical summary of the {{ query.hits|length }} hits obtained</h3>
+                <h3 class="anchor" id="{{ "query-" ~ query.query_num ~ "-summary" }}">Graphical summary of the {{ query.hits|length }} hits obtained</h3>
 
                 {# Set SVG params #}
                 {% set svgWidth, svgPadding, svgElementsPadding = 750, 10, 5 %}
@@ -133,7 +133,7 @@
                     <text font-size="10" x="645" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;500</text>
                 </svg>
 
-                <h3 id="{{ "query-" ~ query.query_num ~ '-best-hits' }}">Best hit table</h3>
+                <h3 class="anchor" id="{{ "query-" ~ query.query_num ~ '-best-hits' }}">Best hit table</h3>
                 <table class="table table-striped">
                     <tr>
                         <th>Seq ID</th>
@@ -177,8 +177,8 @@
 
                 <h3 id="{{ "query-alignment-" ~ query.query_num }}">Pairwise alignment details</h3>
                 {% for hit in query.hits %}
-                    <div class="card my-3" id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num }}">
-                        <div class="card-body">
+                    <div class="card my-3 anchor" id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num }}">
+                        <p class="card-header">
                             {% if hit.locus_entity is defined %}
                                 <a href="{{ path('locus_view', {
                                     'species_slug': hit.locus_entity.chromosome.strain.species.slug,
@@ -189,9 +189,10 @@
                                     {{ hit.name }}
                                 </a><br />
                             {% else %}
-                                {{ hit.name }}<br />
+                               {{ hit.name }}
                             {% endif %}
-
+                        </p>
+                        <div class="card-body">
                             <b>Description:</b> {{ hit.desc }}<br />
                             <b>Length:</b> {{ hit.len }}
                         </div>
@@ -254,7 +255,7 @@
         {% endfor %}
     </div>
 
-    <div class="col-3">
+    <div class="col-lg-3 d-none d-lg-block">
         <nav class="navbar navbar-light bg-light scrollspy" id="blast-scrollspy">
             <nav class="nav nav-pills flex-column">
                 {% if result.iterations|length > 1 %}
