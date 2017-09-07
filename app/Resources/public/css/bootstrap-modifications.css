@@ -115,17 +115,6 @@ footer a:active {
     color: red;
 }
 
-/*
- * Search result
- */
-.search-result {
-    margin-bottom: 25px;
-}
-
-.search-result h4 {
-    margin-bottom: 5px;
-}
-
 /* Sequence display
 -------------------------------------------------- */
 .fasta {

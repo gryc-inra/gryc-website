@@ -1,22 +1,22 @@
 {% if results is defined  %}
     {% if results is not empty %}
         {% for result in results %}
-            <div class="search-result">
-                <h4>
+            <div class="mb-4">
+                <h5 class="mb-1">
                     <a href="{{ path('locus_view', { 'species_slug': result.chromosome.strain.species.slug, 'strain_slug': result.chromosome.strain.slug, 'chromosome_slug': result.chromosome.slug, 'locus_name': result.name }) }}">
                         {{ result.name }} ({{ result.chromosome.strain.species.scientificName }} - {{ result.chromosome.strain.name }})
                     </a>
-                </h4>
-                <p>
-                    {{ result.note }}<br/>
+                </h5>
+                <a class="btn btn-secondary btn-sm cart-add-btn float-right ml-3" href="{{ path('cart_add', { 'id': result.id }) }}" role="button">
+                    <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
+                </a>
 
-                    <a class="btn btn-secondary btn-sm cart-add-btn" href="{{ path('cart_add', { 'id': result.id }) }}" role="button">
-                        <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
-                    </a>
+                <p class="text-justify">
+                    {{ result.note }}<br/>
                 </p>
             </div>
         {% endfor %}
     {% else %}
-        <div class="alert alert-info search-result" role="alert">There is no result</div>
+        <div class="alert alert-info" role="alert">There is no result</div>
     {% endif %}
 {% endif %}
