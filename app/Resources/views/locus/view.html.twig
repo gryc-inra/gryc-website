@@ -67,7 +67,7 @@
 
     <div class="card mb-3">
         <div class="card-header">
-            <h3>Annotation</h3>
+            Annotation
         </div>
         <table class="table">
             {% for key, annotation in locus.annotation %}
@@ -81,7 +81,7 @@
 
     <div class="card mb-3">
         <div class="card-header">
-            <h3>Summary</h3>
+            Summary
         </div>
 
         <table class="table table-responsive">
@@ -127,7 +127,9 @@
         </table>
     </div>
 
-    <h2 class="mb-3">Sequence</h2>
+    <hr>
+
+    <h2 class="mb-3">Sequence(s)</h2>
     {% for feature in locus.features %}
         <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-locus="{{ locus.name }}" data-feature="{{ feature.name }}">
             <h3>{{ feature.name }}</h3>
@@ -143,7 +145,7 @@
 
                 <div class="col-lg-3">
                     <p>Legend:</p>
-                    <ul>
+                    <ul class="fasta-legend">
                         <li class="stream">Upstream/Downstream</li>
                         <li class="utr">UTR</li>
                         <li class="exon">Exon</li>

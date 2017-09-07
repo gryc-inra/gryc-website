@@ -249,6 +249,24 @@ footer a:active {
     }
 }
 
+/* FASTA sequence legend */
+ul.fasta-legend  {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.fasta-legend li {
+    padding-left: 1.3em;
+}
+
+ul.fasta-legend li:before {
+    content: "\f0c8"; /* FontAwesome Unicode */
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-left: -1.3em;
+    width: 1.3em;
+}
+
 /*
  * Search result
  */
