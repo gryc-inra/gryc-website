@@ -77,8 +77,8 @@ class StrainsFilterType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'inherit_data' => true
-        ));
+        $resolver->setDefaults([
+            'inherit_data' => true,
+        ]);
     }
 }
