@@ -21,21 +21,18 @@
                 {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
 
                 {{ form_rest(form) }}
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="reset" class="btn btn-secondary">
-                            Clear
-                        </button>
 
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cartFormModal">
-                            <span class="fa fa-copy" aria-hidden="true"></span> Use cart sequences
-                        </button>
+                <button type="reset" class="btn btn-secondary">
+                    Clear
+                </button>
 
-                        <button type="submit" class="btn btn-info">
-                            <span class="fa fa-align-center" aria-hidden="true"></span> Align
-                        </button>
-                    </div>
-                </div>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cartFormModal">
+                    <span class="fa fa-copy" aria-hidden="true"></span> Use cart sequences
+                </button>
+
+                <button type="submit" class="btn btn-primary">
+                    <span class="fa fa-align-center" aria-hidden="true"></span> Align
+                </button>
             {{ form_end(form) }}
         </div>
 

@@ -22,18 +22,14 @@
 {% block body %}
     <h1>Multiple sequences alignment result</h1>
 
-    <div class="row d-print-none my-3">
-        <div class="col-10">
-            <a class="btn btn-info btn-sm" href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" role="button">
-                <span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query
-            </a>
-        </div>
+    <div class="my-3">
+        <a class="btn btn-primary btn-sm" href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" role="button">
+            <span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query
+        </a>
 
-        <div class="col-2 text-right">
-            <button class="btn btn-secondary btn-sm" onClick="window.print()">
-                <span class="fa fa-print" aria-hidden="true"></span> Print
-            </button>
-        </div>
+        <button class="btn btn-secondary btn-sm float-right" onClick="window.print()">
+            <span class="fa fa-print" aria-hidden="true"></span> Print
+        </button>
     </div>
 
     {% if 'pending' == alignment.status or 'running' == alignment.status %}
@@ -48,8 +44,8 @@
     {% else %}
         <h3 class="d-print-none">Coloration:</h3>
 
-        <div class="btn-group d-print-none" role="group" aria-label="Coloration selection buttons">
-            <div class="btn-group" role="group">
+        <div class="btn-group btn-group-sm d-print-none" role="group" aria-label="Coloration selection buttons">
+            <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-secondary dropdown-toggle {{ 'identities' == result.coloration ? 'active' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Identities
                 </button>
