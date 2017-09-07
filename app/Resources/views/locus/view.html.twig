@@ -132,7 +132,7 @@
         <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-locus="{{ locus.name }}" data-feature="{{ feature.name }}">
             <h3>{{ feature.name }}</h3>
             <div class="row">
-                <div class="col-md-9 fasta fasta-nuc">
+                <div class="col-lg-9 fasta fasta-nuc">
                     <span class="header">>{{ feature.name }}</span>
                     {% for line in feature.sequence %}
                         {{ line|raw }}<br>
@@ -141,7 +141,7 @@
 
                 <hr class="d-md-none">
 
-                <div class="col-md-3">
+                <div class="col-lg-3">
                     <p>Legend:</p>
                     <ul>
                         <li class="stream">Upstream/Downstream</li>

@@ -16,7 +16,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-lg-8">
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
                 {{ form_row(form.tool) }}
                 {{ form_row(form.database) }}
@@ -49,7 +49,7 @@
 
         {{ render(controller('AppBundle:Cart:fasta', { 'fastaTextarea': '#blast_query' })) }}
 
-        <div class="col-md-3">
+        <div class="col-lg-4">
             <div class="card">
                 <div class="card-header">BLAST history (10 last)</div>
                 <ul class="list-group list-group-flush">
