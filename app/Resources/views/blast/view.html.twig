@@ -22,18 +22,14 @@
 {% block body %}
     <h1>BLAST result</h1>
 
-    <div class="row d-print-none my-3">
-        <div class="col-10">
-            <a class="btn btn-primary" href="{{ path('blast_index_prefilled', { 'name': blast.name }) }}" role="button">
+    <div class="my-3 d-print-none">
+            <a class="btn btn-primary btn-sm" href="{{ path('blast_index_prefilled', { 'name': blast.name }) }}" role="button">
                 <span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query
             </a>
-        </div>
 
-        <div class="col-2 text-right">
-            <button class="btn btn-secondary btn-sm" onClick="window.print()">
+            <button class="btn btn-secondary btn-sm float-right" onClick="window.print()">
                 <span class="fa fa-print" aria-hidden="true"></span> Print
             </button>
-        </div>
     </div>
 
     {% if 'pending' == blast.status %}
