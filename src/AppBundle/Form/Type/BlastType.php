@@ -24,7 +24,6 @@ class BlastType extends AbstractType
     const AUTHENTICATED_QUERY_LENGTH = 50100;
 
     private $authorizationChecker;
-    private $tokenStorage;
 
     public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
