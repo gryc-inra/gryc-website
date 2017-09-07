@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-lg-8">
             <div class="card mb-3">
-                <h4 class="card-header">General informations</h4>
+                <div class="card-header">General informations</div>
                 <div class="card-body">
                     <p>Genus: <i>{{ species.genus }}</i></p>
                     <p>Species: <i>{{ species.species }}</i></p>
@@ -42,12 +42,9 @@
                             <li>There is not synonyme.</li>
                         {% endif %}
                     </ul>
-                    <p>Lineage:</p>
-                    <ul>
-                        {% for lineage in species.lineages %}
-                            <li>{{ lineage|capitalize }}</li>
-                        {% endfor %}
-                    </ul>
+                    <p>Lineage:<br>
+                        {{ species.lineages|join('; ') }}
+                    </p>
                 </div>
             </div>
         </div>
