@@ -1,8 +1,8 @@
 // The team filter function call for each checkbox input we want filtered
-function strainsFilter(strainsCheckBoxesContainer, strainsFilterSelect) {
+function strainsFilter(strainsFilterSelect, strainsCheckBoxesContainer) {
 
     // Define var that contains fields
-    var strainsCheckboxes = strainsCheckBoxesContainer.find( '.checkbox' );
+    var strainsCheckboxes = strainsCheckBoxesContainer.find( '.form-check' );
 
     //********************************//
     //  Add the links (check/uncheck) //
