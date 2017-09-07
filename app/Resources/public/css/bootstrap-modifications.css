@@ -115,7 +115,87 @@ footer a:active {
     color: red;
 }
 
+/*
+ * Search result
+ */
+.search-result {
+    margin-bottom: 25px;
+}
+
+.search-result h4 {
+    margin-bottom: 5px;
+}
+
 /* Sequence display
+-------------------------------------------------- */
+.fasta {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 18px;
+    overflow-x: auto;
+    margin-bottom: 10px;
+}
+
+.fasta .header {
+    display: block;
+}
+
+.stream {
+    color: darkgrey;
+}
+
+.utr {
+    color: forestgreen;
+}
+
+.exon {
+    color: dodgerblue;
+}
+
+.intron {
+    color: #c0504d;
+}
+
+@media screen, print {
+    .stream {
+        color: darkgrey !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .utr {
+        color: forestgreen !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .exon {
+        color: dodgerblue !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .intron {
+        color: #c0504d !important;
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+/* FASTA sequence legend */
+ul.fasta-legend  {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.fasta-legend li {
+    padding-left: 1.3em;
+}
+
+ul.fasta-legend li:before {
+    content: "\f0c8"; /* FontAwesome Unicode */
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-left: -1.3em;
+    width: 1.3em;
+}
+
+/* Sequence Alignment Display
 -------------------------------------------------- */
 .alignment {
     font-family: 'Cousine', monospace;
@@ -196,84 +276,4 @@ footer a:active {
  */
 .fasta-input {
     font-family: 'Cousine', monospace;
-}
-
-/* Sequence display
--------------------------------------------------- */
-.fasta {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 18px;
-    overflow-x: auto;
-    margin-bottom: 10px;
-}
-
-.fasta .header {
-    display: block;
-}
-
-.stream {
-    color: darkgrey;
-}
-
-.utr {
-    color: forestgreen;
-}
-
-.exon {
-    color: dodgerblue;
-}
-
-.intron {
-    color: #c0504d;
-}
-
-@media screen, print {
-    .stream {
-        color: darkgrey !important;
-        -webkit-print-color-adjust: exact;
-    }
-
-    .utr {
-        color: forestgreen !important;
-        -webkit-print-color-adjust: exact;
-    }
-
-    .exon {
-        color: dodgerblue !important;
-        -webkit-print-color-adjust: exact;
-    }
-
-    .intron {
-        color: #c0504d !important;
-        -webkit-print-color-adjust: exact;
-    }
-}
-
-/* FASTA sequence legend */
-ul.fasta-legend  {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul.fasta-legend li {
-    padding-left: 1.3em;
-}
-
-ul.fasta-legend li:before {
-    content: "\f0c8"; /* FontAwesome Unicode */
-    font-family: FontAwesome;
-    display: inline-block;
-    margin-left: -1.3em;
-    width: 1.3em;
-}
-
-/*
- * Search result
- */
-.search-result {
-    margin-bottom: 25px;
-}
-
-.search-result h4 {
-    margin-bottom: 5px;
 }
