@@ -76,15 +76,6 @@ nav#blast-scrollspy nav a.active + nav a.active {
     border-left: 2px solid #337ab7;
 }
 
-/* BLAST anchors
--------------------------------------------------- */
-.anchor:before {
-    content: '';
-    display: block;
-    height: 72px;
-    margin-top: -72px;
-}
-
 /* Sticky footer
 -------------------------------------------------- */
 footer {
@@ -113,6 +104,15 @@ footer a:active {
 .form-control-label.required:after {
     content: " *";
     color: red;
+}
+
+/* anchors
+-------------------------------------------------- */
+.anchor {
+    display: block;
+    height: 60px; /*same height as header*/
+    margin-top: -60px; /*same height as header*/
+    visibility: hidden;
 }
 
 /* Sequence display

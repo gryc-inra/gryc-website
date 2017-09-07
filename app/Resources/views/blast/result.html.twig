@@ -3,7 +3,8 @@
         {% if result.iterations|length > 1 %}
             <div class="row">
                 <div class="col-lg-4">
-                    <h2 class="anchor" id="job-hits">Hits</h2>
+                    <span class="anchor" id="job-hits"></span>
+                    <h2>Hits</h2>
                     <table class="table table-striped">
                         <tr>
                             <th>Query name</th>
@@ -24,7 +25,8 @@
         {% endif %}
 
         {% for query in result.iterations %}
-            <h2 class="anchor" id="{{ "query-" ~ query.query_num }}">Query description</h2>
+            <span class="anchor" id="{{ "query-" ~ query.query_num }}"></span>
+            <h2>Query description</h2>
             <table class="table">
                 <tr>
                     <th>Query</th>
@@ -41,7 +43,8 @@
             </table>
 
             {% if query.hits is not empty %}
-                <h3 class="anchor" id="{{ "query-" ~ query.query_num ~ "-summary" }}">Graphical summary of the {{ query.hits|length }} hits obtained</h3>
+                <span class="anchor" id="{{ "query-" ~ query.query_num ~ "-summary" }}"></span>
+                <h3>Graphical summary of the {{ query.hits|length }} hits obtained</h3>
 
                 {# Set SVG params #}
                 {% set svgWidth, svgPadding, svgElementsPadding = 750, 10, 5 %}
@@ -133,7 +136,8 @@
                     <text font-size="10" x="645" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;500</text>
                 </svg>
 
-                <h3 class="anchor" id="{{ "query-" ~ query.query_num ~ '-best-hits' }}">Best hit table</h3>
+                <span class="anchor" id="{{ "query-" ~ query.query_num ~ '-best-hits' }}"></span>
+                <h3>Best hit table</h3>
                 <table class="table table-striped">
                     <tr>
                         <th>Seq ID</th>
@@ -175,9 +179,11 @@
                     {% endfor %}
                 </table>
 
-                <h3 id="{{ "query-alignment-" ~ query.query_num }}">Pairwise alignment details</h3>
+                <span class="anchor" id="{{ "query-alignment-" ~ query.query_num }}"></span>
+                <h3>Pairwise alignment details</h3>
                 {% for hit in query.hits %}
-                    <div class="card my-3 anchor" id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num }}">
+                    <span class="anchor" id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num }}"></span>
+                    <div class="card my-3">
                         <p class="card-header">
                             {% if hit.locus_entity is defined %}
                                 <a href="{{ path('locus_view', {
