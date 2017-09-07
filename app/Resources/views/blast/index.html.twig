@@ -20,8 +20,8 @@
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
                 {{ form_row(form.tool) }}
                 {{ form_row(form.database) }}
-                {{ form_row(form.strainsFilter) }}
-                {{ form_row(form.strains) }}
+                {{ form_row(form.strainsFilter.filter) }}
+                {{ form_row(form.strainsFilter.strains) }}
                 {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
 
                 <button type="reset" class="btn btn-secondary" onclick="event.preventDefault();document.getElementById('blast_query').value='';">
@@ -118,7 +118,7 @@
         });
 
         $(document).ready(function() {
-            strainsFilter($( "#blast_strains" ), $( "#blast_strainsFilter" ));
+            strainsFilter($( "#blast_strainsFilter_strains" ), $( "#blast_strainsFilter_filter" ));
         });
     </script>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Blast;
 use AppBundle\Entity\Strain;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -48,54 +49,8 @@ class BlastType extends AbstractType
                     'tblastx' => 'tblastx',
                 ],
             ])
-            ->add('strainsFilter', EntityType::class, [
-                'class' => 'AppBundle\Entity\Clade',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('clade')
-                        ->leftJoin('clade.species', 'species')
-                        ->addSelect('species')
-                        ->leftJoin('species.strains', 'strain')
-                        ->addSelect('strain')
-                        ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
-                        ->orderBy('clade.name', 'asc')
-                        ->where('strain.public = true')
-                        ->orWhere('authorizedUsers = :user')
-                        ->setParameter('user', $this->tokenStorage->getToken()->getUser());
-                },
-                'choice_value' => 'name',
-                'choice_label' => 'name',
-                'placeholder' => 'All',
-                'required' => false,
-                'mapped' => false,
-            ])
-            ->add('strains', EntityType::class, [
-                'class' => 'AppBundle\Entity\Strain',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('strain')
-                        ->leftJoin('strain.species', 'species')
-                        ->addSelect('species')
-                        ->leftJoin('species.clade', 'clade')
-                        ->addSelect('clade')
-                        ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
-                        ->orderBy('species.scientificName', 'asc')
-                        ->addOrderBy('strain.name', 'asc')
-                        ->where('strain.public = true')
-                        ->orWhere('authorizedUsers = :user')
-                        ->setParameter('user', $this->tokenStorage->getToken()->getUser());
-                },
-                'choice_label' => function (Strain $strain) {
-                    return $strain->getSpecies()->getScientificName().' ('.$strain->getName().')';
-                },
-                'choice_attr' => function (Strain $strain) {
-                    return ['data-clade' => $strain->getSpecies()->getClade()->getName()];
-                },
-                'multiple' => true,
-                'expanded' => true,
-                'constraints' => [
-                    new Count([
-                        'min' => 1,
-                    ]),
-                ],
+            ->add('strainsFilter', StrainsFilterType::class, [
+                'data_class' => Blast::class,
             ])
             ->add('filter', ChoiceType::class, [
                 'choices' => [

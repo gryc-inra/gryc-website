@@ -22,8 +22,8 @@
     <div class="mb-3">
         {{ form_start(form) }}
         {{ form_row(form.search) }}
-        {{ form_row(form.strainsFilter) }}
-        {{ form_row(form.strains) }}
+        {{ form_row(form.strainsFilter.filter) }}
+        {{ form_row(form.strainsFilter.strains) }}
 
         <button type="submit" class="btn btn-primary">
             <span class="fa fa-search" aria-hidden="true"></span> Search
