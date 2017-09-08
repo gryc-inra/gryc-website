@@ -5,3 +5,5 @@ User-agent: *
 Disallow: /search
 Disallow: /advanced-search
 Disallow: /cart
+Disallow: /blast/view
+Disallow: /tool/multiple-alignment/view
