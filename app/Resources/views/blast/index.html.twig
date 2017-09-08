@@ -56,16 +56,17 @@
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         {% for blast in previousBlasts %}
                             <li class="list-group-item">
-                            <a href="{{ path('blast_view', { 'name': blast.name }) }}">
-                                {{ blast.created|date('Y/m/d H:i:s') }}
-                            </a> -
-                            {% if 'pending' == blast.status %}
-                                <span class="text-info">Running</span>
-                            {% elseif 'failed' == blast.status %}
-                                <span class="text-danger">Error</span>
-                            {% elseif 'finished' == blast.status %}
-                                <span class="text-success">Finished</span>
-                            {% endif %}
+                                <a href="{{ path('blast_view', { 'name': blast.name }) }}">
+                                    {{ blast.created|date('Y/m/d H:i:s') }}
+                                </a> -
+                                {% if 'pending' == blast.status %}
+                                    <span class="text-info">Running</span>
+                                {% elseif 'failed' == blast.status %}
+                                    <span class="text-danger">Error</span>
+                                {% elseif 'finished' == blast.status %}
+                                    <span class="text-success">Finished</span>
+                                {% endif %}
+                            </li>
                         {% else %}
                             <li class="list-group-item">
                                 <i>No BLAST found</i>

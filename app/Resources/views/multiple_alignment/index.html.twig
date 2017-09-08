@@ -45,18 +45,19 @@
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         {% for alignment in previousMultipleAlignments %}
                             <li class="list-group-item">
-                            <a href="{{ path('multiple_alignment_view', { 'name': alignment.name }) }}">
-                                {{ alignment.created|date('Y/m/d H:i:s') }}
-                            </a> -
-                            {% if 'pending' == alignment.status %}
-                                <span class="text-warning">Pending</span>
-                            {% elseif 'running' == alignment.status %}
-                                <span class="text-info">Running</span>
-                            {% elseif 'failed' == alignment.status %}
-                                <span class="text-danger">Error</span>
-                            {% elseif 'finished' == alignment.status %}
-                                <span class="text-success">Finished</span>
-                            {% endif %}
+                                <a href="{{ path('multiple_alignment_view', { 'name': alignment.name }) }}">
+                                    {{ alignment.created|date('Y/m/d H:i:s') }}
+                                </a> -
+                                {% if 'pending' == alignment.status %}
+                                    <span class="text-warning">Pending</span>
+                                {% elseif 'running' == alignment.status %}
+                                    <span class="text-info">Running</span>
+                                {% elseif 'failed' == alignment.status %}
+                                    <span class="text-danger">Error</span>
+                                {% elseif 'finished' == alignment.status %}
+                                    <span class="text-success">Finished</span>
+                                {% endif %}
+                            </li>
                         {% else %}
                             <li class="list-group-item">
                                 <i>No alignment found</i>
