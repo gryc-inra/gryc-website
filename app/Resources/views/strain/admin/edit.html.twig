@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Edit the strain: {{ strain.species.scientificname }} {{ strain.name }}
+    Edit the strain: {{ strain.species.scientificname }} {{ strain.name }} - {{ parent() }}
 {% endblock %}
 
 {% block metaTags %}

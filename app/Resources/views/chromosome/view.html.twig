@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ chromosome.strain.species.scientificname }} {{ chromosome.strain.name }} {{ chromosome.name }}
+    {{ chromosome.strain.species.scientificname }} {{ chromosome.strain.name }} {{ chromosome.name }} - {{ parent() }}
 {% endblock %}
 
 {% block breadcrumb %}

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ locus.name }} - {{ locus.chromosome.strain.species.scientificname }} ({{ locus.chromosome.strain.name }})
+    {{ locus.name }} - {{ locus.chromosome.strain.species.scientificname }} ({{ locus.chromosome.strain.name }}) - {{ parent() }}
 {% endblock %}
 
 {% block breadcrumb %}
