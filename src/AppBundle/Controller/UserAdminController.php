@@ -10,11 +10,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class UserAdminController
+ *
+ * @Security("is_granted('ROLE_ADMIN')")
+ */
 class UserAdminController extends Controller
 {
     /**
      * @Route("/admin/users", options={"expose"=true}, name="user_index")
-     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function indexAction(Request $request)
     {
@@ -33,7 +37,6 @@ class UserAdminController extends Controller
      *     condition="request.isXmlHttpRequest()",
      *     name="user_index_ajax"
      * )
-     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function listAction(Request $request)
     {
@@ -58,7 +61,6 @@ class UserAdminController extends Controller
 
     /**
      * @Route("/admin/user/roles/{id}", name="user_roles")
-     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function rolesAction(User $user, Request $request)
     {
@@ -82,7 +84,6 @@ class UserAdminController extends Controller
 
     /**
      * @Route("/admin/user/strain-access-rights/{id}", name="user_strains")
-     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function strainAction(Request $request, User $user)
     {

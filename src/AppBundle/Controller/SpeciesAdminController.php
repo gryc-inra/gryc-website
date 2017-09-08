@@ -7,6 +7,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Species;
 use AppBundle\Form\Type\SpeciesType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,6 +16,8 @@ use Symfony\Component\Validator\Constraints\Regex;
 
 /**
  * Species administration controller.
+ *
+ * @Security("is_granted('ROLE_ADMIN')")
  */
 class SpeciesAdminController extends Controller
 {

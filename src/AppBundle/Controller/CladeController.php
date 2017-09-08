@@ -6,6 +6,7 @@ use AppBundle\Entity\Clade;
 use AppBundle\Form\Type\CladeEditType;
 use AppBundle\Form\Type\CladeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,7 @@ class CladeController extends Controller
 {
     /**
      * @Route("/admin/clade", name="clade_index")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function indexAction()
     {
@@ -31,6 +33,7 @@ class CladeController extends Controller
 
     /**
      * @Route("/admin/clade/add", name="clade_add")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -56,6 +59,7 @@ class CladeController extends Controller
 
     /**
      * @Route("/admin/clade/{id}/edit", name="clade_edit")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function editAction(Request $request, Clade $clade)
     {
@@ -79,6 +83,7 @@ class CladeController extends Controller
 
     /**
      * @Route("/admin/clade/{id}/delete", name="clade_delete")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Request $request, Clade $clade)
     {

@@ -7,6 +7,7 @@ use AppBundle\Entity\Strain;
 use AppBundle\Form\Type\SpeciesSeoType;
 use AppBundle\Form\Type\StrainSeoType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Seo controller.
  *
  * @Route("/admin/seo")
+ * @Security("is_granted('ROLE_ADMIN')")
  */
 class SeoController extends Controller
 {

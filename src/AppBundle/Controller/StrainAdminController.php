@@ -6,11 +6,14 @@ use AppBundle\Entity\Strain;
 use AppBundle\Form\Type\StrainRightsType;
 use AppBundle\Form\Type\StrainType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Strain administration controller.
+ *
+ * @Security("is_granted('ROLE_ADMIN')")
  */
 class StrainAdminController extends Controller
 {
