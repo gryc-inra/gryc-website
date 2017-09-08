@@ -52,7 +52,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('advanced-search') }}"><span class="fa fa-search" aria-hidden="true"></span> Search</a>
+                            <a class="nav-link" href="{{ path('advanced-search') }}" rel="nofollow"><span class="fa fa-search" aria-hidden="true"></span> Search</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('strain_index') }}"><span class="fa fa-list" aria-hidden="true"></span> Strains</a>
@@ -82,7 +82,7 @@
 
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('cart_view') }}" id="cart">
+                            <a class="nav-link" href="{{ path('cart_view') }}" id="cart" rel="nofollow">
                                 <span class="fa fa-shopping-cart" title="Cart"></span>
                                 <span class="sr-only">Cart</span>
                                 <span class="badge badge-pill badge-secondary">
@@ -119,10 +119,10 @@
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path("login") }}"><span class="fa fa-sign-in" aria-hidden="true"></span> Log in</a>
+                                <a class="nav-link" href="{{ path("login") }}" rel="nofollow"><span class="fa fa-sign-in" aria-hidden="true"></span> Log in</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path("user_registration") }}"><span class="fa fa-pencil" aria-hidden="true"></span> Register</a>
+                                <a class="nav-link" href="{{ path("user_registration") }}" rel="nofollow"><span class="fa fa-pencil" aria-hidden="true"></span> Register</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -153,7 +153,7 @@
         <div class="container-fluid">
             <footer class="row d-print-none mt-3">
                 <div class="col-md-3 text-center d-none d-lg-block">
-                    <a href="http://www.inra.fr" target="_blank"><img src="{{ preload(asset('images/INRA.png', 'image')) }}" alt="INRA" height="80"/></a>
+                    <a href="http://www.inra.fr" rel="nofollow"><img src="{{ preload(asset('images/INRA.png', 'image')) }}" alt="INRA" height="80"/></a>
                 </div>
 
                 <div class="col-md-3 text-center text-md-left">
@@ -176,7 +176,7 @@
                 </div>
 
                 <div class="col-md-3 text-center d-none d-lg-block">
-                    <a href="http://igenolevures.org/" target="_blank"><img src="{{ preload(asset('images/igenolevure.png', 'image')) }}" alt="iGenoLevures" height="80"/></a>
+                    <a href="http://igenolevures.org/" rel="nofollow"><img src="{{ preload(asset('images/igenolevure.png', 'image')) }}" alt="iGenoLevures" height="80"/></a>
                 </div>
             </footer><!-- /Footer -->
         </div>
