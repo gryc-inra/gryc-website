@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class UserAdminController
+ * Class UserAdminController.
  *
  * @Security("is_granted('ROLE_ADMIN')")
  */
