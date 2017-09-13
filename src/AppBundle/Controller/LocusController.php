@@ -6,6 +6,7 @@ use AppBundle\Entity\Feature;
 use AppBundle\Entity\Locus;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,6 +17,7 @@ class LocusController extends Controller
      * @ParamConverter("locus", class="AppBundle:Locus", options={
      *   "mapping": {"locus_name": "name"},
      * })
+     * @Security("is_granted('VIEW', locus.getChromosome().getStrain())")
      */
     public function viewAction(Locus $locus)
     {
@@ -41,6 +43,10 @@ class LocusController extends Controller
             }
         }
 
+        if (!$this->isGranted('VIEW', $locus->getChromosome()->getStrain())) {
+            throw $this->createAccessDeniedException();
+        }
+
         return $this->redirectToRoute('locus_view', [
             'species_slug' => $locus->getChromosome()->getStrain()->getSpecies()->getSlug(),
             'strain_slug' => $locus->getChromosome()->getStrain()->getSlug(),
@@ -55,6 +61,7 @@ class LocusController extends Controller
      *   "mapping": {"feature_name": "name"},
      *   "map_method_signature" = true
      * })
+     * @Security("is_granted('VIEW', feature.getLocus().getChromosome().getStrain())")
      */
     public function sequenceAction(Feature $feature, Request $request)
     {
