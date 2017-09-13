@@ -20,7 +20,6 @@ class AppKernel extends Kernel
             new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-            new Snc\RedisBundle\SncRedisBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
         ];
 
