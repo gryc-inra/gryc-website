@@ -100,7 +100,7 @@ class UserAdminController extends Controller
             return $this->redirectToRoute('user_index');
         }
 
-        $species = $em->getRepository('AppBundle:Species')->getAvailableSpeciesAndStrains($this->getUser());
+        $species = $em->getRepository('AppBundle:Species')->getAllSpeciesAndStrains();
 
         return $this->render('user/admin/strain_access.twig', [
             'user' => $user,
