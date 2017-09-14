@@ -5,9 +5,6 @@ parameters:
     # Database settings
     env(DATABASE_URL):              'mysql://login:password@host:3306/databaseName'
 
-    # Redis settings
-    env(REDIS_DSN):                 'redis://host'
-
     # ElasticSearch settings
     env(ELASTICSEARCH_URL):         'http://host:9200'
 
