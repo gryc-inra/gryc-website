@@ -13,7 +13,7 @@
 {% block body %}
     <h1>Sequence Manipulation: {{ action }}</h1>
 
-    <button id="copy-button" class="btn btn-secondary">
+    <button id="reverse-complement-copy-button" class="btn btn-secondary">
         <span class="fa fa-clipboard" aria-hidden="true"></span> Copy the result in clipboard
     </button>
 
@@ -30,14 +30,4 @@
             {%- endfor -%}
         </textarea>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $("#copy-button").click(function(){
-            $("#reverse-complement-result").select();
-            document.execCommand('copy');
-        });
-    </script>
 {% endblock %}

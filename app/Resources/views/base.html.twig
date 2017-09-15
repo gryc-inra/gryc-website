@@ -17,10 +17,10 @@
 
             <!-- CSS -->
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-            <link rel="stylesheet" href="{{ preload(asset('css/app.min.css', 'css')) }}" />
+            <link rel="stylesheet" href="{{ preload(asset('css/app.min.css')) }}" />
         {% endblock %}
 
-        <link rel="icon" type="image/x-icon" href="{{ preload(asset('favicon.ico', 'image')) }}" />
+        <link rel="icon" type="image/x-icon" href="{{ preload(asset('favicon.ico')) }}" />
     </head>
 
     <body data-spy="scroll" data-target=".scrollspy" data-offset="0">
@@ -153,7 +153,7 @@
         <div class="container-fluid">
             <footer class="row d-print-none mt-3">
                 <div class="col-md-3 text-center d-none d-lg-block">
-                    <a href="http://www.inra.fr" rel="nofollow"><img src="{{ preload(asset('images/INRA.png', 'image')) }}" alt="INRA" height="80"/></a>
+                    <a href="http://www.inra.fr" rel="nofollow"><img src="{{ preload(asset('images/INRA.png')) }}" alt="INRA" height="80"/></a>
                 </div>
 
                 <div class="col-md-3 text-center text-md-left">
@@ -176,22 +176,21 @@
                 </div>
 
                 <div class="col-md-3 text-center d-none d-lg-block">
-                    <a href="http://igenolevures.org/" rel="nofollow"><img src="{{ preload(asset('images/igenolevure.png', 'image')) }}" alt="iGenoLevures" height="80"/></a>
+                    <a href="http://igenolevures.org/" rel="nofollow"><img src="{{ preload(asset('images/igenolevure.png')) }}" alt="iGenoLevures" height="80"/></a>
                 </div>
             </footer><!-- /Footer -->
         </div>
 
         {% block javascripts %}
-            <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-
             <script src="https://use.fontawesome.com/a7304d3ab9.js"></script>
 
-            <script src="{{ preload(asset('bundles/fosjsrouting/js/router.js', 'js')) }}"></script>
+            <script src="{{ asset('build/manifest.js') }}"></script>
+            <script src="{{ asset('build/vendor.js') }}"></script>
+
+            <script src="{{ preload(asset('bundles/fosjsrouting/js/router.js')) }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
-            <script src="{{ preload(asset('js/app.min.js', 'js')) }}"></script>
+            <script src="{{ preload(asset('build/app.js')) }}"></script>
         {% endblock %}
     </body>
 </html>

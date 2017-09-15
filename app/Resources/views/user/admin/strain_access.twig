@@ -28,7 +28,7 @@
                         <div class="col-sm-10 col-sm-offset-2">
                             {% spaceless %}
                             <fieldset>
-                                <legend>{{ species.scientificName }} <small><a href="#" onclick="checkAll('{{ species.slug }}')">All</a>/<a href="#" onclick="uncheckAll('{{ species.slug }}')">None</a></small></legend>
+                                <legend>{{ species.scientificName }} <small><a class="checkAllStrains" data-species="{{ species.slug }}" href="#">All</a>/<a class="uncheckAllStrains" data-species="{{ species.slug }}" href="#">None</a></small></legend>
                                     {% for strain in species.strains %}
                                         {% set key = strain.id %}
                                         {% if strain.isPublic %}
@@ -51,24 +51,4 @@
             {{ form_end(form) }}
         </div>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        // Uncheck all disabled checkbox
-        $(document).ready(function() {
-           $(":checkbox:disabled").prop('checked', false);
-        });
-
-        // Check all checkboxes no disabled
-        function checkAll(groupName) {
-            $(":checkbox[data-name=" + groupName + "]:not(:disabled)").prop('checked', true);
-        }
-
-        // Uncheck all checkboxes disabled too
-        function uncheckAll(groupName) {
-            $("input:checkbox[data-name=" + groupName + "]").prop('checked', false);
-        }
-    </script>
 {% endblock %}

@@ -1,4 +1,3 @@
-// The team filter function call for each checkbox input we want filtered
 function strainsFilter(strainsFilterSelect, strainsCheckBoxesContainer) {
 
     // Define var that contains fields
@@ -108,3 +107,8 @@ function strainsFilter(strainsFilterSelect, strainsCheckBoxesContainer) {
         });
     }
 }
+
+$(function() {
+    strainsFilter($( "#blast_strainsFilter_filter" ), $( "#blast_strainsFilter_strains" ));
+    strainsFilter($( "#advanced_search_strainsFilter_filter" ), $( "#advanced_search_strainsFilter_strains" ));
+});

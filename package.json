@@ -1,11 +1,10 @@
 {
-  "name": "collection-manager",
-  "description": "Automatiser le front-end dans un projet Symfony2",
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.15.0"
+  },
   "dependencies": {
-    "grunt": "^1.0.0",
-    "load-grunt-tasks": "^3.5.2",
-    "grunt-contrib-uglify": "^2.2.0",
-    "grunt-contrib-cssmin": "^2.0.0",
-    "grunt-contrib-watch": "^1.0.0"
+    "bootstrap": "^4.0.0-beta",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.5"
   }
 }
