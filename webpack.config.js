@@ -33,7 +33,7 @@ Encore
         './assets/js/user-admin-strains.js',
         './assets/js/user-instant-search.js'
     ])
-     .addStyleEntry('css/app', ['./assets/scss/app.scss'])
+    .addStyleEntry('css/app', ['./assets/scss/app.scss'])
 ;
 
 module.exports = Encore.getWebpackConfig();
