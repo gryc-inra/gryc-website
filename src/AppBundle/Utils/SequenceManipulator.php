@@ -61,4 +61,56 @@ class SequenceManipulator
 
         return $sequences;
     }
+
+    public function arrayToFasta($sequencesArray, $delimiter = "\r\n") {
+        $i = 0;
+        $fasta = '';
+        foreach ($sequencesArray as $sequence) {
+            if ($i != 0) {
+                $fasta .= "\n\n";
+            }
+
+            $fasta .= '>'.$sequence['name']."\n";
+
+            $sequence60 = str_split($sequence['sequence'], 60);
+            foreach ($sequence60 as $seq60) {
+                $fasta .= $seq60;
+            }
+
+            ++$i;
+        }
+
+        return $fasta;
+    }
+
+    public function processManipulation($fasta, $action)
+    {
+        // Transform the fasta in an array
+        $sequences = $this->fastaToSequencesArray($fasta);
+
+        // For each sequence proceed to the selected action
+        foreach ($sequences as &$sequence) {
+            switch ($action) {
+                case 'reverse-complement':
+                    $sequence['name'] = $sequence['name'].'.rev-comp';
+                    $sequence['sequence'] = $this->reverseComplement($sequence['sequence']);
+
+                    break;
+
+                case 'reverse':
+                    $sequence['name'] = $sequence['name'].'.rev';
+                    $sequence['sequence'] = $this->reverse($sequence['sequence']);
+
+                    break;
+
+                case 'complement':
+                    $sequence['name'] = $sequence['name'].'.comp';
+                    $sequence['sequence'] = $this->complement($sequence['sequence']);
+
+                    break;
+            }
+        }
+
+        return $this->arrayToFasta($sequences);
+    }
 }
