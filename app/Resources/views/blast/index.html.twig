@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-{% form_theme form 'form_div_layout.html.twig' %}
 
 {% block title %}
     BLAST on yeasts genomes - {{ parent() }}
@@ -19,6 +18,9 @@
     <div class="row">
         <div class="col-lg-8">
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                {% form_theme form 'form/form_div_layout.html.twig' %}
+
                 <fieldset class="form-group">
                     <div id="{{ form.tool.vars.id }}" class="btn-group" data-toggle="buttons">
                         {% for tool in form.tool %}
@@ -39,14 +41,11 @@
                     </div>
                 </fieldset>
 
-                <div class="form-group">
-                    {{ form_widget(form.query, {'attr': {'class': 'form-control fasta-input'}}) }}
-                    <div class="invalid-feedback">
-                        Please provide a valid state.
-                    </div>
-                </div>
+            {% form_theme form 'form/bootstrap_4_layout.html.twig' %}
 
-                <div class="btn-group mb-3" role="group">
+                {{ form_row(form.query, {'attr': {'class': 'form-control fasta-input'}}) }}
+
+                <div class="btn-group" role="group">
                     <button type="reset" class="btn btn-secondary" onclick="event.preventDefault();document.getElementById('blast_query').value='';">
                         Clear
                     </button>
@@ -62,49 +61,16 @@
 
                 <hr>
 
-                <div class="form-group">
-                    {{ form_label(form.strainsFilter.filter) }}
-                    {{ form_widget(form.strainsFilter.filter, {'attr': {'class': 'form-control'}}) }}
-                </div>
-
-                <fieldset class="form-group">
-                    <legend class="col-form-legend {{- form.strainsFilter.strains.vars.required ? ' required'  }}">{{ form.strainsFilter.strains.vars.name|capitalize }}</legend>
-                    <div id="{{ form.strainsFilter.strains.vars.id }}" class="custom-controls-stacked">
-                        {% for strain in form.strainsFilter.strains %}
-                            <label class="custom-control custom-checkbox">
-                                {{ form_widget(strain, { 'attr': {'class': 'custom-control-input'} }) }}
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-description">{{ strain.vars.label }}</span>
-                            </label>
-                        {% endfor %}
-                        <div class="invalid-feedback">
-                            {{ form_errors(form.strainsFilter.strains) }}
-                        </div>
-
-                        <div class="invalid-feedback">
-                            Please provide a valid state.
-                        </div>
-                    </div>
-                </fieldset>
+                {{ form_row(form.strainsFilter.filter) }}
+                {{ form_row(form.strainsFilter.strains) }}
 
                 <hr>
 
                 <fieldset>
                     <legend>Options</legend>
-                        <div class="form-group">
-                            {{ form_label(form.filter) }}
-                            {{ form_widget(form.filter, {'attr': {'class': 'form-control'}}) }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form_label(form.evalue) }}
-                            {{ form_widget(form.evalue, {'attr': {'class': 'form-control'}}) }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form_label(form.gapped) }}
-                            {{ form_widget(form.gapped, {'attr': {'class': 'form-control'}}) }}
-                        </div>
+                        {{ form_row(form.filter) }}
+                        {{ form_row(form.evalue) }}
+                        {{ form_row(form.gapped) }}
                 </fieldset>
 
                 {{ form_rest(form) }}
