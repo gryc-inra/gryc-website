@@ -16,8 +16,7 @@
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cousine">
 
             <!-- CSS -->
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-            <link rel="stylesheet" href="{{ preload(asset('css/app.min.css')) }}" />
+            <link rel="stylesheet" href="{{ preload(asset('build/css/app.css')) }}" />
         {% endblock %}
 
         <link rel="icon" type="image/x-icon" href="{{ preload(asset('favicon.ico')) }}" />
@@ -185,12 +184,12 @@
             <script src="https://use.fontawesome.com/a7304d3ab9.js"></script>
 
             <script src="{{ asset('build/manifest.js') }}"></script>
-            <script src="{{ asset('build/vendor.js') }}"></script>
+            <script src="{{ asset('build/js/vendor.js') }}"></script>
 
             <script src="{{ preload(asset('bundles/fosjsrouting/js/router.js')) }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
-            <script src="{{ preload(asset('build/app.js')) }}"></script>
+            <script src="{{ preload(asset('build/js/app.js')) }}"></script>
         {% endblock %}
     </body>
 </html>

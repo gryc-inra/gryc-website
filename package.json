@@ -1,10 +1,16 @@
 {
   "devDependencies": {
-    "@symfony/webpack-encore": "^0.15.0"
-  },
-  "dependencies": {
+    "@symfony/webpack-encore": "^0.15.0",
     "bootstrap": "^4.0.0-beta",
+    "css-loader": "^0.28.7",
     "jquery": "^3.2.1",
-    "popper.js": "^1.12.5"
+    "node-sass": "^4.5.3",
+    "popper.js": "^1.12.5",
+    "sass-loader": "^6.0.6"
+  },
+  "scripts": {
+    "dev": "./node_modules/.bin/encore dev",
+    "watch": "./node_modules/.bin/encore dev --watch",
+    "prod": "./node_modules/.bin/encore production"
   }
 }

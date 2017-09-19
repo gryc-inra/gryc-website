@@ -1,5 +1,6 @@
 {
-  "build/app.js": "/build/app.de6019831875e61e9764.js",
-  "build/manifest.js": "/build/manifest.d41d8cd98f00b204e980.js",
-  "build/vendor.js": "/build/vendor.9f7a205c7108eed22d98.js"
+  "build/css/app.css": "/build/css/app.6bb4fd5b8ce6bfa1e6cddf2bc210ba5f.css",
+  "build/js/app.js": "/build/js/app.de6019831875e61e9764.js",
+  "build/js/vendor.js": "/build/js/vendor.9f7a205c7108eed22d98.js",
+  "build/manifest.js": "/build/manifest.d41d8cd98f00b204e980.js"
 }

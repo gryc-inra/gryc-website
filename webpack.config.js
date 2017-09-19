@@ -4,18 +4,18 @@ Encore
     .setOutputPath('web/build/')
     .setPublicPath('/build')
     .cleanupOutputBeforeBuild()
-     .autoProvidejQuery()
+    .autoProvidejQuery()
     .autoProvideVariables({
         $: 'jquery',
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
         Popper: ['popper.js', 'default']
     })
-    //.enableSassLoader()
     .enableVersioning()
     .enableSourceMaps(!Encore.isProduction())
-    .createSharedEntry('vendor', ['jquery', 'popper.js', 'bootstrap'])
-    .addEntry('app', [
+    .enableSassLoader()
+    .createSharedEntry('js/vendor', ['jquery', 'popper.js', 'bootstrap'])
+    .addEntry('js/app', [
         './assets/js/auto-dismiss-alert.js',
         './assets/js/blast-scrollspy.js',
         './assets/js/blast-select-change.js',
@@ -33,7 +33,7 @@ Encore
         './assets/js/user-admin-strains.js',
         './assets/js/user-instant-search.js'
     ])
-    // .addStyleEntry('css/app', ['./assets/css/bootstrap-modification.css'])
+     .addStyleEntry('css/app', ['./assets/scss/app.scss'])
 ;
 
 module.exports = Encore.getWebpackConfig();
