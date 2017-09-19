@@ -30,7 +30,7 @@
                                     'molType': flatFile.molType,
                                     'format': flatFile.format
                                 })) }}
-                                "><img src="{{ asset('images/down_fasta_nuc.png', 'image') }}" alt="CDS Nucleotides Fasta" /></a>
+                                "><img src="{{ asset('images/down_fasta_nuc.png') }}" alt="CDS Nucleotides Fasta" /></a>
                             {% elseif flatFile.molType == 'pro' %}
                                 <a rel="nofollow" href="
                                 {{ asset(path('file_downloadFlatFile', {
@@ -39,7 +39,7 @@
                                     'molType': flatFile.molType,
                                     'format': flatFile.format
                                 })) }}
-                                "><img src="{{ asset('images/down_fasta_pro.png', 'image') }}" alt="CDS Proteins Fasta" /></a>
+                                "><img src="{{ asset('images/down_fasta_pro.png') }}" alt="CDS Proteins Fasta" /></a>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
@@ -55,7 +55,7 @@
                                     'molType': flatFile.molType,
                                     'format': flatFile.format
                                 })) }}
-                                "><img src="{{ asset('images/down_fasta.png', 'image') }}" alt="Chromosome Fasta" /></a>
+                                "><img src="{{ asset('images/down_fasta.png') }}" alt="Chromosome Fasta" /></a>
                             {% elseif flatFile.format == 'embl' %}
                                 <a rel="nofollow" href="
                                 {{ asset(path('file_downloadFlatFile', {
@@ -64,7 +64,7 @@
                                     'molType': flatFile.molType,
                                     'format': flatFile.format
                                 })) }}
-                                "><img src="{{ asset('images/down_embl.png', 'image') }}" alt="Chromosome EMBL" /></a>
+                                "><img src="{{ asset('images/down_embl.png') }}" alt="Chromosome EMBL" /></a>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
@@ -88,7 +88,7 @@
                     'molType': 'nuc',
                     'format': 'fsa'
                 })) }}
-                "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All CDS Nucleotides Fasta" /></a>
+                "><img src="{{ asset('images/down_targz.png') }}" alt="All CDS Nucleotides Fasta" /></a>
                 <a rel="nofollow" href="
                     {{ asset(path('file_downloadZipFlatFile', {
                     'strainName': strain.name,
@@ -96,7 +96,7 @@
                     'molType': 'pro',
                     'format': 'fsa'
                 })) }}
-                "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All CDS Proteins Fasta" /></a>
+                "><img src="{{ asset('images/down_targz.png') }}" alt="All CDS Proteins Fasta" /></a>
             </td>
             <td>
                 <a rel="nofollow" href="
@@ -106,7 +106,7 @@
                     'molType': 'nuc',
                     'format': 'embl'
                 })) }}
-                "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All Chromosome Fasta" /></a>
+                "><img src="{{ asset('images/down_targz.png') }}" alt="All Chromosome Fasta" /></a>
                 <a rel="nofollow" href="
                     {{ asset(path('file_downloadZipFlatFile', {
                     'strainName': strain.name,
@@ -114,7 +114,7 @@
                     'molType': 'nuc',
                     'format': 'fsa'
                 })) }}
-                "><img src="{{ asset('images/down_targz.png', 'image') }}" alt="All Chromosome EMBL" /></a>
+                "><img src="{{ asset('images/down_targz.png') }}" alt="All Chromosome EMBL" /></a>
             </td>
         </tr>
     </tfoot>
