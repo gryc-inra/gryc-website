@@ -13,6 +13,30 @@ class Blast extends QueuingEntitySuperclass
 {
     const NB_KEPT_BLAST = 10;
 
+    const DATABASES_NAMES = [
+        'cds_prot' => 'CDS (prot)',
+        'cds_nucl' => 'CDS (nucl)',
+        'chr' => 'Chromosomes',
+    ];
+
+    const TOOLS_DATABASES = [
+        'blastn' => ['cds_nucl', 'chr'],
+        'blastp' => ['cds_prot'],
+        'tblastn' => ['cds_nucl', 'chr'],
+        'blastx' => ['cds_prot'],
+        'tblastx' => ['cds_nucl', 'chr'],
+    ];
+
+    const TOOLS_DEFAULT_DATABASE = [
+        'blastn' => 'cds_nucl',
+        'blastp' => 'cds_prot',
+        'tblastn' => 'cds_nucl',
+        'blastx' => 'cds_prot',
+        'tblastx' => 'cds_nucl',
+    ];
+
+    const DEFAULT_TOOL = 'blastp';
+
     /**
      * The ID in the database.
      *
@@ -74,11 +98,8 @@ class Blast extends QueuingEntitySuperclass
     public function __construct()
     {
         parent::__construct();
-
         $this->strains = new ArrayCollection();
-        $this->tool = 'blastp';
-        $this->database = 'cds_prot';
-        $this->query = ">my-query\n";
+        $this->tool = self::DEFAULT_TOOL;
         $this->filter = false;
         $this->evalue = 0.001;
         $this->gapped = true;

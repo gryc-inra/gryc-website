@@ -1,7 +1,7 @@
 function strainsFilter(strainsFilterSelect, strainsCheckBoxesContainer) {
 
     // Define var that contains fields
-    var strainsCheckboxes = strainsCheckBoxesContainer.find( '.form-check' );
+    var strainsCheckboxes = strainsCheckBoxesContainer.find( 'label' );
 
     //********************************//
     //  Add the links (check/uncheck) //
@@ -12,9 +12,9 @@ function strainsFilter(strainsFilterSelect, strainsCheckBoxesContainer) {
     var uncheckAllLink = $('<a href="#" class="uncheck_all_strains" > Uncheck all</a>');
 
     // Insert the check/uncheck links
-    strainsCheckBoxesContainer.prepend(uncheckAllLink);
-    strainsCheckBoxesContainer.prepend(' / ');
-    strainsCheckBoxesContainer.prepend(checkAllLink);
+    strainsCheckBoxesContainer.before(uncheckAllLink);
+    strainsCheckBoxesContainer.before(' / ');
+    strainsCheckBoxesContainer.before(checkAllLink);
 
     //***************************//
     // Create all onCLick events //

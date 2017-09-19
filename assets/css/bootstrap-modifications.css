@@ -101,7 +101,8 @@ footer a:active {
 
 /* Red * after required label
 -------------------------------------------------- */
-.form-control-label.required:after {
+label.required:after,
+legend.required:after {
     content: " *";
     color: red;
 }

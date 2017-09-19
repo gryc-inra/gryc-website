@@ -41,6 +41,8 @@ class BlastType extends AbstractType
                     'blastx' => 'blastx',
                     'tblastx' => 'tblastx',
                 ],
+                'expanded' => true,
+                'multiple' => false
             ])
             ->add('strainsFilter', StrainsFilterType::class, [
                 'data_class' => Blast::class,
@@ -67,21 +69,31 @@ class BlastType extends AbstractType
         ;
 
         $formModifier = function (FormInterface $form, $tool) {
-            if ('blastp' === $tool || 'blastx' === $tool) {
-                $databaseChoices = [
+            $form->add('database', ChoiceType::class, [
+                'choices' => [
                     'CDS (protein)' => 'cds_prot',
-                ];
-            } else {
-                $databaseChoices = [
                     'CDS (nucleotides)' => 'cds_nucl',
                     'Chromosomes' => 'chr',
-                ];
-            }
+                ],
+                'choice_attr' => function($val) use ($tool) {
+                    $array = [];
 
-            $form->add('database', ChoiceType::class, [
-                'choices' => $databaseChoices,
+                    if (!in_array($val, Blast::TOOLS_DATABASES[$tool])) {
+                        $array = ['disabled' => 'disabled'];
+                    } elseif (Blast::TOOLS_DEFAULT_DATABASE[$tool] === $val) {
+                        $array = ['checked' => 'checked'];
+                    }
+
+                    return $array;
+                },
+                'expanded' => true,
+                'multiple' => false,
+                'constraints' => [
+                    new NotBlank(),
+                ]
             ]);
 
+            // Query field and constrainst (depending of the user status)
             $queryConstrainst = [
                 new NotBlank(),
                 new Regex([
@@ -117,8 +129,9 @@ class BlastType extends AbstractType
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifier) {
-                $blast = $event->getData();
-                $formModifier($event->getForm(), $blast->getTool());
+                $tool = $event->getData()->getTool();
+
+                $formModifier($event->getForm(), $tool);
             }
         );
 

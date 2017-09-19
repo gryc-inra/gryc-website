@@ -19,3 +19,9 @@ function generateCartFasta(textareaId, modalId) {
         }
     });
 }
+
+$(function() {
+    $('#generate-fasta-from-cart-button').click(function(e) {
+        generateCartFasta('#blast_query', '#cartFormModal');
+    });
+});
