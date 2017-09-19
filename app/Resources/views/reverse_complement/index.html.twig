@@ -14,9 +14,10 @@
     <h1>Reverse complement</h1>
 
     {{ form_start(form) }}
+        {{ form_row(form.action) }}
         {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
         {{ form_rest(form) }}
 
-        <button type="submit" class="btn btn-primary">Reverse complement</button>
+        <button type="submit" class="btn btn-primary">Run</button>
     {{ form_end(form) }}
 {% endblock %}
