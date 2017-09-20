@@ -28,6 +28,7 @@ Encore
         './assets/js/live-sequence-display.js',
         './assets/js/locus-tooltip.js',
         './assets/js/password-control.js',
+        './assets/js/search-highlight.js',
         './assets/js/strains-filter.js',
         './assets/js/user-admin-strains.js',
         './assets/js/user-instant-search.js'
