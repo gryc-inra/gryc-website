@@ -23,14 +23,18 @@
 {% block body %}
     <h1>Multiple sequences alignment result</h1>
 
-    <div class="my-3">
-        <a class="btn btn-primary btn-sm" href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" role="button">
-            <span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query
-        </a>
+    <div class="row">
+        <div class="col-12">
+            <div class="btn-group btn-group-sm d-print-none float-right" role="group">
+                <a class="btn btn-primary" href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" role="button">
+                    <span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query
+                </a>
 
-        <button class="btn btn-secondary btn-sm float-right" onClick="window.print()">
-            <span class="fa fa-print" aria-hidden="true"></span> Print
-        </button>
+                <button class="btn btn-secondary" onClick="window.print()">
+                    <span class="fa fa-print" aria-hidden="true"></span> Print
+                </button>
+             </div>
+        </div>
     </div>
 
     {% if 'pending' == alignment.status or 'running' == alignment.status %}
