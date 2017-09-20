@@ -152,30 +152,40 @@
         <div class="container-fluid">
             <footer class="row d-print-none mt-3">
                 <div class="col-md-3 text-center d-none d-lg-block">
-                    <a href="http://www.inra.fr" rel="nofollow"><img src="{{ preload(asset('images/INRA.png')) }}" alt="INRA" height="80"/></a>
+                    <a href="http://www.inra.fr" rel="nofollow">
+                        <img src="{{ preload(asset('images/INRA.png')) }}" alt="INRA" height="80"/>
+                    </a>
                 </div>
 
                 <div class="col-md-3 text-center text-md-left">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('contact_us') }}"><span class="fa fa-paper-plane"  aria-hidden="true"></span>  Contact us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('privacy-policy') }}">Privacy policy</a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ path('faq') }}">
+                                <span class="fa fa-question"  aria-hidden="true"></span> FAQ
+                            </a><br>
                         </li>
                     </ul>
                 </div>
 
                 <div class="col-md-3 text-center text-md-left">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('faq') }}"><span class="fa fa-question"  aria-hidden="true"></span> FAQ</a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ path('contact_us') }}">
+                                <span class="fa fa-paper-plane"  aria-hidden="true"></span>  Contact us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('privacy-policy') }}">
+                                <span class="fa fa-lock"  aria-hidden="true"></span>  Privacy policy
+                            </a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="col-md-3 text-center d-none d-lg-block">
-                    <a href="http://igenolevures.org/" rel="nofollow"><img src="{{ preload(asset('images/igenolevure.png')) }}" alt="iGenoLevures" height="80"/></a>
+                    <a href="http://igenolevures.org/" rel="nofollow">
+                        <img src="{{ preload(asset('images/igenolevure.png')) }}" alt="iGenoLevures" height="80"/>
+                    </a>
                 </div>
             </footer><!-- /Footer -->
         </div>
