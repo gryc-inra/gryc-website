@@ -23,17 +23,19 @@
 
                 {{ form_rest(form) }}
 
-                <button type="reset" class="btn btn-secondary">
-                    Clear
-                </button>
+                <div class="btn-group" role="group">
+                    <button type="reset" class="btn btn-secondary"  onclick="event.preventDefault();document.getElementById('multiple_alignment_query').value='';">
+                        Clear
+                    </button>
 
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cartFormModal">
-                    <span class="fa fa-copy" aria-hidden="true"></span> Use cart sequences
-                </button>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cartFormModal">
+                        <span class="fa fa-copy" aria-hidden="true"></span> Use cart sequences
+                    </button>
 
-                <button type="submit" class="btn btn-primary">
-                    <span class="fa fa-align-center" aria-hidden="true"></span> Align
-                </button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="fa fa-align-center" aria-hidden="true"></span> Align
+                    </button>
+                </div>
             {{ form_end(form) }}
         </div>
 
