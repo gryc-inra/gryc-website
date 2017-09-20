@@ -32,7 +32,9 @@
 
             <header class="d-none d-md-block">
                 <div id="logo">
-                    <a href="{{ path('homepage') }}"><img src="{{ preload(asset('images/logo.svg')) }}" alt="GRYC" height="130"/></a>
+                    <a href="{{ path('homepage') }}">
+                        <img src="{{ preload(asset('images/logo.svg')) }}" alt="GRYC" height="100"/>
+                    </a>
                 </div>
                 {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
                     <div style="position: absolute; right: 10px; top: 10px;">
