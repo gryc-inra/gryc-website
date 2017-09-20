@@ -24,5 +24,6 @@ $(function() {
     $('#generate-fasta-from-cart-button').click(function(e) {
         generateCartFasta('#blast_query', '#cartFormModal');
         generateCartFasta('#multiple_alignment_query', '#cartFormModal');
+        generateCartFasta('#reverse_complement_query', '#cartFormModal');
     });
 });

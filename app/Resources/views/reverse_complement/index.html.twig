@@ -18,6 +18,21 @@
         {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
         {{ form_rest(form) }}
 
-        <button type="submit" class="btn btn-primary">Run</button>
+        <div class="btn-group" role="group">
+            <button type="reset" class="btn btn-secondary"  onclick="event.preventDefault();document.getElementById('reverse_complement_query').value='';">
+                Clear
+            </button>
+
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cartFormModal">
+                <span class="fa fa-copy" aria-hidden="true"></span> Use cart sequences
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+                <span class="fa fa-play" aria-hidden="true"></span> Run
+            </button>
+        </div>
+
     {{ form_end(form) }}
+
+    {{ render(controller('AppBundle:Cart:fasta')) }}
 {% endblock %}

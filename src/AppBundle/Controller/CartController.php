@@ -97,7 +97,7 @@ class CartController extends Controller
     /**
      * @Route("/cart/fasta", name="cart_fasta", condition="request.isXmlHttpRequest()")
      */
-    public function fastaAction(Request $request, $fastaTextarea = null)
+    public function fastaAction(Request $request)
     {
         // Add an explicit action, because this controller will be include in a view
         $form = $this->createForm(CartType::class, null, [
@@ -116,7 +116,6 @@ class CartController extends Controller
 
         return $this->render('cart/fasta.html.twig', [
             'form' => $form->createView(),
-            'fastaTextarea' => $fastaTextarea,
         ]);
     }
 }
