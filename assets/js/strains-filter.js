@@ -12,9 +12,9 @@ function strainsFilter(strainsFilterSelect, strainsCheckBoxesContainer) {
     var uncheckAllLink = $('<a href="#" class="uncheck_all_strains" > Uncheck all</a>');
 
     // Insert the check/uncheck links
-    strainsCheckBoxesContainer.before(uncheckAllLink);
-    strainsCheckBoxesContainer.before(' / ');
     strainsCheckBoxesContainer.before(checkAllLink);
+    strainsCheckBoxesContainer.before(' / ');
+    strainsCheckBoxesContainer.before(uncheckAllLink);
 
     //***************************//
     // Create all onCLick events //
