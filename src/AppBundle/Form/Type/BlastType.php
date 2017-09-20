@@ -42,7 +42,7 @@ class BlastType extends AbstractType
                     'tblastx' => 'tblastx',
                 ],
                 'expanded' => true,
-                'multiple' => false
+                'multiple' => false,
             ])
             ->add('strainsFilter', StrainsFilterType::class, [
                 'data_class' => Blast::class,
@@ -75,7 +75,7 @@ class BlastType extends AbstractType
                     'CDS (nucleotides)' => 'cds_nucl',
                     'Chromosomes' => 'chr',
                 ],
-                'choice_attr' => function($val) use ($tool) {
+                'choice_attr' => function ($val) use ($tool) {
                     $array = [];
 
                     if (!in_array($val, Blast::TOOLS_DATABASES[$tool])) {
@@ -90,7 +90,7 @@ class BlastType extends AbstractType
                 'multiple' => false,
                 'constraints' => [
                     new NotBlank(),
-                ]
+                ],
             ]);
 
             // Query field and constrainst (depending of the user status)

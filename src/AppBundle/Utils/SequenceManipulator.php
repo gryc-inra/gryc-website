@@ -68,7 +68,8 @@ class SequenceManipulator
         return $sequences;
     }
 
-    public function arrayToFasta($sequencesArray, $delimiter = "\r\n") {
+    public function arrayToFasta($sequencesArray, $delimiter = "\r\n")
+    {
         $i = 0;
         $fasta = '';
         foreach ($sequencesArray as $sequence) {
