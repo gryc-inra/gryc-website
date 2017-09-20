@@ -45,11 +45,13 @@
         {% endfor %}
     </table>
 
-    <h2>Setup download</h2>
+    <h2>Generator configuration</h2>
 
     {{ form_start(form) }}
         {{ include('cart/_form_fields.html.twig') }}
 
-        <button type="submit" class="btn btn-primary" {{ cartElements is empty ? 'disabled' }}><span class="fa fa-download" aria-hidden="true"></span> Download</button>
+        <button type="submit" class="btn btn-primary" {{ cartElements is empty ? 'disabled' }}>
+            <span class="fa fa-cog" aria-hidden="true"></span> Generate
+        </button>
     {{ form_end(form) }}
 {% endblock %}

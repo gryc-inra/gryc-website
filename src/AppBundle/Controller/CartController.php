@@ -79,19 +79,56 @@ class CartController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if (empty($cartElements)) {
-                $this->addFlash('warning', 'The cart is empty, there is nothing to download.');
+                $this->addFlash('warning', 'The cart is empty, there is nothing to generate.');
 
                 return $this->redirectToRoute('cart_view');
             }
 
-            // Return a Streamed response
-            return $cartManager->streamCart($form);
+            $data = $form->getData();
+            $fasta = $cartManager->getCartFasta($data['type'], $data['feature'], $data['intronSplicing'], $data['upstream'], $data['downstream'], false);
+
+            return $this->render('cart/fasta_generated.html.twig', [
+                'fasta' => $fasta,
+                'formData' => $data,
+            ]);
         }
 
         return $this->render('cart/view.html.twig', [
             'cartElements' => $cartElements,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/cart/download/{type}-{feature}-{intronSplicing}-{upstream}-{downstream}", name="cart_download",
+     *     requirements={
+     *          "type": "prot|nuc",
+     *          "feature": "locus|feature|product",
+     *          "intronSplicing": "0|1",
+     *          "upstream": "\d+",
+     *          "downstream": "\d+",
+     *     },
+     *     defaults={
+     *          "type": "nuc",
+     *          "feature": "locus",
+     *          "intronSplicing": "0",
+     *          "upstream": "0",
+     *          "downstream": "0"
+     *     }
+     * )
+     */
+    public function downloadAction(string $type, string $feature, bool $intronSplicing, int $upstream, int $downstream)
+    {
+        $cartManager = $this->get('AppBundle\Utils\CartManager');
+        $cartElements = $cartManager->getCartEntities();
+
+        if (empty($cartElements)) {
+            $this->addFlash('warning', 'The cart is empty, there is nothing to generate.');
+
+            return $this->redirectToRoute('cart_view');
+        }
+
+        return $cartManager->streamCart($type, $feature, $intronSplicing, $upstream, $downstream);
     }
 
     /**
@@ -114,7 +151,7 @@ class CartController extends Controller
             return new Response($fasta);
         }
 
-        return $this->render('cart/fasta.html.twig', [
+        return $this->render('cart/fasta_modal.html.twig', [
             'form' => $form->createView(),
         ]);
     }

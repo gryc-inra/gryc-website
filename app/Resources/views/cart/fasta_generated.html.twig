@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Generated FASTA - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('cart_view') }}">Cart</a></li>
+    <li class="breadcrumb-item active">Generated FASTA</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Generated FASTA from cart</h1>
+
+    <div class="my-3 d-print-none">
+        <a class="btn btn-primary btn-sm" href="{{ path('cart_download', { 'type': formData['type'], 'feature': formData['feature'], 'intronSplicing': formData['intronSplicing'] ? 1 : 0, 'upstream': formData['upstream'], 'downstream': formData['downstream'] }) }}" role="button">
+            <span class="fa fa-download" aria-hidden="true"></span> Download
+        </a>
+    </div>
+
+    <textarea class="form-control fasta-input" rows="20" >
+            {{- fasta -}}
+    </textarea>
+{% endblock %}

@@ -4,7 +4,6 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Locus;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -93,22 +92,19 @@ class CartManager
         return $this->em->getRepository('AppBundle:Locus')->findLocusById($this->cart['items']);
     }
 
-    public function getCartFasta($type = 'nuc', $feature = 'locus', $intronSplicing = false, $upstream = 0, $downstream = 0)
+    public function getCartFasta($type = 'nuc', $feature = 'locus', $intronSplicing = false, $upstream = 0, $downstream = 0, $stream = false)
     {
-        $fastaGenerator = new FastaGenerator();
+        $fastaGenerator = new FastaGenerator($stream);
 
         return $fastaGenerator->generateFasta($this->getCartEntities(), $type, $feature, $intronSplicing, $upstream, $downstream);
     }
 
-    public function streamCart(Form $form)
+    public function streamCart($type = 'nuc', $feature = 'locus', $intronSplicing = false, $upstream = 0, $downstream = 0)
     {
-        $data = $form->getData();
-
         $fileName = 'Gryc-cart-export-'.date('Y-m-d_h:i:s');
         $response = new StreamedResponse();
-        $response->setCallback(function () use ($data) {
-            $fastaGenerator = new FastaGenerator(true);
-            $fastaGenerator->generateFasta($this->getCartEntities(), $data['type'], $data['feature'], $data['intronSplicing'], $data['upstream'], $data['downstream']);
+        $response->setCallback(function () use ($type, $feature, $intronSplicing, $upstream, $downstream) {
+            $this->getCartFasta($type, $feature, $intronSplicing, $upstream, $downstream, true);
         });
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'text/plain; charset=utf-8');

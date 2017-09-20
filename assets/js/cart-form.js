@@ -14,9 +14,9 @@ function showHideCartSetup() {
 
     if ('locus' === $feature.val()) {
         $intronSplicing.val(0);
-        $intronSplicing.prop('disabled', true);
+        $intronSplicing.attr('readonly', true);
     } else {
-        $intronSplicing.prop('disabled', false);
+        $intronSplicing.attr('readonly', false);
     }
 
     if ('1' === $intronSplicing.val()) {
