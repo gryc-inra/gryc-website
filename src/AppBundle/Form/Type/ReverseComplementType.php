@@ -18,8 +18,8 @@ class ReverseComplementType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Regex([
-                        'pattern' => '/^(?:>[\w\W]+\s(?:[A-Z]+\s?)+\s*)+$/i',
-                        'message' => 'This is not a valid FASTA.',
+                        'pattern' => '/^(?:>[\w\W]+\s(?:[ATUGCYRSWKMBDHVN]+\s?)+\s*)+$/i',
+                        'message' => 'This is not in a valid FASTA format. Only the letters A, T, U, G, C, Y, R, S, W, K, M, B, D, H, V, and N are allowed.',
                     ]),
                 ],
                 'attr' => [
@@ -33,6 +33,8 @@ class ReverseComplementType extends AbstractType
                     'Reverse' => 'reverse',
                     'Complement' => 'complement',
                 ],
+                'expanded' => true,
+                'data' => 'reverse-complement',
             ])
         ;
     }

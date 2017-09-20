@@ -32,7 +32,13 @@ class SequenceManipulator
 
         $bases = str_split($sequence, 1);
         foreach ($bases as &$base) {
-            $base = $complementaryTable[strtoupper($base)];
+            $base = strtoupper($base);
+
+            if (array_key_exists($base, $complementaryTable)) {
+                $base = $complementaryTable[$base];
+            } else {
+                throw new \RuntimeException('The base doesn\'t exists.');
+            }
         }
 
         return implode('', $bases);
