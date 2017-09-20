@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class DnaSequenceTest extends TestCase
 {
     /**
-     * @var DnaSequence $dnaSequence
+     * @var DnaSequence
      */
     private $dnaSequence;
 

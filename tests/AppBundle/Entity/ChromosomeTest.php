@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class ChromosomeTest extends TestCase
 {
     /**
-     * @var Chromosome $chromosome
+     * @var Chromosome
      */
     private $chromosome;
 

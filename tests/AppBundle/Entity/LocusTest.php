@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class LocusTest extends TestCase
 {
     /**
-     * @var Locus $locus
+     * @var Locus
      */
     private $locus;
 

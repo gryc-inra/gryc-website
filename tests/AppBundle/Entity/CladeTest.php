@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class CladeTest extends TestCase
 {
     /**
-     * @var Clade $clade
+     * @var Clade
      */
     private $clade;
 
@@ -52,7 +52,7 @@ class CladeTest extends TestCase
     {
         return [
             [true, 'Yes'],
-            [false, 'No']
+            [false, 'No'],
         ];
     }
 }

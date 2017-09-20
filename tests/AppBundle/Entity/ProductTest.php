@@ -3,13 +3,12 @@
 namespace Tests\AppBundle\Entity;
 
 use AppBundle\Entity\Product;
-use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 
 class ProductTest extends TestCase
 {
     /**
-     * @var Product $product
+     * @var Product
      */
     private $product;
 

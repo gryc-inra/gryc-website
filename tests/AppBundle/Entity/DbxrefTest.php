@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class DbxrefTest extends TestCase
 {
     /**
-     * @var Dbxref $dbxref
+     * @var Dbxref
      */
     private $dbxref;
 

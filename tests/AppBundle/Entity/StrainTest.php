@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class StrainTest extends TestCase
 {
     /**
-     * @var Strain $object
+     * @var Strain
      */
     private $object;
 

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class SpeciesTest extends TestCase
 {
     /**
-     * @var Species $species
+     * @var Species
      */
     private $species;
 

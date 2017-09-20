@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class SeoTest extends TestCase
 {
     /**
-     * @var Seo $seo
+     * @var Seo
      */
     private $seo;
 

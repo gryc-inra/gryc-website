@@ -18,7 +18,7 @@ class FeatureTest extends TestCase
             ->getMock();
 
         // Test the default collection is empty
-        $this->assertSame(true, $feature->getProductsFeatures()->isEmpty());
+        $this->assertTrue($feature->getProductsFeatures()->isEmpty());
 
         // Test add a product
         $feature->addProductsFeatures($product);
