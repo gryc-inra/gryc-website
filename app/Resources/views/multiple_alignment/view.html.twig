@@ -50,89 +50,99 @@
     {% elseif 'failed' == alignment.status %}
         <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
-        <h3 class="d-print-none">Coloration:</h3>
 
-        <div class="btn-group btn-group-sm d-print-none" role="group" aria-label="Coloration selection buttons">
-            <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-secondary dropdown-toggle {{ 'identities' == result.coloration ? 'active' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Identities
-                </button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 1 }) }}">
-                        1 level
-                    </a>
-                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 2 }) }}">
-                        2 levels
-                    </a>
-                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 3 }) }}">
-                        3 levels
-                    </a>
+        <div id="accordion" role="tablist" class="my-3">
+            <div class="card">
+                <div class="card-header" role="tab" id="headingOne">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            <span class="fa fa-paint-brush" aria-hidden="true"></span> Coloration
+                        </a>
+                    </h5>
+                </div>
+
+                <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="btn-group btn-group-sm mb-3 d-print-none" role="group" aria-label="Coloration selection buttons">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-secondary dropdown-toggle {{ 'identities' == result.coloration ? 'active' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Identities
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 1 }) }}">
+                                        1 level
+                                    </a>
+                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 2 }) }}">
+                                        2 levels
+                                    </a>
+                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 3 }) }}">
+                                        3 levels
+                                    </a>
+                                </div>
+                            </div>
+
+                            {% if 'prot' == result.sequence_type %}
+                                <a class="btn btn-secondary {{ 'similarities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'similarities' }) }}" role="button">
+                                    Similarities
+                                </a>
+                            {% endif %}
+
+                            <a class="btn btn-secondary {{ 'none' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'none' }) }}" role="button">
+                                None
+                            </a>
+                        </div>
+
+                        {% if 'none' != result.coloration %}
+                            <div class="alignment">
+                                {% if 'identities' == result.coloration %}
+                                    Conservation:<br>
+                                    <span class="identities-100">&nbsp;&nbsp;&nbsp;</span> = 100%<br>
+                                    {% if '2' == result.identities_coloration_level or '3' == result.identities_coloration_level %}
+                                        <span class="identities-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
+                                    {% endif %}
+                                    {% if '3' == result.identities_coloration_level %}
+                                        <span class="identities-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
+                                    {% endif %}
+                                {% elseif 'similarities' == result.coloration %}
+                                    Properties:<br>
+                                    {% spaceless %}
+                                        <span class="similarities-basic">&nbsp;&nbsp;&nbsp;</span> Basic<br>
+                                        <span class="similarities-nonpolar">&nbsp;&nbsp;&nbsp;</span> Nonpolar (hydrophobic)<br>
+                                        <span class="similarities-polar">&nbsp;&nbsp;&nbsp;</span> Polar, uncharged<br>
+                                        <span class="similarities-acidic">&nbsp;&nbsp;&nbsp;</span> Acidic
+                                    {% endspaceless %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-
-            {% if 'prot' == result.sequence_type %}
-                <a class="btn btn-secondary {{ 'similarities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'similarities' }) }}" role="button">
-                    Similarities
-                </a>
-            {% endif %}
-
-            <a class="btn btn-secondary {{ 'none' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'none' }) }}" role="button">
-                None
-            </a>
         </div>
 
-        <hr class="d-print-none">
-
-        {% if 'none' != result.coloration %}
-            <div class="card mb-3">
-                <div class="card-header">Legend</div>
-                <div class="card-body alignment">
-                    {% if 'identities' == result.coloration %}
-                        Conservation:<br>
-                        <span class="identities-100">&nbsp;&nbsp;&nbsp;</span> = 100%<br>
-                        {% if '2' == result.identities_coloration_level or '3' == result.identities_coloration_level %}
-                            <span class="identities-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
-                        {% endif %}
-                        {% if '3' == result.identities_coloration_level %}
-                            <span class="identities-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
-                        {% endif %}
-                    {% elseif 'similarities' == result.coloration %}
-                        Properties:<br>
-                        {% spaceless %}
-                        <span class="similarities-basic">&nbsp;&nbsp;&nbsp;</span> Basic<br>
-                        <span class="similarities-nonpolar">&nbsp;&nbsp;&nbsp;</span> Nonpolar (hydrophobic)<br>
-                        <span class="similarities-polar">&nbsp;&nbsp;&nbsp;</span> Polar, uncharged<br>
-                        <span class="similarities-acidic">&nbsp;&nbsp;&nbsp;</span> Acidic
-                        {% endspaceless %}
-                    {% endif %}
-                </div>
+        <div class="card">
+            <div class="card-header">Alignment</div>
+            <div class="card-body alignment">
+                {% for row in result.rows %}
+                    <div class="alignment-row">
+                        {% for alignmentRow in row['alignment_rows'] %}
+                            <div class="sequence-row">
+                                <span class="sequence-name">{{ alignmentRow.name }}</span>
+                                <span class="sequence-position">{{ alignmentRow.start }}</span>
+                                <span class="sequence-bases">
+                                        {%- for base in alignmentRow.bases -%}
+                                            {%- if null != base.style -%}
+                                                <span class="{{ base.style }}">{{ base.letter }}</span>
+                                            {%- else -%}
+                                                <span>{{ base.letter }}</span>
+                                            {%- endif -%}
+                                        {%- endfor -%}
+                                </span>
+                                <span class="sequence-position">{{ alignmentRow.end }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
             </div>
-        {% endif %}
-
-            <div class="card mb-3">
-                <div class="card-header">Alignment</div>
-                <div class="card-body alignment">
-                    {% for row in result.rows %}
-                        <div class="alignment-row">
-                            {% for alignmentRow in row['alignment_rows'] %}
-                                <div class="sequence-row">
-                                    <span class="sequence-name">{{ alignmentRow.name }}</span>
-                                    <span class="sequence-position">{{ alignmentRow.start }}</span>
-                                    <span class="sequence-bases">
-                                            {%- for base in alignmentRow.bases -%}
-                                                {%- if null != base.style -%}
-                                                    <span class="{{ base.style }}">{{ base.letter }}</span>
-                                                {%- else -%}
-                                                    <span>{{ base.letter }}</span>
-                                                {%- endif -%}
-                                            {%- endfor -%}
-                                    </span>
-                                    <span class="sequence-position">{{ alignmentRow.end }}</span>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
+        </div>
     {% endif %}
 {% endblock %}
