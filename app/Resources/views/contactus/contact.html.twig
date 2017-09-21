@@ -24,7 +24,9 @@
         {{ form_row(form.message) }}
         {{ form_row(form.recaptcha) }}
 
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="submit" class="btn btn-primary">
+            <span class="fa fa-paper-plane" aria-hidden="true"></span> Send
+        </button>
         {{ form_rest(form) }}
     {{ form_end(form) }}
 {% endblock %}
