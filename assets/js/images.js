@@ -1,0 +1,10 @@
+require('../images/403.png');
+require('../images/404.png');
+require('../images/down_embl.png');
+require('../images/down_fasta.png');
+require('../images/down_fasta_nuc.png');
+require('../images/down_fasta_pro.png');
+require('../images/down_targz.png');
+require('../images/igenolevure.png');
+require('../images/INRA.png');
+require('../images/logo.svg');

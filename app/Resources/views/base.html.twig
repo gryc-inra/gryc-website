@@ -33,7 +33,7 @@
             <header class="d-none d-md-block">
                 <div id="logo">
                     <a href="{{ path('homepage') }}">
-                        <img src="{{ preload(asset('images/logo.svg')) }}" alt="GRYC" height="100"/>
+                        <img src="{{ preload(asset('build/images/logo.svg')) }}" alt="GRYC" height="100"/>
                     </a>
                 </div>
                 {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
@@ -45,7 +45,7 @@
 
             <!-- Navbar -->
             <nav class="navbar navbar-expand-md navbar-light bg-light">
-                <a class="navbar-brand d-md-none" href="{{ path('homepage') }}"><img alt="GRYC" src="{{ preload(asset('images/logo.svg')) }}" height="40" /></a>
+                <a class="navbar-brand d-md-none" href="{{ path('homepage') }}"><img alt="GRYC" src="{{ preload(asset('build/images/logo.svg')) }}" height="40" /></a>
                 <button class="navbar-toggler d-print-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -155,7 +155,7 @@
             <footer class="row d-print-none mt-3">
                 <div class="col-md-3 text-center d-none d-lg-block">
                     <a href="http://www.inra.fr" rel="nofollow">
-                        <img src="{{ preload(asset('images/INRA.png')) }}" alt="INRA" height="80"/>
+                        <img src="{{ preload(asset('build/images/INRA.png')) }}" alt="INRA" height="80"/>
                     </a>
                 </div>
 
@@ -186,7 +186,7 @@
 
                 <div class="col-md-3 text-center d-none d-lg-block">
                     <a href="http://igenolevures.org/" rel="nofollow">
-                        <img src="{{ preload(asset('images/igenolevure.png')) }}" alt="iGenoLevures" height="80"/>
+                        <img src="{{ preload(asset('build/images/igenolevure.png')) }}" alt="iGenoLevures" height="80"/>
                     </a>
                 </div>
             </footer><!-- /Footer -->

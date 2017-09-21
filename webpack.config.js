@@ -25,6 +25,7 @@ Encore
         './assets/js/collection-type.js',
         './assets/js/copy2clipboard.js',
         './assets/js/delay.js',
+        './assets/js/images.js',
         './assets/js/live-sequence-display.js',
         './assets/js/locus-tooltip.js',
         './assets/js/password-control.js',
