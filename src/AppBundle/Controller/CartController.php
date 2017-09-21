@@ -25,7 +25,7 @@ class CartController extends Controller
         $cart = $cartManager->getCart();
 
         if (true === $cart['reached_limit']) {
-            $this->addFlash('warning', 'You can store '.CartManager::ANONYMOUS_NB_ITEMS.' elements maximum in your cart.');
+            $this->addFlash('warning', 'You can store '.$cart['limit'].' elements maximum in your cart.');
 
             if (!$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
                 $this->addFlash('info', 'You can create an account to increase the limit to '.CartManager::AUTHENTICATED_NB_ITEMS.'.');

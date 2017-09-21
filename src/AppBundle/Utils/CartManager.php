@@ -30,6 +30,7 @@ class CartManager
     {
         // Get the max nb of items
         $itemsLimit = $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED') ? self::AUTHENTICATED_NB_ITEMS : self::ANONYMOUS_NB_ITEMS;
+        $this->cart['limit'] = $itemsLimit;
 
         // If the cart already contains the max
         if (count($this->cart['items']) >= $itemsLimit) {
