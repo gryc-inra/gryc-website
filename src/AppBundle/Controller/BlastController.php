@@ -46,7 +46,7 @@ class BlastController extends Controller
             ]);
         }
 
-        return $this->render('blast/index.html.twig', [
+        return $this->render('tools/blast/index.html.twig', [
             'form' => $form->createView(),
             'previousBlasts' => $previousBlasts,
         ]);
@@ -63,7 +63,7 @@ class BlastController extends Controller
             $result = null;
         }
 
-        return $this->render('blast/view.html.twig', [
+        return $this->render('tools/blast/view.html.twig', [
             'blast' => $blast,
             'result' => $result,
         ]);

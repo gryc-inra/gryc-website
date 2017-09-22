@@ -50,6 +50,6 @@
     {% elseif 'failed' == blast.status %}
         <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
-        {% include 'blast/result.html.twig' with {'result': result} %}
+        {% include 'tools/blast/result.html.twig' with {'result': result} %}
     {% endif %}
 {% endblock %}

@@ -46,7 +46,7 @@ class MultipleAlignmentController extends Controller
             ]);
         }
 
-        return $this->render('multiple_alignment/index.html.twig', [
+        return $this->render('tools/multiple_alignment/index.html.twig', [
             'form' => $form->createView(),
             'previousMultipleAlignments' => $previousMultipleAlignments,
         ]);
@@ -63,7 +63,7 @@ class MultipleAlignmentController extends Controller
             $result = null;
         }
 
-        return $this->render('multiple_alignment/view.html.twig', [
+        return $this->render('tools/multiple_alignment/view.html.twig', [
             'alignment' => $multipleAlignment,
             'result' => $result,
         ]);

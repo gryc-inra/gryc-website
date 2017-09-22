@@ -22,14 +22,14 @@ class ReverseComplementController extends Controller
             $action = $form->getData()['action'];
             $result = $this->get('AppBundle\Utils\SequenceManipulator')->processManipulation($query, $action);
 
-            return $this->render('reverse_complement/result.html.twig', [
+            return $this->render('tools/reverse_complement/result.html.twig', [
                 'query' => $form->getData()['query'],
                 'action' => $form->getData()['action'],
                 'result' => $result,
             ]);
         }
 
-        return $this->render('reverse_complement/index.html.twig', [
+        return $this->render('tools/reverse_complement/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
