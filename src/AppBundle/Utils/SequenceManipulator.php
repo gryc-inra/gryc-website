@@ -73,7 +73,7 @@ class SequenceManipulator
         $i = 0;
         $fasta = '';
         foreach ($sequencesArray as $sequence) {
-            if ($i != 0) {
+            if (0 != $i) {
                 $fasta .= "\n\n";
             }
 
