@@ -69,8 +69,7 @@
                     </li>
                 </ul>
 
-                <form class="form-inline" id="quick-search-form" role="search" action="{{ path('quick-search') }}" method="GET">
-
+                <form class="form-inline d-none d-md-block" role="search" action="{{ path('quick-search') }}" method="GET">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
                         <button class="btn input-group-addon" id="quick-search-submit" type="submit" >
@@ -128,6 +127,18 @@
                 </ul>
             </div>
         </nav>
+
+        <div class="container d-md-none mb-3">
+            <form role="search" action="{{ path('quick-search') }}" method="GET">
+                <div class="input-group">
+                    <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
+                    <button class="btn input-group-addon" id="quick-search-submit" type="submit" >
+                        <span class="fa fa-search" title="Search"></span>
+                        <span class="sr-only">Search</span>
+                    </button>
+                </div>
+            </form>
+        </div>
 
         <div class="container">
             {% for label, messages in app.flashes(['success', 'info', 'warning', 'danger']) %}
