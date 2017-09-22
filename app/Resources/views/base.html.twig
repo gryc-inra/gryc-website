@@ -30,7 +30,7 @@
                 </div>
             </noscript>
 
-            <header class="d-none d-md-block">
+            <header class="d-none d-md-block d-print-none">
                 <div id="logo">
                     <a href="{{ path('homepage') }}">
                         <img src="{{ preload(asset('build/images/logo.svg')) }}" alt="GRYC" height="100"/>
@@ -44,7 +44,7 @@
             </header>
 
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-md navbar-light bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light d-print-none">
                 <a class="navbar-brand d-md-none" href="{{ path('homepage') }}"><img alt="GRYC" src="{{ preload(asset('build/images/logo.svg')) }}" height="40" /></a>
                 <button class="navbar-toggler d-print-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
