@@ -52,18 +52,20 @@ class BlastType extends AbstractType
                     'Yes' => true,
                     'No' => false,
                 ],
+                'expanded' => true,
+            ])
+            ->add('gapped', ChoiceType::class, [
+                'choices' => [
+                    'Yes' => true,
+                    'No' => false,
+                ],
+                'expanded' => true,
             ])
             ->add('evalue', NumberType::class, [
                 'constraints' => [
                     new GreaterThan([
                         'value' => 0,
                     ]),
-                ],
-            ])
-            ->add('gapped', ChoiceType::class, [
-                'choices' => [
-                    'Yes' => true,
-                    'No' => false,
                 ],
             ])
         ;
