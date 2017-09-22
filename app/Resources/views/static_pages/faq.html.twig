@@ -25,7 +25,7 @@
             <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body">
                     <h5><span class="badge badge-primary">Answer</span></h5>
-                    From the navigation bar, select: Strains > <i>Select your strain</i>. Then at the end of the
+                    From the navigation bar, select: <a href="{{ path('strain_index') }}">Strains</a> > <i>Select your strain</i>. Then at the end of the
                     page, you will find a table with all download links.
                 </div>
             </div>
@@ -42,8 +42,10 @@
             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
                 <div class="card-body">
                     <h5><span class="badge badge-primary">Answer</span></h5>
-                    In the BLAST tool, there is a limit of 10100 characters for anonymous users. But this limit can be
-                    raised to 50100 characters for users with an account and being logged in (it's free).
+                    In the BLAST tool, there is a limit of 10100 characters for unidentified users.
+                    But the limit is raised to 50100 characters for users with an account and logged in.<br>
+
+                    <span class="text-info"><span class="fa fa-question-circle-o"></span> The creation and use of an account is completely free.</span>
                 </div>
             </div>
         </div>
@@ -59,8 +61,8 @@
             <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
                 <div class="card-body">
                     <h5><span class="badge badge-primary">Answer</span></h5>
-                    When you are logged in click on: My account > Profile. On this page you will find a button at
-                    the top right: Edit, or Change password.
+                    When you are logged in click on: My account > <a href="{{ path('user_profile') }}">Profile</a>. On this page you will find a button at
+                    the top right: <a href="{{ path('user_profile_edit') }}">Edit</a>, or <a href="{{ path('user_password_edit') }}">Change password</a>.
                 </div>
             </div>
         </div>
@@ -76,9 +78,32 @@
             <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour" data-parent="#accordion">
                 <div class="card-body">
                     <h5><span class="badge badge-primary">Answer</span></h5>
-                    When you are logged in click on: My account > Profile. On this page you will find a button at
-                    the top right: Delete. On the next page, confirm the deletion by entering your password, the deletion is irreversible.<br>
-                    No data are kept after deletion, so you can recreate an account with the same email if you wish.
+                    When you are logged in click on: My account > <a href="{{ path('user_profile') }}">Profile</a>. On this page you will find a button at
+                    the top right: <a href="{{ path('user_profile_delete') }}">Delete</a>. On the next page, confirm the deletion by entering your password, <span class="text-danger">the deletion is irreversible</span>.<br>
+                    <span class="text-info"><span class="fa fa-question-circle-o"></span> No data are kept after deletion, so you can recreate an account with the same email if you wish.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" role="tab" id="headingFive">
+                <h5 class="mb-0">
+                    <a class="collapsed" data-toggle="collapse" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <span class="fa fa-question-circle" aria-hidden="true"></span> Why create an account?
+                    </a>
+                </h5>
+            </div>
+            <div id="collapseFive" class="collapse" role="tabpanel" aria-labelledby="headingFive" data-parent="#accordion">
+                <div class="card-body">
+                    <h5><span class="badge badge-primary">Answer</span></h5>
+                    The use of an account gives you several advantages:
+                    <ul>
+                        <li>A larger query in BLAST: from 10100 to 50100 characters</li>
+                        <li>A larger cart: from 20 to 100 locus</li>
+                        <li>A history of the last 10 BLASTs and Multiple Alignment</li>
+                    </ul>
+
+                    <span class="text-info"><span class="fa fa-question-circle-o"></span> The creation and use of an account is completely free.</span>
                 </div>
             </div>
         </div>
