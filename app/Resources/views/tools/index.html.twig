@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Tools - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Tools</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Tools</h1>
+    <p>Here is the list and information about the tools available on GRYC.</p>
+
+    <h3><a href="{{ path('blast_index') }}">BLAST</a></h3>
+    <p>
+        The NCBI BLAST tool is available on our website to find regions of similarities on our sequence database.
+    </p>
+
+    <h3><a href="{{ path('multiple_alignment_index') }}">Multiple alignment</a></h3>
+    <p>
+        Aligner des séquences multiple à l'aide de l'outil MAFFT.
+    </p>
+
+    <h3><a href="{{ path('reverse_complement') }}">Reverse complement</a></h3>
+    <p>
+        Make reverse, complement, reverse complement on your sequences.
+    </p>
+{% endblock %}

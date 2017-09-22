@@ -15,7 +15,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="breadcrumb-item">Tools</li>
+    <li class="breadcrumb-item"><a href="{{ path('tools') }}">Tools</a></li>
     <li class="breadcrumb-item"><a href="{{ path('blast_index') }}">BLAST - Basic Local Alignment Search Tool</a></li>
     <li class="breadcrumb-item active">BLAST result</li>
 {% endblock %}

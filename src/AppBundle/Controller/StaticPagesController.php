@@ -22,4 +22,12 @@ class StaticPagesController extends Controller
     {
         return $this->render('static_pages/faq.html.twig');
     }
+
+    /**
+     * @Route("/tools", name="tools")
+     */
+    public function indexAction()
+    {
+        return $this->render('tools/index.html.twig');
+    }
 }

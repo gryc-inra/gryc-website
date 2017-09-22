@@ -6,7 +6,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="breadcrumb-item">Tools</li>
+    <li class="breadcrumb-item"><a href="{{ path('tools') }}">Tools</a></li>
     <li class="breadcrumb-item active">Reverse complement</li>
 {% endblock %}
 
