@@ -4,13 +4,15 @@
 
 /* Body
 -------------------------------------------------- */
-html, body {
-    height:100%;
-    font-family: 'Open Sans', sans-serif;
+html {
+  font-family: 'Open Sans', sans-serif;
+  position: relative;
+  min-height: 100%;
 }
 
 body {
-    position: relative;
+  /* Margin bottom by footer height */
+  margin-bottom: 100px;
 }
 
 /* Header
@@ -37,6 +39,34 @@ nav.navbar {
     z-index: 1000;
     margin-bottom: 1rem;
 }
+
+/* Sticky footer
+-------------------------------------------------- */
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 100px;
+  color: #FFFFFF;
+  background-color: #527EB1;
+  padding: 10px 0;
+}
+
+footer a {
+  color: #FFFFFF;
+}
+
+footer a:hover,
+footer a:active {
+  color: #FFFFFF;
+  text-decoration: underline !important;
+}
+
+//.wrapper {
+//  min-height: 100%;
+//  height: auto !important;
+//}
 
 /* Print
 -------------------------------------------------- */
@@ -80,28 +110,6 @@ nav#blast-scrollspy nav a.active + nav a.active {
     border-left: 2px solid #337ab7;
 }
 
-/* Sticky footer
--------------------------------------------------- */
-footer {
-    color: #FFFFFF;
-    background-color: #527EB1;
-    padding: 17px 0 17px 0;
-}
-
-footer a {
-    color: #FFFFFF;
-}
-
-footer a:hover,
-footer a:active {
-    color: #FFFFFF;
-    text-decoration: underline !important;
-}
-
-.wrapper {
-    min-height: 100%;
-    height: auto !important;
-}
 
 /* Red * after required label
 -------------------------------------------------- */
