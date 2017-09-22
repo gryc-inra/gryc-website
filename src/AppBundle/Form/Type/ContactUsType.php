@@ -58,6 +58,7 @@ class ContactUsType extends AbstractType
             ])
             ->add('recaptcha', EWZRecaptchaType::class, [
                 'label' => false,
+                'mapped' => false,
                 'constraints' => [
                     new RecaptchaTrue(),
                 ],
