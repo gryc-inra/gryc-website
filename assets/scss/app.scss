@@ -111,10 +111,11 @@ nav#blast-scrollspy nav a.active + nav a.active {
 }
 
 
-/* Red * after required label
+/* Red * after required label and private strains
 -------------------------------------------------- */
 .form-group > label.required:after,
-.form-group > legend.required:after {
+.form-group > legend.required:after,
+.private-strain:after {
     content: " *";
     color: red;
 }

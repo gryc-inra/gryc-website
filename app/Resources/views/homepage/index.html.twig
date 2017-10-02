@@ -33,12 +33,9 @@
         {% if speciesList is not empty %}
             {% for species in speciesList %}
                 {% for strain in species.strains %}
-                        <li>
+                        <li {% if false == strain.public %}class="private-strain"{% endif %}>
                             <a href="{{ path('strain_view', { 'species_slug': species.slug, 'strain_slug': strain.slug }) }}">{{ species.scientificname }} {{ strain.name }}</a>
                             {{ (strain.isTypeStrain) ? ' <abbr title="Type strain"><small style="color: #527EB1;">T</small></abbr>' }}
-                            {% if false == strain.public %}
-                                <span style="color:red;">*</span>
-                            {% endif %}
                         </li>
                 {% endfor %}
             {% endfor %}
@@ -48,7 +45,7 @@
     </ul>
 
 {% if app.user %}
-    <p><span style="color:red;">*</span>: Private strains</p>
+    <p><span class="private-strain"></span>: Private strains</p>
 {% endif %}
 
 {% endblock %}
