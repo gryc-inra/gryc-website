@@ -32,7 +32,7 @@
         <header class="d-none d-md-block d-print-none">
             <div id="logo">
                 <a href="{{ path('homepage') }}">
-                    <img src="{{ preload(asset('build/images/logo.svg')) }}" alt="GRYC" height="100"/>
+                    <img src="{{ preload(asset('build/images/logo-100.png')) }}" alt="GRYC"/>
                 </a>
             </div>
             {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
@@ -44,7 +44,7 @@
 
         <!-- Navbar -->
         <nav class="navbar navbar-expand-md navbar-light bg-light d-print-none">
-            <a class="navbar-brand d-md-none" href="{{ path('homepage') }}"><img alt="GRYC" src="{{ preload(asset('build/images/logo.svg')) }}" height="40" /></a>
+            <a class="navbar-brand d-md-none" href="{{ path('homepage') }}"><img alt="GRYC" src="{{ preload(asset('build/images/logo-40.png')) }}"/></a>
             <button class="navbar-toggler d-print-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -165,7 +165,7 @@
                 <div class="row">
                     <div class="col-md-3 text-center d-none d-lg-block">
                         <a href="http://www.inra.fr" rel="nofollow">
-                            <img src="{{ preload(asset('build/images/INRA.png')) }}" alt="INRA" height="80"/>
+                            <img src="{{ preload(asset('build/images/INRA-80.png')) }}" alt="INRA"/>
                         </a>
                     </div>
 
@@ -196,7 +196,7 @@
 
                     <div class="col-md-3 text-center d-none d-lg-block">
                         <a href="http://igenolevures.org/" rel="nofollow">
-                            <img src="{{ preload(asset('build/images/igenolevure.png')) }}" alt="iGenoLevures" height="80"/>
+                            <img src="{{ preload(asset('build/images/igenolevure-80.png')) }}" alt="iGenoLevures"/>
                         </a>
                     </div>
                 </div>
