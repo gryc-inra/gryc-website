@@ -131,7 +131,7 @@ nav#blast-scrollspy nav a.active + nav a.active {
 /* Sequence display
 -------------------------------------------------- */
 .fasta {
-    font-family: "Courier New", Courier, monospace;
+    font-family: Cousine, monospace;
     font-size: 18px;
     overflow-x: auto;
     margin-bottom: 10px;
@@ -200,7 +200,7 @@ ul.fasta-legend li:before {
 /* Sequence Alignment Display
 -------------------------------------------------- */
 .alignment {
-    font-family: 'Cousine', monospace;
+    font-family: Cousine, monospace;
 }
 
 .alignment .alignment-row {
@@ -263,7 +263,7 @@ ul.fasta-legend li:before {
 /* BLAST
 -------------------------------------------------- */
 .blast-alignment {
-    font-family: 'Cousine', monospace;
+    font-family: Cousine, monospace;
     font-size: 14px;
     word-break: break-all;
     margin-bottom: 50px;
@@ -277,5 +277,5 @@ ul.fasta-legend li:before {
  * Query Forms
  */
 .fasta-input {
-    font-family: 'Cousine', monospace;
+    font-family: Cousine, monospace;
 }
