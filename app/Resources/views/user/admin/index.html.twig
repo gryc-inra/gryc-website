@@ -11,7 +11,10 @@
 {% endblock %}
 
 {% block body %}
-    <form class="form-inline mb-3" id="user-search-form" method="get">
+    <form class="form-inline mb-3" id="user-search-form" method="get"
+          data-user-index="{{ url('user_index', { q: '__QUERY__', p: 1 }) }}"
+          data-user-ajax="{{ url('user_index_ajax', { q: '__QUERY__', p: 1 }) }}"
+    >
         <label class="sr-only" for="user-search-field">Name</label>
         <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="user-search-field" name="q" placeholder="Search for..." autocomplete="off" value="{{ query }}">
 

@@ -1,17 +1,24 @@
 var delay = require('./delay');
 
 $(document).ready(function(){
-    var processing = false;
-    var search = $('#user-search-field');
-    var team = $('#user-team-field');
+    var form = $('#user-search-form');
+    var userIndexScheme = form.data('user-index');
+    var userAjaxScheme = form.data('user-ajax');
+    var searchField = form.find('#user-search-field');
 
-    search.keyup(function() {
-        history.replaceState('', '', Routing.generate('user_index', { q: search.val(), p: 1 }));
+    var processing = false;
+
+    searchField.keyup(function() {
+        var query = searchField.val();
+        var displayedUrl = userIndexScheme.replace(/__QUERY__/g, query);
+        var ajaxUrl = userAjaxScheme.replace(/__QUERY__/g, query);
+
+        history.replaceState('', '', displayedUrl);
 
         delay(function(){
             $.ajax({
                 type: 'GET',
-                url: Routing.generate('user_index_ajax', { q: search.val(), p: 1 }),
+                url: ajaxUrl,
                 dataType: 'html',
                 delay: 400,
                 beforeSend: function() {

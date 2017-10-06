@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SearchController extends Controller
 {
     /**
-     * @Route("/search", options={"expose"=true}, name="quick-search")
+     * @Route("/search", name="quick-search")
      */
     public function quickSearchAction(Request $request)
     {
