@@ -131,9 +131,9 @@
 
     <h2 class="mb-3">Sequence(s)</h2>
     {% for feature in locus.features %}
-        <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-locus="{{ locus.name }}" data-feature="{{ feature.name }}">
+        <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-feature="{{ feature.name }}">
             <h3>{{ feature.name }}</h3>
-            <div id="sequence-{{ feature.name }}" class="row">
+            <div class="row">
                 <div class="col-lg-9 fasta fasta-nuc">
                     <span class="header">>{{ feature.name }}</span>
                     {% for line in sequences[feature.name] %}

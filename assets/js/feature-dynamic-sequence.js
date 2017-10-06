@@ -2,6 +2,7 @@ function ajaxFeatureDynamicSequenceForm(container) {
     var form = $(container).find('form');
     var containerId = container.attr('id');
 
+    // Use AJAX to validate the form
     form.submit(function(event) {
         event.preventDefault();
 
@@ -20,12 +21,20 @@ function ajaxFeatureDynamicSequenceForm(container) {
             }
         });
     });
+
+    // Define Reset button action (default values)
+    container.find('button[type="reset"]').click(function(event){
+        event.preventDefault();
+        var feature = container.data('feature');
+        container.find('#feature_dynamic_sequence_' + feature + '_upstream').val(0);
+        container.find('#feature_dynamic_sequence_' + feature + '_downstream').val(0);
+        container.find('#feature_dynamic_sequence_' + feature + '_showUtr').prop('checked', true);
+        container.find('#feature_dynamic_sequence_' + feature + '_showIntron').prop('checked', true);
+    });
 }
 
 $(document).ready(function(){
     $('div.locus-feature').each(function() {
-        var container = $( this ).find('div.row');
-
-        ajaxFeatureDynamicSequenceForm(container);
+        ajaxFeatureDynamicSequenceForm($(this));
     });
 });
