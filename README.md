@@ -1,4 +1,4 @@
-![GrycII](https://raw.githubusercontent.com/mpiot/gryc/master/web/images/logo.png)
+![Gryc](https://github.com/mpiot/gryc/blob/master/assets/images/logo-40.png)
 
 ### Summary
 1. Follow the best practice
