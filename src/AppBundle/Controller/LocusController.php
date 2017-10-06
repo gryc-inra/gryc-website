@@ -2,8 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Feature;
 use AppBundle\Entity\Locus;
+use AppBundle\Form\Type\FeatureDynamicSequenceType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -19,10 +19,34 @@ class LocusController extends Controller
      * })
      * @Security("is_granted('VIEW', locus.getChromosome().getStrain())")
      */
-    public function viewAction(Locus $locus)
+    public function viewAction(Locus $locus, Request $request)
     {
+        $forms = [];
+        $sequences = [];
+        foreach ($locus->getFeatures() as $feature) {
+            // Init form
+            $forms[$feature->getName()] = $this->get('form.factory')->createNamed('feature_dynamic_sequence_'.$feature->getName(), FeatureDynamicSequenceType::class);
+
+            // Handle form
+            $forms[$feature->getName()]->handleRequest($request);
+
+            // Valid form ?
+            if ($forms[$feature->getName()]->isSubmitted() && $forms[$feature->getName()]->isValid()) {
+                $data = $forms[$feature->getName()]->getData();
+
+                $sequences[$feature->getName()] = $feature->getSequence($data['showUtr'], $data['showIntron'], $data['upstream'], $data['downstream']);
+            } else {
+                $sequences[$feature->getName()] = $feature->getSequence();
+            }
+
+            // Create form view
+            $forms[$feature->getName()] = $forms[$feature->getName()]->createView();
+        }
+
         return $this->render('locus/view.html.twig', [
-           'locus' => $locus,
+            'locus' => $locus,
+            'forms' => $forms,
+            'sequences' => $sequences,
         ]);
     }
 
@@ -52,39 +76,6 @@ class LocusController extends Controller
             'strain_slug' => $locus->getChromosome()->getStrain()->getSlug(),
             'chromosome_slug' => $locus->getChromosome()->getSlug(),
             'locus_name' => $locus->getName(),
-        ]);
-    }
-
-    /**
-     * @Route("/locus/{locus_name}/sequence/{feature_name}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="feature_sequence")
-     * @ParamConverter("feature", class="AppBundle:Feature", options={
-     *   "mapping": {"feature_name": "name"},
-     *   "map_method_signature" = true
-     * })
-     * @Security("is_granted('VIEW', feature.getLocus().getChromosome().getStrain())")
-     */
-    public function sequenceAction(Feature $feature, Request $request)
-    {
-        // Display UTR or/and Introns ?
-        $showUtr = !empty($request->get('showUtr')) ? filter_var($request->get('showUtr'), FILTER_VALIDATE_BOOLEAN) : true;
-        $showIntron = !empty($request->get('showIntron')) ? filter_var($request->get('showIntron'), FILTER_VALIDATE_BOOLEAN) : true;
-
-        // Get UP and DOwnstream
-        $upstream = !empty($request->get('upstream')) ? $request->get('upstream') : null;
-        $downstream = !empty($request->get('downstream')) ? $request->get('downstream') : null;
-
-        // If Upstream and/or downstream defined, showUtr and showIntron on Yes
-        if (null !== $upstream || null !== $downstream) {
-            $showUtr = true;
-            $showIntron = true;
-        }
-
-        return $this->render('locus/sequence.html.twig', [
-            'feature' => $feature,
-            'showUtr' => $showUtr,
-            'showIntron' => $showIntron,
-            'upstream' => $upstream,
-            'downstream' => $downstream,
         ]);
     }
 }

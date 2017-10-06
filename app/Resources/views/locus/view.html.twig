@@ -133,10 +133,10 @@
     {% for feature in locus.features %}
         <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-locus="{{ locus.name }}" data-feature="{{ feature.name }}">
             <h3>{{ feature.name }}</h3>
-            <div class="row">
+            <div id="sequence-{{ feature.name }}" class="row">
                 <div class="col-lg-9 fasta fasta-nuc">
                     <span class="header">>{{ feature.name }}</span>
-                    {% for line in feature.sequence %}
+                    {% for line in sequences[feature.name] %}
                         {{ line|raw }}<br>
                     {% endfor %}
                 </div>
@@ -154,28 +154,12 @@
 
                     <hr class="d-print-none">
 
-                    <form class="d-print-none">
-                        <div class="form-group">
-                            <label>Upstream</label>
-                            <input type="number" class="form-control" name="upstream">
-                        </div>
-                        <div class="form-group">
-                            <label>Downstream</label>
-                            <input type="number" class="form-control" name="downstream">
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="showUtr" checked> Show UTR
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="showIntron"checked> Show Intron
-                            </label>
-                        </div>
-                        <button type="reset" class="btn btn-secondary" value="Reset">Reset</button>
-                        <button type="submit" class="btn btn-primary">Valid</button>
-                    </form>
+                    {{ form_start(forms[feature.name]) }}
+                    {{ form_rest(forms[feature.name]) }}
+
+                    <button type="reset" class="btn btn-secondary" value="Reset">Reset</button>
+                    <button type="submit" class="btn btn-primary">Valid</button>
+                    {{ form_end(forms[feature.name]) }}
                 </div>
             </div>
         </div>
