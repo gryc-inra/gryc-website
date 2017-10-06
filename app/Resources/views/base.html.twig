@@ -204,12 +204,8 @@
         </footer>
 
         {% block javascripts %}
-            <script src="{{ asset('build/manifest.js') }}"></script>
-            <script src="{{ asset('build/js/vendor.js') }}"></script>
-
-            <script src="{{ preload(asset('bundles/fosjsrouting/js/router.js')) }}"></script>
-            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-
+            <script src="{{ preload(asset('build/manifest.js')) }}"></script>
+            <script src="{{ preload(asset('build/js/vendor.js')) }}"></script>
             <script src="{{ preload(asset('build/js/app.js')) }}"></script>
         {% endblock %}
     </body>
