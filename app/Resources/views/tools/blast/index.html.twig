@@ -60,19 +60,22 @@
                     </button>
                 </div>
 
-                <hr>
+                <div class="form-spotlight">
+                    <fieldset>
+                        <legend>Strains selection</legend>
+                        {{ form_row(form.strainsFilter.filter) }}
+                        {{ form_row(form.strainsFilter.strains) }}
+                    </fieldset>
+                </div>
 
-                {{ form_row(form.strainsFilter.filter) }}
-                {{ form_row(form.strainsFilter.strains) }}
-
-                <hr>
-
-                <fieldset>
-                    <legend>Options</legend>
-                    {{ form_row(form.filter) }}
-                    {{ form_row(form.gapped) }}
-                    {{ form_row(form.evalue) }}
-                </fieldset>
+                <div class="form-spotlight">
+                    <fieldset>
+                        <legend>Options</legend>
+                        {{ form_row(form.filter) }}
+                        {{ form_row(form.gapped) }}
+                        {{ form_row(form.evalue) }}
+                    </fieldset>
+                </div>
 
                 {{ form_rest(form) }}
             {{ form_end(form) }}
