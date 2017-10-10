@@ -2,7 +2,7 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~font-awesome/scss/font-awesome.scss";
 
-/* Body
+/* HTML and Body
 -------------------------------------------------- */
 html {
   font-family: 'Open Sans', sans-serif;
@@ -11,6 +11,8 @@ html {
 }
 
 body {
+  /* Margin top by primary navbar height */
+  margin-top: 2.5rem;
   /* Margin bottom by footer height */
   margin-bottom: 100px;
 }
@@ -33,11 +35,15 @@ header {
     background: linear-gradient(to right, #FFFFFF , #527EB1); /* Standard syntax */
 }
 
-nav.navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    margin-bottom: 1rem;
+/* Sticky navbar
+-------------------------------------------------- */
+#primary-navbar {
+  height: 2.5rem;
+}
+
+#secondary-navbar {
+  top: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 /* Sticky footer
@@ -63,11 +69,6 @@ footer a:active {
   text-decoration: underline !important;
 }
 
-//.wrapper {
-//  min-height: 100%;
-//  height: auto !important;
-//}
-
 /* Print
 -------------------------------------------------- */
 @media print {
@@ -80,16 +81,12 @@ footer a:active {
 -------------------------------------------------- */
 nav#blast-scrollspy {
     position: sticky;
-    top: 70px;
+    top: 7rem;
     z-index: 1000;
 }
 
 nav#blast-scrollspy nav nav {
     display: none;
-}
-
-nav#blast-scrollspy nav a.active {
-    /*font-weight: bold;*/
 }
 
 nav#blast-scrollspy nav a.active + nav {
@@ -124,10 +121,13 @@ nav#blast-scrollspy nav a.active + nav a.active {
 -------------------------------------------------- */
 .anchor {
     display: block;
-    height: 60px; /*same height as header*/
-    margin-top: -60px; /*same height as header*/
+    height: 7rem; /*same height as header*/
+    margin-top: 7rem; /*same height as header*/
     visibility: hidden;
 }
+
+/* Sequences
+-------------------------------------------------- */
 
 /* Sequence display
 -------------------------------------------------- */

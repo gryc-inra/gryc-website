@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>{% block title %}GRYC{% endblock %}</title>
         {% block metaTags %}
             <meta name="robots" content="index, follow">
         {% endblock %}
 
+        <link rel="icon" type="image/x-icon" href="{{ preload(asset('favicon.ico')) }}" />
+
+        <title>{% block title %}GRYC{% endblock %}</title>
+
         {% block stylesheets %}
-            <!-- Fonts -->
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cousine">
-
-            <!-- CSS -->
             <link rel="stylesheet" href="{{ preload(asset('build/css/app.css')) }}" />
         {% endblock %}
-
-        <link rel="icon" type="image/x-icon" href="{{ preload(asset('favicon.ico')) }}" />
     </head>
 
     <body data-spy="scroll" data-target=".scrollspy" data-offset="0">
@@ -29,72 +26,11 @@
             </div>
         </noscript>
 
-        <header class="d-none d-md-block d-print-none">
-            <div id="logo">
-                <a href="{{ path('homepage') }}">
-                    <img src="{{ preload(asset('build/images/logo-100.png')) }}" alt="GRYC"/>
-                </a>
-            </div>
-            {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                <div style="position: absolute; right: 10px; top: 10px;">
-                    <a href="{{ path('user_index', {'_switch_user': '_exit'}) }}" style="color: #FFF;"><span class="fa fa-sign-out" aria-hidden="true"></span>  Exit impersonation</a>
-                </div>
-            {% endif %}
-        </header>
-
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-md navbar-light bg-light d-print-none">
-            <a class="navbar-brand d-md-none" href="{{ path('homepage') }}"><img alt="GRYC" src="{{ preload(asset('build/images/logo-40.png')) }}"/></a>
-            <button class="navbar-toggler d-print-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('advanced-search') }}" rel="nofollow"><span class="fa fa-search" aria-hidden="true"></span> Search</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('strain_index') }}"><span class="fa fa-list" aria-hidden="true"></span> Strains</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownToolsLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="fa fa-cog" aria-hidden="true"></span>  Tools
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownToolsLink">
-                            <a class="dropdown-item" href="{{ path("blast_index") }}">Blast</a>
-                            <a class="dropdown-item" href="{{ path("multiple_alignment_index") }}">Multiple Sequences Alignment</a>
-                            <a class="dropdown-item" href="{{ path('reverse_complement') }}">Reverse-Complement</a>
-                        </div>
-                    </li>
-                </ul>
-
-                <form class="form-inline d-none d-md-block" role="search" action="{{ path('quick-search') }}" method="GET">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
-                        <button class="btn input-group-addon" type="submit" >
-                            <span class="fa fa-search" title="Search"></span>
-                            <span class="sr-only">Search</span>
-                        </button>
-                    </div>
-                </form>
-
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('cart_view') }}" id="cart" rel="nofollow">
-                            <span class="fa fa-shopping-cart" title="Cart"></span>
-                            <span class="sr-only">Cart</span>
-                            <span class="badge badge-pill badge-secondary">
-                                {% if app.session.get('cart') is not empty %}
-                                    {{ app.session.get('cart').items|length }}
-                                {% else %}
-                                    0
-                                {% endif %}
-                            </span>
-                        </a>
-                    </li>
-
-                    {# Si l'utilisateur est connecté #}
+        {# Primary navbar #}
+        <nav id="primary-navbar" class="navbar fixed-top navbar-expand navbar-dark bg-dark d-print-none">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    {# If the user is logged in #}
                     {% if app.user %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUserLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -102,7 +38,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUserLink">
                                 <h6 class="dropdown-header">{{ app.user.username }}</h6>
-                                {# Si l'utilisateur est un administrateur #}
+                                {# If the user is an administrator #}
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <a class="dropdown-item" href="{{ path('admin_index') }}">
                                         <span class="fa fa-cog" aria-hidden="true"></span> Administration
@@ -128,7 +64,79 @@
             </div>
         </nav>
 
-        <div class="container d-md-none mb-3">
+        {# Header, with logo and blue background #}
+        <header class="d-none d-md-block d-print-none">
+            <div id="logo">
+                <a href="{{ path('homepage') }}">
+                    <img src="{{ preload(asset('build/images/logo-100.png')) }}" alt="GRYC"/>
+                </a>
+            </div>
+            {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                <div style="position: absolute; right: 10px; top: 10px;">
+                    <a href="{{ path('user_index', {'_switch_user': '_exit'}) }}" style="color: #FFF;"><span class="fa fa-sign-out" aria-hidden="true"></span>  Exit impersonation</a>
+                </div>
+            {% endif %}
+        </header>
+
+        {# Secondary navbar #}
+        <nav id="secondary-navbar" class="navbar sticky-top navbar-expand-md navbar-light bg-light d-print-none">
+            <a class="navbar-brand d-md-none" href="{{ path('homepage') }}"><img alt="GRYC" src="{{ preload(asset('build/images/logo-40.png')) }}"/></a>
+            <button class="navbar-toggler d-print-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('advanced-search') }}" rel="nofollow"><span class="fa fa-search" aria-hidden="true"></span> Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('strain_index') }}"><span class="fa fa-list" aria-hidden="true"></span> Strains</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownToolsLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="fa fa-cog" aria-hidden="true"></span>  Tools
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownToolsLink">
+                            <a class="dropdown-item" href="{{ path("blast_index") }}">Blast</a>
+                            <a class="dropdown-item" href="{{ path("multiple_alignment_index") }}">Multiple Sequences Alignment</a>
+                            <a class="dropdown-item" href="{{ path('reverse_complement') }}">Reverse-Complement</a>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    {# Cart #}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('cart_view') }}" id="cart" rel="nofollow">
+                            <span class="fa fa-shopping-cart" title="Cart"></span>
+                            <span class="sr-only">Cart</span>
+                            <span class="badge badge-pill badge-secondary">
+                                {% if app.session.get('cart') is not empty %}
+                                    {{ app.session.get('cart').items|length }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+
+                {# Form in navbar, when screen to small, don't display #}
+                <form class="form-inline d-none d-md-block" role="search" action="{{ path('quick-search') }}" method="GET">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
+                        <button class="btn input-group-addon" type="submit" >
+                            <span class="fa fa-search" title="Search"></span>
+                            <span class="sr-only">Search</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </nav>
+
+        {# Form in body, when screen to small, display it #}
+        <div class="container mb-3 d-md-none d-print-none">
             <form role="search" action="{{ path('quick-search') }}" method="GET">
                 <div class="input-group">
                     <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
@@ -140,7 +148,9 @@
             </form>
         </div>
 
+        {# Container, when we insert all pages #}
         <div class="container">
+            {# List flashes messages #}
             {% for label, messages in app.flashes(['success', 'info', 'warning', 'danger']) %}
                 {% for message in messages %}
                     <div class="alert alert-{{ label }} alert-dismissible" role="alert">
@@ -150,16 +160,19 @@
                 {% endfor %}
             {% endfor %}
 
+            {# Breadcrumb #}
             <ol class="breadcrumb d-print-none">
                 {% block breadcrumb %}
                     <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><span class="fa fa-home" aria-hidden="true"></span> Home</a></li>
                 {% endblock %}
             </ol>
 
+            {# Insert body here #}
             {% block body %}
             {% endblock %}
         </div>
 
+        {# Footer #}
         <footer class="d-print-none">
             <div class="container">
                 <div class="row">
