@@ -1,0 +1,16 @@
+// Copy needed var from _variables.scss to override them
+
+// Colors
+$gryc-blue:    #587cb0;
+
+// DNA sequence coloration
+$sequence-stream-color: darkgrey;
+$sequence-utr-color: forestgreen;
+$sequence-exon-color: dodgerblue;
+$sequence-intron-color: #c0504d;
+
+// Protein similarities color
+$protein-similarities-basic: #57c4f2;
+$protein-similarities-nonpolar: #bbe4fa;
+$protein-similarities-polar: #f7d5e3;
+$protein-similarities-acidic: #e4008c;

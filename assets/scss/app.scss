@@ -28,11 +28,11 @@ header {
     height: 150px;
     padding: 25px 5px;
     /* Set the background of the header here */
-    background: #527eb1; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #FFFFFF , #527eb1); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #FFFFFF, #527eb1); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #FFFFFF, #527eb1); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #FFFFFF , #527eb1); /* Standard syntax */
+    background: $gryc-blue; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, $white , $gryc-blue); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, $white, $gryc-blue); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, $white, $gryc-blue); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, $white , $gryc-blue); /* Standard syntax */
 }
 
 /* Sticky navbar
@@ -54,18 +54,18 @@ footer {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 100px;
-  color: #FFFFFF;
-  background-color: #527eb1;
+  color: $white;
+  background-color: $gryc-blue;
   padding: 10px 0;
 }
 
 footer a {
-  color: #FFFFFF;
+  color: $white;
 }
 
 footer a:hover,
 footer a:active {
-  color: #FFFFFF;
+  color: $white;
   text-decoration: underline !important;
 }
 
@@ -104,9 +104,8 @@ nav#blast-scrollspy nav a.active + nav a.display
 }
 
 nav#blast-scrollspy nav a.active + nav a.active {
-    border-left: 2px solid #337ab7;
+    border-left: 2px solid $blue;
 }
-
 
 /* Red * after required label and private strains
 -------------------------------------------------- */
@@ -114,7 +113,7 @@ nav#blast-scrollspy nav a.active + nav a.active {
 .form-group > legend.required:after,
 .private-strain:after {
     content: " *";
-    color: red;
+    color: $red;
 }
 
 /* anchors
@@ -135,7 +134,7 @@ nav#blast-scrollspy nav a.active + nav a.active {
   border: 1px solid #eee;
   border-left-width: .25rem;
   border-radius: .25rem;
-  border-left-color: #527eb1;
+  border-left-color: theme-color("primary");
 }
 
 /* Sequences
@@ -155,39 +154,39 @@ nav#blast-scrollspy nav a.active + nav a.active {
 }
 
 .stream {
-    color: darkgrey;
+    color: $sequence-stream-color;
 }
 
 .utr {
-    color: forestgreen;
+    color: $sequence-utr-color;
 }
 
 .exon {
-    color: dodgerblue;
+    color: $sequence-exon-color;
 }
 
 .intron {
-    color: #c0504d;
+    color: $sequence-intron-color;
 }
 
 @media screen, print {
     .stream {
-        color: darkgrey !important;
+        color: $sequence-stream-color !important;
         -webkit-print-color-adjust: exact;
     }
 
     .utr {
-        color: forestgreen !important;
+        color: $sequence-utr-color !important;
         -webkit-print-color-adjust: exact;
     }
 
     .exon {
-        color: dodgerblue !important;
+        color: $sequence-exon-color !important;
         -webkit-print-color-adjust: exact;
     }
 
     .intron {
-        color: #c0504d !important;
+        color: $sequence-intron-color !important;
         -webkit-print-color-adjust: exact;
     }
 }
@@ -235,40 +234,40 @@ ul.fasta-legend li:before {
 
 @media screen, print {
     .alignment .identities-100 {
-        color: white !important;
-        background-color: #3c3c3c !important;
+        color: $white !important;
+        background-color: $gray-900 !important;
         -webkit-print-color-adjust: exact;
     }
 
     .alignment .identities-80 {
-        color: white !important;
-        background-color: #737373 !important;
+        color: $white !important;
+        background-color: $gray-700 !important;
         -webkit-print-color-adjust: exact;
     }
 
     .alignment .identities-60 {
-        color: black !important;
-        background-color: #d3d3d3 !important;
+        color: $black !important;
+        background-color: $gray-400 !important;
         -webkit-print-color-adjust: exact;
     }
 
     .alignment .similarities-basic {
-        background-color: #57c4f2 !important;
+        background-color: $protein-similarities-basic !important;
         -webkit-print-color-adjust: exact;
     }
 
     .alignment .similarities-nonpolar {
-        background-color: #bbe4fa !important;
+        background-color: $protein-similarities-nonpolar !important;
         -webkit-print-color-adjust: exact;
     }
 
     .alignment .similarities-polar {
-        background-color: #f7d5e3 !important;
+        background-color: $protein-similarities-polar !important;
         -webkit-print-color-adjust: exact;
     }
 
     .alignment .similarities-acidic {
-        background-color: #e4008c !important;
+        background-color: $protein-similarities-acidic !important;
         -webkit-print-color-adjust: exact;
     }
 }
