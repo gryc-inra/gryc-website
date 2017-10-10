@@ -8,6 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class StaticPagesController extends Controller
 {
     /**
+     * @Route("/publisher", name="publisher")
+     */
+    public function publisherAction()
+    {
+        return $this->render('static_pages/publisher.html.twig');
+    }
+
+    /**
      * @Route("/privacy-policy", name="privacy-policy")
      */
     public function privacyPolicyAction()
@@ -26,7 +34,7 @@ class StaticPagesController extends Controller
     /**
      * @Route("/tools", name="tools")
      */
-    public function indexAction()
+    public function toolsAction()
     {
         return $this->render('tools/index.html.twig');
     }

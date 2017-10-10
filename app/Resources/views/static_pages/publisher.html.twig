@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Publisher - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Publisher</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Publisher</h1>
+
+    <h2>Publisher identification</h2>
+    <p>
+        <span class="fa fa-map-marker" aria-hidden="true"></span> 147, rue de l’Université 75338 Paris Cedex 07<br>
+        <span class="fa fa-phone" aria-hidden="true"></span> +33(0)1 42 75 90 00<br>
+        SIREN number: 180-070-039<br>
+        SIRET number: 180-070-039 01803<br>
+        APE code: <abbr title="Research and development in other physical and natural sciences">7219Z</abbr>
+    </p>
+
+    <h2>Director of publication</h2>
+    <p>
+        Mrs. Cécile Neuvéglise
+    </p>
+{% endblock %}
