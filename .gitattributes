@@ -1,0 +1,6 @@
+/web/build/css/* -diff
+/web/build/fonts/* -diff
+/web/build/images/* -diff
+/web/build/js/* -diff
+/web/build/*.js -diff
+/web/build/*.json -diff
