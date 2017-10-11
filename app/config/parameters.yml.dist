@@ -3,22 +3,22 @@
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     # Database settings
-    env(DATABASE_URL):              'mysql://login:password@host:3306/databaseName'
+    env(DATABASE_URL):              mysql://gryc:gryc@db:3306/gryc
 
     # ElasticSearch settings
-    env(ELASTICSEARCH_URL):         'http://host:9200'
+    env(ELASTICSEARCH_URL):         http://es1:9200
 
     # RabbitMq settings
-    env(RABBITMQ_URL):              'amqp://login:password@host:5672/vhost?lazy=1&connection_timeout=3&read_write_timeout=3'
+    env(RABBITMQ_URL):              amqp://gryc:gryc@rabbitmq:5672/gryc?lazy=1&connection_timeout=3&read_write_timeout=3
 
     # Mailer settings
-    env(MAILER_URL):                'smtp://login:password@host?encryption=ssl&auth_mode=login'
-    env(MAILER_SENDER_ADDRESS):     'me@myhost.tld'
-    env(MAILER_SENDER_NAME):        'My site name'
+    env(MAILER_URL):                smtp://login:password@host?encryption=ssl&auth_mode=login
+    env(MAILER_SENDER_ADDRESS):     me@myhost.tld
+    env(MAILER_SENDER_NAME):        My site name
 
     # A secret key that's used to generate certain security-related tokens
     env(SYMFONY_SECRET):            ThisTokenIsNotSoSecretChangeIt
 
     # ReCaptcha API key
-    env(RECAPTCHA_PUBLIC_KEY):      ~
-    env(RECAPTCHA_PRIVATE_KEY):     ~
+    env(RECAPTCHA_PUBLIC_KEY):      ReplaceWithYourOwnReCaptchaPublicKeyForInvisibleCatcha
+    env(RECAPTCHA_PRIVATE_KEY):     ReplaceWithYourOwnReCaptchaPrivateKeyForInvisibleCatcha
