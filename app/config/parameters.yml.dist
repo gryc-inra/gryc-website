@@ -23,5 +23,6 @@ parameters:
     env(RECAPTCHA_PUBLIC_KEY):      ReplaceWithYourOwnReCaptchaPublicKeyForInvisibleCatcha
     env(RECAPTCHA_PRIVATE_KEY):     ReplaceWithYourOwnReCaptchaPrivateKeyForInvisibleCatcha
 
-    # Blast version
+    # Tools version
     env(BLAST_VERSION):             2.7.0+
+    env(MAFFT_VERSION):             7.310

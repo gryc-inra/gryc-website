@@ -50,6 +50,7 @@ twig:
     globals:
         fasta_generator: '@AppBundle\Utils\FastaGenerator'
         blast_version: '%env(BLAST_VERSION)%'
+        mafft_version: '%env(MAFFT_VERSION)%'
 
 # Doctrine Configuration
 doctrine:
