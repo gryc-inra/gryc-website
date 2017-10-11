@@ -13,7 +13,9 @@ Encore
     })
     .enableVersioning()
     .enableSourceMaps(!Encore.isProduction())
-    .enableSassLoader()
+    .enableSassLoader(function(sassOptions) {}, {
+        resolveUrlLoader: false
+    })
     .createSharedEntry('js/vendor', ['jquery', 'popper.js', 'bootstrap'])
     .addEntry('js/app', [
         './assets/js/auto-dismiss-alert.js',
