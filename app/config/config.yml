@@ -49,6 +49,7 @@ twig:
         - form/fields.html.twig
     globals:
         fasta_generator: '@AppBundle\Utils\FastaGenerator'
+        blast_version: '%env(BLAST_VERSION)%'
 
 # Doctrine Configuration
 doctrine:

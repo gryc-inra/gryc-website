@@ -22,3 +22,6 @@ parameters:
     # ReCaptcha API key
     env(RECAPTCHA_PUBLIC_KEY):      ReplaceWithYourOwnReCaptchaPublicKeyForInvisibleCatcha
     env(RECAPTCHA_PRIVATE_KEY):     ReplaceWithYourOwnReCaptchaPrivateKeyForInvisibleCatcha
+
+    # Blast version
+    env(BLAST_VERSION):             2.7.0+
