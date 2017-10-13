@@ -79,6 +79,12 @@ footer a:active {
     a[href]:after {
         content: none !important;
     }
+
+    html, body {
+        height: auto;
+        margin: 0;
+        padding: 0;
+    }
 }
 
 /* BLAST Sidebar
