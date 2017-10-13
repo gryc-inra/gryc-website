@@ -3,8 +3,7 @@
         {% if result.iterations|length > 1 %}
             <div class="row">
                 <div class="col-lg-4">
-                    <span class="anchor" id="job-hits"></span>
-                    <h2>Hits</h2>
+                    <h2 id="job-hits">Hits</h2>
                     <table class="table table-striped">
                         <tr>
                             <th>Query name</th>
@@ -25,8 +24,7 @@
         {% endif %}
 
         {% for query in result.iterations %}
-            <span class="anchor" id="{{ "query-" ~ query.query_num }}"></span>
-            <h2>Query description</h2>
+            <h2 id="{{ "query-" ~ query.query_num }}">Query description</h2>
             <table class="table">
                 <tr>
                     <th>Query</th>
@@ -43,8 +41,7 @@
             </table>
 
             {% if query.hits is not empty %}
-                <span class="anchor" id="{{ "query-" ~ query.query_num ~ "-summary" }}"></span>
-                <h3>Graphical summary of the {{ query.hits|length }} hits obtained</h3>
+                <h3 id="{{ "query-" ~ query.query_num ~ "-summary" }}">Graphical summary of the {{ query.hits|length }} hits obtained</h3>
 
                 {# Set SVG params #}
                 {% set svgWidth, svgPadding, svgElementsPadding = 750, 10, 5 %}
@@ -64,7 +61,7 @@
                 {# in svgHeight the +10 is the font size of the legend #}
                 {% set svgHeight = colorLegendYStart + colorLegendHeigth + 10 %}
 
-                <svg class="mb-3" height="{{ svgHeight }}" width="{{ svgWidth }}" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <svg class="mb-3" height="{{ svgHeight }}" width="{{ svgWidth }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     {# Draw the query #}
                     <line stroke="#B8B8B8" x1="{{ leftLegendWidth }}" x2="{{ svgWidth - svgPadding }}" y1="{{ queryLineY }}" y2="{{ queryLineY }}"></line>
                     <rect fill="#C05350" height="{{ queryRecHeight }}" rx="{{ queryRecRadian }}" ry="{{ queryRecRadian }}" width="{{ svgWidth - leftLegendWidth - svgPadding - svgElementsPadding*2 }}" x="{{ leftLegendWidth + svgElementsPadding }}" y="{{ queryRecY }}"></rect>
@@ -136,8 +133,7 @@
                     <text font-size="10" x="645" y="{{ colorLegendYStart + colorLegendHeigth + 10 }}">s&gt;500</text>
                 </svg>
 
-                <span class="anchor" id="{{ "query-" ~ query.query_num ~ '-best-hits' }}"></span>
-                <h3>Best hit table</h3>
+                <h3 id="{{ "query-" ~ query.query_num ~ '-best-hits' }}">Best hit table</h3>
                 <table class="table table-striped">
                     <tr>
                         <th>Seq ID</th>
@@ -179,11 +175,9 @@
                     {% endfor %}
                 </table>
 
-                <span class="anchor" id="{{ "query-alignment-" ~ query.query_num }}"></span>
-                <h3>Pairwise alignment details</h3>
+                <h3 id="{{ "query-alignment-" ~ query.query_num }}">Pairwise alignment details</h3>
                 {% for hit in query.hits %}
-                    <span class="anchor" id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num }}"></span>
-                    <div class="card my-3">
+                    <div id="{{ "query-" ~ query.query_num ~ "-hit-" ~ hit.num }}" class="card my-3">
                         <p class="card-header">
                             {% if hit.locus_entity is defined %}
                                 <a href="{{ path('locus_view', {
@@ -262,7 +256,7 @@
     </div>
 
     <div class="col-lg-3 d-none d-lg-block">
-        <nav class="navbar navbar-light bg-light scrollspy" id="blast-scrollspy">
+        <nav id="blast-scrollspy" class="navbar navbar-light bg-light scrollspy">
             <nav class="nav nav-pills flex-column">
                 {% if result.iterations|length > 1 %}
                     <a class="nav-link" href="#job-hits">Hits</a>

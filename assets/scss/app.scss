@@ -41,36 +41,36 @@ header {
 /* Sticky navbar
 -------------------------------------------------- */
 #primary-navbar {
-  height: 2.5rem;
+    height: 2.5rem;
 }
 
 #secondary-navbar {
-  top: 2.5rem;
-  margin-bottom: 1rem;
+    top: 2.5rem;
+    margin-bottom: 1rem;
 }
 
 /* Sticky footer
 -------------------------------------------------- */
 footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 100px;
-  color: $white;
-  background-color: $gryc-blue;
-  padding: 10px 0;
-  margin-top: 1rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 100px;
+    color: $white;
+    background-color: $gryc-blue;
+    padding: 10px 0;
+    margin-top: 1rem;
 }
 
 footer a {
-  color: $white;
+    color: $white;
 }
 
 footer a:hover,
 footer a:active {
-  color: $white;
-  text-decoration: underline !important;
+    color: $white;
+    text-decoration: underline !important;
 }
 
 /* Print
@@ -118,15 +118,6 @@ nav#blast-scrollspy nav a.active + nav a.active {
 .private-strain:after {
     content: " *";
     color: $red;
-}
-
-/* anchors
--------------------------------------------------- */
-.anchor {
-    display: block;
-    height: 7rem; /*same height as header*/
-    margin-top: 7rem; /*same height as header*/
-    visibility: hidden;
 }
 
 /* Form spotlight
@@ -202,15 +193,15 @@ ul.fasta-legend  {
 }
 
 ul.fasta-legend li {
-    padding-left: 1.3em;
+    padding-left: 1.3rem;
 }
 
 ul.fasta-legend li:before {
     content: "\f0c8"; /* FontAwesome Unicode */
     font-family: FontAwesome;
     display: inline-block;
-    margin-left: -1.3em;
-    width: 1.3em;
+    margin-left: -1.3rem;
+    width: 1.3rem;
 }
 
 /* Sequence Alignment Display

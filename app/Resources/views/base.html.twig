@@ -19,7 +19,7 @@
         {% endblock %}
     </head>
 
-    <body data-spy="scroll" data-target=".scrollspy" data-offset="0">
+    <body data-spy="scroll" data-target=".scrollspy" data-offset="112">
         <noscript>
             <div id="js-disclaimer" class="alert alert-danger text-center">
                 Please use <a rel="nofollow" href="http://browsehappy.com/">a modern browser</a> with JavaScript activated to navigate through this website
@@ -153,7 +153,7 @@
             {# List flashes messages #}
             {% for label, messages in app.flashes(['success', 'info', 'warning', 'danger']) %}
                 {% for message in messages %}
-                    <div class="alert alert-{{ label }} alert-dismissible" role="alert">
+                    <div class="alert alert-{{ label }} alert-dismissible d-print-none" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <strong>{{ label|capitalize }}!</strong> {{ message }}
                     </div>
