@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-9 col-xs-12 ">
+    <div id="blast-results">
         {% if result.iterations|length > 1 %}
             <div class="row">
                 <div class="col-lg-4">
@@ -255,7 +255,7 @@
         {% endfor %}
     </div>
 
-    <div class="col-lg-3 d-none d-lg-block">
+    <div id="blast-menu">
         <nav id="blast-scrollspy" class="navbar navbar-light bg-light scrollspy">
             <nav class="nav nav-pills flex-column">
                 {% if result.iterations|length > 1 %}

@@ -117,6 +117,42 @@ nav#blast-scrollspy nav a.active + nav a.active {
     border-left: 2px solid $blue;
 }
 
+#blast-results {
+  @include make-col-ready();
+
+  @include media-breakpoint-up(sm) {
+    @include make-col(12);
+  }
+  @include media-breakpoint-up(lg) {
+    @include make-col(9);
+  }
+}
+
+#blast-menu {
+  @include make-col-ready();
+
+  @include media-breakpoint-up(sm) {
+    @include make-col(0);
+  }
+  @include media-breakpoint-up(lg) {
+    @include make-col(3);
+  }
+}
+
+@media print {
+  #blast-results {
+    @include make-col-ready();
+
+    @include media-breakpoint-up(sm) {
+      @include make-col(12);
+    }
+  }
+
+  #blast-menu {
+    display: none;
+  }
+}
+
 /* Red * after required label and private strains
 -------------------------------------------------- */
 .form-group > label.required:after,
