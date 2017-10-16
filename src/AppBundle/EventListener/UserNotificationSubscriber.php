@@ -70,9 +70,9 @@ class UserNotificationSubscriber implements EventSubscriberInterface
         ]);
 
         $message = \Swift_Message::newInstance()
-            ->setSubject($subject)
-            ->setTo($user->getEmail())
             ->setFrom($this->senderMail, $this->senderName)
+            ->setTo($user->getEmail())
+            ->setSubject($subject)
             ->setBody($body, 'text/html')
         ;
 
@@ -93,9 +93,9 @@ class UserNotificationSubscriber implements EventSubscriberInterface
         ]);
 
         $message = \Swift_Message::newInstance()
-            ->setSubject($subject)
-            ->setTo($user->getEmail())
             ->setFrom($this->senderMail, $this->senderName)
+            ->setTo($user->getEmail())
+            ->setSubject($subject)
             ->setBody($body, 'text/html')
         ;
 
