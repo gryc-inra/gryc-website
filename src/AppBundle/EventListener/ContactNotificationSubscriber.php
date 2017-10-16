@@ -75,9 +75,10 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
         ]);
 
         $message = \Swift_Message::newInstance()
-            ->setSubject($subject)
+            ->setFrom($this->senderMail, $this->senderName)
             ->setTo($this->senderMail, $this->senderName)
-            ->setFrom($data['email'], $data['firstName'].' '.$data['lastName'])
+            ->setReplyTo($data['email'], $data['firstName'].' '.$data['lastName'])
+            ->setSubject($subject)
             ->setBody($body, 'text/html')
         ;
 
@@ -92,10 +93,10 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
         );
 
         $message = \Swift_Message::newInstance()
-        ->setSubject($subject)
-        ->setTo($data['email'], $data['firstName'].' '.$data['lastName'])
-        ->setFrom($this->senderMail, $this->senderName)
-        ->setBody($body, 'text/html')
+            ->setFrom($this->senderMail, $this->senderName)
+            ->setTo($data['email'], $data['firstName'].' '.$data['lastName'])
+            ->setSubject($subject)
+            ->setBody($body, 'text/html')
         ;
 
         $this->mailer->send($message);
