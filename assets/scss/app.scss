@@ -23,98 +23,99 @@ body {
 /* Header
 -------------------------------------------------- */
 #js-disclaimer {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 header {
-    /* Set the fixed height of the header here */
-    height: 150px;
-    padding: 25px 5px;
-    /* Set the background of the header here */
-    background: $gryc-blue; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, $white , $gryc-blue); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, $white, $gryc-blue); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, $white, $gryc-blue); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, $white , $gryc-blue); /* Standard syntax */
+  /* Set the fixed height of the header here */
+  height: 150px;
+  padding: 25px 5px;
+  /* Set the background of the header here */
+  background: $gryc-blue; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, $white , $gryc-blue); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, $white, $gryc-blue); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, $white, $gryc-blue); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, $white , $gryc-blue); /* Standard syntax */
 }
 
 /* Sticky navbar
 -------------------------------------------------- */
 #primary-navbar {
-    height: 2.5rem;
+  height: 2.5rem;
 }
 
 #secondary-navbar {
-    top: 2.5rem;
-    margin-bottom: 1rem;
+  top: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 /* Sticky footer
 -------------------------------------------------- */
 footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 100px;
-    color: $white;
-    background-color: $gryc-blue;
-    padding: 10px 0;
-    margin-top: 1rem;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 100px;
+  color: $white;
+  background-color: $gryc-blue;
+  padding: 10px 0;
+  margin-top: 1rem;
+  z-index: -1;
 }
 
 footer a {
-    color: $white;
+  color: $white;
 }
 
 footer a:hover,
 footer a:active {
-    color: $white;
-    text-decoration: underline !important;
+  color: $white;
+  text-decoration: underline !important;
 }
 
 /* Print
 -------------------------------------------------- */
 @media print {
-    a[href]:after {
-        content: none !important;
-    }
+  a[href]:after {
+    content: none !important;
+  }
 
-    html, body {
-        height: auto;
-        margin: 0;
-        padding: 0;
-    }
+  html, body {
+    height: auto;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 /* BLAST Sidebar
 -------------------------------------------------- */
 nav#blast-scrollspy {
-    position: sticky;
-    top: 7rem;
-    z-index: 1000;
+  position: sticky;
+  top: 7rem;
+  z-index: 1000;
 }
 
 nav#blast-scrollspy nav nav {
-    display: none;
+  display: none;
 }
 
 nav#blast-scrollspy nav a.active + nav {
-    display: block;
+  display: block;
 }
 
 nav#blast-scrollspy nav a.active + nav a {
-    display: none;
+  display: none;
 }
 
 nav#blast-scrollspy nav a.active + nav a.active,
 nav#blast-scrollspy nav a.active + nav a.display
 {
-    display: block;
+  display: block;
 }
 
 nav#blast-scrollspy nav a.active + nav a.active {
-    border-left: 2px solid $blue;
+  border-left: 2px solid $blue;
 }
 
 #blast-results {
@@ -158,8 +159,8 @@ nav#blast-scrollspy nav a.active + nav a.active {
 .form-group > label.required:after,
 .form-group > legend.required:after,
 .private-strain:after {
-    content: " *";
-    color: $red;
+  content: " *";
+  color: $red;
 }
 
 /* Form spotlight
@@ -180,151 +181,151 @@ nav#blast-scrollspy nav a.active + nav a.active {
 /* Sequence display
 -------------------------------------------------- */
 .fasta {
-    font-family: Cousine, monospace;
-    font-size: 18px;
-    overflow-x: auto;
-    margin-bottom: 10px;
+  font-family: Cousine, monospace;
+  font-size: 18px;
+  overflow-x: auto;
+  margin-bottom: 10px;
 }
 
 .fasta .header {
-    display: block;
+  display: block;
 }
 
 .stream {
-    color: $sequence-stream-color;
+  color: $sequence-stream-color;
 }
 
 .utr {
-    color: $sequence-utr-color;
+  color: $sequence-utr-color;
 }
 
 .exon {
-    color: $sequence-exon-color;
+  color: $sequence-exon-color;
 }
 
 .intron {
-    color: $sequence-intron-color;
+  color: $sequence-intron-color;
 }
 
 @media screen, print {
-    .stream {
-        color: $sequence-stream-color !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .stream {
+    color: $sequence-stream-color !important;
+    -webkit-print-color-adjust: exact;
+  }
 
-    .utr {
-        color: $sequence-utr-color !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .utr {
+    color: $sequence-utr-color !important;
+    -webkit-print-color-adjust: exact;
+  }
 
-    .exon {
-        color: $sequence-exon-color !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .exon {
+    color: $sequence-exon-color !important;
+    -webkit-print-color-adjust: exact;
+  }
 
-    .intron {
-        color: $sequence-intron-color !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .intron {
+    color: $sequence-intron-color !important;
+    -webkit-print-color-adjust: exact;
+  }
 }
 
 /* FASTA sequence legend */
 ul.fasta-legend  {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 ul.fasta-legend li {
-    padding-left: 1.3rem;
+  padding-left: 1.3rem;
 }
 
 ul.fasta-legend li:before {
-    content: "\f0c8"; /* FontAwesome Unicode */
-    font-family: FontAwesome;
-    display: inline-block;
-    margin-left: -1.3rem;
-    width: 1.3rem;
+  content: "\f0c8"; /* FontAwesome Unicode */
+  font-family: FontAwesome;
+  display: inline-block;
+  margin-left: -1.3rem;
+  width: 1.3rem;
 }
 
 /* Sequence Alignment Display
 -------------------------------------------------- */
 .alignment {
-    font-family: Cousine, monospace;
+  font-family: Cousine, monospace;
 }
 
 .alignment .alignment-row {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .alignment .sequence-row {
-    margin-bottom: -5px;
-    padding: 0;
+  margin-bottom: -5px;
+  padding: 0;
 }
 
 .alignment .sequence-name {
-    white-space: pre;
+  white-space: pre;
 }
 
 .alignment .sequence-position {
-    white-space: pre;
+  white-space: pre;
 }
 
 @media screen, print {
-    .alignment .identities-100 {
-        color: $white !important;
-        background-color: $gray-900 !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .alignment .identities-100 {
+    color: $white !important;
+    background-color: $gray-900 !important;
+    -webkit-print-color-adjust: exact;
+  }
 
-    .alignment .identities-80 {
-        color: $white !important;
-        background-color: $gray-700 !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .alignment .identities-80 {
+    color: $white !important;
+    background-color: $gray-700 !important;
+    -webkit-print-color-adjust: exact;
+  }
 
-    .alignment .identities-60 {
-        color: $black !important;
-        background-color: $gray-400 !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .alignment .identities-60 {
+    color: $black !important;
+    background-color: $gray-400 !important;
+    -webkit-print-color-adjust: exact;
+  }
 
-    .alignment .similarities-basic {
-        background-color: $protein-similarities-basic !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .alignment .similarities-basic {
+    background-color: $protein-similarities-basic !important;
+    -webkit-print-color-adjust: exact;
+  }
 
-    .alignment .similarities-nonpolar {
-        background-color: $protein-similarities-nonpolar !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .alignment .similarities-nonpolar {
+    background-color: $protein-similarities-nonpolar !important;
+    -webkit-print-color-adjust: exact;
+  }
 
-    .alignment .similarities-polar {
-        background-color: $protein-similarities-polar !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .alignment .similarities-polar {
+    background-color: $protein-similarities-polar !important;
+    -webkit-print-color-adjust: exact;
+  }
 
-    .alignment .similarities-acidic {
-        background-color: $protein-similarities-acidic !important;
-        -webkit-print-color-adjust: exact;
-    }
+  .alignment .similarities-acidic {
+    background-color: $protein-similarities-acidic !important;
+    -webkit-print-color-adjust: exact;
+  }
 }
 
 /* BLAST
 -------------------------------------------------- */
 .blast-alignment {
-    font-family: Cousine, monospace;
-    font-size: 14px;
-    word-break: break-all;
-    margin-bottom: 50px;
+  font-family: Cousine, monospace;
+  font-size: 14px;
+  word-break: break-all;
+  margin-bottom: 50px;
 }
 
 .blast-alignment .alignment-row {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 /*
  * Query Forms
  */
 .fasta-input {
-    font-family: Cousine, monospace;
+  font-family: Cousine, monospace;
 }
