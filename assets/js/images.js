@@ -1,5 +1,3 @@
-require('../images/403.png');
-require('../images/404.png');
 require('../images/down_embl.png');
 require('../images/down_fasta.png');
 require('../images/down_fasta_nuc.png');

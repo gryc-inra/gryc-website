@@ -4,8 +4,6 @@
   "build/fonts/fontawesome-webfont.ttf?v=4.7.0": "/build/fonts/fontawesome-webfont.b06871f2.ttf",
   "build/fonts/fontawesome-webfont.woff2?v=4.7.0": "/build/fonts/fontawesome-webfont.af7ae505.woff2",
   "build/fonts/fontawesome-webfont.woff?v=4.7.0": "/build/fonts/fontawesome-webfont.fee66e71.woff",
-  "build/images/403.png": "/build/images/403.cdc12df3.png",
-  "build/images/404.png": "/build/images/404.721f80af.png",
   "build/images/down_embl.png": "/build/images/down_embl.1f324d55.png",
   "build/images/down_fasta.png": "/build/images/down_fasta.6ad22d4b.png",
   "build/images/down_fasta_nuc.png": "/build/images/down_fasta_nuc.988fe6d9.png",
@@ -16,7 +14,7 @@
   "build/images/inra-80.png": "/build/images/inra-80.38c59b26.png",
   "build/images/logo-100.png": "/build/images/logo-100.698af144.png",
   "build/images/logo-40.png": "/build/images/logo-40.48b66b63.png",
-  "build/js/app.js": "/build/js/app.b2aa0c2004d6ebefa43d.js",
+  "build/js/app.js": "/build/js/app.49da794b8429c6ed3ae8.js",
   "build/js/vendor.js": "/build/js/vendor.a533750d4291b229f460.js",
   "build/manifest.js": "/build/manifest.d41d8cd98f00b204e980.js"
 }
