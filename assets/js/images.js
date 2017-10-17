@@ -6,6 +6,6 @@ require('../images/down_fasta_nuc.png');
 require('../images/down_fasta_pro.png');
 require('../images/down_targz.png');
 require('../images/igenolevure-80.png');
-require('../images/INRA-80.png');
+require('../images/inra-80.png');
 require('../images/logo-40.png');
 require('../images/logo-100.png');
