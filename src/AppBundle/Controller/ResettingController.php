@@ -49,6 +49,9 @@ class ResettingController extends Controller
             $event = new GenericEvent($user);
             $eventDispatcher->dispatch(Events::USER_RESET, $event);
 
+            // Add a flash message
+            $this->addFlash('success', 'An email containing the password reset procedure has been sent to you.');
+
             return $this->redirectToRoute('login');
         }
 
