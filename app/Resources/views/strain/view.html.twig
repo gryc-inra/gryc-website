@@ -47,7 +47,7 @@
             <div class="card mb-3">
                 <div class="card-header">Genomes informations</div>
                 <div class="card-body">
-                    <p>Status: <b style="color:{{ 'complete' == strain.status|lower ? 'green' : 'orange' }};">{{ strain.status }}</b></p>
+                    <p>Status: <b class="{{ 'complete' == strain.status|lower ? 'text-success' : 'text-warning' }}">{{ strain.status }}</b></p>
                     <p>Total length: {{ strain.length|number_format }}</p>
                     <p>Number of CDS: {{ strain.cdsCount|number_format }}</p>
                     <p>Number of chromosomes: {{ strain.chromosomes|length }}</p>
