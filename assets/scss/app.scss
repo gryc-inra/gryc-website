@@ -31,11 +31,11 @@ header {
   height: 150px;
   padding: 25px 5px;
   /* Set the background of the header here */
-  background: $gryc-blue; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(left, $white , $gryc-blue); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(right, $white, $gryc-blue); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(right, $white, $gryc-blue); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to right, $white , $gryc-blue); /* Standard syntax */
+  background: $blue; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, $white , $blue); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, $white, $blue); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, $white, $blue); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, $white , $blue); /* Standard syntax */
 }
 
 /* Sticky navbar
@@ -58,7 +58,7 @@ footer {
   /* Set the fixed height of the footer here */
   height: 100px;
   color: $white;
-  background-color: $gryc-blue;
+  background-color: $blue;
   padding: 10px 0;
   z-index: -1;
 }
