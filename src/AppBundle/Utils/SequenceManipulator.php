@@ -81,7 +81,7 @@ class SequenceManipulator
 
             $sequence60 = str_split($sequence['sequence'], 60);
             foreach ($sequence60 as $seq60) {
-                $fasta .= $seq60;
+                $fasta .= $seq60."\n";
             }
 
             ++$i;
