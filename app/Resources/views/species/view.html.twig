@@ -30,7 +30,7 @@
                     <p>Genus: <i>{{ species.genus }}</i></p>
                     <p>Species: <i>{{ species.species }}</i></p>
                     {% if species.taxid is not null %}
-                        <p>TaxId: <a target="_blank" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ species.taxid }}">{{ species.taxid }}</a></p>
+                        <p>TaxId: <a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ species.taxid }}">{{ species.taxid }}</a></p>
                     {% endif %}
                     <p>Synonymes:</p>
                     <ul>
