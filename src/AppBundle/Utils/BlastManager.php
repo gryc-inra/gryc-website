@@ -22,10 +22,21 @@ class BlastManager
         $this->session = $session;
     }
 
+    /**
+     * Initialize Blast
+     *
+     * @param Blast|null $blast
+     *
+     * @return Blast
+     */
     public function initBlast(Blast $blast = null)
     {
-        if (null === $blast && null === $blast = $this->getLastBlast()) {
-            $blast = new Blast();
+        // 3 possibilities:
+        // - The user don't give a blast, we call getLastBlast (return the last blast or create a new if don't exists)
+        // - The user give a Blast, we clone it
+
+        if (null === $blast) {
+            $blast = $this->getLastBlast();
         } else {
             // Here, clone the Blast give by the user, or the last blast (In the if, we define blast and test it after the &&)
             $blast = clone $blast;
@@ -34,20 +45,34 @@ class BlastManager
         return $blast;
     }
 
+    /**
+     * Retrieve the last Blast object for the current user
+     *
+     * @return Blast
+     */
     public function getLastBlast()
     {
+        // Get the last Blast Id in the user session, and retrieve the Blast object corresponding
         $lastBlastId = $this->session->get('last_blast');
         $blast = $this->em->getRepository('AppBundle:Blast')->findOneById($lastBlastId);
 
+        // If the Blast is not null, we Clone it and return it to the user
         if (null !== $blast) {
             $blast = clone $blast;
-        } else {
+        } else { // Else, the user have not previous Blast, we create a new Blast
             $blast = new Blast();
         }
 
         return $blast;
     }
 
+    /**
+     * Manage the blast: prepare the blast command, launch the command, and processes the ouput (success, error, statusCode)
+     * This method was called by a RabbitMq consumer
+     *
+     * @param $blastId
+     * @return mixed
+     */
     public function blast($blastId)
     {
         $blast = $this->em->getRepository('AppBundle:Blast')->findToBlast($blastId);
@@ -120,7 +145,7 @@ class BlastManager
 
         $blast->setExitCode($process->getExitCode());
 
-        $this->em->merge($blast);
+        // Flush the database
         $this->em->flush();
 
         // Delete the temp files
@@ -129,6 +154,12 @@ class BlastManager
         return $blast;
     }
 
+    /**
+     * Convert the Blast XML output in an array
+     *
+     * @param Blast $blast
+     * @return array
+     */
     public function xmlToArray(Blast $blast)
     {
         $crawler = new Crawler();
@@ -211,7 +242,7 @@ class BlastManager
                     $hsp['hseq'] = str_split($node->filterXPath('//Hsp_hseq')->text(), 60);
 
                     // Adapt the alignment, to be displayed directly in twig
-                    $hsp = $this->createAlignment($hsp, $result['blast_tool']);
+                    $hsp = $this->prepareAlignment($hsp, $result['blast_tool']);
 
                     // Draw or not the HSP on the graphic ?
                     // if the hsp coordinate are in the previous hsp coordinate range, do not draw
@@ -232,12 +263,20 @@ class BlastManager
             });
         });
 
-        $result = $this->getBlastEntities($result, $blast);
+        $result = $this->getLocusEntities($result, $blast);
 
         return $result;
     }
 
-    private function createAlignment($hsp, $blastTool)
+    /**
+     * Prepare the alignments by adding: legend, position (from/to), replace spaces to be displayed in HTML
+     *
+     * @param array $hsp
+     * @param string $blastTool
+     *
+     * @return array $hsp
+     */
+    private function prepareAlignment($hsp, $blastTool)
     {
         /*
          * LEGEND
@@ -330,7 +369,7 @@ class BlastManager
 
         // Convert midline
         foreach ($hsp['midline'] as &$line) {
-            // Replace spaces by &nbsp; in the midline toavoid display bug when there is many spaces collapsed
+            // Replace spaces by &nbsp; in the midline to avoid display bug when there is many spaces collapsed
             $line = str_replace(' ', '&nbsp;', $line);
             // In the midline, the number of spaces is
             // the length of the longer legend + 1 for the space between the legend and the sequence
@@ -349,7 +388,15 @@ class BlastManager
         return $hsp;
     }
 
-    private function getBlastEntities(array $blastResult, Blast $blast)
+    /**
+     * Get the locus entities for each hit, to permit display link in result view
+     *
+     * @param array $blastResult
+     * @param Blast $blast
+     *
+     * @return array $blastResult
+     */
+    private function getLocusEntities(array $blastResult, Blast $blast)
     {
         // If the user don't blast against CDS, return
         if ('chr' === $blast->getDatabase()) {
