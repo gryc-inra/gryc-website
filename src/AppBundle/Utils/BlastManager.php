@@ -23,7 +23,7 @@ class BlastManager
     }
 
     /**
-     * Initialize Blast
+     * Initialize Blast.
      *
      * @param Blast|null $blast
      *
@@ -46,7 +46,7 @@ class BlastManager
     }
 
     /**
-     * Retrieve the last Blast object for the current user
+     * Retrieve the last Blast object for the current user.
      *
      * @return Blast
      */
@@ -68,9 +68,10 @@ class BlastManager
 
     /**
      * Manage the blast: prepare the blast command, launch the command, and processes the ouput (success, error, statusCode)
-     * This method was called by a RabbitMq consumer
+     * This method was called by a RabbitMq consumer.
      *
      * @param $blastId
+     *
      * @return mixed
      */
     public function blast($blastId)
@@ -155,9 +156,10 @@ class BlastManager
     }
 
     /**
-     * Convert the Blast XML output in an array
+     * Convert the Blast XML output in an array.
      *
      * @param Blast $blast
+     *
      * @return array
      */
     public function xmlToArray(Blast $blast)
@@ -269,9 +271,9 @@ class BlastManager
     }
 
     /**
-     * Prepare the alignments by adding: legend, position (from/to), replace spaces to be displayed in HTML
+     * Prepare the alignments by adding: legend, position (from/to), replace spaces to be displayed in HTML.
      *
-     * @param array $hsp
+     * @param array  $hsp
      * @param string $blastTool
      *
      * @return array $hsp
@@ -389,7 +391,7 @@ class BlastManager
     }
 
     /**
-     * Get the locus entities for each hit, to permit display link in result view
+     * Get the locus entities for each hit, to permit display link in result view.
      *
      * @param array $blastResult
      * @param Blast $blast
