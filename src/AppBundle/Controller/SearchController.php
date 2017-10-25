@@ -18,6 +18,7 @@ class SearchController extends Controller
     public function quickSearchAction(Request $request)
     {
         $keyword = null !== $request->get('q') ? $request->get('q') : '';
+        $keyword = mb_convert_encoding($keyword, "UTF-8");
 
         $repositoryManager = $this->get('fos_elastica.manager');
         $repository = $repositoryManager->getRepository('AppBundle:Locus');
