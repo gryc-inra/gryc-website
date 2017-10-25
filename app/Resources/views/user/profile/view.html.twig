@@ -10,23 +10,34 @@
 {% endblock %}
 
 {% block body %}
-    <div class="btn-group btn-group-sm float-right" role="group">
-        <a class="btn btn-secondary" href="{{ path('user_password_edit') }}">
-            <span class="fa fa-key" aria-hidden="true"></span> Change password
-        </a>
+    <div class="row mb-1">
+        <div class="col-12">
+            <div class="btn-group btn-group-sm float-right" role="group">
+                <a class="btn btn-secondary" href="{{ path('user_password_edit') }}">
+                    <span class="fa fa-key" aria-hidden="true"></span> Change password
+                </a>
 
-        <a class="btn btn-warning" href="{{ path('user_profile_edit') }}">
-            <span class="fa fa-pencil" aria-hidden="true"></span> Edit
-        </a>
+                <a class="btn btn-warning" href="{{ path('user_profile_edit') }}">
+                    <span class="fa fa-pencil" aria-hidden="true"></span> Edit
+                </a>
 
-        <a class="btn btn-danger" href="{{ path('user_profile_delete') }}">
-            <span class="fa fa-trash" aria-hidden="true"></span> Delete
-        </a>
+                <a class="btn btn-danger" href="{{ path('user_profile_delete') }}">
+                    <span class="fa fa-trash" aria-hidden="true"></span> Delete
+                </a>
+            </div>
+        </div>
     </div>
 
-    <h3>{{ user.username }}</h3>
-    <p>
-        Name: {{ user.firstName }} {{ user.lastName }}<br>
-        Company: {{ user.company }}
-    </p>
+    <div class="row">
+        <div class="col-sm-2 text-sm-center">
+            <span class="user-profile-picture">{{ app.user.firstName|slice(0, 1)|upper }}{{ app.user.lastName|slice(0, 1)|upper }}</span>
+        </div>
+        <div class="col-sm-10">
+            <h3>{{ user.username }}</h3>
+            <p>
+                Name: {{ user.firstName }} {{ user.lastName }}<br>
+                Company: {{ user.company }}
+            </p>
+        </div>
+    </div>
 {% endblock %}
