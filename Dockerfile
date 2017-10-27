@@ -1,13 +1,9 @@
 FROM php:7.1.10-fpm
 
-# Declare ENV
-    # Set the tools versions
-    # Set the path to the blast binaries
-    # To avoid a bug with the intl extension compilation
-    # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
+# To avoid a bug with the intl extension compilation
+# PHP_CPPFLAGS are used by the docker-php-ext-* scripts
 ENV MAFFT_VERSION=7.310 \
     BLAST_VERSION=2.6.0+ \
-    PATH=$PATH:/opt/blast/bin \
     PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
 
 # Install git, supervisor, yarn and libraries needed by php extensions
@@ -25,9 +21,7 @@ RUN curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/5
     ./configure --prefix=/usr/local && \
     make clean && \
     make && \
-    make install && \
-    rm /tmp/icu.tar.gz && \
-    rm -R /tmp/icu
+    make install
 
 # Configure, install and enable php extensions
 RUN docker-php-source extract && \
@@ -44,11 +38,9 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-d
 COPY ["./docker/php.ini", "./docker/php-cli.ini", "/usr/local/etc/php/"]
 
 # Install BLAST
-RUN curl -sS -o /opt/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz -L ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz && \
-    tar -zxf /opt/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz -C /opt && \
-    mv /opt/ncbi-blast-${BLAST_VERSION} /opt/blast && \
-    rm /opt/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz
-
+RUN curl -sS -o /tmp/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz -L ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz && \
+    tar -zxf /tmp/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz -C /tmp && \
+    mv /tmp/ncbi-blast-${BLAST_VERSION}/bin/* /usr/local/bin
 
 # Install MAFFT
 RUN curl -sS -o /tmp/mafft-${MAFFT_VERSION}-without-extensions-src.tgz -L https://mafft.cbrc.jp/alignment/software/mafft-${MAFFT_VERSION}-without-extensions-src.tgz && \
@@ -56,9 +48,7 @@ RUN curl -sS -o /tmp/mafft-${MAFFT_VERSION}-without-extensions-src.tgz -L https:
     cd /tmp/mafft-${MAFFT_VERSION}-without-extensions/core && \
     make clean && \
     make && \
-    make install && \
-    rm /tmp/mafft-${MAFFT_VERSION}-without-extensions-src.tgz && \
-    rm -R /tmp/mafft-${MAFFT_VERSION}-without-extensions
+    make install
 
 # Define the working directory
 WORKDIR /var/www/html
@@ -74,8 +64,8 @@ RUN composer install --no-suggest --optimize-autoloader && \
 COPY ./docker/init.sh /opt/app/init.sh
 COPY ./docker/supervisor-programs.conf /etc/supervisor/conf.d/supervisor-programs.conf
 
-# Remove the docker folder
-RUN rm -R ./docker
+# Clean installation (remove the Docker folder and empty the /tmp)
+RUN rm -R ./docker /tmp/*
 
 # Define the /var/www/html folder as volume
 VOLUME /var/www/html
