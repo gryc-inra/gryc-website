@@ -1,10 +1,19 @@
 FROM php:7.1.10-fpm
 
-# Install wget, git, supervisor, yarn and libraries needed by php extensions
+# Declare ENV
+    # Set the tools versions
+    # Set the path to the blast binaries
+    # To avoid a bug with the intl extension compilation
+    # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
+ENV MAFFT_VERSION=7.310 \
+    BLAST_VERSION=2.6.0+ \
+    PATH=$PATH:/opt/blast/bin \
+    PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
+
+# Install git, supervisor, yarn and libraries needed by php extensions
 RUN apt-get update && \
     apt-get install -y \
             zlib1g-dev \
-            wget \
             git \
             supervisor && \
     rm -rf /var/lib/apt/lists/*
@@ -14,49 +23,42 @@ RUN curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/5
     tar -zxf /tmp/icu.tar.gz -C /tmp && \
     cd /tmp/icu/source && \
     ./configure --prefix=/usr/local && \
+    make clean && \
     make && \
-    make install
-
-# To avoid a bug with the intl extension compilation
-# PHP_CPPFLAGS are used by the docker-php-ext-* scripts
-ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
+    make install && \
+    rm /tmp/icu.tar.gz && \
+    rm -R /tmp/icu
 
 # Configure, install and enable php extensions
 RUN docker-php-source extract && \
     docker-php-ext-configure intl --with-icu-dir=/usr/local && \
     docker-php-ext-install intl pdo pdo_mysql zip bcmath && \
-    docker-php-ext-enable opcache && \
+    pecl install apcu-5.1.8 && \
+    docker-php-ext-enable opcache apcu && \
     docker-php-source delete
-
-RUN pecl install apcu-5.1.8 && \
-    docker-php-ext-enable apcu
 
 # Install Composer
 RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/local/bin --filename=composer && chmod +x /usr/local/bin/composer
 
 # Copy the php.ini file
-COPY ./docker/php.ini /usr/local/etc/php/
-COPY ./docker/php-cli.ini /usr/local/etc/php/
+COPY ["./docker/php.ini", "./docker/php-cli.ini", "/usr/local/etc/php/"]
 
 # Install BLAST
-ENV BLAST_VERSION=2.6.0+
-RUN cd /opt && \
-	wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz && \
-    tar -zxvpf ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz && \
-    rm ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz
-ENV PATH=$PATH:/opt/ncbi-blast-${BLAST_VERSION}/bin
+RUN curl -sS -o /opt/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz -L ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz && \
+    tar -zxf /opt/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz -C /opt && \
+    mv /opt/ncbi-blast-${BLAST_VERSION} /opt/blast && \
+    rm /opt/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz
+
 
 # Install MAFFT
-ENV MAFFT_VERSION=7.310
-RUN cd /opt && \
-    wget https://mafft.cbrc.jp/alignment/software/mafft-${MAFFT_VERSION}-without-extensions-src.tgz && \
-    tar -xvzf mafft-${MAFFT_VERSION}-without-extensions-src.tgz && \
-    rm mafft-${MAFFT_VERSION}-without-extensions-src.tgz && \
-    cd mafft-${MAFFT_VERSION}-without-extensions/core && \
+RUN curl -sS -o /tmp/mafft-${MAFFT_VERSION}-without-extensions-src.tgz -L https://mafft.cbrc.jp/alignment/software/mafft-${MAFFT_VERSION}-without-extensions-src.tgz && \
+    tar -zxf /tmp/mafft-${MAFFT_VERSION}-without-extensions-src.tgz -C /tmp && \
+    cd /tmp/mafft-${MAFFT_VERSION}-without-extensions/core && \
     make clean && \
     make && \
-    make install
-ENV PATH=$PATH:/opt/mafft-${MAFFT_VERSION}-without-extensions/core/mafft
+    make install && \
+    rm /tmp/mafft-${MAFFT_VERSION}-without-extensions-src.tgz && \
+    rm -R /tmp/mafft-${MAFFT_VERSION}-without-extensions
 
 # Define the working directory
 WORKDIR /var/www/html
@@ -65,8 +67,8 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Install app dependencies
-RUN composer install --no-suggest --optimize-autoloader
-RUN chown -R www-data:www-data /var/www/html
+RUN composer install --no-suggest --optimize-autoloader && \
+    chown -R www-data:www-data /var/www/html
 
 # Copy script and supervisor conf
 COPY ./docker/init.sh /opt/app/init.sh
