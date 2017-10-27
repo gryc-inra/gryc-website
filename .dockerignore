@@ -1,0 +1,13 @@
+/assets
+/web/config.php
+/web/app_dev.php
+.dockerignore
+.gitattributes
+.gitignore
+.php_cs.dist
+Dockerfile
+README.md
+package.json
+phpunit.xml.dist
+webpack.config.js
+yarn.lock
