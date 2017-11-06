@@ -69,10 +69,17 @@ services:
     AppBundle\Utils\TaxId:
         public: true
 
+    AppBundle\Utils\ReferenceManager:
+        public: true
+
 # Listeners
     AppBundle\EventListener\BlastListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
+
+    AppBundle\EventListener\ReferenceListener:
+        tags:
+            - { name: doctrine.event_listener, event: postUpdate }
 
     AppBundle\EventListener\MultipleAlignmentListener:
         tags:

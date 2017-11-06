@@ -1,0 +1,30 @@
+{{ include('reference/_delete_confirmation.html.twig') }}
+
+{% if locus is defined %}
+    <form action="{{ path('reference_delete_locus', {
+        'species_slug': locus.chromosome.strain.species.slug,
+        'strain_slug': locus.chromosome.strain.slug,
+        'chromosome_slug': locus.chromosome.slug,
+        'locus_name': locus.name,
+        'reference_id': reference.id
+    }) }}" method="post" data-confirmation="true">
+{% else %}
+    <form action="{{ path('reference_delete_chromosome', {
+        'species_slug': chromosome.strain.species.slug,
+        'strain_slug': chromosome.strain.slug,
+        'chromosome_slug': chromosome.slug,
+        'reference_id': reference.id
+    }) }}" method="post" data-confirmation="true">
+{% endif %}
+    <input type="hidden" name="token" value="{{ csrf_token('reference_delete') }}" />
+    <div class="btn-group btn-group-xs" role="group">
+        {% block btn %}
+        {% endblock %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <button type="submit" class="btn btn-danger btn-sm">
+                <span class="fa fa-trash" aria-hidden="true"></span>
+            </button>
+        {% endif %}
+    </div>
+</form>

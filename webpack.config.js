@@ -30,6 +30,7 @@ Encore
         './assets/js/feature-dynamic-sequence.js',
         './assets/js/images.js',
         './assets/js/locus-tooltip.js',
+        './assets/js/modal-confirmation-message.js',
         './assets/js/password-control.js',
         './assets/js/search-highlight.js',
         './assets/js/strains-filter.js',

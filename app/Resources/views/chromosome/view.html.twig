@@ -45,4 +45,47 @@
             </div>
         </div>
     </div>
+
+    <h2>References</h2>
+    <div class="row">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <div class="col-12 text-right">
+                <a class="btn btn-primary btn-sm" href="{{ path('reference_add_chromosome', {
+                    'species_slug': chromosome.strain.species.slug,
+                    'strain_slug': chromosome.strain.slug,
+                    'chromosome_slug': chromosome.slug
+                }) }}">
+                    <span class="fa fa-plus"></span> Add a reference
+                </a>
+            </div>
+        {% endif %}
+
+        <div class="col-12">
+            {% if chromosome.references is not empty %}
+                {% for reference in chromosome.references %}
+                    <div class="reference">
+                        <div class="row">
+                            <div class="col-1">
+                                {% include "reference/_delete_form.html.twig" %}
+                            </div>
+
+                            <div class="col-11">
+                                <a href="{{ reference.url }}" rel="nofollow">
+                                    {{ reference.authors.0.family }} {{ reference.authors.0.given|slice(0,1) }}
+                                    {% if reference.authors|length == 2 %}
+                                        [and {{ reference.authors.1.family }} {{ reference.authors.1.given|slice(0,1) }}]
+                                    {% else %}
+                                        et al.
+                                    {% endif %}
+                                    <i>{{ reference.container }}</i> ({{ reference.issued }})
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                There is not reference.
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

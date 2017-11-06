@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Add reference - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    {% if null != locus %}
+        <li class="breadcrumb-item"><a href="{{ path('strain_index') }}">Species & strains list</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('species_view', { 'species_slug': locus.chromosome.strain.species.slug }) }}"><i>{{ locus.chromosome.strain.species.scientificname }}</i></a></li>
+        <li class="breadcrumb-item"><a href="{{ path('strain_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug }) }}">{{ locus.chromosome.strain.name }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('chromosome_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug }) }}">{{ locus.chromosome.name }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.name }) }}">{{ locus.name }}</a></li>
+        <li class="breadcrumb-item active">Add reference</li>
+    {% else %}
+        <li class="breadcrumb-item"><a href="{{ path('strain_index') }}">Species & strains list</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('species_view', { 'species_slug': chromosome.strain.species.slug }) }}"><i>{{ chromosome.strain.species.scientificname }}</i></a></li>
+        <li class="breadcrumb-item"><a href="{{ path('strain_view', { 'species_slug': chromosome.strain.species.slug, 'strain_slug': chromosome.strain.slug }) }}">{{ chromosome.strain.name }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('chromosome_view', { 'species_slug': chromosome.strain.species.slug, 'strain_slug': chromosome.strain.slug, 'chromosome_slug': chromosome.slug }) }}">{{ chromosome.name }}</a></li>
+        <li class="breadcrumb-item active">Add reference</li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <h1>Add reference</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.doi) }}
+
+        {{ form_rest(form) }}
+
+        <button type="submit" class="btn btn-primary">Add a reference</button>
+    {{ form_end(form) }}
+{% endblock %}
