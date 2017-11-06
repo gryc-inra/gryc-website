@@ -1,3 +1,4 @@
+/app/config/parameters.yml
 /assets
 /files/*
 !/files/blast
