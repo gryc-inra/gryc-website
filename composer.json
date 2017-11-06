@@ -1,7 +1,7 @@
 {
     "name": "mpiot/gryc",
     "description": "A yeast genome database website.",
-    "license": "proprietary",
+    "license": "apache-2",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -36,7 +36,8 @@
         "friendsofsymfony/elastica-bundle": "dev-master",
         "excelwebzone/recaptcha-bundle": "^1.4",
         "stof/doctrine-extensions-bundle": "^1.2",
-        "php-amqplib/rabbitmq-bundle": "^1.12"
+        "php-amqplib/rabbitmq-bundle": "^1.12",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
