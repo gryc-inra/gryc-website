@@ -41,9 +41,15 @@ class Locus extends GeneticEntry
      */
     private $nextLocusDistance;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Reference", mappedBy="locus")
+     */
+    private $references;
+
     public function __construct()
     {
         $this->features = new ArrayCollection();
+        $this->references = new ArrayCollection();
     }
 
     public function setChromosome(Chromosome $chromosome)
@@ -138,5 +144,26 @@ class Locus extends GeneticEntry
     public function getNextLocusDistance()
     {
         return $this->nextLocusDistance;
+    }
+
+    public function addReference(Reference $reference)
+    {
+        $this->references->add($reference);
+
+        return $this;
+    }
+
+    public function removeReference(Reference $reference)
+    {
+        if ($this->references->contains($reference)) {
+            $this->references->removeElement($reference);
+        }
+
+        return $this;
+    }
+
+    public function getReferences()
+    {
+        return $this->references;
     }
 }
