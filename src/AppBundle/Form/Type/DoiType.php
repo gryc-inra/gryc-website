@@ -4,6 +4,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Validator\Constraints\IsValidDoi;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,6 +18,7 @@ class DoiType extends AbstractType
             ->add('doi', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
+                    new IsValidDoi(),
                 ],
             ])
         ;
