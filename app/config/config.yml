@@ -56,6 +56,7 @@ twig:
 doctrine:
     dbal:
         url: '%env(DATABASE_URL)%'
+        charset: UTF8
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
