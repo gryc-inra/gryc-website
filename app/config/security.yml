@@ -58,6 +58,7 @@ security:
             logout:
                 path:   /logout
                 target: /
+                csrf_token_generator: security.csrf.token_manager
                 invalidate_session: false
 
             anonymous:    true
