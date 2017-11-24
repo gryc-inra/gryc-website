@@ -28,28 +28,17 @@ class ResettingController extends Controller
             $userManager = $this->get('AppBundle\Utils\UserManager');
             $user = $userManager->findUserBy(['email' => $email]);
 
-            // Control the User
-            if (null === $user) {
-                $this->addFlash('warning', 'There is no user with this email address.');
+            if (null !== $user && $user->isEnabled()) {
+                // Generate a token, to reset password
+                $userManager->generateToken($user);
+                $userManager->updateUser($user);
 
-                return $this->redirectToRoute('user_resetting_request');
+                // Dispatch an event
+                $event = new GenericEvent($user);
+                $eventDispatcher->dispatch(Events::USER_RESET, $event);
             }
 
-            if (!$user->isEnabled()) {
-                $this->addFlash('warning', 'Your account is not activated.');
-
-                return $this->redirectToRoute('login');
-            }
-
-            // Generate a token, to reset password
-            $userManager->generateToken($user);
-            $userManager->updateUser($user);
-
-            // Dispatch an event
-            $event = new GenericEvent($user);
-            $eventDispatcher->dispatch(Events::USER_RESET, $event);
-
-            // Add a flash message
+            // Alway return the same redirection and flash message
             $this->addFlash('success', 'An email containing the password reset procedure has been sent to you.');
 
             return $this->redirectToRoute('login');
@@ -74,13 +63,11 @@ class ResettingController extends Controller
         $user = $userManager->findUserBy(['email' => $username]);
 
         // Check the User
-        if (!$user->isEnabled()) {
-            $this->addFlash('warning', 'Your account is not activated.');
-
-            return $this->redirectToRoute('login');
-        }
-
-        if (null === $user->getConfirmationToken() || !hash_equals($user->getConfirmationToken(), $token)) {
+        if (null === $user
+            || !$user->isEnabled()
+            || null === $user->getConfirmationToken()
+            || !hash_equals($user->getConfirmationToken(), $token)
+        ) {
             $this->addFlash('warning', 'The confirmation token is not valid.');
 
             return $this->redirectToRoute('login');
