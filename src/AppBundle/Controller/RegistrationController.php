@@ -24,9 +24,7 @@ class RegistrationController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Persist the user
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $userManager->updateUser($user);
 
             // Dispatch an event
             $event = new GenericEvent($user);
