@@ -27,6 +27,7 @@
 .gitignore
 .php_cs.cache
 .php_cs.dist
+.travis.yml
 Dockerfile
 package.json
 phpunit.xml.dist

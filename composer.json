@@ -1,24 +1,17 @@
 {
     "name": "mpiot/gryc",
     "description": "A yeast genome database website.",
-    "license": "apache-2",
+    "license": "Apache-2.0",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "AppBundle\\": "src/AppBundle"
         },
-        "classmap": [
-            "app/AppKernel.php",
-            "app/AppCache.php"
-        ]
+        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        },
-        "files": [
-            "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
-        ]
+        "psr-4": { "Tests\\": "tests/" },
+        "files": [ "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php" ]
     },
     "require": {
         "php": ">=5.5.9",
@@ -41,7 +34,8 @@
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "friendsofphp/php-cs-fixer": "^2.8"
     },
     "scripts": {
         "symfony-scripts": [
