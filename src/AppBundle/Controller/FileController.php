@@ -87,10 +87,11 @@ class FileController extends Controller
 
         BinaryFileResponse::trustXSendfileTypeHeader();
         $response = new BinaryFileResponse($file->getAbsolutePath());
-        $response->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
-        $response->headers->set('X-Accel-Mapping', '/var/www/html/current/files/=/files-internal/');
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $chromosomeName.'-'.$featureType.'-'.$molType.'.'.$format);
-        $response->headers->set('Cache-Control', 'no-cache');
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $chromosomeName.'-'.$featureType.'-'.$molType.'.'.$format
+        );
+        $response->headers->set('X-Accel-Redirect', '/protected-files/flatFiles/'.$file->getPath());
 
         return $response;
     }
