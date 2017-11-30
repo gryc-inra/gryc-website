@@ -1047,12 +1047,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "7e2c22d591b22ec91d7f376b35f139a3361a4a81"
+                "reference": "4e4cd83e1bc67fef9efca32f30648011d6d319cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/7e2c22d591b22ec91d7f376b35f139a3361a4a81",
-                "reference": "7e2c22d591b22ec91d7f376b35f139a3361a4a81",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/4e4cd83e1bc67fef9efca32f30648011d6d319cb",
+                "reference": "4e4cd83e1bc67fef9efca32f30648011d6d319cb",
                 "shasum": ""
             },
             "require": {
@@ -1129,7 +1129,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2017-11-29T13:23:44+00:00"
+            "time": "2017-11-30T09:51:37+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
