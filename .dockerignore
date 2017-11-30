@@ -23,6 +23,7 @@
 /web/config.php
 /web/app_dev.php
 .dockerignore
+.editorconfig
 .gitignore
 .php_cs.cache
 .php_cs.dist
