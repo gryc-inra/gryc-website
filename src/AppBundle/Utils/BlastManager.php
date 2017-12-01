@@ -414,6 +414,7 @@ class BlastManager
             }
         }
 
+        sort($hits);
         $entities = $this->em->getRepository('AppBundle:Locus')->findLocusFromProductWithoutDnaSequence($hits);
         $hits = array_combine($hits, $entities);
 

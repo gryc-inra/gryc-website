@@ -93,6 +93,7 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('species')
             ->where('products.name IN(:productName)')
                 ->setParameter('productName', $productName)
+            ->orderBy('locus.name', 'ASC')
             ->getQuery();
 
         return $query->getResult();
