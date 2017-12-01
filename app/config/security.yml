@@ -3,7 +3,7 @@
 security:
     encoders:
         AppBundle\Entity\User:
-            algorithm: bcrypt
+            algorithm: argon2i
 
     role_hierarchy:
         ROLE_ADMIN:       [ROLE_USER, ROLE_REFERENCER]
