@@ -21,7 +21,7 @@ class ReferenceController extends Controller
     /**
      * @Route("/reference/add/strain/{slug}", name="reference_add_strain")
      * @Route("/reference/add/locus/{name}", name="reference_add_locus")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED') and ((null != strain and is_granted('VIEW', strain)) or (null != locus and is_granted('VIEW', locus.getChromosome().getStrain())))")
+     * @Security("is_granted('ROLE_REFERENCER') and ((null != strain and is_granted('VIEW', strain)) or (null != locus and is_granted('VIEW', locus.getChromosome().getStrain())))")
      */
     public function addAction(Strain $strain = null, Locus $locus = null, Request $request)
     {
@@ -80,7 +80,7 @@ class ReferenceController extends Controller
      * @ParamConverter("reference", class="AppBundle:Reference", options={
      *   "mapping": {"reference_id": "id"},
      * })
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED') and ((null != strain and is_granted('VIEW', strain)) or (null != locus and is_granted('VIEW', locus.getChromosome().getStrain())))")
+     * @Security("is_granted('ROLE_REFERENCER') and ((null != strain and is_granted('VIEW', strain)) or (null != locus and is_granted('VIEW', locus.getChromosome().getStrain())))")
      */
     public function removeAction(Strain $strain = null, Locus $locus = null, Reference $reference, Request $request)
     {

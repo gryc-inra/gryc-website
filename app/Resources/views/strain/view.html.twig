@@ -118,7 +118,7 @@
 
     <h2>References</h2>
     <div class="row">
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        {% if is_granted('ROLE_REFERENCER') %}
             <div class="col-12 text-right">
 
                 <a class="btn btn-primary btn-sm" href="{{ path('reference_add_strain', {
