@@ -1,4 +1,4 @@
-FROM php:7.1.10-fpm
+FROM php:7.2.0-fpm
 
 # To avoid a bug with the intl extension compilation
 # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
