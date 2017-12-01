@@ -82,7 +82,7 @@
         {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}
         <div {{ block('widget_container_attributes') }}>
             {{- form_errors(form) -}}
-            <div class="table-responsive">
+            <div class="table-responsive-md">
                 <table class="table {{ table_class|default('table-bordered table-condensed table-striped') }}">
                     <thead>
                     <tr>
