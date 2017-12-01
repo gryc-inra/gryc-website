@@ -148,7 +148,9 @@ class Locus extends GeneticEntry
 
     public function addReference(Reference $reference)
     {
-        $this->references->add($reference);
+        if (!$this->references->contains($reference)) {
+            $this->references->add($reference);
+        }
 
         return $this;
     }

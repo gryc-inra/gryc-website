@@ -15,9 +15,8 @@
         <li class="breadcrumb-item active">Add reference</li>
     {% else %}
         <li class="breadcrumb-item"><a href="{{ path('strain_index') }}">Species & strains list</a></li>
-        <li class="breadcrumb-item"><a href="{{ path('species_view', { 'species_slug': chromosome.strain.species.slug }) }}"><i>{{ chromosome.strain.species.scientificname }}</i></a></li>
-        <li class="breadcrumb-item"><a href="{{ path('strain_view', { 'species_slug': chromosome.strain.species.slug, 'strain_slug': chromosome.strain.slug }) }}">{{ chromosome.strain.name }}</a></li>
-        <li class="breadcrumb-item"><a href="{{ path('chromosome_view', { 'species_slug': chromosome.strain.species.slug, 'strain_slug': chromosome.strain.slug, 'chromosome_slug': chromosome.slug }) }}">{{ chromosome.name }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('species_view', { 'species_slug': strain.species.slug }) }}"><i>{{ strain.species.scientificname }}</i></a></li>
+        <li class="breadcrumb-item"><a href="{{ path('strain_view', { 'species_slug': strain.species.slug, 'strain_slug': strain.slug }) }}">{{ strain.name }}</a></li>
         <li class="breadcrumb-item active">Add reference</li>
     {% endif %}
 {% endblock %}

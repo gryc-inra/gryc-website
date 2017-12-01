@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Chromosome;
 use AppBundle\Entity\Locus;
 use AppBundle\Entity\Reference;
+use AppBundle\Entity\Strain;
 use AppBundle\Form\Type\DoiType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,30 +13,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class ReferenceController
+ */
 class ReferenceController extends Controller
 {
     /**
-     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/reference/add", name="reference_add_chromosome")
-     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_name}/reference/add", name="reference_add_locus")
-     * @ParamConverter("chromosome", class="AppBundle:Chromosome", options={
-     *   "mapping": {"chromosome_slug": "slug"},
-     * })
-     * @ParamConverter("locus", class="AppBundle:Locus", options={
-     *   "mapping": {"locus_name": "name"},
-     * })
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED') and is_granted('VIEW', chromosome.getStrain())")
+     * @Route("/reference/add/strain/{slug}", name="reference_add_strain")
+     * @Route("/reference/add/locus/{name}", name="reference_add_locus")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED') and ((null != strain and is_granted('VIEW', strain)) or (null != locus and is_granted('VIEW', locus.getChromosome().getStrain())))")
      */
-    public function addAction(Chromosome $chromosome, Locus $locus = null, Request $request)
+    public function addAction(Strain $strain = null, Locus $locus = null, Request $request)
     {
-        // Check we have the available data
-        $routeName = $request->get('_route');
-        if ('reference_add_locus' === $routeName && null === $locus) {
-            throw $this->createNotFoundException();
-        }
-
         $form = $this->createForm(DoiType::class);
-
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $doi = $form->getData()['doi'];
             $reference = $this->get('AppBundle\Utils\ReferenceManager')->getReference($doi);
@@ -44,7 +36,7 @@ class ReferenceController extends Controller
             if (null !== $locus) {
                 $reference->addLocus($locus);
             } else {
-                $reference->addChromosome($chromosome);
+                $reference->addStrain($strain);
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -62,43 +54,36 @@ class ReferenceController extends Controller
                     'locus_name' => $locus->getName(),
                 ]);
             } else {
-                return $this->redirectToRoute('chromosome_view', [
-                    'species_slug' => $chromosome->getStrain()->getSpecies()->getSlug(),
-                    'strain_slug' => $chromosome->getStrain()->getSlug(),
-                    'chromosome_slug' => $chromosome->getslug(),
+                return $this->redirectToRoute('strain_view', [
+                    'species_slug' => $strain->getSpecies()->getSlug(),
+                    'strain_slug' => $strain->getSlug(),
                 ]);
             }
         }
 
         return $this->render('reference/add.html.twig', [
             'form' => $form->createView(),
-            'chromosome' => $chromosome,
+            'strain' => $strain,
             'locus' => $locus,
         ]);
     }
 
     /**
-     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/reference/{reference_id}/delete", name="reference_delete_chromosome")
-     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_name}/reference/{reference_id}/delete", name="reference_delete_locus")
-     * @ParamConverter("chromosome", class="AppBundle:Chromosome", options={
-     *   "mapping": {"chromosome_slug": "slug"},
+     * @Route("/reference/delete/{reference_id}/strain/{strain_id}", name="reference_delete_strain")
+     * @Route("/reference/delete/{reference_id}/locus/{locus_id}", name="reference_delete_locus")
+     * @ParamConverter("strain", class="AppBundle:Strain", options={
+     *   "mapping": {"strain_id": "id"},
      * })
      * @ParamConverter("locus", class="AppBundle:Locus", options={
-     *   "mapping": {"locus_name": "name"},
+     *   "mapping": {"locus_id": "id"},
      * })
      * @ParamConverter("reference", class="AppBundle:Reference", options={
      *   "mapping": {"reference_id": "id"},
      * })
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED') and is_granted('VIEW', chromosome.getStrain())")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED') and ((null != strain and is_granted('VIEW', strain)) or (null != locus and is_granted('VIEW', locus.getChromosome().getStrain())))")
      */
-    public function removeAction(Chromosome $chromosome, Locus $locus = null, Reference $reference, Request $request)
+    public function removeAction(Strain $strain = null, Locus $locus = null, Reference $reference, Request $request)
     {
-        // Check we have the available data
-        $routeName = $request->get('_route');
-        if ('reference_delete_locus' === $routeName && null === $locus) {
-            throw $this->createNotFoundException();
-        }
-
         if (null !== $locus) {
             $redirect = $this->redirectToRoute('locus_view', [
                 'species_slug' => $locus->getChromosome()->getStrain()->getSpecies()->getSlug(),
@@ -107,25 +92,24 @@ class ReferenceController extends Controller
                 'locus_name' => $locus->getName(),
             ]);
         } else {
-            $redirect = $this->redirectToRoute('chromosome_view', [
-                'species_slug' => $chromosome->getStrain()->getSpecies()->getSlug(),
-                'strain_slug' => $chromosome->getStrain()->getSlug(),
-                'chromosome_slug' => $chromosome->getslug(),
+            $redirect = $this->redirectToRoute('strain_view', [
+                'species_slug' => $strain->getSpecies()->getSlug(),
+                'strain_slug' => $strain->getSlug(),
             ]);
         }
 
         // If the CSRF token is invalid, redirect user
-        if (!$this->isCsrfTokenValid('reference_delete', $request->request->get('token'))) {
+        if (!$this->isCsrfTokenValid('reference_delete', $request->get('token'))) {
             $this->addFlash('warning', 'The CSRF token is invalid.');
 
             return $redirect;
         }
 
-        // Add the Chromosome or Locus to the Reference
+        // Remove the Strain or Locus to the Reference
         if (null !== $locus) {
             $reference->removeLocus($locus);
         } else {
-            $reference->removeChromosome($chromosome);
+            $reference->removeStrain($strain);
         }
 
         $em = $this->getDoctrine()->getManager();

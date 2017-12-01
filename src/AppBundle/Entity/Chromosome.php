@@ -220,11 +220,6 @@ class Chromosome
     private $locus;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Reference", mappedBy="chromosomes")
-     */
-    private $references;
-
-    /**
      * Chromosome constructor.
      */
     public function __construct()
@@ -234,7 +229,6 @@ class Chromosome
         $this->flatFiles = new ArrayCollection();
         $this->seos = new ArrayCollection();
         $this->locus = new ArrayCollection();
-        $this->references = new ArrayCollection();
     }
 
     /**
@@ -883,26 +877,5 @@ class Chromosome
     public function getLocus()
     {
         return $this->locus;
-    }
-
-    public function addReference(Reference $reference)
-    {
-        $this->references->add($reference);
-
-        return $this;
-    }
-
-    public function removeReference(Reference $reference)
-    {
-        if ($this->references->contains($reference)) {
-            $this->references->removeElement($reference);
-        }
-
-        return $this;
-    }
-
-    public function getReferences()
-    {
-        return $this->references;
     }
 }

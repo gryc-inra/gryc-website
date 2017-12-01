@@ -147,6 +147,11 @@ class Strain
     private $typeStrain = false;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Reference", mappedBy="strains")
+     */
+    private $references;
+
+    /**
      * Strain constructor.
      */
     public function __construct()
@@ -155,6 +160,7 @@ class Strain
         $this->chromosomes = new ArrayCollection();
         $this->seos = new ArrayCollection();
         $this->authorizedUsers = new ArrayCollection();
+        $this->references = new ArrayCollection();
     }
 
     /**
@@ -196,7 +202,7 @@ class Strain
      *
      * @param string $synonym
      *
-     * @return Species
+     * @return Strain
      */
     public function addSynonym($synonym)
     {
@@ -212,7 +218,7 @@ class Strain
      *
      * @param string $synonym
      *
-     * @return Species
+     * @return Strain
      */
     public function removeSynonym($synonym)
     {
@@ -227,7 +233,7 @@ class Strain
     /**
      * Empty synonymes.
      *
-     * @return Species
+     * @return Strain
      */
     public function emptySynonymes()
     {
@@ -471,7 +477,7 @@ class Strain
      *
      * @param string $slug
      *
-     * @return Species
+     * @return Strain
      */
     public function setSlug($slug)
     {
@@ -672,6 +678,29 @@ class Strain
         } else {
             return 'no';
         }
+    }
+
+    public function addReference(Reference $reference)
+    {
+        if (!$this->references->contains($reference)) {
+            $this->references->add($reference);
+        }
+
+        return $this;
+    }
+
+    public function removeReference(Reference $reference)
+    {
+        if ($this->references->contains($reference)) {
+            $this->references->removeElement($reference);
+        }
+
+        return $this;
+    }
+
+    public function getReferences()
+    {
+        return $this->references;
     }
 
     /**

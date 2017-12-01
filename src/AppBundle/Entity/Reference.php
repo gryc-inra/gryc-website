@@ -65,14 +65,14 @@ class Reference
     private $locus;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Chromosome", inversedBy="references")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Strain", inversedBy="references")
      */
-    private $chromosomes;
+    private $strains;
 
     public function __construct()
     {
         $this->locus = new ArrayCollection();
-        $this->chromosomes = new ArrayCollection();
+        $this->strains = new ArrayCollection();
     }
 
     /**
@@ -229,27 +229,27 @@ class Reference
         return $this->locus;
     }
 
-    public function addChromosome(Chromosome $chromosome)
+    public function addStrain(Strain $strain)
     {
-        if (!$this->chromosomes->contains($chromosome)) {
-            $this->chromosomes->add($chromosome);
-            $chromosome->addReference($this);
+        if (!$this->strains->contains($strain)) {
+            $this->strains->add($strain);
+            $strain->addReference($this);
         }
 
         return $this;
     }
 
-    public function removeChromosome(Chromosome $chromosome)
+    public function removeStrain(Strain $strain)
     {
-        if ($this->chromosomes->contains($chromosome)) {
-            $this->chromosomes->removeElement($chromosome);
+        if ($this->strains->contains($strain)) {
+            $this->strains->removeElement($strain);
         }
 
         return $this;
     }
 
-    public function getChromosomes()
+    public function getStrains()
     {
-        return $this->chromosomes;
+        return $this->strains;
     }
 }

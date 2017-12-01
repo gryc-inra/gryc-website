@@ -115,4 +115,46 @@
             </div>
         </div>
     </div>
+
+    <h2>References</h2>
+    <div class="row">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <div class="col-12 text-right">
+
+                <a class="btn btn-primary btn-sm" href="{{ path('reference_add_strain', {
+                    'slug': strain.slug,
+                }) }}">
+                    <span class="fa fa-plus"></span> Add a reference
+                </a>
+            </div>
+        {% endif %}
+
+        <div class="col-12">
+            {% if strain.references is not empty %}
+                <ul>
+                    {% for reference in strain.references %}
+                        <li>
+                            <a href="{{ reference.url }}" rel="nofollow">
+                                {{ reference.authors.0.family }} {{ reference.authors.0.given|slice(0,1) }}
+                                {% if reference.authors|length == 2 %}
+                                    [and {{ reference.authors.1.family }} {{ reference.authors.1.given|slice(0,1) }}]
+                                {% else %}
+                                    et al.
+                                {% endif %}
+                                <i>{{ reference.container }}</i> ({{ reference.issued }})
+                            </a>
+                            {% if is_granted('ROLE_REFERENCER') %}
+                                <a class="btn btn-danger btn-sm" href="{{ path('reference_delete_strain', {'reference_id': reference.id, 'strain_id': strain.id, 'token': csrf_token('reference_delete')}) }}" data-confirmation="1">
+                                    <span class="fa fa-trash"></span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                There is not reference.
+            {% endif %}
+        </div>
+        {% include '_delete_confirmation.html.twig' %}
+    </div>
 {% endblock %}
