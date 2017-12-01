@@ -3,7 +3,7 @@ FROM php:7.1.10-fpm
 # To avoid a bug with the intl extension compilation
 # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
 ENV MAFFT_VERSION=7.310 \
-    BLAST_VERSION=2.6.0+ \
+    BLAST_VERSION=2.7.1+ \
     PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
 
 # Install git, supervisor, yarn and libraries needed by php extensions
