@@ -34,12 +34,6 @@ class BlastController extends Controller
             $em->persist($blast);
             $em->flush();
 
-            // Add the Blast in RabbitMq Queue
-            $this->get('old_sound_rabbit_mq.blast_producer')->publish($blast->getId());
-
-            // Add the blast as last blast in user session
-            $request->getSession()->set('last_blast', $blast->getId());
-
             // Redirect the user on the result page
             return $this->redirectToRoute('blast_view', [
                 'name' => $blast->getName(),
