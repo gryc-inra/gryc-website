@@ -7,7 +7,7 @@ use AppBundle\Utils\TokenGenerator;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class BlastSubscriber implements EventSubscriber
 {
@@ -15,7 +15,7 @@ class BlastSubscriber implements EventSubscriber
     private $producer;
     private $session;
 
-    public function __construct(TokenGenerator $tokenGenerator, ProducerInterface $producer, Session $session)
+    public function __construct(TokenGenerator $tokenGenerator, ProducerInterface $producer, SessionInterface $session)
     {
         $this->tokenGenerator = $tokenGenerator;
         $this->producer = $producer;
