@@ -297,16 +297,6 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Get isActive.
-     *
-     * @return bool
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
      * Set confirmation token.
      *
      * @param string $confirmationToken
@@ -404,7 +394,8 @@ class User implements AdvancedUserInterface, \Serializable
             $this->id,
             $this->email,
             $this->password,
-            $this->isActive) = unserialize($serialized);
+            $this->isActive
+        ) = unserialize($serialized);
     }
 
     /**
