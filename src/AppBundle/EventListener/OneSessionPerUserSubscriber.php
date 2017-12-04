@@ -3,11 +3,11 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Utils\UserManager;
+use Symfony\Bundle\SecurityBundle\Templating\Helper\LogoutUrlHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
@@ -20,20 +20,20 @@ class OneSessionPerUserSubscriber
     private $tokenStorage;
     private $authorizationChecker;
     private $session;
-    private $router;
+    private $logoutUrlHelper;
 
     public function __construct(
         UserManager $userManager,
         TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authorizationChecker,
         SessionInterface $session,
-        RouterInterface $router
+        LogoutUrlHelper $logoutUrlHelper
     ) {
         $this->userManager = $userManager;
         $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
         $this->session = $session;
-        $this->router = $router;
+        $this->logoutUrlHelper = $logoutUrlHelper;
     }
 
     public static function getSubscribedEvents()
@@ -76,7 +76,7 @@ class OneSessionPerUserSubscriber
         }
 
         $this->session->getFlashBag()->add('danger', 'You have been logged out, because another person logged in whith your credentials.');
-        $redirectUrl = $this->router->generate('logout');
+        $redirectUrl = $this->logoutUrlHelper->getLogoutPath('main');
         $response = new RedirectResponse($redirectUrl);
 
         $event->setResponse($response);
