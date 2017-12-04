@@ -52,6 +52,11 @@
                                 </a>
                             </div>
                         </li>
+                        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('user_index', {'_switch_user': '_exit'}) }}">Exit impersonation</a>
+                            </li>
+                        {% endif %}
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path("login") }}" rel="nofollow"><span class="fa fa-sign-in fa-fw" aria-hidden="true"></span> Log in</a>
