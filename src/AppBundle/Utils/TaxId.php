@@ -66,13 +66,13 @@ class TaxId
                 $response['mitoCode'] = $crawler->filterXPath('//TaxaSet/Taxon/MitoGeneticCode/MGCId')->text();
                 $response['lineages'] = explode('; ', $crawler->filterXPath('//TaxaSet/Taxon/Lineage')->text());
 
-                // He re count the number of synonym tag, if the count is different to 0, there are synonymes
+                // He re count the number of synonym tag, if the count is different to 0, there are synonyms
                 if (0 !== $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->count()) {
-                    // Use a closure on the tag Synonym to extract all synonymes and fill an array
-                    $synonymes = $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->each(function (Crawler $node) {
+                    // Use a closure on the tag Synonym to extract all synonyms and fill an array
+                    $synonyms = $crawler->filterXPath('//TaxaSet/Taxon/OtherNames/Synonym')->each(function (Crawler $node) {
                         return $node->text();
                     });
-                    $response['synonymes'] = $synonymes;
+                    $response['synonyms'] = $synonyms;
                 }
             } else {
                 $response['error'] = 'This ID does not match on a species';

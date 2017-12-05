@@ -83,14 +83,14 @@ class Species
      *
      * @var int
      *
-     * @ORM\Column(name="taxid", type="integer", nullable=true, unique=true)
+     * @ORM\Column(name="tax_id", type="integer", nullable=true, unique=true)
      *
      * @Assert\Type(
      *     type="integer",
      *     message="The value {{ value }} is not a valid {{ type }}."
      * )
      */
-    private $taxid;
+    private $taxId;
 
     /**
      * The genetic code of the species.
@@ -120,13 +120,13 @@ class Species
     private $mitoCode;
 
     /**
-     * An array of synonymes for the species.
+     * An array of synonyms for the species.
      *
      * @var array
      *
-     * @ORM\Column(name="synonymes", type="array", nullable=true)
+     * @ORM\Column(name="synonyms", type="array", nullable=true)
      */
-    private $synonymes;
+    private $synonyms;
 
     /**
      * The description of the species.
@@ -170,7 +170,7 @@ class Species
     {
         $this->mitoCode = 3;
         $this->geneticCode = 1;
-        $this->synonymes = [];
+        $this->synonyms = [];
         $this->lineages = [];
         $this->strains = new ArrayCollection();
         $this->seos = new ArrayCollection();
@@ -334,7 +334,7 @@ class Species
     }
 
     /**
-     * Empty synonymes.
+     * Empty lineages.
      *
      * @return Species
      */
@@ -356,27 +356,27 @@ class Species
     }
 
     /**
-     * Set taxid.
+     * Set taxId.
      *
-     * @param int $taxid
+     * @param int $taxId
      *
      * @return Species
      */
-    public function setTaxid($taxid)
+    public function setTaxId($taxId)
     {
-        $this->taxid = $taxid;
+        $this->taxId = $taxId;
 
         return $this;
     }
 
     /**
-     * Get taxid.
+     * Get taxId.
      *
      * @return int
      */
-    public function getTaxid()
+    public function getTaxId()
     {
-        return $this->taxid;
+        return $this->taxId;
     }
 
     /**
@@ -436,8 +436,8 @@ class Species
      */
     public function addSynonym($synonym)
     {
-        if (!empty($synonym) && !in_array($synonym, $this->synonymes, true)) {
-            $this->synonymes[] = $synonym;
+        if (!empty($synonym) && !in_array($synonym, $this->synonyms, true)) {
+            $this->synonyms[] = $synonym;
         }
 
         return $this;
@@ -452,38 +452,38 @@ class Species
      */
     public function removeSynonym($synonym)
     {
-        if (false !== $key = array_search($synonym, $this->synonymes, true)) {
-            unset($this->synonymes[$key]);
-            $this->synonymes = array_values($this->synonymes);
+        if (false !== $key = array_search($synonym, $this->synonyms, true)) {
+            unset($this->synonyms[$key]);
+            $this->synonyms = array_values($this->synonyms);
         }
 
         return $this;
     }
 
     /**
-     * Empty synonymes.
+     * Empty synonyms.
      *
      * @return Species
      */
-    public function emptySynonymes()
+    public function emptySynonyms()
     {
-        $this->synonymes = [];
+        $this->synonyms = [];
 
         return $this;
     }
 
     /**
-     * Set synonymes.
+     * Set synonyms.
      *
-     * @param array $synonymes
+     * @param array $synonyms
      *
      * @return Species
      */
-    public function setSynonymes($synonymes)
+    public function setSynonyms($synonyms)
     {
-        $this->synonymes = [];
+        $this->synonyms = [];
 
-        foreach ($synonymes as $synonym) {
+        foreach ($synonyms as $synonym) {
             $this->addSynonym($synonym);
         }
 
@@ -491,13 +491,13 @@ class Species
     }
 
     /**
-     * Get synonymes.
+     * Get synonyms.
      *
      * @return array
      */
-    public function getSynonymes()
+    public function getSynonyms()
     {
-        return $this->synonymes;
+        return $this->synonyms;
     }
 
     /**

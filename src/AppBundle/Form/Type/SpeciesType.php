@@ -17,7 +17,13 @@ class SpeciesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('taxid', IntegerType::class)
+            ->add('taxId', IntegerType::class, [
+                'label' => 'TaxId',
+                'attr' => [
+                    'data-help' => 'The taxID of the species, you can find it <a target="_blank" href="https://www.ncbi.nlm.nih.gov/taxonomy">here</a>.',
+                ],
+                'required' => false,
+            ])
             ->add('clade', EntityType::class, [
                 'class' => 'AppBundle:Clade',
                 'choice_label' => 'name',
@@ -25,6 +31,7 @@ class SpeciesType extends AbstractType
                     return $repository->createQueryBuilder('c')
                         ->orderBy('c.name', 'ASC');
                 },
+                'placeholder' => '-- select a clade --',
             ])
             ->add('scientificName', TextType::class)
             ->add('genus', TextType::class)
@@ -36,7 +43,7 @@ class SpeciesType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
             ])
-            ->add('synonymes', CollectionType::class, [
+            ->add('synonyms', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

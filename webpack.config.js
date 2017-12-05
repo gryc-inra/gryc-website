@@ -28,6 +28,7 @@ Encore
         './assets/js/copy2clipboard.js',
         './assets/js/delay.js',
         './assets/js/feature-dynamic-sequence.js',
+        './assets/js/form-species.js',
         './assets/js/images.js',
         './assets/js/locus-tooltip.js',
         './assets/js/modal-confirmation-message.js',
