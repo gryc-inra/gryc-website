@@ -345,6 +345,5 @@ class ImportStrainCommand extends ContainerAwareCommand
         }
 
         $io->success('The strain has been successfully imported !');
-
     }
 }

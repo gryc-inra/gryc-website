@@ -197,7 +197,7 @@ class MultipleAlignmentManager
             $legendArray = [];
             $rowLength = $value['length'];
 
-            for ($i = 1; $i <= $rowLength; $i++) {
+            for ($i = 1; $i <= $rowLength; ++$i) {
                 // If this is the first legend or a multiple of 10
                 if ((1 === $i) || (0 === ($i % 10))) {
                     $legendArray[] = $line * 60 + $i;
@@ -211,7 +211,7 @@ class MultipleAlignmentManager
             // Add the legend array on the row
             $alignment['rows'][$key]['legend'] = $legendArray;
 
-            $line++;
+            ++$line;
         }
 
         dump($alignment);
