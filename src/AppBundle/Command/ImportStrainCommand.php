@@ -8,26 +8,52 @@ use AppBundle\Entity\Feature;
 use AppBundle\Entity\FlatFile;
 use AppBundle\Entity\Locus;
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Species;
 use AppBundle\Entity\Strain;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ImportStrainCommand extends ContainerAwareCommand
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var Species
+     */
     private $species;
+
+    /**
+     * @var array
+     */
     private $speciesList;
+
+    /**
+     * @var Filesystem
+     */
     private $fs;
+
+    /**
+     * @var string
+     */
     private $projectDir;
 
-    public function __construct($projectDir)
+    public function __construct($projectDir, EntityManagerInterface $entityManager, Filesystem $filesystem)
     {
         $this->projectDir = $projectDir;
+        $this->em = $entityManager;
+        $this->fs = $filesystem;
 
         parent::__construct();
     }
@@ -47,50 +73,52 @@ class ImportStrainCommand extends ContainerAwareCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->fs = new Filesystem();
+        $io = new SymfonyStyle($input, $output);
+        $error = false;
 
-        // If the user doen't give a directory, return an error
+        // If the user doesn't give a directory, return an error
         if (!$input->getArgument('dir')) {
-            throw new \RuntimeException(
-                '<error>You may give a directory !</error>'
-            );
+            $io->error('You may give a directory !');
+            $error = true;
         }
 
         // Idem, if the directory doesn't exists
         if (!$this->fs->exists($input->getArgument('dir'))) {
-            throw new \RuntimeException(
-                '<error>The given directory doesn\'t exists.</error>'
-            );
+            $io->error('The given directory doesn\'t exists !');
+            $error = true;
         }
 
+        // Test if the strain.json file exists
         if (!$this->fs->exists($input->getArgument('dir').'/strain.json')) {
-            throw new \RuntimeException(
-                '<error>The json file doesn\'t exists.</error>'
-            );
+            $io->error('The json file doesn\'t exists.');
+            $error = true;
         }
 
+        // Test id the data folder exists
         if (!$this->fs->exists($input->getArgument('dir').'/data')) {
-            throw new \RuntimeException(
-                '<error>The data directory doesn\'t exists.</error>'
-            );
+            $io->error('The data directory doesn\'t exists.');
+            $error = true;
         }
 
+        // Test if subdirectory exists
         if (!$this->fs->exists([
                 $input->getArgument('dir').'/data/FASTA_CDS_nuc',
                 $input->getArgument('dir').'/data/FASTA_CDS_pro',
                 $input->getArgument('dir').'/data/EMBL_chr',
                 $input->getArgument('dir').'/data/FASTA_chr',
             ])) {
-            throw new \RuntimeException(
-                '<error>The files directory need 4 directories: FASTA_CDS_nuc, FASTA_CDS_pro, EMBL_chr, FASTA_chr.</error>'
-            );
+            $io->error('The files directory need 4 directories: FASTA_CDS_nuc, FASTA_CDS_pro, EMBL_chr, FASTA_chr.');
+            $error = true;
         }
 
-        $speciesList = $this->getContainer()->get('doctrine')->getManager()->getRepository('AppBundle:Species')->findAll();
+        $speciesList = $this->em->getRepository('AppBundle:Species')->findAll();
         if (empty($speciesList)) {
-            throw new \RuntimeException(
-                '<error>No species in the database !</error>'
-            );
+            $io->error('No species in the database !');
+            $error = true;
+        }
+
+        if (true === $error) {
+            throw new RuntimeException();
         }
 
         foreach ($speciesList as $species) {
@@ -130,6 +158,8 @@ class ImportStrainCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
+
         // First, control if the files is readable
         if (!$file = file_get_contents($input->getArgument('dir').'/strain.json')) {
             throw new \RuntimeException(
@@ -302,10 +332,10 @@ class ImportStrainCommand extends ContainerAwareCommand
         }
 
         // Before flush, inform the user that transaction take few time
-        $output->writeln('<comment>The transaction start, this may take some time (few minutes). Don\'t panic, take advantage there to have a break :)</comment>');
+        $io->text('The transaction start, this may take some time (few minutes). Don\'t panic, take advantage there to have a break :)');
 
         // Now we flush it (this is a transaction)
-        $this->getContainer()->get('doctrine')->getManager()->flush();
+        $this->em->flush();
 
         // At the end of the transaction, we move blastable files
         $i = 0;
@@ -313,5 +343,8 @@ class ImportStrainCommand extends ContainerAwareCommand
             $this->fs->copy($file, $blastFilesTargetFolder.'/'.$strain->getId().'_'.$blastFilesName[$i]);
             ++$i;
         }
+
+        $io->success('The strain has been successfully imported !');
+
     }
 }
