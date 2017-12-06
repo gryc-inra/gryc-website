@@ -291,11 +291,8 @@ ul.fasta-legend li:before {
 }
 
 .alignment .sequence-name {
-  white-space: pre;
-}
-
-.alignment .sequence-position {
-  white-space: pre;
+  display: inline-block;
+  width: 20ch;
 }
 
 @media screen, print {

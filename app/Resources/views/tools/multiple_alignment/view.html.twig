@@ -122,12 +122,69 @@
         <div class="card">
             <div class="card-header">Alignment</div>
             <div class="card-body alignment">
+                {% set lastRow = false %}
                 {% for row in result.rows %}
+                    {% if loop.last %}
+                        {% set lastRow = true %}
+                    {% endif %}
+
                     <div class="alignment-row">
                         {% for alignmentRow in row['alignment_rows'] %}
+                            {% if loop.first %}
+                                <div class="sequence-row">
+                                    <span class="sequence-name"></span>
+                                    <span class="sequence-bases">
+                                        {%- set legendKey = 0 -%}
+
+                                        {%- for i in range (1, row.length) -%}
+                                            {# If this is the first legend #}
+                                            {%- if loop.first %}
+                                                {{ row.legend[legendKey] }}
+                                                {%- set nbSpaces = 8 - row.legend[legendKey]|length -%}
+                                                {%- set spacesDisplayed = 0 -%}
+                                                {%- set legendKey = legendKey + 1 -%}
+                                            {# If this is the before last legend (when the last legend is not a multiple of 10) #}
+                                            {%- elseif i is divisible by(10) and lastRow and (row.length - i) < 10 -%}
+                                                {{ row.legend[legendKey] }}
+                                                {%- set nbSpaces = (row.length - i - 1) - row.legend[legendKey]|length -%}
+                                                {%- set spacesDisplayed = 0 -%}
+                                                {%- set legendKey = legendKey + 1 -%}
+                                            {# If this is a multiple of 10 position #}
+                                            {%- elseif i is divisible by(10) -%}
+                                                {{ row.legend[legendKey] }}
+                                                {%- set nbSpaces = 9 - row.legend[legendKey]|length -%}
+                                                {%- set spacesDisplayed = 0 -%}
+                                                {%- set legendKey = legendKey + 1 -%}
+
+                                            {# If this is the last legend (when the last legend is not a multiple of 10) #}
+                                            {%- elseif loop.last -%}
+                                                {{ row.legend[legendKey] }}
+                                            {%- elseif spacesDisplayed <= nbSpaces -%}
+                                                &nbsp;
+                                                {%- set spacesDisplayed = spacesDisplayed + 1 -%}
+                                            {%- endif -%}
+                                        {%- endfor -%}
+                                    </span>
+                                </div>
+
+                                <div class="sequence-row">
+                                    <span class="sequence-name"></span>
+                                    <span class="sequence-bases">
+                                        {%- for i in range (1, row.length) -%}
+                                            {%- if loop.first or loop.last -%}
+                                                |
+                                            {%- elseif i is divisible by(10) -%}
+                                                +
+                                            {%- else -%}
+                                                -
+                                            {%- endif -%}
+                                        {%- endfor -%}
+                                    </span>
+                                </div>
+                            {% endif %}
+
                             <div class="sequence-row">
                                 <span class="sequence-name">{{ alignmentRow.name }}</span>
-                                <span class="sequence-position">{{ alignmentRow.start }}</span>
                                 <span class="sequence-bases">
                                         {%- for base in alignmentRow.bases -%}
                                             {%- if null != base.style -%}
@@ -137,7 +194,6 @@
                                             {%- endif -%}
                                         {%- endfor -%}
                                 </span>
-                                <span class="sequence-position">{{ alignmentRow.end }}</span>
                             </div>
                         {% endfor %}
                     </div>

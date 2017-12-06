@@ -144,20 +144,13 @@ class MultipleAlignmentManager
 
             // Create the table
             $basesLinesCount = count($basesLines) - 1;
-            $end = 0;
-            $longerPosition = strlen($basesLinesCount * 60);
+
             for ($j = 0; $j <= $basesLinesCount; ++$j) {
                 $basesLength = strlen($basesLines[$j]);
 
-                // Define positions
-                $start = $end + 1;
-                $end = $start + $basesLength - 1;
-
                 // Define name and bases (add spaces, to align text)
-                $line['name'] = str_pad($sequenceName, 20, ' ', STR_PAD_RIGHT);
+                $line['name'] = $sequenceName;
                 $line['bases'] = str_split($basesLines[$j]);
-                $line['start'] = str_pad($start, $longerPosition, ' ', STR_PAD_LEFT);
-                $line['end'] = (string) $end;
 
                 // Assign to the array
                 $alignment['rows'][$j]['alignment_rows'][$i] = $line;
@@ -196,6 +189,32 @@ class MultipleAlignmentManager
             // Add the basesCount table as "bases_count"
             $alignment['rows'][$key]['bases_count'] = $basesCount;
         }
+
+        // Add the legend
+        $line = 0;
+        $nbLine = count($alignment['rows']);
+        foreach ($alignment['rows'] as $key => $value) {
+            $legendArray = [];
+            $rowLength = $value['length'];
+
+            for ($i = 1; $i <= $rowLength; $i++) {
+                // If this is the first legend or a multiple of 10
+                if ((1 === $i) || (0 === ($i % 10))) {
+                    $legendArray[] = $line * 60 + $i;
+                }
+                // Else if it's the last line and the last nucleotide
+                elseif ($nbLine === ($line + 1) && $rowLength === $i) {
+                    $legendArray[] = $line * 60 + $i;
+                }
+            }
+
+            // Add the legend array on the row
+            $alignment['rows'][$key]['legend'] = $legendArray;
+
+            $line++;
+        }
+
+        dump($alignment);
 
         // Color the sequence
         // Possibilities (*=> default):
