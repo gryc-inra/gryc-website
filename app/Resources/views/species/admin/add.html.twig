@@ -19,6 +19,8 @@
 {% block body %}
     <h1>Add a species</h1>
 
+    {% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
     {{ form_start(form, { 'attr': { 'data-url': path('species_getjson', {'taxid': '__taxid__'}) } }) }}
         {{ form_widget(form) }}
 
