@@ -57,7 +57,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Install app dependencies
-RUN composer install --no-suggest --optimize-autoloader && \
+RUN composer install --no-dev --no-scripts --no-progress --no-suggest --optimize-autoloader && \
     chown -R www-data:www-data /var/www/html
 
 # Copy script and supervisor conf
