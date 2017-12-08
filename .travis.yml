@@ -25,7 +25,7 @@ matrix:
     - composer require paragonie/sodium_compat
 
 install:
-  - composer install
+  - composer install --no-scripts
   - ./vendor/bin/simple-phpunit install
 
 script:
