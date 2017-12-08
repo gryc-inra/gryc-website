@@ -1047,12 +1047,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "4e4cd83e1bc67fef9efca32f30648011d6d319cb"
+                "reference": "0aa15492baf5dbf75924b4038746de6316b649f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/4e4cd83e1bc67fef9efca32f30648011d6d319cb",
-                "reference": "4e4cd83e1bc67fef9efca32f30648011d6d319cb",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/0aa15492baf5dbf75924b4038746de6316b649f2",
+                "reference": "0aa15492baf5dbf75924b4038746de6316b649f2",
                 "shasum": ""
             },
             "require": {
@@ -1071,14 +1071,15 @@
                 "doctrine/doctrine-bundle": "^1.6",
                 "doctrine/orm": "^2.4",
                 "doctrine/phpcr-bundle": "^1.2",
+                "doctrine/phpcr-odm": "^1",
                 "friendsofphp/php-cs-fixer": "^2.2",
                 "jackalope/jackalope-doctrine-dbal": "^1.1",
                 "jms/serializer-bundle": "^2.0",
                 "knplabs/knp-components": "^1.2",
                 "knplabs/knp-paginator-bundle": "^2.4",
-                "pagerfanta/pagerfanta": "^1.0",
+                "pagerfanta/pagerfanta": "^1.0.5",
                 "phpunit/phpunit": "^4.8 || ^5.0",
-                "propel/propel1": "1.6.*",
+                "propel/propel1": "^1.7",
                 "symfony/browser-kit": "^2.7 || ^3.1",
                 "symfony/dependency-injection": "^2.7 || ^3.1",
                 "symfony/expression-language": "^2.7 || ^3.1",
@@ -1129,7 +1130,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2017-11-30T09:51:37+00:00"
+            "time": "2017-12-08T09:25:24+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
