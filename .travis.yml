@@ -29,7 +29,6 @@ before_install:
   - sudo make install
   - cd ..
   - pecl install libsodium
-  - phpenmod sodium
   - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
   - composer self-update
 
