@@ -18,19 +18,11 @@ matrix:
   allow_failures:
     - php: nightly
 
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install make build-essential automake
-  - git clone git://github.com/jedisct1/libsodium.git
-  - cd libsodium
-  - git checkout 1.0.15
-  - ./autogen.sh
-  - ./configure && make check
-  - sudo make install
-  - cd ..
-  - pecl install libsodium
-  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
-  - composer self-update
+  before_install:
+    - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
+    - composer self-update
+    # Fix Argon2i password hasher in TravisCi PHP version
+    - composer require paragonie/sodium_compat
 
 install:
   - composer install
