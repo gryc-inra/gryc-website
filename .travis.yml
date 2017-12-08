@@ -21,8 +21,6 @@ matrix:
 before_install:
   - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
   - composer self-update
-  # Fix Argon2i password hasher in TravisCi PHP version
-  - composer require paragonie/sodium_compat
 
 install:
   - composer install
