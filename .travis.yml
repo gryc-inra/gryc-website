@@ -19,6 +19,7 @@ matrix:
     - php: nightly
 
 before_install:
+  - pecl install libsodium
   - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
   - composer self-update
 
