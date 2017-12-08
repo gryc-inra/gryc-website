@@ -297,6 +297,16 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     * isActive?
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
      * Set confirmation token.
      *
      * @param string $confirmationToken

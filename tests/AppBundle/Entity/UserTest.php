@@ -42,7 +42,7 @@ class UserTest extends TestCase
         $this->assertNull($this->object->getSalt());
 
         $this->object->setIsActive(true);
-        $this->assertEquals(true, $this->object->getIsActive());
+        $this->assertEquals(true, $this->object->isActive());
 
         $this->object->setConfirmationToken('token');
         $this->assertEquals('token', $this->object->getConfirmationToken());
