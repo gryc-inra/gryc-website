@@ -69,17 +69,17 @@ class SpeciesTest extends TestCase
 
         // Test add/remove/set/get/empty for Synonym array
         $this->species->addSynonym('synonym');
-        $this->assertEquals(['synonym'], $this->species->getSynonymes());
+        $this->assertEquals(['synonym'], $this->species->getSynonyms());
 
         $this->species->removeSynonym('synonym');
-        $this->assertEquals([], $this->species->getSynonymes());
+        $this->assertEquals([], $this->species->getSynonyms());
 
         $synonymes = ['synonym', 'lsynonym2'];
-        $this->species->setSynonymes($synonymes);
-        $this->assertEquals($synonymes, $this->species->getSynonymes());
+        $this->species->setSynonyms($synonymes);
+        $this->assertEquals($synonymes, $this->species->getSynonyms());
 
-        $this->species->emptySynonymes();
-        $this->assertEquals([], $this->species->getSynonymes());
+        $this->species->emptySynonyms();
+        $this->assertEquals([], $this->species->getSynonyms());
 
         // Continue normal setters/getters
         $this->species->setDescription('description');
