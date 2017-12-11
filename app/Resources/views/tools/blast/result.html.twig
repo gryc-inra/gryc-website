@@ -167,7 +167,7 @@
                             <td class="d-print-none">
                                 {% if hit.locus_entity is defined %}
                                     <a class="btn btn-secondary btn-sm cart-add-btn" href="{{ path('cart_add', { 'id': hit.locus_entity.id }) }}" role="button">
-                                        <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
+                                        <span class="fas fa-shopping-cart" aria-hidden="true"></span> Add to cart
                                     </a>
                                 {% endif %}
                             </td>
@@ -250,7 +250,7 @@
                     {% endfor %}
                 {% endfor %}
             {% else %}
-                <div class="alert alert-warning" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> There is no result !</div>
+                <div class="alert alert-warning" role="alert"><span class="fas fa-exclamation-circle" aria-hidden="true"></span> There is no result !</div>
             {% endif %}
         {% endfor %}
     </div>

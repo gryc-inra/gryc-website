@@ -1,9 +1,6 @@
 // Because we disable resolveUrlLoader, we need to override the fonts location
-$fa-font-path: "~font-awesome/fonts";
-
 @import "custom";
 @import "~bootstrap/scss/bootstrap";
-@import "~font-awesome/scss/font-awesome.scss";
 
 /* HTML and Body
 -------------------------------------------------- */

@@ -33,7 +33,7 @@
                 <td></td>
                 <td>{{ nbSeo }}</td>
                 <td>
-                    <a class="btn btn-success btn-sm" href="{{ path('seo_species', { 'slug': species.slug }) }}" ><span class="fa fa-plus" aria-hidden="true"></span> Add SEO</a>
+                    <a class="btn btn-success btn-sm" href="{{ path('seo_species', { 'slug': species.slug }) }}" ><span class="fas fa-plus" aria-hidden="true"></span> Add SEO</a>
                 </td>
             </tr>
             {% if species.strains|length > 0 %}
@@ -45,7 +45,7 @@
                         <td></td>
                         <td>{{ strain.seos|length }}</td>
                         <td>
-                            <a class="btn btn-success btn-sm" href="{{ path('seo_strain', { 'slug': strain.slug }) }}" ><span class="fa fa-plus" aria-hidden="true"></span> Add SEO</a>
+                            <a class="btn btn-success btn-sm" href="{{ path('seo_strain', { 'slug': strain.slug }) }}" ><span class="fas fa-plus" aria-hidden="true"></span> Add SEO</a>
                         </td>
                     </tr>
                 {% endfor %}

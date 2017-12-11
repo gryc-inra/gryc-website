@@ -21,11 +21,11 @@
 
         <div class="col-3 text-right d-print-none">
             <a class="btn btn-secondary btn-sm cart-add-btn" href="{{ path('cart_add', { 'id': locus.id }) }}" role="button">
-                <span class="fa fa-shopping-cart" aria-hidden="true"></span> Add to cart
+                <span class="fas fa-shopping-cart" aria-hidden="true"></span> Add to cart
             </a>
 
             <button class="btn btn-secondary btn-sm" onClick="window.print()">
-                <span class="fa fa-print" aria-hidden="true"></span> Print
+                <span class="fas fa-print" aria-hidden="true"></span> Print
             </button>
         </div>
     </div>
@@ -36,12 +36,12 @@
                 <a class="btn btn-primary" href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.previousLocus }) }}"
                 data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.previousLocusDistance >= 0 ? locus.previousLocusDistance ~ ' nuc.' : 'overlapping' }}"
                 role="button">
-                    <span class="fa fa-arrow-left" aria-hidden="true"></span>
+                    <span class="fas fa-arrow-left" aria-hidden="true"></span>
                     <span class="d-none d-sm-inline">{{ locus.previousLocus }}</span>
                     <span class="d-sm-none">Previous locus</span>
                 </a>
             {% else %}
-                <a class="btn btn-primary disabled" href="#" role="button"><span class="fa fa-arrow-left" aria-hidden="true"></span> No previous locus</a>
+                <a class="btn btn-primary disabled" href="#" role="button"><span class="fas fa-arrow-left" aria-hidden="true"></span> No previous locus</a>
             {% endif %}
         </div>
 
@@ -52,10 +52,10 @@
                 role="button">
                     <span class="d-none d-sm-inline">{{ locus.nextLocus }}</span>
                     <span class="d-sm-none">Next locus</span>
-                    <span class="fa fa-arrow-right" aria-hidden="true"></span>
+                    <span class="fas fa-arrow-right" aria-hidden="true"></span>
                 </a>
             {% else %}
-                <a class="btn btn-primary disabled" href="#"  role="button">No next locus <span class="fa fa-arrow-right" aria-hidden="true"></span></a>
+                <a class="btn btn-primary disabled" href="#"  role="button">No next locus <span class="fas fa-arrow-right" aria-hidden="true"></span></a>
             {% endif %}
         </div>
     </div>
@@ -202,7 +202,7 @@
                 <a class="btn btn-primary btn-sm" href="{{ path('reference_add_locus', {
                     'name': locus.name,
                 }) }}">
-                    <span class="fa fa-plus"></span> Add a reference
+                    <span class="fas fa-plus"></span> Add a reference
                 </a>
             </div>
         {% endif %}
@@ -223,7 +223,7 @@
                             </a>
                             {% if is_granted('ROLE_REFERENCER') %}
                                 <a class="btn btn-danger btn-sm" href="{{ path('reference_delete_locus', {'reference_id': reference.id, 'locus_id': locus.id, 'token': csrf_token('reference_delete')}) }}" data-confirmation="1">
-                                    <span class="fa fa-trash"></span>
+                                    <span class="fas fa-trash-alt"></span>
                                 </a>
                             {% endif %}
                         </li>

@@ -27,11 +27,11 @@
         <div class="col-12">
             <div class="btn-group btn-group-sm d-print-none float-right my-3" role="group">
                 <a class="btn btn-primary" href="{{ path('blast_index_prefilled', { 'name': blast.name }) }}" role="button">
-                    <span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query
+                    <span class="fas fa-redo" aria-hidden="true"></span> Reuse the query
                 </a>
 
                 <button class="btn btn-secondary" onClick="window.print()">
-                    <span class="fa fa-print" aria-hidden="true"></span> Print
+                    <span class="fas fa-print" aria-hidden="true"></span> Print
                 </button>
             </div>
         </div>
@@ -39,7 +39,7 @@
 
     {% if 'pending' == blast.status %}
         <div class="text-center text-primary">
-            <span class="fa fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
+            <span class="fas fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
             <span class="sr-only">Loading...</span>
 
             <h2>
@@ -48,7 +48,7 @@
             </h2>
         </div>
     {% elseif 'failed' == blast.status %}
-        <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
+        <div class="alert alert-danger" role="alert"><span class="fas fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
         {% include 'tools/blast/result.html.twig' with {'result': result} %}
     {% endif %}

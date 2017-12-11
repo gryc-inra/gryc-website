@@ -41,14 +41,14 @@
                                 {# If the user is an administrator #}
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <a class="dropdown-item" href="{{ path('admin_index') }}">
-                                        <span class="fa fa-cog fa-fw" aria-hidden="true"></span> Administration
+                                        <span class="fas fa-cog fa-fw" aria-hidden="true"></span> Administration
                                     </a>
                                 {% endif %}
                                 <a class="dropdown-item" href="{{ path("user_profile") }}">
-                                    <span class="fa fa-user fa-fw" aria-hidden="true"></span> Profile
+                                    <span class="fas fa-user fa-fw" aria-hidden="true"></span> Profile
                                 </a>
                                 <a class="dropdown-item" href="{{ logout_url('main') }}">
-                                    <span class="fa fa-sign-out fa-fw" aria-hidden="true"></span> Log out
+                                    <span class="fas fa-sign-out-alt fa-fw" aria-hidden="true"></span> Log out
                                 </a>
                             </div>
                         </li>
@@ -59,10 +59,10 @@
                         {% endif %}
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path("login") }}" rel="nofollow"><span class="fa fa-sign-in fa-fw" aria-hidden="true"></span> Log in</a>
+                            <a class="nav-link" href="{{ path("login") }}" rel="nofollow"><span class="fas fa-sign-in-alt fa-fw" aria-hidden="true"></span> Log in</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path("user_registration") }}" rel="nofollow"><span class="fa fa-pencil fa-fw" aria-hidden="true"></span> Register</a>
+                            <a class="nav-link" href="{{ path("user_registration") }}" rel="nofollow"><span class="fas fa-pencil-alt fa-fw" aria-hidden="true"></span> Register</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -78,7 +78,7 @@
             </div>
             {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
                 <div style="position: absolute; right: 10px; top: 10px;">
-                    <a href="{{ path('user_index', {'_switch_user': '_exit'}) }}" style="color: #FFF;"><span class="fa fa-sign-out" aria-hidden="true"></span>  Exit impersonation</a>
+                    <a href="{{ path('user_index', {'_switch_user': '_exit'}) }}" style="color: #FFF;"><span class="fas fa-sign-out-alt" aria-hidden="true"></span>  Exit impersonation</a>
                 </div>
             {% endif %}
         </header>
@@ -93,14 +93,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('advanced-search') }}" rel="nofollow"><span class="fa fa-search fa-fw" aria-hidden="true"></span> Search</a>
+                        <a class="nav-link" href="{{ path('advanced-search') }}" rel="nofollow"><span class="fas fa-search fa-fw" aria-hidden="true"></span> Search</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('strain_index') }}"><span class="fa fa-list fa-fw" aria-hidden="true"></span> Strains</a>
+                        <a class="nav-link" href="{{ path('strain_index') }}"><span class="fas fa-list fa-fw" aria-hidden="true"></span> Strains</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownToolsLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="fa fa-cog fa-fw" aria-hidden="true"></span>  Tools
+                            <span class="fas fa-cogs fa-fw" aria-hidden="true"></span>  Tools
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownToolsLink">
                             <a class="dropdown-item" href="{{ path("blast_index") }}">Blast</a>
@@ -114,7 +114,7 @@
                     {# Cart #}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('cart_view') }}" id="cart" rel="nofollow">
-                            <span class="fa fa-shopping-cart fa-fw" title="Cart"></span>
+                            <span class="fas fa-shopping-cart fa-fw" title="Cart"></span>
                             <span class="sr-only">Cart</span>
                             <span class="badge badge-pill badge-secondary">
                                 {% if app.session.get('cart') is not empty %}
@@ -132,7 +132,7 @@
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
                         <button class="btn input-group-addon" type="submit" >
-                            <span class="fa fa-search" title="Search"></span>
+                            <span class="fas fa-search" title="Search"></span>
                             <span class="sr-only">Search</span>
                         </button>
                     </div>
@@ -146,7 +146,7 @@
                 <div class="input-group">
                     <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
                     <button class="btn input-group-addon" type="submit" >
-                        <span class="fa fa-search" title="Search"></span>
+                        <span class="fas fa-search" title="Search"></span>
                         <span class="sr-only">Search</span>
                     </button>
                 </div>
@@ -168,7 +168,7 @@
             {# Breadcrumb #}
             <ol class="breadcrumb d-print-none">
                 {% block breadcrumb %}
-                    <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><span class="fa fa-home" aria-hidden="true"></span> Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><span class="fas fa-home" aria-hidden="true"></span> Home</a></li>
                 {% endblock %}
             </ol>
 
@@ -191,12 +191,12 @@
                         <ul class="list-unstyled">
                             <li>
                                 <a href="{{ path('faq') }}">
-                                    <span class="fa fa-question fa-fw"  aria-hidden="true"></span> FAQ
+                                    <span class="fas fa-question fa-fw"  aria-hidden="true"></span> FAQ
                                 </a><br>
                             </li>
                             <li>
                                 <a href="https://github.com/mpiot/gryc" rel="nofollow">
-                                    <span class="fa fa-github fa-fw" aria-hidden="true"></span> Github project
+                                    <span class="fab fa-github fa-fw" aria-hidden="true"></span> Github project
                                 </a><br>
                             </li>
                         </ul>
@@ -206,17 +206,17 @@
                         <ul class="list-unstyled">
                             <li>
                                 <a href="{{ path('contact_us') }}">
-                                    <span class="fa fa-paper-plane fa-fw"  aria-hidden="true"></span>  Contact us
+                                    <span class="fas fa-paper-plane fa-fw"  aria-hidden="true"></span>  Contact us
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ path('privacy-policy') }}">
-                                    <span class="fa fa-lock fa-fw"  aria-hidden="true"></span>  Privacy policy
+                                    <span class="fas fa-lock fa-fw"  aria-hidden="true"></span>  Privacy policy
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ path('publisher') }}">
-                                    <span class="fa fa-building fa-fw"  aria-hidden="true"></span>  Publisher
+                                    <span class="fas fa-building fa-fw"  aria-hidden="true"></span>  Publisher
                                 </a>
                             </li>
                         </ul>
@@ -232,6 +232,7 @@
         </footer>
 
         {% block javascripts %}
+            <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
             <script src="{{ preload(asset('build/manifest.js')) }}"></script>
             <script src="{{ preload(asset('build/js/vendor.js')) }}"></script>
             <script src="{{ preload(asset('build/js/app.js')) }}"></script>

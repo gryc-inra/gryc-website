@@ -38,11 +38,11 @@
                 <td>{{ strain.isTypeStrainToString }}</td>
                 <td>
                     <div class="btn-group btn-group-sm" role="group">
-                        <a class="btn btn-warning" href="{{ path('strain_edit', { 'id': strain.id }) }}" ><span class="fa fa-pencil" aria-hidden="true"></span> Edit</a>
+                        <a class="btn btn-warning" href="{{ path('strain_edit', { 'id': strain.id }) }}" ><span class="fas fa-pencil-alt" aria-hidden="true"></span> Edit</a>
                         {% if not strain.isPublic %}
-                            <a class="btn btn-primary" href="{{ path('strain_user_rights', { 'id': strain.id }) }}" ><span class="fa fa-user" aria-hidden="true"></span> User rights</a>
+                            <a class="btn btn-primary" href="{{ path('strain_user_rights', { 'id': strain.id }) }}" ><span class="fas fa-user" aria-hidden="true"></span> User rights</a>
                         {% else %}
-                            <span class="btn btn-primary" disabled="disabled"><span class="fa fa-user" aria-hidden="true"></span> User rights</span>
+                            <span class="btn btn-primary" disabled="disabled"><span class="fas fa-user" aria-hidden="true"></span> User rights</span>
                         {% endif %}
                     </div>
                 </td>

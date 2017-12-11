@@ -11,7 +11,7 @@ $(document).ready(function() {
     $('.col-sm-10', taxidDiv).removeClass('col-sm-10').addClass('col-sm-9');
 
     // Add a button and a hidden loader
-    var button = $ ('<div class="col-sm-1"><a href="#" id="taxid-send" class="btn btn-info btn-sm"><span class="fa fa-refresh"></span></a><span style="display:none;" id="taxid-send-loader" class="btn btn-info btn-sm" disabled="true"><span class="fa fa-refresh fa-spin fa-fw" title="Ajax loader"></span></span></div>');
+    var button = $ ('<div class="col-sm-1"><a href="#" id="taxid-send" class="btn btn-info btn-sm"><span class="fas fa-sync"></span></a><span style="display:none;" id="taxid-send-loader" class="btn btn-info btn-sm" disabled="true"><span class="fas fa-sync fa-spin fa-fw" title="Ajax loader"></span></span></div>');
     taxidDiv.append(button);
 
     // Retrieve the URL scheme
@@ -45,7 +45,7 @@ $(document).ready(function() {
                     // If the result is an error, display it
                     if ("error" in data) {
                         taxidDiv.find('input').addClass("is-invalid");
-                        $(".col-sm-9", taxidDiv).append("<div class='invalid-feedback'><ul class='list-unstyled mb-0'><li><span class='fa fa-exclamation'></span> " + data.error + "</li> </ul></div>");
+                        $(".col-sm-9", taxidDiv).append("<div class='invalid-feedback'><ul class='list-unstyled mb-0'><li><span class='fas fa-exclamation'></span> " + data.error + "</li> </ul></div>");
                     // Else call populate function
                     } else {
                         populate(data);

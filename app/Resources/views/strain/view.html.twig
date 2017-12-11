@@ -124,7 +124,7 @@
                 <a class="btn btn-primary btn-sm" href="{{ path('reference_add_strain', {
                     'slug': strain.slug,
                 }) }}">
-                    <span class="fa fa-plus"></span> Add a reference
+                    <span class="fas fa-plus"></span> Add a reference
                 </a>
             </div>
         {% endif %}
@@ -145,7 +145,7 @@
                             </a>
                             {% if is_granted('ROLE_REFERENCER') %}
                                 <a class="btn btn-danger btn-sm" href="{{ path('reference_delete_strain', {'reference_id': reference.id, 'strain_id': strain.id, 'token': csrf_token('reference_delete')}) }}" data-confirmation="1">
-                                    <span class="fa fa-trash"></span>
+                                    <span class="fas fa-trash-alt"></span>
                                 </a>
                             {% endif %}
                         </li>

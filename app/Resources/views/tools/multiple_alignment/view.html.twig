@@ -27,11 +27,11 @@
         <div class="col-12">
             <div class="btn-group btn-group-sm d-print-none float-right" role="group">
                 <a class="btn btn-primary" href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" role="button">
-                    <span class="fa fa-repeat" aria-hidden="true"></span> Reuse the query
+                    <span class="fas fa-redo" aria-hidden="true"></span> Reuse the query
                 </a>
 
                 <button class="btn btn-secondary" onClick="window.print()">
-                    <span class="fa fa-print" aria-hidden="true"></span> Print
+                    <span class="fas fa-print" aria-hidden="true"></span> Print
                 </button>
              </div>
         </div>
@@ -39,7 +39,7 @@
 
     {% if 'pending' == alignment.status or 'running' == alignment.status %}
         <div class="text-center text-primary">
-            <span class="fa fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
+            <span class="fas fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
             <span class="sr-only">Loading...</span>
 
             <h2>
@@ -48,7 +48,7 @@
             </h2>
         </div>
     {% elseif 'failed' == alignment.status %}
-        <div class="alert alert-danger" role="alert"><span class="fa fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
+        <div class="alert alert-danger" role="alert"><span class="fas fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
 
         <div id="accordion" role="tablist" class="my-3">
@@ -56,7 +56,7 @@
                 <div class="card-header" role="tab" id="headingOne">
                     <h5 class="mb-0">
                         <a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                            <span class="fa fa-paint-brush" aria-hidden="true"></span> Coloration
+                            <span class="fas fa-paint-brush" aria-hidden="true"></span> Coloration
                         </a>
                     </h5>
                 </div>

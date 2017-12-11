@@ -24,9 +24,9 @@ module.exports = function(container, buttonText, buttonId, fieldStart, functions
     // Create and add a button to add new field
     if (buttonId) {
         var id = "id='" + buttonId + "'";
-        var $addButton = $('<a href="#" ' + id + 'class="btn btn-outline-secondary btn-sm"><span class="fa fa-plus"></span> '+buttonText+'</a>');
+        var $addButton = $('<a href="#" ' + id + 'class="btn btn-outline-secondary btn-sm"><span class="fas fa-plus"></span> '+buttonText+'</a>');
     } else {
-        var $addButton = $('<a href="#" class="btn btn-outline-secondary btn-sm"><span class="fa fa-plus"></span> '+buttonText+'</a>');
+        var $addButton = $('<a href="#" class="btn btn-outline-secondary btn-sm"><span class="fas fa-plus"></span> '+buttonText+'</a>');
     }
 
     container.append($addButton);
@@ -81,7 +81,7 @@ module.exports = function(container, buttonText, buttonId, fieldStart, functions
     // A function called to add deleteButton
     function addDeleteButton(prototype) {
         // First, create the button
-        var $deleteButton = $('<div class="col-sm-1"><a href="#" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></a></div>');
+        var $deleteButton = $('<div class="col-sm-1"><a href="#" class="btn btn-danger btn-sm"><span class="fas fa-trash-alt"></span></a></div>');
 
         // Add the button on the field
         $('.col-sm-10', prototype).removeClass('col-sm-10').addClass('col-sm-9');
