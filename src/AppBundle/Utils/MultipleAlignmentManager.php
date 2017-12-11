@@ -214,8 +214,6 @@ class MultipleAlignmentManager
             ++$line;
         }
 
-        dump($alignment);
-
         // Color the sequence
         // Possibilities (*=> default):
         // nuc: none, *conservation*

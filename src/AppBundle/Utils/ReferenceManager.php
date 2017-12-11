@@ -62,7 +62,6 @@ class ReferenceManager
 
         // Retrieve result and convert json in array
         $json = $this->response->getBody()->getContents();
-        dump($json);
         $this->document = json_decode($json);
     }
 
