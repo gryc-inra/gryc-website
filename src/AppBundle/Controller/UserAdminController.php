@@ -3,8 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
-use AppBundle\Form\Type\AdminUserRightsType;
-use AppBundle\Form\Type\RoleType;
+use AppBundle\Form\Type\UserRightsType;
+use AppBundle\Form\Type\UserRolesType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -64,7 +64,7 @@ class UserAdminController extends Controller
      */
     public function rolesAction(User $user, Request $request)
     {
-        $form = $this->createForm(RoleType::class, $user);
+        $form = $this->createForm(UserRolesType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -89,7 +89,7 @@ class UserAdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(AdminUserRightsType::class, $user);
+        $form = $this->createForm(UserRightsType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

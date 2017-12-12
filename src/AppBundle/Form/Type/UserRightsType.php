@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdminUserRightsType extends AbstractType
+class UserRightsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
