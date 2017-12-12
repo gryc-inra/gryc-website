@@ -499,8 +499,10 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function addStrain(Strain $strain)
     {
-        $strain->addUser($this);
-        $this->strains[] = $strain;
+        if (!$this->strains->contains($strain)) {
+            $strain->addUser($this);
+            $this->strains[] = $strain;
+        }
 
         return $this;
     }
@@ -509,11 +511,17 @@ class User implements AdvancedUserInterface, \Serializable
      * Remove a strain.
      *
      * @param Strain $strain
+     *
+     * @return $this
      */
     public function removeStrain(Strain $strain)
     {
-        $strain->removeUser($this);
-        $this->strains->removeElement($strain);
+        if ($this->strains->contains($strain)) {
+            $strain->removeUser($this);
+            $this->strains->removeElement($strain);
+        }
+
+        return $this;
     }
 
     /**
