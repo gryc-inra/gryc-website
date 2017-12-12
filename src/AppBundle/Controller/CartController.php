@@ -35,9 +35,9 @@ class CartController extends Controller
         // At the end, send a json for an xml request, or a redirection if it's an html request
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse($cart);
-        } else {
-            return $this->redirect($request->headers->get('referer'));
         }
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
@@ -51,9 +51,9 @@ class CartController extends Controller
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse($cart);
-        } else {
-            return $this->redirectToRoute('cart_view');
         }
+
+        return $this->redirectToRoute('cart_view');
     }
 
     /**

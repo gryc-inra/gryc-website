@@ -548,9 +548,9 @@ class Strain
     {
         if ($this->isPublic()) {
             return 'yes';
-        } else {
-            return 'no';
         }
+
+        return 'no';
     }
 
     /**
@@ -562,9 +562,9 @@ class Strain
     {
         if ($this->isPrivate()) {
             return 'yes';
-        } else {
-            return 'no';
         }
+
+        return 'no';
     }
 
     /**
@@ -680,9 +680,9 @@ class Strain
     {
         if ($this->isTypeStrain()) {
             return 'yes';
-        } else {
-            return 'no';
         }
+
+        return 'no';
     }
 
     public function addReference(Reference $reference)

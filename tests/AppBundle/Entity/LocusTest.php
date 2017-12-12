@@ -29,7 +29,7 @@ class LocusTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->locus->setChromosome($chromosome);
-        $this->assertEquals($chromosome, $this->locus->getChromosome());
+        $this->assertSame($chromosome, $this->locus->getChromosome());
 
         $this->assertSame('Doctrine\Common\Collections\ArrayCollection', get_class($this->locus->getFeatures()));
 
@@ -42,27 +42,27 @@ class LocusTest extends TestCase
             ->willReturn(new ArrayCollection(['product1', 'product2']));
 
         $this->locus->addFeature($feature);
-        $this->assertEquals($feature, $this->locus->getFeatures()->first());
+        $this->assertSame($feature, $this->locus->getFeatures()->first());
 
-        $this->assertEquals(2, $this->locus->countProductNumber());
+        $this->assertSame(2, $this->locus->countProductNumber());
 
         $this->locus->removeFeature($feature);
-        $this->assertEquals(true, $this->locus->getFeatures()->isEmpty());
+        $this->assertTrue($this->locus->getFeatures()->isEmpty());
 
         $locus = $this->getMockBuilder('AppBundle\Entity\Locus')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->locus->setPreviousLocus($locus);
-        $this->assertEquals($locus, $this->locus->getPreviousLocus());
+        $this->assertSame($locus, $this->locus->getPreviousLocus());
 
         $this->locus->setNextLocus($locus);
-        $this->assertEquals($locus, $this->locus->getNextLocus());
+        $this->assertSame($locus, $this->locus->getNextLocus());
 
         $this->locus->setPreviousLocusDistance(1000);
-        $this->assertEquals(1000, $this->locus->getPreviousLocusDistance());
+        $this->assertSame(1000, $this->locus->getPreviousLocusDistance());
 
         $this->locus->setNextLocusDistance(1000);
-        $this->assertEquals(1000, $this->locus->getNextLocusDistance());
+        $this->assertSame(1000, $this->locus->getNextLocusDistance());
     }
 }

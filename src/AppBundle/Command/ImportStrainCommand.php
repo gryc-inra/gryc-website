@@ -137,7 +137,7 @@ class ImportStrainCommand extends ContainerAwareCommand
         $question->setAutocompleterValues(array_keys($this->speciesList));
         // Verify that the name of the species is an existing species, if yes return the species object
         $question->setValidator(function ($answer) {
-            if (!in_array($answer, array_keys($this->speciesList))) {
+            if (!in_array($answer, array_keys($this->speciesList), true)) {
                 throw new \RuntimeException(
                     'The species doesn\'t exist !'
                 );
@@ -214,7 +214,7 @@ class ImportStrainCommand extends ContainerAwareCommand
             $dnaSequence = new DnaSequence();
             $chromosome->setDnaSequence($dnaSequence);
 
-            $dnaSequence->setDna(strtoupper($chromosomeData['DnaSequence']['seq']));
+            $dnaSequence->setDna(mb_strtoupper($chromosomeData['DnaSequence']['seq']));
             // The array in the json haven't key, but the positions in the array is:
             // A, C, G, T, N, other.
             $letterCountKeys = ['A', 'C', 'G', 'T', 'N', 'other'];

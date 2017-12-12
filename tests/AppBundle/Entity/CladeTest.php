@@ -27,13 +27,13 @@ class CladeTest extends TestCase
         $this->assertNull($this->clade->getId());
 
         $this->clade->setName('name');
-        $this->assertEquals('name', $this->clade->getName());
+        $this->assertSame('name', $this->clade->getName());
 
         $this->clade->setDescription('description');
-        $this->assertEquals('description', $this->clade->getDescription());
+        $this->assertSame('description', $this->clade->getDescription());
 
         $this->clade->setMainClade(true);
-        $this->assertEquals(true, $this->clade->getMainCLade());
+        $this->assertTrue($this->clade->getMainCLade());
 
         $this->assertSame('Doctrine\Common\Collections\ArrayCollection', get_class($this->clade->getSpecies()));
     }

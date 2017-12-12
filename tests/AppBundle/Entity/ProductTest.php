@@ -28,9 +28,9 @@ class ProductTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->product->setFeature($feature);
-        $this->assertEquals($feature, $this->product->getFeature());
+        $this->assertSame($feature, $this->product->getFeature());
 
         $this->product->setTranslation('EEEEEEE');
-        $this->assertEquals('EEEEEEE', $this->product->getTranslation());
+        $this->assertSame('EEEEEEE', $this->product->getTranslation());
     }
 }

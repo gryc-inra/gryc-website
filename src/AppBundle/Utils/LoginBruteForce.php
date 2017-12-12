@@ -127,7 +127,5 @@ class LoginBruteForce
                 throw new AuthenticationException('Maximum number of login attempts exceeded for user: "'.$username.'". Please try again in '.self::TIME_RANGE.' minutes.');
             }
         }
-
-        return;
     }
 }

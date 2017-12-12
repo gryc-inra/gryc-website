@@ -169,7 +169,7 @@ class BlastManager
 
         // Get the blast version
         $result['blast_version'] = $crawler->filterXPath('//BlastOutput/BlastOutput_version')->text();
-        $result['blast_tool'] = strtolower(explode(' ', $result['blast_version'])[0]);
+        $result['blast_tool'] = mb_strtolower(explode(' ', $result['blast_version'])[0]);
 
         // For each Iteration
         $crawler->filterXPath('//BlastOutput/BlastOutput_iterations/Iteration')->each(function (Crawler $node) use (&$result) {
@@ -288,12 +288,12 @@ class BlastManager
         $queryLegend = 'Query';
         $hitLegend = 'Hit';
         // Calculate the legend size
-        $queryLegendLength = strlen($queryLegend);
-        $hitLegendLength = strlen($hitLegend);
+        $queryLegendLength = mb_strlen($queryLegend);
+        $hitLegendLength = mb_strlen($hitLegend);
         // Then, which legend is the longer ?
         $maxLegendLength = max($queryLegendLength, $hitLegendLength);
         // What is the max digit length ?
-        $maxDigitLength = strlen(max($hsp['query_from'], $hsp['query_to'], $hsp['hit_from'], $hsp['hit_to']));
+        $maxDigitLength = mb_strlen(max($hsp['query_from'], $hsp['query_to'], $hsp['hit_from'], $hsp['hit_to']));
         // Calculate the length of the longer legend (add 1 for the space between legend and number)
         $longerLegendLength = $maxLegendLength + 1 + $maxDigitLength;
 
@@ -302,7 +302,7 @@ class BlastManager
          */
         $convertLine = function (int &$from, int $frame, int $step, &$line, $legend, int $legendLength, int $longerLegendLength) {
             // The line length, is the number of char - the number of gap (-)
-            $lineLength = (strlen($line) - substr_count($line, '-')) * $step - 1;
+            $lineLength = (mb_strlen($line) - mb_substr_count($line, '-')) * $step - 1;
 
             // Set $to, depending on the strand
             if ($frame >= 0) {
@@ -312,7 +312,7 @@ class BlastManager
             }
 
             // Calculate the number of spaces to add between the legend and the position
-            $nbSpaces = $longerLegendLength - $legendLength - strlen($from);
+            $nbSpaces = $longerLegendLength - $legendLength - mb_strlen($from);
             $lineLegend = $legend.str_repeat('&nbsp;', $nbSpaces);
 
             // Edit the line by adding the legend, and start/stop positions
@@ -408,7 +408,7 @@ class BlastManager
         $hits = [];
         foreach ($blastResult['iterations'] as $query) {
             foreach ($query['hits'] as $hit) {
-                if (!in_array($hit['name'], $hits)) {
+                if (!in_array($hit['name'], $hits, true)) {
                     $hits[] = $hit['name'];
                 }
             }

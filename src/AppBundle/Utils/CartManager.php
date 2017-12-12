@@ -38,7 +38,7 @@ class CartManager
             $this->cart['reached_limit'] = true;
         }
         // elseif the locus is not already in the cart, add it
-        elseif (!in_array($locus->getId(), $this->cart['items'])) {
+        elseif (!in_array($locus->getId(), $this->cart['items'], true)) {
             $this->cart['items'][] = $locus->getId();
         }
 
@@ -47,7 +47,7 @@ class CartManager
 
     public function removeToCart($id)
     {
-        if (false !== $key = array_search($id, $this->cart['items'])) {
+        if (false !== $key = array_search($id, $this->cart['items'], true)) {
             unset($this->cart['items'][$key]);
             $this->cart['items'] = array_values($this->cart['items']);
             $this->saveCart();

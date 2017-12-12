@@ -25,7 +25,7 @@ class TaxId
         // Parse the header array to get the last HTTP status code
         $statusCode = null;
         foreach (array_reverse($headers) as $header) {
-            if ('HTTP/' === substr($header, 0, 5)) {
+            if ('HTTP/' === mb_substr($header, 0, 5)) {
                 $httpStatus = explode(' ', $header, 3);
                 $statusCode = (int) $httpStatus[1];
 

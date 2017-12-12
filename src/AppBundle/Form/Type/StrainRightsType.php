@@ -21,7 +21,7 @@ class StrainRightsType extends AbstractType
                         ->orderBy('user.lastName', 'ASC')
                         ->addOrderBy('user.firstName', 'ASC');
                 },
-                'choice_label' => function(User $user) {
+                'choice_label' => function (User $user) {
                     return $user->getFirstName().' '.$user->getLastName().' ('.$user->getEmail().')';
                 },
                 'expanded' => true,

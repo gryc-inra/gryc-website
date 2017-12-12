@@ -27,21 +27,21 @@ class SeoTest extends TestCase
         $this->assertNull($this->seo->getId());
 
         $this->seo->setName('name');
-        $this->assertEquals('name', $this->seo->getName());
+        $this->assertSame('name', $this->seo->getName());
 
         $this->seo->setContent('content');
-        $this->assertEquals('content', $this->seo->getContent());
+        $this->assertSame('content', $this->seo->getContent());
 
         $strain = $this->getMockBuilder('AppBundle\Entity\Strain')
             ->disableOriginalConstructor()
             ->getMock();
         $this->seo->setStrain($strain);
-        $this->assertEquals($strain, $this->seo->getStrain());
+        $this->assertSame($strain, $this->seo->getStrain());
 
         $species = $this->getMockBuilder('AppBundle\Entity\Species')
             ->disableOriginalConstructor()
             ->getMock();
         $this->seo->setSpecies($species);
-        $this->assertEquals($species, $this->seo->getSpecies());
+        $this->assertSame($species, $this->seo->getSpecies());
     }
 }

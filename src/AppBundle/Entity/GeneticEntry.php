@@ -436,8 +436,8 @@ class GeneticEntry
             $positionsArray['downstream']['start'] = $locusEnd + 1;
             $positionsArray['downstream']['legend'] = 'stream';
 
-            if (($locusEnd + $stream) > strlen($chromosomeDna)) {
-                $positionsArray['downstream']['end'] = strlen($chromosomeDna);
+            if (($locusEnd + $stream) > mb_strlen($chromosomeDna)) {
+                $positionsArray['downstream']['end'] = mb_strlen($chromosomeDna);
             } else {
                 $positionsArray['downstream']['end'] = $locusEnd + $stream;
             }
@@ -459,7 +459,7 @@ class GeneticEntry
         foreach ($positionsArray as $position) {
             if ($position) {
                 $sequenceLength = $position['end'] - $position['start'] + 1;
-                $sequence = substr($chromosomeDna, $position['start'], $sequenceLength);
+                $sequence = mb_substr($chromosomeDna, $position['start'], $sequenceLength);
 
                 if (1 !== $this->strand) {
                     $sequence = $sequenceManipulator->reverseComplement($sequence);

@@ -29,9 +29,9 @@ class ReferenceManager
 
         if ($this->isValidUrl()) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function getReference(string $doi)
@@ -70,9 +70,9 @@ class ReferenceManager
         // Check if the status code is 200 or different
         if (200 !== $this->response->getStatusCode()) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     private function populateReference(Reference $reference, string $doi)

@@ -5,12 +5,12 @@ namespace AppBundle\SearchRepository;
 use AppBundle\Entity\User;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
+use Elastica\Query\HasParent;
 use Elastica\Query\Match;
 use Elastica\Query\MultiMatch;
 use Elastica\Query\Nested;
 use Elastica\Query\Term;
 use Elastica\Query\Terms;
-use Elastica\Query\HasParent;
 use FOS\ElasticaBundle\Repository;
 
 class LocusRepository extends Repository

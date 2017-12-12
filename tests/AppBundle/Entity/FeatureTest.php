@@ -22,12 +22,12 @@ class FeatureTest extends TestCase
 
         // Test add a product
         $feature->addProductsFeatures($product);
-        $this->assertEquals($product, $feature->getProductsFeatures()->first());
+        $this->assertSame($product, $feature->getProductsFeatures()->first());
 
         // Test add a second product
         $feature->addProductsFeatures($product2);
-        $this->assertEquals($product, $feature->getProductsFeatures()->first());
-        $this->assertEquals($product2, $feature->getProductsFeatures()->next());
+        $this->assertSame($product, $feature->getProductsFeatures()->first());
+        $this->assertSame($product2, $feature->getProductsFeatures()->next());
 
         // Test add an existant object
         $feature->addProductsFeatures($product);

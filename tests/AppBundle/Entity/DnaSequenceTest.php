@@ -27,9 +27,9 @@ class DnaSequenceTest extends TestCase
         $this->assertNull($this->dnaSequence->getId());
 
         $this->dnaSequence->setLetterCount(10000);
-        $this->assertEquals(10000, $this->dnaSequence->getLetterCount());
+        $this->assertSame(10000, $this->dnaSequence->getLetterCount());
 
         $this->dnaSequence->setDna('AAAAAAAAAAAAAA');
-        $this->assertEquals('AAAAAAAAAAAAAA', $this->dnaSequence->getDna());
+        $this->assertSame('AAAAAAAAAAAAAA', $this->dnaSequence->getDna());
     }
 }

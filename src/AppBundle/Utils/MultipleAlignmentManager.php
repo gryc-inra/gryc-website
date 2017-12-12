@@ -123,7 +123,7 @@ class MultipleAlignmentManager
             $totalCount += $val;
 
             // If the letter is a a, t, c, g, add it to the nucCount
-            if (in_array($i, [65, 97, 67, 99, 71, 103, 84, 116])) {
+            if (in_array($i, [65, 97, 67, 99, 71, 103, 84, 116], true)) {
                 $nucCount += $val;
             }
         }
@@ -139,14 +139,14 @@ class MultipleAlignmentManager
         $i = 0;
         foreach ($sequences as $key => $value) {
             // Define the sequence name and an array of bases (60 per line)
-            $sequenceName = strlen($value['name']) > 20 ? substr($value['name'], 0, 17).'...' : $value['name'];
+            $sequenceName = mb_strlen($value['name']) > 20 ? mb_substr($value['name'], 0, 17).'...' : $value['name'];
             $basesLines = str_split($value['sequence'], 60);
 
             // Create the table
             $basesLinesCount = count($basesLines) - 1;
 
             for ($j = 0; $j <= $basesLinesCount; ++$j) {
-                $basesLength = strlen($basesLines[$j]);
+                $basesLength = mb_strlen($basesLines[$j]);
 
                 // Define name and bases (add spaces, to align text)
                 $line['name'] = $sequenceName;
@@ -258,11 +258,11 @@ class MultipleAlignmentManager
                         if ('-' !== $base) {
                             $count = $row['bases_count'][$i][$base];
 
-                            if ($count == $identities100) {
+                            if ($count === $identities100) {
                                 $style = 'identities-100';
-                            } elseif ($count >= $identities80 && (2 == $identitiesColorationLevel || 3 == $identitiesColorationLevel)) {
+                            } elseif ($count >= $identities80 && (2 === $identitiesColorationLevel || 3 === $identitiesColorationLevel)) {
                                 $style = 'identities-80';
-                            } elseif ($count >= $identities60 && 3 == $identitiesColorationLevel) {
+                            } elseif ($count >= $identities60 && 3 === $identitiesColorationLevel) {
                                 $style = 'identities-60';
                             }
                         }
@@ -294,7 +294,7 @@ class MultipleAlignmentManager
 
                         if ('-' !== $base) {
                             foreach ($classTable as $class => $aas) {
-                                if (in_array($base, $aas)) {
+                                if (in_array($base, $aas, true)) {
                                     $style = $class;
 
                                     break;

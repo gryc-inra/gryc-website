@@ -80,7 +80,7 @@ class BlastType extends AbstractType
                 'choice_attr' => function ($val) use ($tool) {
                     $array = [];
 
-                    if (!in_array($val, Blast::TOOLS_DATABASES[$tool])) {
+                    if (!in_array($val, Blast::TOOLS_DATABASES[$tool], true)) {
                         $array = ['disabled' => 'disabled'];
                     } elseif (Blast::TOOLS_DEFAULT_DATABASE[$tool] === $val) {
                         $array = ['checked' => 'checked'];

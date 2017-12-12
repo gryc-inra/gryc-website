@@ -34,7 +34,5 @@ class EntitiesCleanerListener
             // Persist in database
             $this->em->flush();
         }
-
-        return;
     }
 }

@@ -15,7 +15,7 @@ class StrainVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't supported by this voter, return false
-        if (!in_array($attribute, [self::VIEW])) {
+        if (!in_array($attribute, [self::VIEW], true)) {
             return false;
         }
 

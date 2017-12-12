@@ -53,12 +53,12 @@ class ReferenceController extends Controller
                     'chromosome_slug' => $locus->getChromosome()->getslug(),
                     'locus_name' => $locus->getName(),
                 ]);
-            } else {
-                return $this->redirectToRoute('strain_view', [
+            }
+
+            return $this->redirectToRoute('strain_view', [
                     'species_slug' => $strain->getSpecies()->getSlug(),
                     'strain_slug' => $strain->getSlug(),
                 ]);
-            }
         }
 
         return $this->render('reference/add.html.twig', [

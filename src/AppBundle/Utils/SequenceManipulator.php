@@ -32,7 +32,7 @@ class SequenceManipulator
 
         $bases = str_split($sequence, 1);
         foreach ($bases as &$base) {
-            $base = strtoupper($base);
+            $base = mb_strtoupper($base);
 
             if (array_key_exists($base, $complementaryTable)) {
                 $base = $complementaryTable[$base];
@@ -73,7 +73,7 @@ class SequenceManipulator
         $i = 0;
         $fasta = '';
         foreach ($sequencesArray as $sequence) {
-            if (0 != $i) {
+            if (0 !== $i) {
                 $fasta .= "\n\n";
             }
 

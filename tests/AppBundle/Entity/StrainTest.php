@@ -29,89 +29,89 @@ class StrainTest extends TestCase
 
         // Test normal setters/getters
         $this->object->setName('name');
-        $this->assertEquals('name', $this->object->getName());
+        $this->assertSame('name', $this->object->getName());
 
         $this->object->setLength(100000);
-        $this->assertEquals(100000, $this->object->getLength());
+        $this->assertSame(100000, $this->object->getLength());
 
         $this->object->setGc(0.48297213622291);
-        $this->assertEquals(0.48297213622291, $this->object->getGc());
+        $this->assertSame(0.48297213622291, $this->object->getGc());
 
         $this->object->setStatus('complete');
-        $this->assertEquals('complete', $this->object->getStatus());
+        $this->assertSame('complete', $this->object->getStatus());
 
         $this->object->setCdsCount(12356);
-        $this->assertEquals(12356, $this->object->getCdsCount());
+        $this->assertSame(12356, $this->object->getCdsCount());
 
         $this->object->setSlug('/mon/slug');
-        $this->assertEquals('/mon/slug', $this->object->getSlug());
+        $this->assertSame('/mon/slug', $this->object->getSlug());
 
         $this->object->setPublic(true);
-        $this->assertEquals(true, $this->object->getPublic());
-        $this->assertEquals(true, $this->object->isPublic());
-        $this->assertEquals(false, $this->object->isPrivate());
-        $this->assertEquals('yes', $this->object->isPublicToString());
-        $this->assertEquals('no', $this->object->isPrivateToString());
+        $this->assertTrue($this->object->getPublic());
+        $this->assertTrue($this->object->isPublic());
+        $this->assertFalse($this->object->isPrivate());
+        $this->assertSame('yes', $this->object->isPublicToString());
+        $this->assertSame('no', $this->object->isPrivateToString());
 
         $this->object->setPublic(false);
-        $this->assertEquals(false, $this->object->getPublic());
-        $this->assertEquals(false, $this->object->isPublic());
-        $this->assertEquals(true, $this->object->isPrivate());
-        $this->assertEquals('no', $this->object->isPublicToString());
-        $this->assertEquals('yes', $this->object->isPrivateToString());
+        $this->assertFalse($this->object->getPublic());
+        $this->assertFalse($this->object->isPublic());
+        $this->assertTrue($this->object->isPrivate());
+        $this->assertSame('no', $this->object->isPublicToString());
+        $this->assertSame('yes', $this->object->isPrivateToString());
 
         $this->object->setTypeStrain(true);
-        $this->assertEquals(true, $this->object->getTypeStrain());
-        $this->assertEquals(true, $this->object->isTypeStrain());
-        $this->assertEquals('yes', $this->object->isTypeStrainToString());
+        $this->assertTrue($this->object->getTypeStrain());
+        $this->assertTrue($this->object->isTypeStrain());
+        $this->assertSame('yes', $this->object->isTypeStrainToString());
 
         $this->object->setTypeStrain(false);
-        $this->assertEquals(false, $this->object->getTypeStrain());
-        $this->assertEquals(false, $this->object->isTypeStrain());
-        $this->assertEquals('no', $this->object->isTypeStrainToString());
+        $this->assertFalse($this->object->getTypeStrain());
+        $this->assertFalse($this->object->isTypeStrain());
+        $this->assertSame('no', $this->object->isTypeStrainToString());
 
         // Test add/remove/set/get/empty for Synonym array
         $this->object->addSynonym('synonym');
-        $this->assertEquals(['synonym'], $this->object->getSynonymes());
+        $this->assertSame(['synonym'], $this->object->getSynonymes());
 
         $this->object->removeSynonym('synonym');
-        $this->assertEquals([], $this->object->getSynonymes());
+        $this->assertSame([], $this->object->getSynonymes());
 
         $synonymes = ['synonym', 'lsynonym2'];
         $this->object->setSynonymes($synonymes);
-        $this->assertEquals($synonymes, $this->object->getSynonymes());
+        $this->assertSame($synonymes, $this->object->getSynonymes());
 
         $this->object->emptySynonymes();
-        $this->assertEquals([], $this->object->getSynonymes());
+        $this->assertSame([], $this->object->getSynonymes());
 
         // Test Add/Remove/Get Chromosome
-        $this->assertEquals('Doctrine\Common\Collections\ArrayCollection', get_class($this->object->getChromosomes()));
+        $this->assertSame('Doctrine\Common\Collections\ArrayCollection', get_class($this->object->getChromosomes()));
 
         $chromosome = $this->getMockBuilder('AppBundle\Entity\Chromosome')
             ->disableOriginalConstructor()
             ->getMock();
         $this->object->addChromosome($chromosome);
-        $this->assertEquals($chromosome, $this->object->getChromosomes()->first());
+        $this->assertSame($chromosome, $this->object->getChromosomes()->first());
 
         $this->object->removeChromosome($chromosome);
-        $this->assertEquals(true, $this->object->getChromosomes()->isEmpty());
+        $this->assertTrue($this->object->getChromosomes()->isEmpty());
 
         // Test Add/Remove/Get Seo
-        $this->assertEquals('Doctrine\Common\Collections\ArrayCollection', get_class($this->object->getSeos()));
+        $this->assertSame('Doctrine\Common\Collections\ArrayCollection', get_class($this->object->getSeos()));
 
         $seo = $this->getMockBuilder('AppBundle\Entity\Seo')
             ->disableOriginalConstructor()
             ->getMock();
         $this->object->addSeo($seo);
-        $this->assertEquals($seo, $this->object->getSeos()->first());
+        $this->assertSame($seo, $this->object->getSeos()->first());
 
         $this->object->removeSeo($seo);
-        $this->assertEquals(true, $this->object->getSeos()->isEmpty());
+        $this->assertTrue($this->object->getSeos()->isEmpty());
 
         // Test Add/Remove/Get AuthorizedUser
         // and getAuthorizedUsersId
         // and isAuthorizedUser
-        $this->assertEquals('Doctrine\Common\Collections\ArrayCollection', get_class($this->object->getAuthorizedUsers()));
+        $this->assertSame('Doctrine\Common\Collections\ArrayCollection', get_class($this->object->getAuthorizedUsers()));
 
         $user = $this->getMockBuilder('AppBundle\Entity\User')
             ->disableOriginalConstructor()
@@ -126,20 +126,20 @@ class StrainTest extends TestCase
             ->getMock();
 
         $this->object->addAuthorizedUser($user);
-        $this->assertEquals($user, $this->object->getAuthorizedUsers()->first());
+        $this->assertSame($user, $this->object->getAuthorizedUsers()->first());
 
-        $this->assertEquals([1], $this->object->getAuthorizedUsersId());
-        $this->assertEquals(true, $this->object->isAuthorizedUser($user));
-        $this->assertEquals(false, $this->object->isAuthorizedUser($user2));
+        $this->assertSame([1], $this->object->getAuthorizedUsersId());
+        $this->assertTrue($this->object->isAuthorizedUser($user));
+        $this->assertFalse($this->object->isAuthorizedUser($user2));
 
         $this->object->removeAuthorizedUser($user);
-        $this->assertEquals(true, $this->object->getAuthorizedUsers()->isEmpty());
+        $this->assertTrue($this->object->getAuthorizedUsers()->isEmpty());
 
         // Test Add/Get Species
         $species = $this->getMockBuilder('AppBundle\Entity\Species')
             ->disableOriginalConstructor()
             ->getMock();
         $this->object->setSpecies($species);
-        $this->assertEquals($species, $this->object->getSpecies());
+        $this->assertSame($species, $this->object->getSpecies());
     }
 }

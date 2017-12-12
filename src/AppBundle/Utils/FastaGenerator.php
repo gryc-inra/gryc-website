@@ -24,9 +24,9 @@ class FastaGenerator
 
         if ($this->stream) {
             return $this->streamFasta($fasta);
-        } else {
-            return $fasta;
         }
+
+        return $fasta;
     }
 
     private function nucleotideFasta($locusList, $feature, $intronSplicing, $upstream, $downstream)

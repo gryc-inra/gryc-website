@@ -164,9 +164,9 @@ class Clade
     {
         if ($this->mainClade) {
             return 'Yes';
-        } else {
-            return 'No';
         }
+
+        return 'No';
     }
 
     /**
