@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\User;
 use AppBundle\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -20,7 +21,9 @@ class StrainRightsType extends AbstractType
                         ->orderBy('user.lastName', 'ASC')
                         ->addOrderBy('user.firstName', 'ASC');
                 },
-                'choice_label' => 'fullName',
+                'choice_label' => function(User $user) {
+                    return $user->getFirstName().' '.$user->getLastName().' ('.$user->getEmail().')';
+                },
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,
