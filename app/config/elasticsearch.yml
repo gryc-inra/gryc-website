@@ -60,6 +60,7 @@ fos_elastica:
                                     search_analyzer: search
                         fullName:
                             type: string
+                            fielddata: true
                             fields:
                                 ngramed:
                                     type: string

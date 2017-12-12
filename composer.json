@@ -18,7 +18,7 @@
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
         "excelwebzone/recaptcha-bundle": "^1.5",
-        "friendsofsymfony/elastica-bundle": "^4.0",
+        "friendsofsymfony/elastica-bundle": "master-dev",
         "guzzlehttp/guzzle": "^6.3",
         "incenteev/composer-parameter-handler": "^2.0",
         "php-amqplib/rabbitmq-bundle": "^1.14",
