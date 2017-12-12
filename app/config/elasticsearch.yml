@@ -52,27 +52,26 @@ fos_elastica:
                 user:
                     properties:
                         email:
-                            type:                   text
+                            type: string
                             fields:
                                 ngramed:
-                                    type:             text
-                                    analyzer :        edge_ngram
-                                    search_analyzer:  search
+                                    type: string
+                                    analyzer: edge_ngram
+                                    search_analyzer: search
                         fullName:
-                            type:                   text
-                            fielddata:  true
+                            type: string
                             fields:
                                 ngramed:
-                                    type:             text
-                                    analyzer :        edge_ngram
-                                    search_analyzer:  search
+                                    type: string
+                                    analyzer : edge_ngram
+                                    search_analyzer: search
                     persistence:
-                        driver:                 orm
-                        model:                  AppBundle\Entity\User
-                        provider:               ~
-                        listener:               ~
-                        finder:                 ~
-                        repository:             AppBundle\SearchRepository\UserRepository
+                        driver: orm
+                        model: AppBundle\Entity\User
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                        repository: AppBundle\SearchRepository\UserRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
 
@@ -82,89 +81,89 @@ fos_elastica:
                         public:
                         authorizedUsersId:
                     persistence:
-                        driver:                 orm
-                        model:                  AppBundle\Entity\Strain
-                        provider:               ~
+                        driver: orm
+                        model: AppBundle\Entity\Strain
+                        provider: ~
                         listener:
-                            insert:             true
-                            update:             true
-                            delete:             false
-                        finder:                 ~
-                        repository:             AppBundle\SearchRepository\StrainRepository
+                            insert: true
+                            update: true
+                            delete: false
+                        finder: ~
+                        repository: AppBundle\SearchRepository\StrainRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
 
                 locus:
                     properties:
                         name:
-                            type:                   text
+                            type: string
                             fields:
                                 ngramed:
-                                    type:             text
-                                    analyzer :        edge_ngram_locus_name
-                                    search_analyzer:  search
+                                    type: string
+                                    analyzer: edge_ngram_locus_name
+                                    search_analyzer: search
                         annotation:
-                            type:                     object
+                            type: object
                         note:
-                            type:                     text
-                            analyzer:                 english_light
+                            type: string
+                            analyzer: english_light
                             fields:
                                 stemmed:
-                                    type:     text
+                                    type: string
                                     analyzer: english_heavy
                         features:
                             type: nested
                             properties:
                                 name:
-                                    type:                   text
+                                    type: string
                                     fields:
                                         ngramed:
-                                            type:             text
-                                            analyzer :        edge_ngram_locus_name
-                                            search_analyzer:  search
+                                            type: string
+                                            analyzer: edge_ngram_locus_name
+                                            search_analyzer: search
                                 annotation:
-                                    type:             object
+                                    type: object
                                 note:
-                                    type:             text
-                                    analyzer:         english_light
+                                    type: string
+                                    analyzer: english_light
                                     fields:
                                         stemmed:
-                                            type:     text
+                                            type: string
                                             analyzer: english_heavy
                                 products:
                                     type: nested
                                     property_path: productsFeatures
                                     properties:
                                         name:
-                                            type:                   text
+                                            type: string
                                             fields:
                                                 ngramed:
-                                                    type:             text
-                                                    analyzer :        edge_ngram_locus_name
-                                                    search_analyzer:  search
+                                                    type: string
+                                                    analyzer: edge_ngram_locus_name
+                                                    search_analyzer: search
                                         annotation:
-                                            type:             object
+                                            type: object
                                         note:
-                                            type:             text
-                                            analyzer:         english_light
+                                            type: string
+                                            analyzer: english_light
                                             fields:
                                                 stemmed:
-                                                    type:     text
+                                                    type: string
                                                     analyzer: english_heavy
                     _parent:
                         type: "strain"
                         property: "chromosome.strain"
                         identifier: "id"
                     persistence:
-                        driver:                 orm
-                        model:                  AppBundle\Entity\Locus
-                        provider:               ~
+                        driver: orm
+                        model: AppBundle\Entity\Locus
+                        provider: ~
                         listener:
-                            insert:             true
-                            update:             true
-                            delete:             false
-                        finder:                 ~
-                        repository:             AppBundle\SearchRepository\LocusRepository
+                            insert: true
+                            update: true
+                            delete: false
+                        finder: ~
+                        repository: AppBundle\SearchRepository\LocusRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
                             query_builder_method: createSearchQueryBuilder
