@@ -85,7 +85,10 @@ fos_elastica:
                         driver:                 orm
                         model:                  AppBundle\Entity\Strain
                         provider:               ~
-                        listener:               ~
+                        listener:
+                            insert:             true
+                            update:             true
+                            delete:             false
                         finder:                 ~
                         repository:             AppBundle\SearchRepository\StrainRepository
                         elastica_to_model_transformer:
@@ -156,8 +159,12 @@ fos_elastica:
                         driver:                 orm
                         model:                  AppBundle\Entity\Locus
                         provider:               ~
-                        listener:               ~
+                        listener:
+                            insert:             true
+                            update:             true
+                            delete:             false
                         finder:                 ~
                         repository:             AppBundle\SearchRepository\LocusRepository
                         elastica_to_model_transformer:
+                            ignore_missing: true
                             query_builder_method: createSearchQueryBuilder

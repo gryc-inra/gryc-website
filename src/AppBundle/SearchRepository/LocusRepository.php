@@ -21,11 +21,11 @@ class LocusRepository extends Repository
     {
         // Create the Query
         $query = new BoolQuery();
-        $query->setMinimumShouldMatch(1);
+        $query->setMinimumNumberShouldMatch(1);
 
         // LOCUS
         $locusQuery = new BoolQuery();
-        $locusQuery->setMinimumShouldMatch(1);
+        $locusQuery->setMinimumNumberShouldMatch(1);
         $query->addShould($locusQuery);
 
         $locusNameQuery = new MultiMatch();
@@ -50,7 +50,7 @@ class LocusRepository extends Repository
         $query->addShould($featureNested);
 
         $featureQuery = new BoolQuery();
-        $featureQuery->setMinimumShouldMatch(1);
+        $featureQuery->setMinimumNumberShouldMatch(1);
         $featureNested->setQuery($featureQuery);
 
         $featureNameQuery = new MultiMatch();
@@ -80,7 +80,7 @@ class LocusRepository extends Repository
         $featureProductNested->setQuery($productNested);
 
         $productQuery = new BoolQuery();
-        $productQuery->setMinimumShouldMatch(1);
+        $productQuery->setMinimumNumberShouldMatch(1);
         $productNested->setQuery($productQuery);
 
         $productNameQuery = new MultiMatch();
@@ -101,7 +101,7 @@ class LocusRepository extends Repository
         // FILTER
         // Create a BoolQuery with filters
         $boolFilter = new BoolQuery();
-        $boolFilter->setMinimumShouldMatch(1);
+        $boolFilter->setMinimumNumberShouldMatch(1);
         $query->addFilter($boolFilter);
 
         $userId = null !== $user ? $user->getId() : '';
