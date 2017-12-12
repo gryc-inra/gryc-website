@@ -32,9 +32,9 @@
                                     {% for strain in species.strains %}
                                         {% set key = strain.id %}
                                         {% if strain.isPublic %}
-                                            {{ form_widget(form.authorizedStrains[key], {'disabled': true, 'attr': { 'data-name': species.slug } } ) }}
+                                            {{ form_widget(form.strains[key], {'disabled': true, 'attr': { 'data-name': species.slug } } ) }}
                                         {% else %}
-                                            {{ form_widget(form.authorizedStrains[key], { 'attr': { 'data-name': species.slug } } ) }}
+                                            {{ form_widget(form.strains[key], { 'attr': { 'data-name': species.slug } } ) }}
                                         {% endif %}
                                     {% endfor %}
                             </fieldset>

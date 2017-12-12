@@ -11,12 +11,12 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('species')
             ->leftJoin('species.strains', 'strains')
                 ->addSelect('strains')
-            ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
-                ->addSelect('authorizedUsers')
+            ->leftJoin('strains.users', 'users')
+                ->addSelect('users')
             ->leftJoin('species.seos', 'seos')
                 ->addSelect('seos')
             ->where('strains.public = true')
-            ->orWhere('authorizedUsers = :user')
+            ->orWhere('users = :user')
                 ->setParameter('user', $user)
             ->orderBy('species.scientificName', 'ASC')
             ->addOrderBy('strains.name', 'ASC');
@@ -43,12 +43,12 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('species.strains', 'strains')
                 ->addSelect('strains')
                 ->orderBy('strains.name', 'ASC')
-            ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
-                ->addSelect('authorizedUsers')
+            ->leftJoin('strains.users', 'users')
+                ->addSelect('users')
             ->leftJoin('species.seos', 'seos')
                 ->addSelect('seos')
             ->where('species.slug = :slug')
-            ->andWhere('strains.public = true OR authorizedUsers = :user')
+            ->andWhere('strains.public = true OR users = :user')
             ->setParameters([
                 'slug' => $slug,
                 'user' => $user,

@@ -31,12 +31,12 @@ class CladeRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('species')
             ->leftJoin('species.strains', 'strains')
                 ->addSelect('strains')
-            ->leftJoin('strains.authorizedUsers', 'authorizedUsers')
+            ->leftJoin('strains.users', 'users')
             ->orderBy('clade.name', 'asc')
             ->addOrderBy('species.scientificName', 'asc')
             ->addOrderBy('strains.name', 'asc')
             ->where('strains.public = true')
-            ->orWhere('authorizedUsers = :user')
+            ->orWhere('users = :user')
                 ->setParameter('user', $user)
             ->getQuery();
 

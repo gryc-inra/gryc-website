@@ -31,10 +31,10 @@ class StrainsFilterType extends AbstractType
                         ->addSelect('species')
                         ->leftJoin('species.strains', 'strain')
                         ->addSelect('strain')
-                        ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
+                        ->leftJoin('strain.users', 'users')
                         ->orderBy('clade.name', 'asc')
                         ->where('strain.public = true')
-                        ->orWhere('authorizedUsers = :user')
+                        ->orWhere('users = :user')
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
                 'choice_value' => 'name',
@@ -51,11 +51,11 @@ class StrainsFilterType extends AbstractType
                         ->addSelect('species')
                         ->leftJoin('species.clade', 'clade')
                         ->addSelect('clade')
-                        ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
+                        ->leftJoin('strain.users', 'users')
                         ->orderBy('species.scientificName', 'asc')
                         ->addOrderBy('strain.name', 'asc')
                         ->where('strain.public = true')
-                        ->orWhere('authorizedUsers = :user')
+                        ->orWhere('users = :user')
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
                 'choice_label' => function (Strain $strain) {

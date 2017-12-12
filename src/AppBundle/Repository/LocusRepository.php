@@ -123,8 +123,8 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('chromosome')
             ->leftJoin('chromosome.strain', 'strain')
                 ->addSelect('strain')
-            ->leftJoin('strain.authorizedUsers', 'authorizedUsers')
-                ->addSelect('authorizedUsers')
+            ->leftJoin('strain.users', 'users')
+                ->addSelect('users')
             ->where('strain = :strain')
                 ->setParameter('strain', $strain->getId())
 

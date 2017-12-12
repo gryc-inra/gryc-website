@@ -12,7 +12,7 @@ class AdminUserRightsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('authorizedStrains', EntityType::class, [
+            ->add('strains', EntityType::class, [
                 'class' => 'AppBundle\Entity\Strain',
                 'choice_label' => 'name',
                 'by_reference' => false,

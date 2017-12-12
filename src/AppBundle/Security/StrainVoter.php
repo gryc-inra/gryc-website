@@ -50,7 +50,7 @@ class StrainVoter extends Voter
             return false;
         }
 
-        if ($strain->isAuthorizedUser($token->getUser())) {
+        if ($strain->isAllowedUser($token->getUser())) {
             return true;
         }
 

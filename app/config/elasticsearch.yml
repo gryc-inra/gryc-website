@@ -79,7 +79,7 @@ fos_elastica:
                     properties:
                         id:
                         public:
-                        authorizedUsersId:
+                        usersId:
                     persistence:
                         driver: orm
                         model: AppBundle\Entity\Strain

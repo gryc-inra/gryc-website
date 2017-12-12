@@ -107,7 +107,7 @@ class LocusRepository extends Repository
         $userId = null !== $user ? $user->getId() : '';
         // Set a user filter
         $userFilter = new Term();
-        $userFilter->setTerm('authorizedUsersId', $userId);
+        $userFilter->setTerm('usersId', $userId);
         $parentUserFilterQuery = new HasParent($userFilter, 'strain');
         $boolFilter->addShould($parentUserFilterQuery);
 

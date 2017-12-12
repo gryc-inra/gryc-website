@@ -132,14 +132,13 @@ class Strain
     private $public = false;
 
     /**
-     * The authorized user.
-     * For private strains only.
+     * The users for this strain.
      *
      * @var User|ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="authorizedStrains")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="strains")
      */
-    private $authorizedUsers;
+    private $users;
 
     /**
      * @ORM\Column(name="typeStrain", type="boolean")
@@ -159,7 +158,7 @@ class Strain
         $this->synonymes = [];
         $this->chromosomes = new ArrayCollection();
         $this->seos = new ArrayCollection();
-        $this->authorizedUsers = new ArrayCollection();
+        $this->users = new ArrayCollection();
         $this->references = new ArrayCollection();
     }
 
@@ -569,51 +568,51 @@ class Strain
     }
 
     /**
-     * Add authorized user.
+     * Add user.
      *
      * @param User $user
      *
      * @return $this
      */
-    public function addAuthorizedUser(User $user)
+    public function addUser(User $user)
     {
-        if (!$this->authorizedUsers->contains($user)) {
-            $this->authorizedUsers[] = $user;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
         }
 
         return $this;
     }
 
     /**
-     * Remove authorized user.
+     * Remove user.
      *
      * @param User $user
      */
-    public function removeAuthorizedUser(User $user)
+    public function removeUser(User $user)
     {
-        $this->authorizedUsers->removeElement($user);
+        $this->users->removeElement($user);
     }
 
     /**
-     * Get authorized users.
+     * Get users.
      *
      * @return User|ArrayCollection
      */
-    public function getAuthorizedUsers()
+    public function getUsers()
     {
-        return $this->authorizedUsers;
+        return $this->users;
     }
 
     /**
-     * Get authorized users id.
+     * Get users id.
      *
      * @return array
      */
-    public function getAuthorizedUsersId()
+    public function getUsersId()
     {
         $usersId = [];
 
-        foreach ($this->authorizedUsers as $user) {
+        foreach ($this->users as $user) {
             $usersId[] = $user->getId();
         }
 
@@ -621,15 +620,15 @@ class Strain
     }
 
     /**
-     * Is authorized user ?
+     * Is allowed user ?
      *
      * @param User $user
      *
      * @return bool
      */
-    public function isAuthorizedUser(User $user = null)
+    public function isAllowedUser(User $user = null)
     {
-        return $this->authorizedUsers->contains($user);
+        return $this->users->contains($user);
     }
 
     /**

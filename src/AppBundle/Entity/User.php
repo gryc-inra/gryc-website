@@ -100,13 +100,13 @@ class User implements AdvancedUserInterface, \Serializable
     private $company;
 
     /**
-     * The authorized strains for this user.
+     * The strains for this user.
      *
      * @var Strain|ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="authorizedUsers")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="users")
      */
-    private $authorizedStrains;
+    private $strains;
 
     /**
      * @ORM\Column(name="session_id", type="string", length=255, nullable=true)
@@ -117,7 +117,7 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->roles = [];
         $this->isActive = false;
-        $this->authorizedStrains = new ArrayCollection();
+        $this->strains = new ArrayCollection();
     }
 
     /**
@@ -491,39 +491,39 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Add an authorized strain.
+     * Add a strain.
      *
      * @param Strain $strain
      *
      * @return $this
      */
-    public function addAuthorizedStrain(Strain $strain)
+    public function addStrain(Strain $strain)
     {
-        $strain->addAuthorizedUser($this);
-        $this->authorizedStrains[] = $strain;
+        $strain->addUser($this);
+        $this->strains[] = $strain;
 
         return $this;
     }
 
     /**
-     * Remove an authorized strain.
+     * Remove a strain.
      *
      * @param Strain $strain
      */
-    public function removeAuthorizedStrain(Strain $strain)
+    public function removeStrain(Strain $strain)
     {
-        $strain->removeAuthorizedUser($this);
-        $this->authorizedStrains->removeElement($strain);
+        $strain->removeUser($this);
+        $this->strains->removeElement($strain);
     }
 
     /**
-     * Get authorized strains.
+     * Get strains.
      *
      * @return Strain|ArrayCollection
      */
-    public function getAuthorizedStrains()
+    public function getStrains()
     {
-        return $this->authorizedStrains;
+        return $this->strains;
     }
 
     public function setSessionId($sessionId)

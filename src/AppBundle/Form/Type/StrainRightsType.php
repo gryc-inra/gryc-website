@@ -14,7 +14,7 @@ class StrainRightsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('authorizedUsers', EntityType::class, [
+            ->add('users', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function (UserRepository $ur) {
                     return $ur->createQueryBuilder('user')
