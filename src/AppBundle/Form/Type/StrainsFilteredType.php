@@ -26,7 +26,7 @@ class StrainsFilteredType extends AbstractType
             ->add('filter', EntityType::class, [
                 'class' => 'AppBundle\Entity\Clade',
                 'query_builder' => function (EntityRepository $er) use ($options) {
-                    $qb =  $er->createQueryBuilder('clade')
+                    $qb = $er->createQueryBuilder('clade')
                         ->leftJoin('clade.species', 'species')
                             ->addSelect('species')
                         ->leftJoin('species.strains', 'strain')
