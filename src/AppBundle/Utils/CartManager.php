@@ -45,7 +45,7 @@ class CartManager
         $this->saveCart();
     }
 
-    public function removeToCart($id)
+    public function removeToCart(int $id)
     {
         if (false !== $key = array_search($id, $this->cart['items'], true)) {
             unset($this->cart['items'][$key]);
