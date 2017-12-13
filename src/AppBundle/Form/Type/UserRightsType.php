@@ -12,13 +12,9 @@ class UserRightsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('strains', EntityType::class, [
-                'class' => 'AppBundle\Entity\Strain',
-                'choice_label' => 'name',
-                'by_reference' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'required' => false,
+            ->add('strainsFiltered', StrainsFilteredType::class, [
+                'allowed_strains' => false,
+                'min_strains' => 0,
             ]);
     }
 

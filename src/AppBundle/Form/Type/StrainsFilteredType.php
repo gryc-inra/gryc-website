@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\Count;
 
-class StrainsFilterType extends AbstractType
+class StrainsFilteredType extends AbstractType
 {
     private $tokenStorage;
 
@@ -25,17 +25,23 @@ class StrainsFilterType extends AbstractType
         $builder
             ->add('filter', EntityType::class, [
                 'class' => 'AppBundle\Entity\Clade',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('clade')
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    $qb =  $er->createQueryBuilder('clade')
                         ->leftJoin('clade.species', 'species')
-                        ->addSelect('species')
+                            ->addSelect('species')
                         ->leftJoin('species.strains', 'strain')
-                        ->addSelect('strain')
+                            ->addSelect('strain')
                         ->leftJoin('strain.users', 'users')
-                        ->orderBy('clade.name', 'asc')
-                        ->where('strain.public = true')
-                        ->orWhere('users = :user')
-                        ->setParameter('user', $this->tokenStorage->getToken()->getUser());
+                        ->orderBy('clade.name', 'asc');
+
+                    // If we want filtered Strains for the user
+                    if (true === $options['allowed_strains']) {
+                        $qb = $qb->where('strain.public = true')
+                            ->orWhere('users = :user')
+                            ->setParameter('user', $this->tokenStorage->getToken()->getUser());
+                    }
+
+                    return $qb;
                 },
                 'choice_value' => 'name',
                 'choice_label' => 'name',
@@ -45,18 +51,24 @@ class StrainsFilterType extends AbstractType
             ])
             ->add('strains', EntityType::class, [
                 'class' => 'AppBundle\Entity\Strain',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('strain')
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    $qb = $er->createQueryBuilder('strain')
                         ->leftJoin('strain.species', 'species')
-                        ->addSelect('species')
+                            ->addSelect('species')
                         ->leftJoin('species.clade', 'clade')
-                        ->addSelect('clade')
+                            ->addSelect('clade')
                         ->leftJoin('strain.users', 'users')
                         ->orderBy('species.scientificName', 'asc')
-                        ->addOrderBy('strain.name', 'asc')
-                        ->where('strain.public = true')
-                        ->orWhere('users = :user')
-                        ->setParameter('user', $this->tokenStorage->getToken()->getUser());
+                        ->addOrderBy('strain.name', 'asc');
+
+                    // If we want filtered Strains for the user
+                    if (true === $options['allowed_strains']) {
+                        $qb = $qb->where('strain.public = true')
+                            ->orWhere('users = :user')
+                            ->setParameter('user', $this->tokenStorage->getToken()->getUser());
+                    }
+
+                    return $qb;
                 },
                 'choice_label' => function (Strain $strain) {
                     return $strain->getSpecies()->getScientificName().' ('.$strain->getName().')';
@@ -66,9 +78,10 @@ class StrainsFilterType extends AbstractType
                 },
                 'multiple' => true,
                 'expanded' => true,
+                'by_reference' => false,
                 'constraints' => [
                     new Count([
-                        'min' => 1,
+                        'min' => $options['min_strains'],
                     ]),
                 ],
             ])
@@ -80,5 +93,8 @@ class StrainsFilterType extends AbstractType
         $resolver->setDefaults([
             'inherit_data' => true,
         ]);
+
+        $resolver->setDefault('allowed_strains', true);
+        $resolver->setDefault('min_strains', 1);
     }
 }

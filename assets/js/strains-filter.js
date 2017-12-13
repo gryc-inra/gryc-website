@@ -109,6 +109,7 @@ function strainsFilter(strainsFilterSelect, strainsCheckBoxesContainer) {
 }
 
 $(function() {
-    strainsFilter($( "#blast_strainsFilter_filter" ), $( "#blast_strainsFilter_strains" ));
-    strainsFilter($( "#advanced_search_strainsFilter_filter" ), $( "#advanced_search_strainsFilter_strains" ));
+    strainsFilter($( "#blast_strainsFiltered_filter" ), $( "#blast_strainsFiltered_strains" ));
+    strainsFilter($( "#advanced_search_strainsFiltered_filter" ), $( "#advanced_search_strainsFiltered_strains" ));
+    strainsFilter($( "#user_rights_strainsFiltered_filter" ), $( "#user_rights_strainsFiltered_strains" ));
 });

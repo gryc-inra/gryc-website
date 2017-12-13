@@ -44,9 +44,7 @@ class BlastType extends AbstractType
                 'expanded' => true,
                 'multiple' => false,
             ])
-            ->add('strainsFilter', StrainsFilterType::class, [
-                'data_class' => Blast::class,
-            ])
+            ->add('strainsFiltered', StrainsFilteredType::class)
             ->add('filter', ChoiceType::class, [
                 'choices' => [
                     'Yes' => true,
