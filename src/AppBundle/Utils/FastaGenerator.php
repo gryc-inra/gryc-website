@@ -8,12 +8,12 @@ class FastaGenerator
 
     private $stream = false;
 
-    public function __construct($stream = false)
+    public function __construct(bool $stream = false)
     {
         $this->stream = $stream;
     }
 
-    public function generateFasta($locusList, $type = 'nuc', $feature = 'locus', $intronSplicing = false, $upstream = 0, $downstream = 0)
+    public function generateFasta(array $locusList, string $type = 'nuc', string $feature = 'locus', bool $intronSplicing = false, int $upstream = 0, int $downstream = 0)
     {
         if ('prot' === $type) {
             $fasta = $this->aminoAcidsFasta($locusList);
@@ -29,7 +29,7 @@ class FastaGenerator
         return $fasta;
     }
 
-    private function nucleotideFasta($locusList, $feature, $intronSplicing, $upstream, $downstream)
+    private function nucleotideFasta(array $locusList, string $feature, bool $intronSplicing, int $upstream, int $downstream)
     {
         // if feature is locus do not use intronSplicing
         // Per security, we set it to false here
@@ -79,7 +79,7 @@ class FastaGenerator
         return $this->arrayToFasta($fastaData);
     }
 
-    private function aminoAcidsFasta($locusList)
+    private function aminoAcidsFasta(array $locusList)
     {
         $fastaData = [];
 
@@ -99,7 +99,7 @@ class FastaGenerator
         return $this->arrayToFasta($fastaData);
     }
 
-    private function arrayToFasta($fastaData)
+    private function arrayToFasta(array $fastaData)
     {
         $fasta = '';
 
@@ -117,7 +117,7 @@ class FastaGenerator
         return $fasta;
     }
 
-    private function streamFasta($fasta)
+    private function streamFasta(string $fasta)
     {
         $handle = fopen('php://output', 'w+');
         fwrite($handle, $fasta);
