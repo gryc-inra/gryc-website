@@ -2,7 +2,7 @@
 
 namespace AppBundle\Security;
 
-use AppBundle\Utils\LoginBruteForce;
+use AppBundle\Service\LoginBruteForce;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;

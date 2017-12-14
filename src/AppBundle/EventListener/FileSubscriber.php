@@ -3,7 +3,7 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Entity\File;
-use AppBundle\Utils\FileManager;
+use AppBundle\Service\FileManager;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 

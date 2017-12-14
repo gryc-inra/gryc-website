@@ -25,7 +25,7 @@ class ResettingController extends Controller
             $email = $form->getData()['email'];
 
             // Get user
-            $userManager = $this->get('AppBundle\Utils\UserManager');
+            $userManager = $this->get('AppBundle\Service\UserManager');
             $user = $userManager->findUserBy(['email' => $email]);
 
             if (null !== $user && $user->isEnabled()) {
@@ -59,7 +59,7 @@ class ResettingController extends Controller
         $token = rawurldecode($token);
 
         // Get user
-        $userManager = $this->get('AppBundle\Utils\UserManager');
+        $userManager = $this->get('AppBundle\Service\UserManager');
         $user = $userManager->findUserBy(['email' => $username]);
 
         // Check the User
@@ -81,7 +81,7 @@ class ResettingController extends Controller
             $userManager->updateUser($user);
 
             // Reinit the brute-force counter for this username
-            $this->get('AppBundle\Utils\LoginBruteForce')->resetUsername($username);
+            $this->get('AppBundle\Service\LoginBruteForce')->resetUsername($username);
 
             // Add a flash message
             $this->addFlash('success', 'Your password have been successfully changed. You can now log in with this new one.');

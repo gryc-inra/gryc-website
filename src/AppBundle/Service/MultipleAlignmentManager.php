@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Utils;
+namespace AppBundle\Service;
 
 use AppBundle\Entity\MultipleAlignment;
 use Doctrine\ORM\EntityManagerInterface;

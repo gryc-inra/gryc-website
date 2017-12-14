@@ -17,7 +17,7 @@ class RegistrationController extends Controller
      */
     public function registerAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
-        $userManager = $this->get('AppBundle\Utils\UserManager');
+        $userManager = $this->get('AppBundle\Service\UserManager');
         $user = $userManager->createUser();
         $form = $this->createForm(RegistrationType::class, $user);
 
@@ -46,7 +46,7 @@ class RegistrationController extends Controller
      */
     public function activateAction($token)
     {
-        $userManager = $this->get('AppBundle\Utils\UserManager');
+        $userManager = $this->get('AppBundle\Service\UserManager');
         $user = $userManager->findUserByConfirmationToken($token);
 
         // If the user doesn't exists

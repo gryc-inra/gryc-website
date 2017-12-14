@@ -2,7 +2,7 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Utils\UserManager;
+use AppBundle\Service\UserManager;
 use Symfony\Bundle\SecurityBundle\Templating\Helper\LogoutUrlHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;

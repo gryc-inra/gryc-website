@@ -43,7 +43,7 @@ class FileController extends Controller
         $files = $em->getRepository('AppBundle:FlatFile')->findByStrainAndType($strainName, $type);
 
         // Use file manager to get AbsolutePath
-        $fileManager = $this->get('AppBundle\Utils\FileManager');
+        $fileManager = $this->get('AppBundle\Service\FileManager');
 
         // Create a Zip archive
         $zip = new \ZipArchive();
@@ -74,7 +74,7 @@ class FileController extends Controller
     public function downloadFlatFileAction(FlatFile $file)
     {
         // Use file manager to get AbsolutePath and SendFilePath
-        $fileManager = $this->get('AppBundle\Utils\FileManager');
+        $fileManager = $this->get('AppBundle\Service\FileManager');
 
         BinaryFileResponse::trustXSendfileTypeHeader();
         $response = new BinaryFileResponse($fileManager->getAbsolutePath($file));

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Validator\Constraints;
 
-use AppBundle\Utils\ReferenceManager;
+use AppBundle\Service\ReferenceManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 

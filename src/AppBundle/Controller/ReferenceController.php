@@ -30,7 +30,7 @@ class ReferenceController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $doi = $form->getData()['doi'];
-            $reference = $this->get('AppBundle\Utils\ReferenceManager')->getReference($doi);
+            $reference = $this->get('AppBundle\Service\ReferenceManager')->getReference($doi);
 
             // Add the Chromosome or Locus to the Reference
             if (null !== $locus) {

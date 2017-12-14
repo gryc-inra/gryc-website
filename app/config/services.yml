@@ -45,36 +45,36 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
-# Utils
-    AppBundle\Utils\BlastManager:
+# Services
+    AppBundle\Service\BlastManager:
         public: true
         arguments:
             $projectDir: '%kernel.project_dir%'
 
-    AppBundle\Utils\CartManager:
+    AppBundle\Service\CartManager:
         public: true
 
-    AppBundle\Utils\FileManager:
+    AppBundle\Service\FileManager:
         public: true
         arguments:
             $projectDir: '%kernel.project_dir%'
 
-    AppBundle\Utils\LoginBruteForce:
+    AppBundle\Service\LoginBruteForce:
         public: true
 
-    AppBundle\Utils\MultipleAlignmentManager:
+    AppBundle\Service\MultipleAlignmentManager:
         public: true
 
-    AppBundle\Utils\ReferenceManager:
+    AppBundle\Service\ReferenceManager:
         public: true
 
-    AppBundle\Utils\SequenceManipulator:
+    AppBundle\Service\SequenceManipulator:
         public: true
 
-    AppBundle\Utils\TaxId:
+    AppBundle\Service\TaxId:
         public: true
 
-    AppBundle\Utils\UserManager:
+    AppBundle\Service\UserManager:
         public: true
 
 # Listeners

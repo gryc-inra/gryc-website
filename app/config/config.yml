@@ -48,7 +48,7 @@ twig:
     form_themes:
         - form/fields.html.twig
     globals:
-        fasta_generator: '@AppBundle\Utils\FastaGenerator'
+        fasta_generator: '@AppBundle\Service\FastaGenerator'
         blast_version: '%env(BLAST_VERSION)%'
         mafft_version: '%env(MAFFT_VERSION)%'
 

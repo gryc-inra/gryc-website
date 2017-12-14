@@ -2,7 +2,7 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Utils\Sitemap;
+use AppBundle\Service\Sitemap;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

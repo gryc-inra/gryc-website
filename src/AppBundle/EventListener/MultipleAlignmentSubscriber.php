@@ -3,7 +3,7 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Entity\MultipleAlignment;
-use AppBundle\Utils\TokenGenerator;
+use AppBundle\Service\TokenGenerator;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;

@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Locus;
 use AppBundle\Form\Type\CartType;
-use AppBundle\Utils\CartManager;
+use AppBundle\Service\CartManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,7 +20,7 @@ class CartController extends Controller
      */
     public function addAction(Locus $locus, Request $request)
     {
-        $cartManager = $this->get('AppBundle\Utils\CartManager');
+        $cartManager = $this->get('AppBundle\Service\CartManager');
         $cartManager->addToCart($locus);
         $cart = $cartManager->getCart();
 
@@ -45,7 +45,7 @@ class CartController extends Controller
      */
     public function removeAction($id, Request $request)
     {
-        $cartManager = $this->get('AppBundle\Utils\CartManager');
+        $cartManager = $this->get('AppBundle\Service\CartManager');
         $cartManager->removeToCart($id);
         $cart = $cartManager->getCart();
 
@@ -61,7 +61,7 @@ class CartController extends Controller
      */
     public function emptyAction(Request $request)
     {
-        $cartManager = $this->get('AppBundle\Utils\CartManager');
+        $cartManager = $this->get('AppBundle\Service\CartManager');
         $cartManager->emptyCart();
 
         return $this->redirectToRoute('cart_view');
@@ -72,7 +72,7 @@ class CartController extends Controller
      */
     public function viewAction(Request $request)
     {
-        $cartManager = $this->get('AppBundle\Utils\CartManager');
+        $cartManager = $this->get('AppBundle\Service\CartManager');
         $cartElements = $cartManager->getCartEntities();
 
         $form = $this->createForm(CartType::class);
@@ -119,7 +119,7 @@ class CartController extends Controller
      */
     public function downloadAction(string $type, string $feature, bool $intronSplicing, int $upstream, int $downstream)
     {
-        $cartManager = $this->get('AppBundle\Utils\CartManager');
+        $cartManager = $this->get('AppBundle\Service\CartManager');
         $cartElements = $cartManager->getCartEntities();
 
         if (empty($cartElements)) {
@@ -145,7 +145,7 @@ class CartController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $cartManager = $this->get('AppBundle\Utils\CartManager');
+            $cartManager = $this->get('AppBundle\Service\CartManager');
             $fasta = $cartManager->getCartFasta($data['type'], $data['feature'], $data['intronSplicing'], $data['upstream'], $data['downstream']);
 
             return new Response($fasta);

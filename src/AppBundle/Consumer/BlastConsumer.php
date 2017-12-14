@@ -2,7 +2,7 @@
 
 namespace AppBundle\Consumer;
 
-use AppBundle\Utils\BlastManager;
+use AppBundle\Service\BlastManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 

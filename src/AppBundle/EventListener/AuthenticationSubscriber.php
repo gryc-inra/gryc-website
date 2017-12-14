@@ -2,7 +2,7 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Utils\LoginBruteForce;
+use AppBundle\Service\LoginBruteForce;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\AuthenticationEvents;
 use Symfony\Component\Security\Core\Event\AuthenticationEvent;

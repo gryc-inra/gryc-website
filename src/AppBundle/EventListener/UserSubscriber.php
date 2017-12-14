@@ -3,8 +3,8 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Entity\User;
-use AppBundle\Utils\PasswordUpdater;
-use AppBundle\Utils\TokenGenerator;
+use AppBundle\Service\PasswordUpdater;
+use AppBundle\Service\TokenGenerator;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 

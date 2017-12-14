@@ -20,7 +20,7 @@ class ReverseComplementController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $query = $form->getData()['query'];
             $action = $form->getData()['action'];
-            $result = $this->get('AppBundle\Utils\SequenceManipulator')->processManipulation($query, $action);
+            $result = $this->get('AppBundle\Service\SequenceManipulator')->processManipulation($query, $action);
 
             return $this->render('tools/reverse_complement/result.html.twig', [
                 'query' => $form->getData()['query'],

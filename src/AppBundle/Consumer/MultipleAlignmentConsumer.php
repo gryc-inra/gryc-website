@@ -2,7 +2,7 @@
 
 namespace AppBundle\Consumer;
 
-use AppBundle\Utils\MultipleAlignmentManager;
+use AppBundle\Service\MultipleAlignmentManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 

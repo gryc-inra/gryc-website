@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Utils\SequenceManipulator;
+use AppBundle\Service\SequenceManipulator;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
