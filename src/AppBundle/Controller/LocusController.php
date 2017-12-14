@@ -15,7 +15,7 @@ class LocusController extends Controller
 {
     /**
      * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_name}", name="locus_view")
-     * @ParamConverter("locus", class="AppBundle:Locus", options={
+     * @Entity("locus", class="AppBundle:Locus", options={
      *   "mapping": {"locus_name": "name"},
      * })
      * @Security("is_granted('VIEW', locus.getChromosome().getStrain())")

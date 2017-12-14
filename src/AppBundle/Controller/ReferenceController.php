@@ -7,6 +7,7 @@ use AppBundle\Entity\Locus;
 use AppBundle\Entity\Reference;
 use AppBundle\Entity\Strain;
 use AppBundle\Form\Type\DoiType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -71,13 +72,13 @@ class ReferenceController extends Controller
     /**
      * @Route("/reference/delete/{reference_id}/strain/{strain_id}", name="reference_delete_strain")
      * @Route("/reference/delete/{reference_id}/locus/{locus_id}", name="reference_delete_locus")
-     * @ParamConverter("strain", class="AppBundle:Strain", options={
+     * @Entity("strain", class="AppBundle:Strain", options={
      *   "mapping": {"strain_id": "id"},
      * })
-     * @ParamConverter("locus", class="AppBundle:Locus", options={
+     * @Entity("locus", class="AppBundle:Locus", options={
      *   "mapping": {"locus_id": "id"},
      * })
-     * @ParamConverter("reference", class="AppBundle:Reference", options={
+     * @Entity("reference", class="AppBundle:Reference", options={
      *   "mapping": {"reference_id": "id"},
      * })
      * @Security("is_granted('ROLE_REFERENCER') and ((null != strain and is_granted('VIEW', strain)) or (null != locus and is_granted('VIEW', locus.getChromosome().getStrain())))")
