@@ -55,9 +55,15 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        url: '%env(DATABASE_URL)%'
-        charset: UTF8
-
+        default_connection:   default
+        connections:
+            default:
+                dbname: '%env(DATABASE_NAME)%'
+                host: '%env(DATABASE_HOST)%'
+                port: '%env(DATABASE_PORT)%'
+                user: '%env(DATABASE_USER)%'
+                password: '%env(DATABASE_PASSWORD)%'
+                charset:              UTF8
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -73,7 +79,12 @@ stof_doctrine_extensions:
 
 # Swiftmailer Configuration
 swiftmailer:
-    url: '%env(MAILER_URL)%'
+    host: '%env(SMTP_HOST)%'
+    port: '%env(SMTP_PORT)%'
+    username: '%env(SMTP_USER)%'
+    password: '%env(SMTP_PASSWORD)%'
+    encryption: tls
+    auth_mode: login
     spool:     { type: memory }
 
 # ReCaptcha
@@ -86,7 +97,16 @@ ewz_recaptcha:
 old_sound_rabbit_mq:
     connections:
         default:
-            url: '%env(RABBITMQ_URL)%'
+            host:     '%env(RABBITMQ_HOST)%'
+            port:     '%env(RABBITMQ_PORT)%'
+            user:     '%env(RABBITMQ_USER)%'
+            password: '%env(RABBITMQ_PASSWORD)%'
+            vhost:    '/'
+            lazy:     true
+            connection_timeout: 3
+            read_write_timeout: 3
+            keepalive: false
+            heartbeat: 0
     producers:
         blast:
             connection:       default

@@ -3,7 +3,8 @@ fos_elastica:
     clients:
         default:
             connections:
-                - url: '%env(ELASTICSEARCH_URL)%'
+                - host: '%env(ELASTICSEARCH_HOST)%'
+                - port: '%env(ELASTICSEARCH_PORT)%'
             connectionStrategy: RoundRobin
 
     indexes:

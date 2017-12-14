@@ -3,16 +3,28 @@
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     # Database settings
-    env(DATABASE_URL):              mysql://gryc:gryc@db:3306/gryc
+    env(DATABASE_NAME):             gryc
+    env(DATABASE_HOST):             db
+    env(DATABASE_PORT):             3306
+    env(DATABASE_USER):             gryc
+    env(DATABASE_PASSWORD):         gryc
 
     # ElasticSearch settings
-    env(ELASTICSEARCH_URL):         http://es1:9200
+    env(ELASTICSEARCH_HOST):        es1
+    env(ELASTICSEARCH_PORT):        9200
 
     # RabbitMq settings
-    env(RABBITMQ_URL):              amqp://gryc:gryc@rabbitmq:5672/gryc?lazy=1&connection_timeout=3&read_write_timeout=3
+    env(RABBITMQ_HOST):             rabbitmq
+    env(RABBITMQ_PORT):             5672
+    env(RABBITMQ_USER):             gryc
+    env(RABBITMQ_PASSWORD):         gryc
 
     # Mailer settings
-    env(MAILER_URL):                smtp://login:password@host:587?encryption=tls&auth_mode=login
+    env(SMTP_HOST):                 host
+    env(SMTP_PORT):                 587
+    env(SMTP_USER):                 login
+    env(SMTP_PASSWORD):             password
+
     env(MAILER_SENDER_ADDRESS):     me@myhost.tld
     env(MAILER_SENDER_NAME):        My site name
 

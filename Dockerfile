@@ -4,7 +4,9 @@ FROM php:7.2.0-fpm
 # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
 ENV MAFFT_VERSION=7.310 \
     BLAST_VERSION=2.7.1+ \
-    PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
+    PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11" \
+    SYMFONY_ENV="prod" \
+    SYMFONY_DEBUG=0
 
 # Install git, supervisor, yarn and libraries needed by php extensions
 RUN apt-get update && \
@@ -57,7 +59,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Install app dependencies
-RUN composer install --no-dev --no-scripts --no-progress --no-suggest --optimize-autoloader && \
+RUN composer install --no-dev --no-progress --no-suggest --optimize-autoloader && \
     chown -R www-data:www-data /var/www/html
 
 # Copy script and supervisor conf
