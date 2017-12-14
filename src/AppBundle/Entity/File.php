@@ -6,16 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * A general class inherit by other copied files.
+ * A general class inherit by other files.
  *
  * @ORM\Entity
- * @ORM\Table(name="copied_file")
+ * @ORM\Table(name="file")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"copiedFile" = "CopiedFile", "flatfile" = "FlatFile"})
- * @ORM\HasLifecycleCallbacks
+ * @ORM\DiscriminatorMap({"flatfile" = "FlatFile"})
  */
-class CopiedFile
+abstract class File
 {
     /**
      * The ID in the database.
@@ -57,7 +56,7 @@ class CopiedFile
     private $fs;
 
     /**
-     * CopiedFile constructor.
+     * File constructor.
      */
     public function __construct()
     {
@@ -126,95 +125,35 @@ class CopiedFile
     }
 
     /**
-     * Get absolute path.
+     * Set temp path.
      *
-     * @return null|string
+     * @param $tempPath
+     *
+     * @return $this
      */
-    public function getAbsolutePath()
+    public function setTempPath($tempPath)
     {
-        return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->path;
+        $this->tempPath = $tempPath;
+
+        return $this;
     }
 
     /**
-     * Get upload root dir.
+     * Get temp path.
      *
      * @return string
      */
-    protected function getUploadRootDir()
+    public function getTempPath()
     {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return realpath(__DIR__.'/../../../files/'.$this->getUploadDir());
+        return $this->tempPath;
     }
 
     /**
      * Get upload dir.
      *
+     * Return the directory name where files are moved.
+     *
      * @return string
      */
-    protected function getUploadDir()
-    {
-        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
-        // le document/image dans la vue.
-        return 'copiedFiles';
-    }
-
-    /**
-     * Before persist or update.
-     *
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null === $this->fileSystemPath) {
-            return;
-        }
-
-        $this->path = uniqid('', true).'.'.pathinfo($this->fileSystemPath, PATHINFO_EXTENSION);
-    }
-
-    /**
-     * After persist or update.
-     *
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload()
-    {
-        if (null === $this->fileSystemPath) {
-            return;
-        }
-
-        if (null !== $this->tempPath) {
-            $oldFile = $this->getUploadRootDir().'/'.$this->tempPath;
-
-            if (file_exists($oldFile)) {
-                unlink($oldFile);
-            }
-        }
-
-        $this->fs->copy($this->fileSystemPath, $this->getUploadRootDir().'/'.$this->path);
-    }
-
-    /**
-     * Before remove.
-     *
-     * @ORM\PreRemove()
-     */
-    public function preRemoveUpload()
-    {
-        $this->tempPath = $this->getAbsolutePath();
-    }
-
-    /**
-     * After remove.
-     *
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        if (file_exists($this->tempPath)) {
-            unlink($this->tempPath);
-        }
-    }
+    abstract public function getStorageDir();
 }

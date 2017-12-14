@@ -10,6 +10,14 @@ namespace AppBundle\Repository;
  */
 class StrainRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param $slug
+     *
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return mixed
+     */
     public function getStrainWithSpeciesAndChromosomes($slug)
     {
         $query = $this
@@ -26,6 +34,13 @@ class StrainRepository extends \Doctrine\ORM\EntityRepository
         return $query->getSingleResult();
     }
 
+    /**
+     * @param $slug
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return mixed
+     */
     public function getStrainWithFlatFiles($slug)
     {
         $query = $this
@@ -48,6 +63,9 @@ class StrainRepository extends \Doctrine\ORM\EntityRepository
         return $query->getOneOrNullResult();
     }
 
+    /**
+     * @return array
+     */
     public function getStrainsWithSpeciesAndClade()
     {
         $query = $this

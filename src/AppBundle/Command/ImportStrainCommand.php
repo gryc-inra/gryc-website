@@ -232,36 +232,31 @@ class ImportStrainCommand extends ContainerAwareCommand
                 );
             }
 
-            $flatFiles = [];
+            $fastaCdsNucFile = new FlatFile();
+            $fastaCdsNucFile->setFileSystemPath($input->getArgument('dir').'/data/FASTA_CDS_nuc/'.$chromosome->getName().'.fasta');
+            $fastaCdsNucFile->setSlug(mb_strtolower($chromosome->getName()).'-cds-nuc.fasta');
+            $fastaCdsNucFile->setType('fasta-cds-nuc');
+            $chromosome->addFlatFile($fastaCdsNucFile);
 
-            $flatFiles['FASTA_CDS_nuc'] = new FlatFile();
-            $flatFiles['FASTA_CDS_nuc']->setFileSystemPath($input->getArgument('dir').'/data/FASTA_CDS_nuc/'.$chromosome->getName().'.fasta');
-            $flatFiles['FASTA_CDS_nuc']->setFeatureType('cds');
-            $flatFiles['FASTA_CDS_nuc']->setMolType('nuc');
-            $flatFiles['FASTA_CDS_nuc']->setFormat('fsa');
+            $fastaCdsProFile = new FlatFile();
+            $fastaCdsProFile->setFileSystemPath($input->getArgument('dir').'/data/FASTA_CDS_pro/'.$chromosome->getName().'.fasta');
+            $fastaCdsProFile->setSlug(mb_strtolower($chromosome->getName()).'-cds-pro.fasta');
+            $fastaCdsProFile->setType('fasta-cds-pro');
+            $chromosome->addFlatFile($fastaCdsProFile);
 
-            $flatFiles['FASTA_CDS_pro'] = new FlatFile();
-            $flatFiles['FASTA_CDS_pro']->setFileSystemPath($input->getArgument('dir').'/data/FASTA_CDS_pro/'.$chromosome->getName().'.fasta');
-            $flatFiles['FASTA_CDS_pro']->setFeatureType('cds');
-            $flatFiles['FASTA_CDS_pro']->setMolType('pro');
-            $flatFiles['FASTA_CDS_pro']->setFormat('fsa');
+            $emblChrFile = new FlatFile();
+            $emblChrFile->setFileSystemPath($input->getArgument('dir').'/data/EMBL_chr/'.$chromosome->getName().'.embl');
+            $emblChrFile->setSlug(mb_strtolower($chromosome->getName()).'-chr.embl');
+            $emblChrFile->setType('embl-chr');
+            $chromosome->addFlatFile($emblChrFile);
 
-            $flatFiles['EMBL_chr'] = new FlatFile();
-            $flatFiles['EMBL_chr']->setFileSystemPath($input->getArgument('dir').'/data/EMBL_chr/'.$chromosome->getName().'.embl');
-            $flatFiles['EMBL_chr']->setFeatureType('chromosome');
-            $flatFiles['EMBL_chr']->setMolType('nuc');
-            $flatFiles['EMBL_chr']->setFormat('embl');
+            $fastaChrFile = new FlatFile();
+            $fastaChrFile->setFileSystemPath($input->getArgument('dir').'/data/FASTA_chr/'.$chromosome->getName().'.fasta');
+            $fastaChrFile->setSlug(mb_strtolower($chromosome->getName()).'-chr.fasta');
+            $fastaChrFile->setType('fasta-chr');
+            $chromosome->addFlatFile($fastaChrFile);
 
-            $flatFiles['FASTA_chr'] = new FlatFile();
-            $flatFiles['FASTA_chr']->setFileSystemPath($input->getArgument('dir').'/data/FASTA_chr/'.$chromosome->getName().'.fasta');
-            $flatFiles['FASTA_chr']->setFeatureType('chromosome');
-            $flatFiles['FASTA_chr']->setMolType('nuc');
-            $flatFiles['FASTA_chr']->setFormat('fsa');
-
-            foreach ($flatFiles as $flatFile) {
-                $chromosome->addFlatFile($flatFile);
-            }
-
+            // LOCUS
             foreach ($chromosomeData['locus'] as $locusData) {
                 $locus = new Locus();
                 $chromosome->addLocus($locus);

@@ -10,41 +10,23 @@ namespace AppBundle\Repository;
  */
 class FlatFileRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findOneByFeatureMolChromosomeFormat($featureType, $molType, $chromosome, $format)
-    {
-        $query = $this
-            ->createQueryBuilder('flatFile')
-            ->leftJoin('flatFile.chromosome', 'chromosome')
-                ->where('flatFile.featureType = :featureType')
-                ->andWhere('flatFile.molType = :molType')
-                ->andWhere('flatFile.format = :format')
-                ->andWhere('chromosome.name = :chromosome')
-                ->setParameters([
-                    'featureType' => $featureType,
-                    'molType' => $molType,
-                    'format' => $format,
-                    'chromosome' => $chromosome,
-                ])
-            ->getQuery();
-
-        return $query->getOneOrNullResult();
-    }
-
-    public function findByStrainFeatureMolFormat($strain, $featureType, $molType, $format)
+    /**
+     * @param $strain
+     * @param $type
+     *
+     * @return array
+     */
+    public function findByStrainAndType($strain, $type)
     {
         $query = $this
             ->createQueryBuilder('flatFile')
             ->leftJoin('flatFile.chromosome', 'chromosome')
             ->leftJoin('chromosome.strain', 'strain')
-            ->where('flatFile.featureType = :featureType')
-            ->andWhere('flatFile.molType = :molType')
-            ->andWhere('flatFile.format = :format')
-            ->andWhere('strain.name = :strain')
+            ->where('strain.name = :strain')
+            ->andWhere('flatFile.type = :type')
             ->setParameters([
-                'featureType' => $featureType,
-                'molType' => $molType,
-                'format' => $format,
                 'strain' => $strain,
+                'type' => $type,
             ])
             ->getQuery();
 

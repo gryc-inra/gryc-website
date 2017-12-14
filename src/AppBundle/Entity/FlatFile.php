@@ -9,136 +9,85 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FlatFileRepository")
  */
-class FlatFile extends CopiedFile
+class FlatFile extends File
 {
     /**
-     * The molecule type.
-     * Eg: nuc or prot.
+     * A human readable name.
      *
      * @var string
      *
-     * @ORM\Column(name="molType", type="string", length=255)
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
-    private $molType;
+    private $slug;
 
     /**
-     * The feature type.
-     * Eg: CDS, Chromosome or Orf.
+     * The file type.
      *
      * @var string
      *
-     * @ORM\Column(name="featureType", type="string", length=255)
+     * @ORM\Column(name="type", type="string", length=255)
      */
-    private $featureType;
+    private $type;
 
     /**
-     * The file format.
-     * Eg: embl or fasta.
-     *
-     * @var string
-     *
-     * @ORM\Column(name="format", type="string", length=255)
-     */
-    private $format;
-
-    /**
-     * The concerned chromosome.
+     * Chromosome.
      *
      * @var Chromosome
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Chromosome", inversedBy="flatFiles")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $chromosome;
 
     /**
-     * Set molType.
+     * @param $slug
      *
-     * @param string $molType
-     *
-     * @return FlatFile
+     * @return $this
      */
-    public function setMolType($molType)
+    public function setSlug($slug)
     {
-        $this->molType = $molType;
+        $this->slug = $slug;
 
         return $this;
     }
 
     /**
-     * Get molType.
-     *
      * @return string
      */
-    public function getMolType()
+    public function getSlug()
     {
-        return $this->molType;
+        return $this->slug;
     }
 
     /**
-     * Set featureType.
+     * @param $type
      *
-     * @param string $featureType
-     *
-     * @return FlatFile
+     * @return $this
      */
-    public function setFeatureType($featureType)
+    public function setType($type)
     {
-        $this->featureType = $featureType;
+        $this->type = $type;
 
         return $this;
     }
 
     /**
-     * Get featureType.
-     *
      * @return string
      */
-    public function getFeatureType()
+    public function getType()
     {
-        return $this->featureType;
+        return $this->type;
     }
 
     /**
-     * Set format.
-     *
-     * @param string $format
-     *
-     * @return FlatFile
-     */
-    public function setFormat($format)
-    {
-        $this->format = $format;
-
-        return $this;
-    }
-
-    /**
-     * Get format.
-     *
-     * @return string
-     */
-    public function getFormat()
-    {
-        return $this->format;
-    }
-
-    /**
-     * Set Chromosome.
-     *
      * @param Chromosome $chromosome
-     *
-     * @return FlatFile
      */
     public function setChromosome(Chromosome $chromosome)
     {
         $this->chromosome = $chromosome;
-
-        return $this;
     }
 
     /**
-     * Get Chromosome.
-     *
      * @return Chromosome
      */
     public function getChromosome()
@@ -147,25 +96,14 @@ class FlatFile extends CopiedFile
     }
 
     /**
-     * Get the upload root directory.
+     * Get upload dir.
+     *
+     * Return the directory name where files are moved.
      *
      * @return string
      */
-    protected function getUploadRootDir()
+    public function getStorageDir()
     {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return realpath(__DIR__.'/../../../files/'.$this->getUploadDir());
-    }
-
-    /**
-     * Get the upload directory.
-     *
-     * @return string
-     */
-    protected function getUploadDir()
-    {
-        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
-        // le document/image dans la vue.
         return 'flatFiles';
     }
 }

@@ -2,10 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\FlatFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
@@ -20,40 +21,43 @@ class FileController extends Controller
      * This method create and serve the file.
      *
      * @param $strainName
-     * @param $featureType
-     * @param $molType
-     * @param $format
-     *
-     * @throws \Exception
+     * @param $type
      *
      * @return BinaryFileResponse
      *
-     *
-     * @Route("/{strainName}-{featureType}-{molType}-{format}.zip", name="file_downloadZipFlatFile")
+     * @Route("/{strainName}-{type}.zip", name="file_downloadZipFlatFile")
      */
-    public function downloadZipFlatFileAction($strainName, $featureType, $molType, $format)
+    public function downloadZipFlatFileAction($strainName, $type)
     {
         $em = $this->getDoctrine()->getManager();
 
+        // If the Strain exists ?
         if (null === $strain = $em->getRepository('AppBundle:Strain')->findOneByName($strainName)) {
             throw $this->createNotFoundException("This strain doen't exists.");
         }
 
+        // User is allowed to access the resource ?
         $this->denyAccessUnlessGranted('VIEW', $strain);
 
-        $files = $em->getRepository('AppBundle:FlatFile')->findByStrainFeatureMolFormat($strainName, $featureType, $molType, $format);
+        // Retrieve Files
+        $files = $em->getRepository('AppBundle:FlatFile')->findByStrainAndType($strainName, $type);
 
+        // Use file manager to get AbsolutePath
+        $fileManager = $this->get('AppBundle\Utils\FileManager');
+
+        // Create a Zip archive
         $zip = new \ZipArchive();
         $zipname = '/tmp/'.uniqid();
         $zip->open($zipname, \ZipArchive::CREATE);
         foreach ($files as $file) {
-            $zip->addFile($file->getAbsolutePath(), $file->getChromosome()->getName().'-'.$featureType.'-'.$molType.'.'.$format);
+            $zip->addFile($fileManager->getAbsolutePath($file), $file->getSlug());
         }
         $zip->close();
 
+        // Return a response
         $response = new BinaryFileResponse($zipname);
         $response->headers->set('Content-Type', 'application/zip');
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $strainName.'-'.$featureType.'-'.$molType.'-'.$format.'.zip');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $strainName.'-'.$type.'.zip');
         $response->headers->set('Cache-Control', 'no-cache');
         $response->deleteFileAfterSend(true);
 
@@ -62,36 +66,23 @@ class FileController extends Controller
 
     /**
      * Serve flat file.
-     * The method return a xaccel header, then nginx serve the file after control by the controller.
+     * The method return a X-Accel header, then nginx serve the file after control by the controller.
      *
-     * @param Request $request
-     * @param $chromosomeName
-     * @param $featureType
-     * @param $molType
-     * @param $format
-     *
-     * @return BinaryFileResponse
-     *
-     * @Route("/{chromosomeName}-{featureType}-{molType}.{format}", name="file_downloadFlatFile")
+     * @Route("/{slug}", name="file_downloadFlatFile")
+     * @Security("is_granted('VIEW', file.getChromosome().getStrain())")
      */
-    public function downloadFlatFileAction(Request $request, $chromosomeName, $featureType, $molType, $format)
+    public function downloadFlatFileAction(FlatFile $file)
     {
-        $file = $this->getDoctrine()->getManager()->getRepository('AppBundle:FlatFile')
-            ->findOneByFeatureMolChromosomeFormat($featureType, $molType, $chromosomeName, $format);
-
-        if (null === $file) {
-            throw $this->createNotFoundException("This file doesn't exists.");
-        }
-
-        $this->denyAccessUnlessGranted('VIEW', $file->getChromosome()->getStrain());
+        // Use file manager to get AbsolutePath and SendFilePath
+        $fileManager = $this->get('AppBundle\Utils\FileManager');
 
         BinaryFileResponse::trustXSendfileTypeHeader();
-        $response = new BinaryFileResponse($file->getAbsolutePath());
+        $response = new BinaryFileResponse($fileManager->getAbsolutePath($file));
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $chromosomeName.'-'.$featureType.'-'.$molType.'.'.$format
+            $file->getSlug()
         );
-        $response->headers->set('X-Accel-Redirect', '/protected-files/flatFiles/'.$file->getPath());
+        $response->headers->set('X-Accel-Redirect', $fileManager->getSendFilePath($file));
 
         return $response;
     }
