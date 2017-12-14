@@ -54,9 +54,9 @@ class User implements AdvancedUserInterface, \Serializable
     private $roles;
 
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(name="enabled", type="boolean")
      */
-    private $isActive;
+    private $enabled;
 
     /**
      * @ORM\Column(name="confirmation_token", type="string", nullable=true)
@@ -116,7 +116,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function __construct()
     {
         $this->roles = [];
-        $this->isActive = false;
+        $this->enabled = false;
         $this->strains = new ArrayCollection();
     }
 
@@ -282,28 +282,18 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Set isActive.
+     * Set enabled.
      *
-     * @param bool $isActive
+     * @param bool $enabled
      *
      * @return User
      */
-    public function setIsActive($isActive)
+    public function setEnabled($enabled)
     {
-        $this->isActive = $isActive;
+        $this->enabled = $enabled;
         $this->confirmationToken = null;
 
         return $this;
-    }
-
-    /**
-     * isActive?
-     *
-     * @return bool
-     */
-    public function isActive()
-    {
-        return $this->isActive;
     }
 
     /**
@@ -375,7 +365,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function isEnabled()
     {
-        return $this->isActive;
+        return $this->enabled;
     }
 
     /**
@@ -389,7 +379,7 @@ class User implements AdvancedUserInterface, \Serializable
             $this->id,
             $this->email,
             $this->password,
-            $this->isActive,
+            $this->enabled,
         ]);
     }
 
@@ -404,7 +394,7 @@ class User implements AdvancedUserInterface, \Serializable
             $this->id,
             $this->email,
             $this->password,
-            $this->isActive
+            $this->enabled
         ) = unserialize($serialized);
     }
 

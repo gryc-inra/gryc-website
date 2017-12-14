@@ -65,7 +65,7 @@ class RegistrationController extends Controller
         }
 
         // Active the account
-        $user->setIsActive(true);
+        $user->setEnabled(true);
         $userManager->updateUser($user);
 
         // Add notification
