@@ -18,14 +18,14 @@ matrix:
   allow_failures:
     - php: nightly
 
-  before_install:
-    - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
-    - composer self-update
-    # Fix Argon2i password hasher in TravisCi PHP version
-    - composer require paragonie/sodium_compat
+before_install:
+  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
+  - composer self-update
+  # Fix Argon2i password hasher in TravisCi PHP version
+  - composer require paragonie/sodium_compat
 
 install:
-  - composer install --no-scripts
+  - composer install
   - ./vendor/bin/simple-phpunit install
 
 script:
@@ -40,3 +40,5 @@ script:
   - ./bin/console security:check --end-point=http://security.sensiolabs.org/check_lock
   # this checks that the composer.json and composer.lock files are valid
   - composer validate
+  # this checks that Doctrine's mapping configurations are valid
+  - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
