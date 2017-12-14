@@ -41,8 +41,8 @@ class UserTest extends TestCase
 
         $this->assertNull($this->object->getSalt());
 
-        $this->object->setIsActive(true);
-        $this->assertTrue($this->object->isActive());
+        $this->object->setEnabled(true);
+        $this->assertTrue($this->object->isEnabled());
 
         $this->object->setConfirmationToken('token');
         $this->assertSame('token', $this->object->getConfirmationToken());
@@ -70,16 +70,16 @@ class UserTest extends TestCase
         $this->assertSame('5dsf4e54ge4sfdsfds46g4ds6fs', $this->object->getSessionId());
 
         // Test Add/Remove/Get AuthorizedStrain
-        $this->assertSame('Doctrine\Common\Collections\ArrayCollection', get_class($this->object->getAuthorizedStrains()));
+        $this->assertSame('Doctrine\Common\Collections\ArrayCollection', get_class($this->object->getStrains()));
 
         $strain = $this->getMockBuilder('AppBundle\Entity\Strain')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->object->addAuthorizedStrain($strain);
-        $this->assertSame($strain, $this->object->getAuthorizedStrains()->first());
+        $this->object->addStrain($strain);
+        $this->assertSame($strain, $this->object->getStrains()->first());
 
-        $this->object->removeAuthorizedStrain($strain);
-        $this->assertTrue($this->object->getAuthorizedStrains()->isEmpty());
+        $this->object->removeStrain($strain);
+        $this->assertTrue($this->object->getStrains()->isEmpty());
 
         // Test add/remove/set/get for role array
         $this->object->addRole(User::ROLE_DEFAULT);
