@@ -9,6 +9,7 @@ class ReferenceListener
 {
     /**
      * @param LifecycleEventArgs $args
+     *
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function postUpdate(LifecycleEventArgs $args)
