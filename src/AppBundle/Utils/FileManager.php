@@ -2,6 +2,7 @@
 
 namespace AppBundle\Utils;
 
+use AppBundle\Entity\BlastFile;
 use AppBundle\Entity\File;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -47,7 +48,14 @@ class FileManager
         // Return an error if file doesn't exists, and permit use ->getExtension()
         $httpFile = new \Symfony\Component\HttpFoundation\File\File($file->getFileSystemPath(), true);
 
-        $fileName = $this->tokenGenerator->generateToken().'.'.$httpFile->getExtension();
+        // 2 possibilities for FileName
+        // 1. common files, just a token and the extension
+        // 2. blastFiles, need to keep the old name as suffix
+        if ($file instanceof BlastFile) {
+            $fileName = mb_strtolower($file->getStrain()->getName()).'_'.$httpFile->getFilename();
+        } else {
+            $fileName = $this->tokenGenerator->generateToken().'.'.$httpFile->getExtension();
+        }
 
         $file->setPath($fileName);
     }

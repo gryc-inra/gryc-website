@@ -35,7 +35,6 @@ class FlatFile extends File
      * @var Chromosome
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Chromosome", inversedBy="flatFiles")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $chromosome;
 
@@ -104,6 +103,6 @@ class FlatFile extends File
      */
     public function getStorageDir()
     {
-        return 'flatFiles';
+        return 'flat';
     }
 }

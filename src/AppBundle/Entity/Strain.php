@@ -25,7 +25,6 @@ class Strain
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    private $tempId;
 
     /**
      * The name of the strain.
@@ -151,6 +150,16 @@ class Strain
     private $references;
 
     /**
+     * Blast.
+     *
+     * @var BlastFile|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\BlastFile", mappedBy="strain", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $blastFiles;
+
+    /**
      * Strain constructor.
      */
     public function __construct()
@@ -160,6 +169,7 @@ class Strain
         $this->seos = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->references = new ArrayCollection();
+        $this->blastFiles = new ArrayCollection();
     }
 
     /**
@@ -709,28 +719,45 @@ class Strain
     }
 
     /**
-     * Before remove.
+     * Add BlastFile.
      *
-     * @ORM\PreRemove()
+     * @param BlastFile $blastFile
+     *
+     * @return $this
      */
-    public function preRemoveUpload()
+    public function addBlastFile(BlastFile $blastFile)
     {
-        $this->tempId = $this->getId();
+        if (!$this->blastFiles->contains($blastFile)) {
+            $this->blastFiles[] = $blastFile;
+            $blastFile->setStrain($this);
+        }
+
+        return $this;
     }
 
     /**
-     * After remove.
+     * Remove BlastFile.
      *
-     * @ORM\PostRemove()
+     * @param BlastFile $flatFile
+     *
+     * @return $this
      */
-    public function removeUpload()
+    public function removeBlastFile(BlastFile $blastFile)
     {
-        // Get files
-        $files = glob('/var/www/html/files/blast/'.$this->tempId.'_*');
-
-        // Remove files
-        foreach ($files as $file) {
-            unlink($file);
+        if ($this->blastFiles->contains($blastFile)) {
+            $this->blastFiles->removeElement($blastFile);
         }
+
+        return $this;
+    }
+
+    /**
+     * Get BlastFiles.
+     *
+     * @return BlastFile|ArrayCollection
+     */
+    public function getBlastFiles()
+    {
+        return $this->blastFiles;
     }
 }

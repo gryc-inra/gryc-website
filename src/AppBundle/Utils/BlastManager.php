@@ -109,10 +109,10 @@ class BlastManager
             $gapped = '-ungapped';
         }
 
-        // Get the DBs addresses
+        // Get the blastable files
         $db = '';
         foreach ($blast->getStrains() as $strain) {
-            $db .= ' '.$this->projectDir.'/files/blast/'.$strain->getId().'_'.$blast->getDatabase();
+            $db .= ' '.$this->projectDir.'/files/blast/'.mb_strtolower($strain->getName()).'_'.$blast->getDatabase();
         }
 
         // Create a tempFile with the query

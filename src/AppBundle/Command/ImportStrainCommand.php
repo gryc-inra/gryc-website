@@ -2,6 +2,7 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Entity\BlastFile;
 use AppBundle\Entity\Chromosome;
 use AppBundle\Entity\DnaSequence;
 use AppBundle\Entity\Feature;
@@ -179,6 +180,26 @@ class ImportStrainCommand extends ContainerAwareCommand
         $strain->setStatus($data['status']);
         $strain->setCdsCount($data['cdsCount']);
 
+        // BLAST FILES
+        $blastFilesName = ['cds_nucl.nhr', 'cds_nucl.nin', 'cds_nucl.nsq', 'cds_prot.phr', 'cds_prot.pin', 'cds_prot.psq', 'chr.nhr', 'chr.nin', 'chr.nsq'];
+        $blastFilesFolder = $input->getArgument('dir').'data/BLAST';
+        $blastFilesPath = array_map(function (&$file) use ($blastFilesFolder) {
+            return $file = $blastFilesFolder.'/'.$file;
+        }, $blastFilesName);
+
+        if (!$this->fs->exists($blastFilesPath)) {
+            throw new \RuntimeException(
+                'At least one of the blastable files is missing.'
+            );
+        }
+
+        // Create BlastFiles and associate it to Strain
+        foreach ($blastFilesPath as $filePath) {
+            $blastFile = new BlastFile();
+            $blastFile->setFileSystemPath($filePath);
+            $strain->addBlastFile($blastFile);
+        }
+
         // For each chromosome, create a new chromosome
         foreach ($data['chromosome'] as $chromosomeData) {
             // Create a chromosome and add it to the Strain
@@ -311,33 +332,11 @@ class ImportStrainCommand extends ContainerAwareCommand
         // At the end, attach the Strain to the species
         $this->species->addStrain($strain);
 
-        // Test if Blast files exists
-        $blastFilesName = ['cds_nucl.nhr', 'cds_nucl.nin', 'cds_nucl.nsq', 'cds_prot.phr', 'cds_prot.pin', 'cds_prot.psq', 'chr.nhr', 'chr.nin', 'chr.nsq'];
-        $blastFilesFolder = $input->getArgument('dir').'/data/BLAST';
-        $blastFilesTargetFolder = $this->projectDir.'/files/blast';
-
-        $blastFiles = array_map(function (&$file) use ($blastFilesFolder) {
-            return $file = $blastFilesFolder.'/'.$file;
-        }, $blastFilesName);
-
-        if (!$this->fs->exists($blastFiles)) {
-            throw new \RuntimeException(
-                'At least one of the blastable files is missing.'
-            );
-        }
-
         // Before flush, inform the user that transaction take few time
         $io->text('The transaction start, this may take some time (few minutes). Don\'t panic, take advantage there to have a break :)');
 
         // Now we flush it (this is a transaction)
         $this->em->flush();
-
-        // At the end of the transaction, we move blastable files
-        $i = 0;
-        foreach ($blastFiles as $file) {
-            $this->fs->copy($file, $blastFilesTargetFolder.'/'.$strain->getId().'_'.$blastFilesName[$i]);
-            ++$i;
-        }
 
         $io->success('The strain has been successfully imported !');
     }

@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * @ORM\Table(name="file")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"flatfile" = "FlatFile"})
+ * @ORM\DiscriminatorMap({"flatfile" = "FlatFile", "blastfile" = "BlastFile"})
  */
 abstract class File
 {
