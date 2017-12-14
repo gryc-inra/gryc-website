@@ -45,14 +45,8 @@ class ImportStrainCommand extends ContainerAwareCommand
      */
     private $fs;
 
-    /**
-     * @var string
-     */
-    private $projectDir;
-
-    public function __construct($projectDir, EntityManagerInterface $entityManager, Filesystem $filesystem)
+    public function __construct(EntityManagerInterface $entityManager, Filesystem $filesystem)
     {
-        $this->projectDir = $projectDir;
         $this->em = $entityManager;
         $this->fs = $filesystem;
 

@@ -40,11 +40,6 @@ services:
        tags:
            - { name: twig.extension }
 
-# Comands
-    AppBundle\Command\ImportStrainCommand:
-        arguments:
-            $projectDir: '%kernel.project_dir%'
-
 # Services
     AppBundle\Service\BlastManager:
         public: true

@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * A general class inherit by other files.
@@ -47,21 +46,6 @@ abstract class File
      * @var string
      */
     private $tempPath;
-
-    /**
-     * The filesystem object.
-     *
-     * @var Filesystem
-     */
-    private $fs;
-
-    /**
-     * File constructor.
-     */
-    public function __construct()
-    {
-        $this->fs = new Filesystem();
-    }
 
     /**
      * Get id.
