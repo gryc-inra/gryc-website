@@ -7,6 +7,10 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class ReferenceListener
 {
+    /**
+     * @param LifecycleEventArgs $args
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function postUpdate(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
@@ -14,8 +18,8 @@ class ReferenceListener
             return;
         }
 
-        // If the Reference have no Locus and no Chromosomes, delete it
-        if ($object->getLocus()->isEmpty() && $object->getChromosomes()->isEmpty()) {
+        // If the Reference have no Locus and no Strains, delete it
+        if ($object->getLocus()->isEmpty() && $object->getStrains()->isEmpty()) {
             $args->getEntityManager()->remove($object);
             $args->getEntityManager()->flush();
         }
