@@ -24,7 +24,7 @@ before_install:
 
 install:
   # Manually install libsodium, because the TravicCi image doesn't provide PHP7.2 with libsodium
-  - sudo update
+  - sudo apt-get update
   - sudo apt-get install libsodium-dev
   - pecl install libsodium
   - phpenmod sodium
