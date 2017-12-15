@@ -24,6 +24,9 @@ before_install:
 
 install:
   # Manually install libsodium, because the TravicCi image doesn't provide PHP7.2 with libsodium
+  - sudo add-apt-repository ppa:chris-lea/libsodium
+  - sudo echo "deb http://ppa.launchpad.net/chris-lea/libsodium/ubuntu precise main" >> /etc/apt/sources.list
+  - sudo echo "deb-src http://ppa.launchpad.net/chris-lea/libsodium/ubuntu precise main" >> /etc/apt/sources.list
   - sudo apt-get update
   - sudo apt-get install libsodium-dev
   - pecl install libsodium
