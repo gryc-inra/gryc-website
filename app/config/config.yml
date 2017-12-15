@@ -101,7 +101,7 @@ old_sound_rabbit_mq:
             port:     '%env(RABBITMQ_PORT)%'
             user:     '%env(RABBITMQ_USER)%'
             password: '%env(RABBITMQ_PASSWORD)%'
-            vhost:    '%env(RABBITMQ_VHOST)%'
+            vhost:    '/'
             lazy:     true
             connection_timeout: 3
             read_write_timeout: 3
