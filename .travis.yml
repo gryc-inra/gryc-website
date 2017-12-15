@@ -23,8 +23,12 @@ before_install:
   - composer self-update
 
 install:
-  - apt-get install libsodium-dev
+  # Manually install libsodium, because the TravicCi image doesn't provide PHP7.2 with libsodium
+  - sudo update
+  - sudo apt-get install libsodium-dev
   - pecl install libsodium
+  - phpenmod sodium
+  # Continue like before
   - composer install
   - ./vendor/bin/simple-phpunit install
 
