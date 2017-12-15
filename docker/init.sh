@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-# Clear the cache and warm it
-/var/www/html/bin/console cache:clear --no-warmup
-/var/www/html/bin/console cache:warmup
+# If the var/cache/dev|prod folder doesn't exists
+if [ ! -f /var/www/html/app/config/parameters.yml ]; then
+    # Run scripts
+    composer run-script post-install-cmd --no-interaction
 
-# Because the script was executed as root, re-define the user
-chown -R www-data:www-data /var/www/html/var
+    # Change owner
+    chown -R www-data:www-data /var/www/html
+fi
+
+exit $?

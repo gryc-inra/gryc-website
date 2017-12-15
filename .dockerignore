@@ -3,8 +3,8 @@
 /files/*
 !/files/blast
 /files/blast/*
-!/files/flatFiles
-/files/flatFiles/*
+!/files/flat
+/files/flat/*
 !/files/temp
 /files/temp/*
 /.git

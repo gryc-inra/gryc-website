@@ -3,7 +3,7 @@ FROM php:7.2.0-fpm
 # To avoid a bug with the intl extension compilation
 # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
 ENV MAFFT_VERSION=7.310 \
-    BLAST_VERSION=2.7.1+ \
+    BLAST_VERSION=2.7.1 \
     PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11" \
     SYMFONY_ENV="prod" \
     SYMFONY_DEBUG=0
@@ -40,9 +40,9 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-d
 COPY ["./docker/php.ini", "./docker/php-cli.ini", "/usr/local/etc/php/"]
 
 # Install BLAST
-RUN curl -sS -o /tmp/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz -L ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz && \
-    tar -zxf /tmp/ncbi-blast-${BLAST_VERSION}-x64-linux.tar.gz -C /tmp && \
-    mv /tmp/ncbi-blast-${BLAST_VERSION}/bin/* /usr/local/bin
+RUN curl -sS -o /tmp/ncbi-blast-${BLAST_VERSION}+-x64-linux.tar.gz -L ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/${BLAST_VERSION}/ncbi-blast-${BLAST_VERSION}+-x64-linux.tar.gz && \
+    tar -zxf /tmp/ncbi-blast-${BLAST_VERSION}+-x64-linux.tar.gz -C /tmp && \
+    mv /tmp/ncbi-blast-${BLAST_VERSION}+/bin/* /usr/local/bin
 
 # Install MAFFT
 RUN curl -sS -o /tmp/mafft-${MAFFT_VERSION}-without-extensions-src.tgz -L https://mafft.cbrc.jp/alignment/software/mafft-${MAFFT_VERSION}-without-extensions-src.tgz && \
@@ -59,8 +59,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Install app dependencies
-RUN composer install --no-dev --no-progress --no-suggest --optimize-autoloader && \
-    chown -R www-data:www-data /var/www/html
+RUN composer install --no-dev --no-scripts --no-progress --no-suggest --optimize-autoloader
 
 # Copy script and supervisor conf
 COPY ./docker/init.sh /opt/app/init.sh

@@ -6,9 +6,9 @@
 !/files/blast
 /files/blast/*
 !/files/blast/.gitkeep
-!/files/flatFiles
-/files/flatFiles/*
-!/files/flatFiles/.gitkeep
+!/files/flat
+/files/flat/*
+!/files/flat/.gitkeep
 !/files/temp
 /files/temp/*
 !/files/temp/.gitkeep
