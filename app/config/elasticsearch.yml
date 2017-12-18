@@ -4,7 +4,7 @@ fos_elastica:
         default:
             connections:
                 - host: '%env(ELASTICSEARCH_HOST)%'
-                - port: '%env(ELASTICSEARCH_PORT)%'
+                  port: '%env(ELASTICSEARCH_PORT)%'
             connectionStrategy: RoundRobin
 
     indexes:
