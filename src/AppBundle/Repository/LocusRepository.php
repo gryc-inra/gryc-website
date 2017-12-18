@@ -249,4 +249,17 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getSingleScalarResult();
     }
+
+    public function createSearchQueryBuilder($entityAlias)
+    {
+        $qb = $this->createQueryBuilder($entityAlias)
+            ->leftJoin($entityAlias.'.chromosome', 'chromosome')
+                ->addSelect('chromosome')
+            ->leftJoin('chromosome.strain', 'strain')
+                ->addSelect('strain')
+            ->leftJoin('strain.species', 'species')
+                ->addSelect('species');
+
+        return $qb;
+    }
 }
