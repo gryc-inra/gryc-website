@@ -25,8 +25,7 @@ class DeleteStrainCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('bio:strain:delete')
-            ->setAliases(['bio:delete:strain'])
+            ->setName('gryc:strain:delete')
             ->setDescription('Delete strain');
     }
 

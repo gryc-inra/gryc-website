@@ -17,7 +17,7 @@ class ImportDbXrefCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('bio:dbxref:import')
+            ->setName('gryc:dbxref:import')
             ->setDescription('Import DbXref data');
     }
 

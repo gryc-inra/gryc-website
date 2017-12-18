@@ -15,7 +15,7 @@ class ListSpeciesCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('bio:species:list')
+            ->setName('gryc:species:list')
             ->setDescription('Species list');
     }
 

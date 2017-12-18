@@ -56,9 +56,8 @@ class ImportStrainCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('bio:strain:import')
-            ->setAliases(['bio:import:strain'])
-            ->setDescription('Species import')
+            ->setName('gryc:strain:import')
+            ->setDescription('Strain import')
             ->addArgument(
                 'dir',
                 InputArgument::REQUIRED,
@@ -123,9 +122,9 @@ class ImportStrainCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        // List all the persisted species, call the bio:species:list command to do it
-        $listSpeciesCommand = $this->getApplication()->find('bio:species:list');
-        $listSpeciesCommandInput = new ArrayInput(['command' => 'bio:species:list']);
+        // List all the persisted species, call the gryc:species:list command to do it
+        $listSpeciesCommand = $this->getApplication()->find('gryc:species:list');
+        $listSpeciesCommandInput = new ArrayInput(['command' => 'gryc:species:list']);
         $listSpeciesCommand->run($listSpeciesCommandInput, $output);
 
         $question = new Question('Please enter the name of the species: ');

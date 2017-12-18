@@ -21,7 +21,7 @@ class SitemapCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('seo:sitemap:generate')
+            ->setName('gryc:sitemap:generate')
             ->setDescription('Generate the sitemap');
     }
 
