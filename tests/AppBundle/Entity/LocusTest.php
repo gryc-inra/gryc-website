@@ -48,21 +48,5 @@ class LocusTest extends TestCase
 
         $this->locus->removeFeature($feature);
         $this->assertTrue($this->locus->getFeatures()->isEmpty());
-
-        $locus = $this->getMockBuilder('AppBundle\Entity\Locus')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->locus->setPreviousLocus($locus);
-        $this->assertSame($locus, $this->locus->getPreviousLocus());
-
-        $this->locus->setNextLocus($locus);
-        $this->assertSame($locus, $this->locus->getNextLocus());
-
-        $this->locus->setPreviousLocusDistance(1000);
-        $this->assertSame(1000, $this->locus->getPreviousLocusDistance());
-
-        $this->locus->setNextLocusDistance(1000);
-        $this->assertSame(1000, $this->locus->getNextLocusDistance());
     }
 }
