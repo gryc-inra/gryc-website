@@ -12,6 +12,55 @@ use AppBundle\Entity\Strain;
  */
 class LocusRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Get locus with all linked data.
+     *
+     * @param $locusName
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return mixed
+     */
+    public function findLocusWithAllData($locusName)
+    {
+        $query = $this->createQueryBuilder('locus')
+            ->where('locus.name = :locusName')
+                ->leftJoin('locus.chromosome', 'chromosome')
+                    ->addSelect('chromosome')
+                ->leftJoin('chromosome.strain', 'strain')
+                    ->addSelect('strain')
+                ->leftJoin('strain.species', 'species')
+                    ->addSelect('species')
+                ->leftJoin('strain.users', 'users')
+                    ->addSelect('users')
+                ->leftJoin('locus.features', 'features')
+                    ->addSelect('features')
+                ->leftJoin('features.productsFeatures', 'products_features')
+                    ->addSelect('products_features')
+                ->leftJoin('chromosome.dnaSequence', 'dna_sequence')
+                    ->addSelect('dna_sequence')
+                ->leftJoin('locus.references', 'locus_references')
+                    ->addSelect('locus_references')
+                ->leftJoin('strain.references', 'strain_references')
+                    ->addSelect('strain_references')
+                ->leftJoin('locus.neighbours', 'neighbours')
+                    ->orderBy('neighbours.position', 'ASC')
+                    ->addSelect('neighbours')
+                ->leftJoin('neighbours.neighbour', 'neighbours_neighbour')
+                    ->addSelect('neighbours_neighbour')
+            ->setParameter('locusName', $locusName)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
+    /**
+     * @param $locusName
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return mixed
+     */
     public function findLocus($locusName)
     {
         $query = $this->createQueryBuilder('locus')
@@ -34,6 +83,13 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
         return $query->getOneOrNullResult();
     }
 
+    /**
+     * @param $featureName
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return mixed
+     */
     public function findLocusFromFeature($featureName)
     {
         $query = $this->createQueryBuilder('locus')
@@ -56,6 +112,13 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
         return $query->getOneOrNullResult();
     }
 
+    /**
+     * @param $productName
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return mixed
+     */
     public function findLocusFromProduct($productName)
     {
         $query = $this->createQueryBuilder('locus')
@@ -78,6 +141,11 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
         return $query->getOneOrNullResult();
     }
 
+    /**
+     * @param $productName
+     *
+     * @return array
+     */
     public function findLocusFromProductWithoutDnaSequence($productName)
     {
         $query = $this->createQueryBuilder('locus')
@@ -99,6 +167,11 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    /**
+     * @param array $ids
+     *
+     * @return array
+     */
     public function findLocusById(array $ids)
     {
         $query = $this->createQueryBuilder('locus')
@@ -116,6 +189,11 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    /**
+     * @param Strain $strain
+     *
+     * @return array
+     */
     public function findLocusFromStrain(Strain $strain)
     {
         $query = $this->createQueryBuilder('locus')
@@ -133,6 +211,12 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    /**
+     * @param $offset
+     * @param $limit
+     *
+     * @return array
+     */
     public function findPublicLocus($offset, $limit)
     {
         $query = $this->createQueryBuilder('locus')
@@ -148,6 +232,12 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    /**
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return mixed
+     */
     public function countPublicLocus()
     {
         $query = $this->createQueryBuilder('locus')
@@ -158,18 +248,5 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
 
         return $query->getSingleScalarResult();
-    }
-
-    public function createSearchQueryBuilder($entityAlias)
-    {
-        $qb = $this->createQueryBuilder($entityAlias)
-            ->leftJoin($entityAlias.'.chromosome', 'chromosome')
-                ->addSelect('chromosome')
-            ->leftJoin('chromosome.strain', 'strain')
-                ->addSelect('strain')
-            ->leftJoin('strain.species', 'species')
-                ->addSelect('species');
-
-        return $qb;
     }
 }

@@ -30,35 +30,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-between d-print-none my-3" aria-label="Previous and next locus">
-        <div class="col-4">
-            {% if locus.previousLocus %}
-                <a class="btn btn-primary" href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.previousLocus }) }}"
-                data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.previousLocusDistance >= 0 ? locus.previousLocusDistance ~ ' nuc.' : 'overlapping' }}"
-                role="button">
-                    <span class="fas fa-arrow-left" aria-hidden="true"></span>
-                    <span class="d-none d-sm-inline">{{ locus.previousLocus }}</span>
-                    <span class="d-sm-none">Previous locus</span>
-                </a>
-            {% else %}
-                <a class="btn btn-primary disabled" href="#" role="button"><span class="fas fa-arrow-left" aria-hidden="true"></span> No previous locus</a>
-            {% endif %}
-        </div>
-
-        <div class="col-4 text-right">
-            {% if locus.nextLocus %}
-                <a class="btn btn-primary" href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.nextLocus }) }}"
-                data-toggle="tooltip" data-placement="bottom" title="Intergene: {{ locus.nextLocusDistance >= 0 ? locus.nextLocusDistance ~ ' nuc.' : 'overlapping' }}"
-                role="button">
-                    <span class="d-none d-sm-inline">{{ locus.nextLocus }}</span>
-                    <span class="d-sm-none">Next locus</span>
-                    <span class="fas fa-arrow-right" aria-hidden="true"></span>
-                </a>
-            {% else %}
-                <a class="btn btn-primary disabled" href="#"  role="button">No next locus <span class="fas fa-arrow-right" aria-hidden="true"></span></a>
-            {% endif %}
-        </div>
-    </div>
+    {{ locus.neighbours|drawNeighborhood }}
 
     <h2>Description</h2>
     <p class="text-justify">

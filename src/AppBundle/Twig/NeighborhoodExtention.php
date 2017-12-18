@@ -1,0 +1,121 @@
+<?php
+
+namespace AppBundle\Twig;
+
+use Symfony\Component\Routing\RouterInterface;
+
+class NeighborhoodExtention extends \Twig_Extension
+{
+    private $router;
+
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
+    }
+
+    public function getFilters()
+    {
+        return [
+            new \Twig_SimpleFilter('drawNeighborhood', [$this, 'drawNeighborhood']),
+        ];
+    }
+
+    public function drawNeighborhood($neighborhood)
+    {
+        // Some var to config the svg
+        $height = 80;
+        $width = 1000;
+        $paddingV = 20;
+        $paddingH = 20;
+
+        // Arrow color and size
+        $arrowLineWidth = 10;
+        $arrowWidth = 14;
+        $arrowLength = 10;
+        $arrowFill = '#FFBBBB';
+        $arrowStroke = '#DD2222';
+        $arrowStrokeWidth = 2;
+
+        // Baseline color and size
+        $baseLineStroke = 'black';
+        $baseLineStrokeWidth = 1;
+
+        // About Locus and intergenes
+        $expectedNbLocus = $neighborhood->first()->getNumberNeighbours() * 2 + 1;
+        $expectedNbIntergenes = $expectedNbLocus - 1;
+        $intergeneRatio = 0.5;
+
+        // Define Locus and intergenes length
+        $locusSize = $width / ($expectedNbLocus + ($expectedNbIntergenes * $intergeneRatio));
+        $intergeneSize = $locusSize * $intergeneRatio;
+
+        // Create the SVG
+        $svg = '<svg height="'.($height + $paddingV).'" width="'.($width + $paddingH).'" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">';
+        // Add the plasmid line
+        $svg .= '<line x1="'.($paddingH / 2).'" y1="'.($height / 2).'" x2="'.($width + $paddingH / 2).'" y2="'.($height / 2).'" style="stroke: '.$baseLineStroke.';stroke-width: '.$baseLineStrokeWidth.'" />';
+
+        // Foreach neighbour
+        foreach ($neighborhood as $neighbour) {
+            $neighbourLocus = $neighbour->getNeighbour();
+            $i = $neighbour->getPosition() + $neighbour->getNumberNeighbours();
+
+            $x1 = $i * ($locusSize + $intergeneSize) + $paddingH / 2;
+            $x2 = $x1 + $locusSize + $paddingH / 2;
+
+            // Add a link to the locus
+            $locusUrl = $this->router->generate('locus_view', [
+                'species_slug' => $neighbourLocus->getChromosome()->getStrain()->getSpecies()->getSlug(),
+                'strain_slug' => $neighbourLocus->getChromosome()->getStrain()->getSlug(),
+                'chromosome_slug' => $neighbourLocus->getChromosome()->getSlug(),
+                'locus_name' => $neighbourLocus->getName(),
+            ]);
+            $svg .= '<a xlink:href="'.$locusUrl.'">';
+
+            // If strand sens
+            if (1 === $neighbour->getNeighbour()->getStrand()) {
+                $svg .= '<path
+                    d=" M '.$x1.' '.($height / 2 - $arrowLineWidth / 2).'
+                        L '.($x2 - $arrowLength).' '.($height / 2 - $arrowLineWidth / 2).'
+                        L '.($x2 - $arrowLength).' '.($height / 2 - $arrowLineWidth / 2 - ($arrowWidth - $arrowLineWidth) / 2).'
+                        L '.$x2.' '.($height / 2).'
+                        L '.($x2 - $arrowLength).' '.($height / 2 + $arrowLineWidth / 2 + ($arrowWidth - $arrowLineWidth) / 2).'
+                        L '.($x2 - $arrowLength).' '.($height / 2 + $arrowLineWidth / 2).'
+                        L '.$x1.' '.($height / 2 + $arrowLineWidth / 2).'
+                        Z
+                        "';
+            }
+            // Else, strand anti-sens
+            else {
+                $svg .= '<path
+                    d=" M '.$x2.' '.($height / 2 - $arrowLineWidth / 2).'
+                        L '.($x1 + $arrowLength).' '.($height / 2 - $arrowLineWidth / 2).'
+                        L '.($x1 + $arrowLength).' '.($height / 2 - $arrowLineWidth / 2 - ($arrowWidth - $arrowLineWidth) / 2).'
+                        L '.$x1.' '.($height / 2).'
+                        L '.($x1 + $arrowLength).' '.($height / 2 + $arrowLineWidth / 2 + ($arrowWidth - $arrowLineWidth) / 2).'
+                        L '.($x1 + $arrowLength).' '.($height / 2 + $arrowLineWidth / 2).'
+                        L '.$x2.' '.($height / 2 + $arrowLineWidth / 2).'
+                        Z
+                        "';
+            }
+
+            // Finish arrow
+            $svg .= 'stroke="'.$arrowStroke.'"
+                    stroke-width="'.$arrowStrokeWidth.'"px
+                    fill="'.$arrowFill.'" />';
+
+            // Add name and positions
+            $svg .= '<text x="'.(($x1 + $x2) / 2).'" y="'.($height / 2 + $arrowWidth + 10).'" style="text-anchor: middle;">'.$neighbourLocus->getName().'</text>';
+            $svg .= '<text x="'.(($x1 + $x2) / 2).'" y="'.($height / 2 + $arrowWidth + 30).'" style="text-anchor: middle;">'.$neighbourLocus->getStart().'..'.$neighbourLocus->getEnd().'</text>';
+            $svg .= '</a>';
+        }
+
+        // Close and return the svg
+        $svg .= '</svg>';
+        echo  $svg;
+    }
+
+    public function getName()
+    {
+        return 'neighborhood_extension';
+    }
+}

@@ -164,6 +164,12 @@ class ImportStrainCommand extends ContainerAwareCommand
         // Decode the Json file to do an array
         $data = json_decode($file, true);
 
+        // Verify if a strain with this name already exists
+        if (null !== $this->em->getRepository('AppBundle:Strain')->findOneBy(['name' => $data['name']])) {
+            $io->error('A strain with this name already exists in database !');
+            exit;
+        }
+
         // Create a new strain, and hydrate it
         $strain = new Strain();
         $strain->setName($data['name']);
@@ -284,10 +290,6 @@ class ImportStrainCommand extends ContainerAwareCommand
                 $locus->setNote($locusData['note']);
                 $locus->setStart($locusData['start']);
                 $locus->setEnd($locusData['end']);
-                isset($locusData['previous_locus']) ? $locus->setPreviousLocus($locusData['previous_locus']) : null;
-                isset($locusData['next_locus']) ? $locus->setNextLocus($locusData['next_locus']) : null;
-                isset($locusData['previous_dist']) ? $locus->setPreviousLocusDistance($locusData['previous_dist']) : null;
-                isset($locusData['next_dist']) ? $locus->setNextLocusDistance($locusData['next_dist']) : null;
 
                 foreach ($locusData['feature'] as $featureData) {
                     $feature = new Feature();
@@ -331,6 +333,7 @@ class ImportStrainCommand extends ContainerAwareCommand
         // Now we flush it (this is a transaction)
         $this->em->flush();
 
+        $io->note('You need generate neighborhood with the following command: gryc:strain:neighborhood');
         $io->success('The strain has been successfully imported !');
     }
 }

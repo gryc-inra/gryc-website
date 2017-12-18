@@ -22,34 +22,20 @@ class Locus extends GeneticEntry
     private $features;
 
     /**
-     * @ORM\Column(name="previous_locus", type="string", length=255, nullable=true)
-     */
-    private $previousLocus;
-
-    /**
-     * @ORM\Column(name="next_locus", type="string", length=255, nullable=true)
-     */
-    private $nextLocus;
-
-    /**
-     * @ORM\Column(name="previous_locus_distance", type="integer", nullable=true)
-     */
-    private $previousLocusDistance;
-
-    /**
-     * @ORM\Column(name="next_locus_distance", type="integer", nullable=true)
-     */
-    private $nextLocusDistance;
-
-    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Reference", mappedBy="locus")
      */
     private $references;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Neighbour", mappedBy="locus", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $neighbours;
 
     public function __construct()
     {
         $this->features = new ArrayCollection();
         $this->references = new ArrayCollection();
+        $this->neighbours = new ArrayCollection();
     }
 
     public function setChromosome(Chromosome $chromosome)
@@ -98,54 +84,6 @@ class Locus extends GeneticEntry
         return $nbProduct;
     }
 
-    public function setPreviousLocus($name)
-    {
-        $this->previousLocus = $name;
-
-        return $this;
-    }
-
-    public function getPreviousLocus()
-    {
-        return $this->previousLocus;
-    }
-
-    public function setNextLocus($name)
-    {
-        $this->nextLocus = $name;
-
-        return $this;
-    }
-
-    public function getNextLocus()
-    {
-        return $this->nextLocus;
-    }
-
-    public function setPreviousLocusDistance($distance)
-    {
-        $this->previousLocusDistance = $distance;
-
-        return $this;
-    }
-
-    public function getPreviousLocusDistance()
-    {
-        return $this->previousLocusDistance;
-    }
-
-    public function setNextLocusDistance($distance)
-    {
-        $this->nextLocusDistance = $distance;
-
-        return $this;
-    }
-
-    public function getNextLocusDistance()
-    {
-        return $this->nextLocusDistance;
-    }
-
     public function addReference(Reference $reference)
     {
         if (!$this->references->contains($reference)) {
@@ -167,5 +105,36 @@ class Locus extends GeneticEntry
     public function getReferences()
     {
         return $this->references;
+    }
+
+    public function addNeighbour(Neighbour $neighbour)
+    {
+        if (!$this->neighbours->contains($neighbour)) {
+            $neighbour->setLocus($this);
+            $this->neighbours->add($neighbour);
+        }
+
+        return $this;
+    }
+
+    public function removeNeighbour(Neighbour $neighbour)
+    {
+        if ($this->neighbours->contains($neighbour)) {
+            $this->neighbours->removeElement($neighbour);
+        }
+
+        return $this;
+    }
+
+    public function clearNeighbours()
+    {
+        $this->neighbours->clear();
+
+        return $this;
+    }
+
+    public function getNeighbours()
+    {
+        return $this->neighbours;
     }
 }
