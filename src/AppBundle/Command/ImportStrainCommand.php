@@ -132,7 +132,7 @@ class ImportStrainCommand extends ContainerAwareCommand
         // Verify that the name of the species is an existing species, if yes return the species object
         $question->setValidator(function ($answer) {
             if (!in_array($answer, array_keys($this->speciesList), true)) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     'The species doesn\'t exist !'
                 );
             }
@@ -144,7 +144,7 @@ class ImportStrainCommand extends ContainerAwareCommand
 
         $confirmQuestion = new ConfirmationQuestion('<question>Do you confirm the importation ? (y/N)</question> ', false);
         if (!$this->getHelper('question')->ask($input, $output, $confirmQuestion)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 '<error>Importation aborted !</error>'
             );
         }
@@ -156,7 +156,7 @@ class ImportStrainCommand extends ContainerAwareCommand
 
         // First, control if the files is readable
         if (!$file = file_get_contents($input->getArgument('dir').'/strain.json')) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 '<error>The json file can\'t be read !</error>'
             );
         }
@@ -167,7 +167,8 @@ class ImportStrainCommand extends ContainerAwareCommand
         // Verify if a strain with this name already exists
         if (null !== $this->em->getRepository('AppBundle:Strain')->findOneBy(['name' => $data['name']])) {
             $io->error('A strain with this name already exists in database !');
-            exit;
+
+            throw new RuntimeException();
         }
 
         // Create a new strain, and hydrate it
@@ -187,7 +188,7 @@ class ImportStrainCommand extends ContainerAwareCommand
         }, $blastFilesName);
 
         if (!$this->fs->exists($blastFilesPath)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'At least one of the blastable files is missing.'
             );
         }
@@ -247,7 +248,7 @@ class ImportStrainCommand extends ContainerAwareCommand
                 $input->getArgument('dir').'/data/EMBL_chr/'.$chromosome->getName().'.embl',
                 $input->getArgument('dir').'/data/FASTA_chr/'.$chromosome->getName().'.fasta',
             ])) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     '<error>One of the files for '.$chromosome->getName().' is missing in one of this directories: FASTA_CDS_nuc, FASTA_CDS_pro, EMBL_chr, FASTA_chr.</error>'
                 );
             }

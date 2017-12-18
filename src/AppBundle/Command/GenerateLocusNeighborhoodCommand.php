@@ -6,6 +6,7 @@ use AppBundle\Entity\Neighbour;
 use AppBundle\Entity\Strain;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -75,7 +76,7 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
         }
 
         if (true === $error) {
-            exit;
+            throw new RuntimeException();
         }
 
         foreach ($strainList as $strain) {
@@ -93,7 +94,7 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
         // Verify that the name of the species is an existing species, if yes return the species object
         $question->setValidator(function ($answer) {
             if (!in_array($answer, array_keys($this->strainList), true)) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     'The strain doesn\'t exist !'
                 );
             }
@@ -112,7 +113,7 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
         }
 
         if (true === $error) {
-            exit;
+            throw new RuntimeException();
         }
     }
 
@@ -170,10 +171,10 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
                     }
                 }
             }
-
-            // Flush data
-            $this->entityManager->flush();
         }
+
+        // Flush data
+        $this->entityManager->flush();
 
         $io->success('The strain neighborhood have been successfully generated !');
     }
