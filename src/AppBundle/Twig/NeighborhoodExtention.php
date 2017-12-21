@@ -55,7 +55,7 @@ class NeighborhoodExtention extends \Twig_Extension
         $svg .= '<line x1="'.($paddingH / 2).'" y1="'.($height / 2).'" x2="'.($width + $paddingH / 2).'" y2="'.($height / 2).'" style="stroke: '.$baseLineStroke.';stroke-width: '.$baseLineStrokeWidth.'" />';
 
         // Foreach neighbour
-        foreach ($neighborhood as $neighbour) {
+        foreach ($neighborhood as $key => $neighbour) {
             $neighbourLocus = $neighbour->getNeighbour();
             $i = $neighbour->getPosition() + $neighbour->getNumberNeighbours();
 
@@ -99,7 +99,8 @@ class NeighborhoodExtention extends \Twig_Extension
             }
 
             // Finish arrow
-            $svg .= 'stroke="'.$arrowStroke.'"
+            $svg .= 'data-toggle="tooltip" data-html="true" title="<u>Size:</u> '.($neighbourLocus->getEnd() - $neighbourLocus->getStart()).' bp"
+                    stroke="'.$arrowStroke.'"
                     stroke-width="'.$arrowStrokeWidth.'"px
                     fill="'.$arrowFill.'" />';
 
@@ -107,6 +108,19 @@ class NeighborhoodExtention extends \Twig_Extension
             $svg .= '<text x="'.(($x1 + $x2) / 2).'" y="'.($height / 2 + $arrowWidth + 10).'" style="text-anchor: middle;">'.$neighbourLocus->getName().'</text>';
             $svg .= '<text x="'.(($x1 + $x2) / 2).'" y="'.($height / 2 + $arrowWidth + 30).'" style="text-anchor: middle;">'.$neighbourLocus->getStart().'..'.$neighbourLocus->getEnd().'</text>';
             $svg .= '</a>';
+
+            // Add the inter-gene
+            $nextNeightbour = $neighborhood->get($key + 1);
+            if (null !== $nextNeightbour) {
+                $x1 = $x2;
+                $x2 = $x1 + $intergeneSize - $arrowLength - $arrowStrokeWidth;
+                $width = $x2 - $x1;
+
+                // Define the intergene
+                $intergene = $nextNeightbour->getNeighbour()->getStart() - $neighbour->getNeighbour()->getEnd() - 1;
+
+                $svg .= '<rect x="'.$x1.'" y="'.($height / 2 - $arrowWidth / 2).'" width="'.$width.'" height="'.$arrowWidth.'" fill="transparent" data-toggle="tooltip" data-html="true" title="<u>Intergene:</u> '.$intergene.' bp"/>';
+            }
         }
 
         // Close and return the svg
