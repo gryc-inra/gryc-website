@@ -41,6 +41,9 @@ services:
            - { name: twig.extension }
 
 # Services
+    AppBundle\Service\AlignmentManipulator:
+        public: true
+
     AppBundle\Service\BlastManager:
         public: true
         arguments:

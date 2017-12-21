@@ -292,6 +292,10 @@ ul.fasta-legend li:before {
   width: 20ch;
 }
 
+.alignment .sequence-bases {
+  white-space:pre;
+}
+
 @media screen, print {
   .alignment .identities-100 {
     color: $white !important;

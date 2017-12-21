@@ -4,7 +4,7 @@
 
 {% block metaTags %}
     {{ parent() }}
-    {% if 'pending' == alignment.status or 'running' == alignment.status %}
+    {% if 'pending' == multipleAlignment.status or 'running' == multipleAlignment.status %}
         <meta http-equiv="refresh" content="{{ refreshTime }};">
     {% endif %}
 {% endblock %}
@@ -26,7 +26,7 @@
     <div class="row">
         <div class="col-12">
             <div class="btn-group btn-group-sm d-print-none float-right" role="group">
-                <a class="btn btn-primary" href="{{ path('multiple_alignment_index_prefilled', { 'name': alignment.name }) }}" role="button">
+                <a class="btn btn-primary" href="{{ path('multiple_alignment_index_prefilled', { 'name': multipleAlignment.name }) }}" role="button">
                     <span class="fas fa-redo" aria-hidden="true"></span> Reuse the query
                 </a>
 
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    {% if 'pending' == alignment.status or 'running' == alignment.status %}
+    {% if 'pending' == multipleAlignment.status or 'running' == multipleAlignment.status %}
         <div class="text-center text-primary">
             <span class="fas fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
             <span class="sr-only">Loading...</span>
@@ -47,7 +47,7 @@
                 The page automatically refresh every {{ refreshTime }} seconds.
             </h2>
         </div>
-    {% elseif 'failed' == alignment.status %}
+    {% elseif 'failed' == multipleAlignment.status %}
         <div class="alert alert-danger" role="alert"><span class="fas fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
 
@@ -65,45 +65,45 @@
                     <div class="card-body">
                         <div class="btn-group btn-group-sm mb-3 d-print-none" role="group" aria-label="Coloration selection buttons">
                             <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-secondary dropdown-toggle {{ 'identities' == result.coloration ? 'active' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button type="button" class="btn btn-secondary dropdown-toggle {{ 'identities' == alignment.coloration ? 'active' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Identities
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 1 }) }}">
+                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': multipleAlignment.name, 'coloration': 'identities', 'level': 1 }) }}">
                                         1 level
                                     </a>
-                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 2 }) }}">
+                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': multipleAlignment.name, 'coloration': 'identities', 'level': 2 }) }}">
                                         2 levels
                                     </a>
-                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'identities', 'level': 3 }) }}">
+                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': multipleAlignment.name, 'coloration': 'identities', 'level': 3 }) }}">
                                         3 levels
                                     </a>
                                 </div>
                             </div>
 
-                            {% if 'prot' == result.sequence_type %}
-                                <a class="btn btn-secondary {{ 'similarities' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'similarities' }) }}" role="button">
+                            {% if false == alignment.isNucFasta %}
+                                <a class="btn btn-secondary {{ 'similarities' == alignment.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': multipleAlignment.name, 'coloration': 'similarities' }) }}" role="button">
                                     Similarities
                                 </a>
                             {% endif %}
 
-                            <a class="btn btn-secondary {{ 'none' == result.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': alignment.name, 'coloration': 'none' }) }}" role="button">
+                            <a class="btn btn-secondary {{ 'none' == alignment.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': multipleAlignment.name, 'coloration': 'none' }) }}" role="button">
                                 None
                             </a>
                         </div>
 
-                        {% if 'none' != result.coloration %}
+                        {% if 'none' != alignment.coloration %}
                             <div class="alignment">
-                                {% if 'identities' == result.coloration %}
+                                {% if 'identities' == alignment.coloration %}
                                     Conservation:<br>
                                     <span class="identities-100">&nbsp;&nbsp;&nbsp;</span> = 100%<br>
-                                    {% if '2' == result.identities_coloration_level or '3' == result.identities_coloration_level %}
+                                    {% if '2' == alignment.identities_coloration_level or '3' == alignment.identities_coloration_level %}
                                         <span class="identities-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
                                     {% endif %}
-                                    {% if '3' == result.identities_coloration_level %}
+                                    {% if '3' == alignment.identities_coloration_level %}
                                         <span class="identities-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
                                     {% endif %}
-                                {% elseif 'similarities' == result.coloration %}
+                                {% elseif 'similarities' == alignment.coloration %}
                                     Properties:<br>
                                     {% spaceless %}
                                         <span class="similarities-basic">&nbsp;&nbsp;&nbsp;</span> Basic<br>
@@ -122,77 +122,19 @@
         <div class="card">
             <div class="card-header">Alignment</div>
             <div class="card-body alignment">
-                {% set lastRow = false %}
-                {% for row in result.rows %}
-                    {% if loop.last %}
-                        {% set lastRow = true %}
-                    {% endif %}
-
+                {% for row in alignment.alignmentRows %}
                     <div class="alignment-row">
-                        {% for alignmentRow in row['alignment_rows'] %}
-                            {% if loop.first %}
-                                <div class="sequence-row">
-                                    <span class="sequence-name"></span>
-                                    <span class="sequence-bases">
-                                        {%- set legendKey = 0 -%}
-
-                                        {%- for i in range (1, row.length) -%}
-                                            {# If this is the first legend #}
-                                            {%- if loop.first %}
-                                                {{ row.legend[legendKey] }}
-                                                {%- set nbSpaces = 8 - row.legend[legendKey]|length -%}
-                                                {%- set spacesDisplayed = 0 -%}
-                                                {%- set legendKey = legendKey + 1 -%}
-                                            {# If this is the before last legend (when the last legend is not a multiple of 10) #}
-                                            {%- elseif i is divisible by(10) and lastRow and (row.length - i) < 10 -%}
-                                                {{ row.legend[legendKey] }}
-                                                {%- set nbSpaces = (row.length - i - 1) - row.legend[legendKey]|length -%}
-                                                {%- set spacesDisplayed = 0 -%}
-                                                {%- set legendKey = legendKey + 1 -%}
-                                            {# If this is a multiple of 10 position #}
-                                            {%- elseif i is divisible by(10) -%}
-                                                {{ row.legend[legendKey] }}
-                                                {%- set nbSpaces = 9 - row.legend[legendKey]|length -%}
-                                                {%- set spacesDisplayed = 0 -%}
-                                                {%- set legendKey = legendKey + 1 -%}
-
-                                            {# If this is the last legend (when the last legend is not a multiple of 10) #}
-                                            {%- elseif loop.last -%}
-                                                {{ row.legend[legendKey] }}
-                                            {%- elseif spacesDisplayed <= nbSpaces -%}
-                                                &nbsp;
-                                                {%- set spacesDisplayed = spacesDisplayed + 1 -%}
-                                            {%- endif -%}
-                                        {%- endfor -%}
-                                    </span>
-                                </div>
-
-                                <div class="sequence-row">
-                                    <span class="sequence-name"></span>
-                                    <span class="sequence-bases">
-                                        {%- for i in range (1, row.length) -%}
-                                            {%- if loop.first or loop.last -%}
-                                                |
-                                            {%- elseif i is divisible by(10) -%}
-                                                +
-                                            {%- else -%}
-                                                -
-                                            {%- endif -%}
-                                        {%- endfor -%}
-                                    </span>
-                                </div>
-                            {% endif %}
-
+                        {% for sequenceLine in row %}
                             <div class="sequence-row">
-                                <span class="sequence-name">{{ alignmentRow.name }}</span>
+                                <span class="sequence-name">{{ sequenceLine.name }}</span>
                                 <span class="sequence-bases">
-                                        {%- for base in alignmentRow.bases -%}
-                                            {%- if null != base.style -%}
-                                                <span class="{{ base.style }}">{{ base.letter }}</span>
-                                            {%- else -%}
-                                                <span>{{ base.letter }}</span>
-                                            {%- endif -%}
-                                        {%- endfor -%}
+                                    {%- for base in sequenceLine.sequence -%}
+                                        {%- if null != base.style -%}
+                                            <span class="{{ base.style }}">{{ base.base }}</span>
+                                        {%- else -%}
+                                            <span>{{ base.base }}</span>
+                                        {%- endif -%}
+                                    {%- endfor -%}
                                 </span>
                             </div>
                         {% endfor %}

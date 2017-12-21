@@ -52,14 +52,14 @@ class MultipleAlignmentController extends Controller
     public function viewAction(MultipleAlignment $multipleAlignment, Request $request)
     {
         if ('finished' === $multipleAlignment->getStatus()) {
-            $result = $this->get('AppBundle\Service\MultipleAlignmentManager')->fastaToArray($multipleAlignment->getOutput(), $request->query->get('coloration'), $request->query->get('level'));
+            $alignment = $this->get('AppBundle\Service\AlignmentManipulator')->getGlobalAlignment($multipleAlignment->getOutput(), $request->query->get('coloration'), $request->query->get('level'));
         } else {
-            $result = null;
+            $alignment = null;
         }
 
         return $this->render('tools/multiple_alignment/view.html.twig', [
-            'alignment' => $multipleAlignment,
-            'result' => $result,
+            'multipleAlignment' => $multipleAlignment,
+            'alignment' => $alignment,
         ]);
     }
 }

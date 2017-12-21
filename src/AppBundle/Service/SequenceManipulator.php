@@ -49,20 +49,62 @@ class SequenceManipulator
         return $this->complement($this->reverse($sequence));
     }
 
+    public function isNucleotidicFasta($fasta)
+    {
+        $sequences = $this->fastaToSequencesArray($fasta);
+
+        // Is a fasta of nucleotides or amino acids ?
+        // To define it, count all letters, and do statistics (90% of atcg => nucleotides)
+        // We define it on the first sequence, to avoid bug if user mix amino acids and nucleotides sequences
+        // Get the number of a, t, c, g
+        // The ascii code are:
+        // 65 -> A, 97 -> a
+        // 67 -> C, 99 -> c
+        // 71 -> G, 103 -> g
+        // 84 -> T, 116 -> t
+        // 45 -> -
+        $charsCount = count_chars($sequences[0]['sequence'], 1);
+        // Remove '-' from the array
+        unset($charsCount[45]);
+
+        $nucCount = 0;
+        $totalCount = 0;
+
+        foreach ($charsCount as $i => $val) {
+            // Add the number of chars to the totalCount
+            $totalCount += $val;
+
+            // If the letter is a a, t, c, g, add it to the nucCount
+            if (in_array($i, [65, 97, 67, 99, 71, 103, 84, 116], true)) {
+                $nucCount += $val;
+            }
+        }
+
+        // Then decide, is it nuc or prot ? (if percentage of acgt is > to 90 % => nuc)
+        if (($nucCount / $totalCount) > 0.9) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function fastaToSequencesArray($fasta, $delimiter = "\r\n")
     {
-        // First, separate sequences in a sequences array
+        // Separate different sequences by >
         $sequences = explode('>', $fasta);
-        // We cut on >, then the first line is empty, remove it
+
+        // Remove the first line, always empty
         unset($sequences[0]);
         $sequences = array_values($sequences);
 
-        for ($i = 0; $i <= count($sequences) - 1; ++$i) {
-            // Explode the sequence on newline char, then define the sequence as an array
-            $explodedSequence = explode($delimiter, $sequences[$i]);
-            unset($sequences[$i]);
-            $sequences[$i]['name'] = array_shift($explodedSequence);
-            $sequences[$i]['sequence'] = implode($explodedSequence);
+        // loop on sequences
+        foreach ($sequences as &$sequence) {
+            // Explode the sequence on newline
+            $explodedSequence = explode(PHP_EOL, $sequence);
+
+            $sequence = [];
+            $sequence['name'] = array_shift($explodedSequence);
+            $sequence['sequence'] = implode($explodedSequence);
         }
 
         return $sequences;
