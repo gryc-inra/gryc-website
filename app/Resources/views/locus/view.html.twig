@@ -30,9 +30,11 @@
         </div>
     </div>
 
-    <div class="text-center" style="overflow-x: auto">
-        {{ locus.neighbours|drawNeighborhood }}
-    </div>
+    {% if locus.neighbours is not empty %}
+        <div class="text-center" style="overflow-x: auto">
+            {{ locus.neighbours|drawNeighborhood }}
+        </div>
+    {% endif %}
 
     <h2>Description</h2>
     <p class="text-justify">
