@@ -85,6 +85,7 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
         $confirmQuestion = new ConfirmationQuestion('<question>Do you confirm the neihborhood generation ? (Y/n)</question> ', true);
         if (!$this->getHelper('question')->ask($input, $output, $confirmQuestion)) {
             $io->error('Neighborhood generation aborted !');
+
             throw new RuntimeException();
         }
     }
