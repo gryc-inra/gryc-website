@@ -182,7 +182,7 @@ class ImportStrainCommand extends ContainerAwareCommand
 
         // BLAST FILES
         $blastFilesName = ['cds_nucl.nhr', 'cds_nucl.nin', 'cds_nucl.nsq', 'cds_prot.phr', 'cds_prot.pin', 'cds_prot.psq', 'chr.nhr', 'chr.nin', 'chr.nsq'];
-        $blastFilesFolder = $input->getArgument('dir').'data/BLAST';
+        $blastFilesFolder = $input->getArgument('dir').'/data/BLAST';
         $blastFilesPath = array_map(function (&$file) use ($blastFilesFolder) {
             return $file = $blastFilesFolder.'/'.$file;
         }, $blastFilesName);
@@ -329,12 +329,29 @@ class ImportStrainCommand extends ContainerAwareCommand
         $this->species->addStrain($strain);
 
         // Before flush, inform the user that transaction take few time
-        $io->text('The transaction start, this may take some time (few minutes). Don\'t panic, take advantage there to have a break :)');
+        $io->text('The transaction begins, this may take a few minutes, please wait...');
 
         // Now we flush it (this is a transaction)
         $this->em->flush();
 
-        $io->note('You need generate neighborhood with the following command: gryc:strain:neighborhood');
+        // Add a success message
         $io->success('The strain has been successfully imported !');
+
+        // Call Neighborhood generation command
+        $confirmQuestion = new ConfirmationQuestion('<question>Do you want generate neighborhood with 2 neighbours ( on each side) ? (Y/n)</question> ', true);
+        if (!$this->getHelper('question')->ask($input, $output, $confirmQuestion)) {
+            $io->note('You need generate neighborhood with the following command: bin/console gryc:strain:neighborhood');
+
+            throw new RuntimeException(
+                '<error>Neighborhood generation aborted !</error>'
+            );
+        }
+
+        $neighborhoodGenerationCommand = $this->getApplication()->find('gryc:strain:neighborhood');
+        $neighborhoodGenerationCommandInput = new ArrayInput([
+                'command' => 'gryc:strain:neighborhood',
+                'strainName' => $strain->getName(),
+            ]);
+        $neighborhoodGenerationCommand->run($neighborhoodGenerationCommandInput, $output);
     }
 }

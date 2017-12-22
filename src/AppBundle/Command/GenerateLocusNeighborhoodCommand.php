@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -29,16 +28,6 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
      */
     private $strain;
 
-    /**
-     * @var array
-     */
-    private $strainList;
-
-    /**
-     * @var int
-     */
-    private $nbNeighbours;
-
     public function __construct(EntityManagerInterface $entityManager, Filesystem $filesystem)
     {
         $this->entityManager = $entityManager;
@@ -52,10 +41,17 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
             ->setName('gryc:strain:neighborhood')
             ->setDescription('Generate the locus neighborhood for a specific strain')
             ->addArgument(
+                'strainName',
+                InputArgument::REQUIRED,
+                'The strain name'
+            )
+            ->addArgument(
                 'nbNeighbours',
                 InputArgument::OPTIONAL,
-                'The number of neighbours for each locus on each side (default: '.self::DEFAULT_NB_NEIGHBOURS.')'
-            );
+                'The number of neighbours for each locus on each side',
+                self::DEFAULT_NB_NEIGHBOURS
+            )
+        ;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -63,56 +59,32 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
         $io = new SymfonyStyle($input, $output);
         $error = false;
 
-        // If the user don't set a number of neighbours, use the default value
-        $this->nbNeighbours = $input->getArgument('nbNeighbours');
-        if (null === $this->nbNeighbours && !is_int($this->nbNeighbours) && !$this->nbNeighbours > 0) {
-            $this->nbNeighbours = self::DEFAULT_NB_NEIGHBOURS;
+        // Retrieve the strain
+        if (null === $this->strain = $this->entityManager->getRepository('AppBundle:Strain')->findOneBy(['name' => $input->getArgument('strainName')])) {
+            $error = true;
+            $io->error('This strain doesn\'t exists !');
         }
 
-        $strainList = $this->entityManager->getRepository('AppBundle:Strain')->findAll();
-        if (empty($strainList)) {
-            $io->error('No strains in the database.');
+        // Verify the number of neighbours
+        if (!is_int($input->getArgument('nbNeighbours')) && !$input->getArgument('nbNeighbours') > 0) {
             $error = true;
+            $io->error('The number of neighbours must be an integer and > to 0 !');
         }
 
         if (true === $error) {
             throw new RuntimeException();
-        }
-
-        foreach ($strainList as $strain) {
-            $this->strainList[$strain->getName()] = $strain;
         }
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $error = false;
 
-        $question = new Question('Please enter the name of the strain: ');
-        $question->setAutocompleterValues(array_keys($this->strainList));
-        // Verify that the name of the species is an existing species, if yes return the species object
-        $question->setValidator(function ($answer) {
-            if (!in_array($answer, array_keys($this->strainList), true)) {
-                throw new RuntimeException(
-                    'The strain doesn\'t exist !'
-                );
-            }
+        $io->note('The neighborhood will be generated with '.$input->getArgument('nbNeighbours').' neighbour(s) on each side.');
 
-            return $this->strainList[$answer];
-        });
-
-        $this->strain = $this->getHelper('question')->ask($input, $output, $question);
-
-        $io->note('The neighborhood will be generated with '.$this->nbNeighbours.' neighbour(s) on each side.');
-
-        $confirmQuestion = new ConfirmationQuestion('<question>Do you confirm the neihborhood generation ? (y/N)</question> ', false);
+        $confirmQuestion = new ConfirmationQuestion('<question>Do you confirm the neihborhood generation ? (Y/n)</question> ', true);
         if (!$this->getHelper('question')->ask($input, $output, $confirmQuestion)) {
             $io->error('Neighborhood generation aborted !');
-            $error = true;
-        }
-
-        if (true === $error) {
             throw new RuntimeException();
         }
     }
@@ -121,7 +93,7 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        // Get the chromosomes of the strain
+        // Get stain's chromosomes
         $chromosomes = $this->strain->getChromosomes();
 
         // For each chromosome
@@ -143,19 +115,19 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
                 $neighbour = new Neighbour();
                 $neighbour->setPosition(0);
                 $neighbour->setNeighbour($locusList[$i]);
-                $neighbour->setNumberNeighbours($this->nbNeighbours);
+                $neighbour->setNumberNeighbours($input->getArgument('nbNeighbours'));
 
                 $locusList[$i]->addNeighbour($neighbour);
 
                 // For each neighbour
-                for ($j = 1; $j <= $this->nbNeighbours; ++$j) {
+                for ($j = 1; $j <= $input->getArgument('nbNeighbours'); ++$j) {
                     // Create 2 neighbours: the downstream and upstream
                     // If the downstream neighbour exists
                     if ($i - $j >= 0) {
                         $neighbour = new Neighbour();
                         $neighbour->setPosition(-$j);
                         $neighbour->setNeighbour($locusList[$i - $j]);
-                        $neighbour->setNumberNeighbours($this->nbNeighbours);
+                        $neighbour->setNumberNeighbours($input->getArgument('nbNeighbours'));
 
                         $locusList[$i]->addNeighbour($neighbour);
                     }
@@ -165,13 +137,16 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
                         $neighbour = new Neighbour();
                         $neighbour->setPosition($j);
                         $neighbour->setNeighbour($locusList[$i + $j]);
-                        $neighbour->setNumberNeighbours($this->nbNeighbours);
+                        $neighbour->setNumberNeighbours($input->getArgument('nbNeighbours'));
 
                         $locusList[$i]->addNeighbour($neighbour);
                     }
                 }
             }
         }
+
+        // Before flush, inform the user that transaction take few time
+        $io->text('The transaction begins, this may take a few minutes, please wait...');
 
         // Flush data
         $this->entityManager->flush();
