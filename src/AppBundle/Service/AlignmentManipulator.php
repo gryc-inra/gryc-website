@@ -9,13 +9,6 @@ class AlignmentManipulator
     const COLORATION_TYPES = ['identities', 'similarities', 'none'];
     const IDENTITIE_LEVELS = [1, 2, 3];
 
-    private $sequenceManipulator;
-
-    public function __construct(SequenceManipulator $sequenceManipulator)
-    {
-        $this->sequenceManipulator = $sequenceManipulator;
-    }
-
     public function getAlignment($fasta)
     {
         // Transform fasta un an array of sequences
@@ -222,7 +215,6 @@ class AlignmentManipulator
             if (null === $identitiesColorationLevel || !in_array($identitiesColorationLevel, self::IDENTITIE_LEVELS, true)) {
                 $identitiesColorationLevel = 3;
             }
-            $coloredAlignment['colorationLevel'] = $identitiesColorationLevel;
 
             // Define the conservation of each base
             foreach ($alignment['alignmentRows'] as $rowKey => &$row) {

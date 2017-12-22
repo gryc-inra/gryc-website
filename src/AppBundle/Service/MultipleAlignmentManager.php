@@ -12,15 +12,11 @@ class MultipleAlignmentManager
 {
     private $em;
     private $session;
-    private $sequenceManipulator;
-    private $alignmentManipulator;
 
-    public function __construct(EntityManagerInterface $em, SessionInterface $session, SequenceManipulator $sequenceManipulator, AlignmentManipulator $alignmentManipulator)
+    public function __construct(EntityManagerInterface $em, SessionInterface $session)
     {
         $this->em = $em;
         $this->session = $session;
-        $this->sequenceManipulator = $sequenceManipulator;
-        $this->alignmentManipulator = $alignmentManipulator;
     }
 
     public function initAlignment(MultipleAlignment $multipleAlignment = null)

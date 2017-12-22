@@ -88,7 +88,7 @@ class SequenceManipulator
         return false;
     }
 
-    public function fastaToSequencesArray($fasta, $delimiter = "\r\n")
+    public function fastaToSequencesArray($fasta)
     {
         // Separate different sequences by >
         $sequences = explode('>', $fasta);

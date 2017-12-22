@@ -121,7 +121,8 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
                 $locusList[$i]->addNeighbour($neighbour);
 
                 // For each neighbour
-                for ($j = 1; $j <= $input->getArgument('nbNeighbours'); ++$j) {
+                $nbNeighbours = $input->getArgument('nbNeighbours');
+                for ($j = 1; $j <= $nbNeighbours; ++$j) {
                     // Create 2 neighbours: the downstream and upstream
                     // If the downstream neighbour exists
                     if ($i - $j >= 0) {
