@@ -120,21 +120,21 @@
                 <hr class="d-md-none">
 
                 <div class="col-lg-3 d-print-none">
-                    <p>Legend:</p>
+                    Legend:
                     <ul class="fasta-legend">
-                        <li class="stream">Upstream/Downstream</li>
-                        <li class="utr">UTR</li>
-                        <li class="exon">Exon</li>
-                        <li class="intron">Intron</li>
+                        <li class="stream"><span class="fas fa-square"></span> Upstream/Downstream</li>
+                        <li class="utr"><span class="fas fa-square"></span> UTR</li>
+                        <li class="exon"><span class="fas fa-square"></span> Exon</li>
+                        <li class="intron"><span class="fas fa-square"></span> Intron</li>
                     </ul>
 
                     <hr>
 
                     {{ form_start(forms[feature.name]) }}
-                    {{ form_rest(forms[feature.name]) }}
+                        {{ form_rest(forms[feature.name]) }}
 
-                    <button type="reset" class="btn btn-secondary" value="Reset">Reset</button>
-                    <button type="submit" class="btn btn-primary">Valid</button>
+                        <button type="reset" class="btn btn-secondary" value="Reset">Reset</button>
+                        <button type="submit" class="btn btn-primary">Valid</button>
                     {{ form_end(forms[feature.name]) }}
                 </div>
             </div>
