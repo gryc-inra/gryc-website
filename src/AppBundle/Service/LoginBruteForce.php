@@ -2,7 +2,7 @@
 
 namespace AppBundle\Service;
 
-use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -15,18 +15,18 @@ class LoginBruteForce
     const MAX_USERNAME_ATTEMPTS = 5;
     const TIME_RANGE = 10; // In minutes
 
-    private $cacheAdapter;
+    private $cache;
     private $requestStack;
 
-    public function __construct(CacheItemPoolInterface $cacheAdapter, RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack)
     {
-        $this->cacheAdapter = $cacheAdapter;
+        $this->cache = new ApcuAdapter();
         $this->requestStack = $requestStack;
     }
 
     private function getFailedLogins()
     {
-        $failedLoginsItem = $this->cacheAdapter->getItem('failedLogins');
+        $failedLoginsItem = $this->cache->getItem('failedLogins');
         $failedLogins = $failedLoginsItem->get();
 
         // If the failedLogins is not an array, contruct it
@@ -42,9 +42,9 @@ class LoginBruteForce
 
     private function saveFailedLogins($failedLogins)
     {
-        $failedLoginsItem = $this->cacheAdapter->getItem('failedLogins');
+        $failedLoginsItem = $this->cache->getItem('failedLogins');
         $failedLoginsItem->set($failedLogins);
-        $this->cacheAdapter->save($failedLoginsItem);
+        $this->cache->save($failedLoginsItem);
     }
 
     private function cleanFailedLogins($failedLogins, $save = true)
