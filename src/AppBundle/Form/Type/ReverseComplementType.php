@@ -34,6 +34,9 @@ class ReverseComplementType extends AbstractType
                     'Complement' => 'complement',
                 ],
                 'expanded' => true,
+                'label_attr' => [
+                    'class' => 'radio-custom',
+                ],
                 'data' => 'reverse-complement',
             ])
         ;

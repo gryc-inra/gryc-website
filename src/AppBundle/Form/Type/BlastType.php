@@ -51,6 +51,9 @@ class BlastType extends AbstractType
                     'No' => false,
                 ],
                 'expanded' => true,
+                'label_attr' => [
+                    'class' => 'radio-custom',
+                ],
             ])
             ->add('gapped', ChoiceType::class, [
                 'choices' => [
@@ -58,6 +61,9 @@ class BlastType extends AbstractType
                     'No' => false,
                 ],
                 'expanded' => true,
+                'label_attr' => [
+                    'class' => 'radio-custom',
+                ],
             ])
             ->add('evalue', NumberType::class, [
                 'constraints' => [

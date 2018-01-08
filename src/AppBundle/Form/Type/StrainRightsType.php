@@ -27,6 +27,9 @@ class StrainRightsType extends AbstractType
                 'by_reference' => false,
                 'expanded' => true,
                 'multiple' => true,
+                'label_attr' => [
+                    'class' => 'checkbox-custom',
+                ],
                 'required' => false,
             ]);
     }

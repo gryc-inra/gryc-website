@@ -78,6 +78,9 @@ class StrainsFilteredType extends AbstractType
                 },
                 'multiple' => true,
                 'expanded' => true,
+                'label_attr' => [
+                    'class' => 'checkbox-custom',
+                ],
                 'by_reference' => false,
                 'constraints' => [
                     new Count([

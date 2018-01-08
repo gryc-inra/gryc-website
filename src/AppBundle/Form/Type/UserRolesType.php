@@ -20,6 +20,9 @@ class UserRolesType extends AbstractType
                 ],
                 'multiple' => true,
                 'expanded' => true,
+                'label_attr' => [
+                    'class' => 'checkbox-custom',
+                ],
             ])
         ;
     }
