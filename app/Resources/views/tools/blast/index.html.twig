@@ -18,29 +18,25 @@
 
     <div class="row">
         <div class="col-lg-8">
-            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            {{ form_start(form) }}
 
                 {% form_theme form 'form_div_layout.html.twig' %}
 
-                <fieldset class="form-group">
-                    <div id="{{ form.tool.vars.id }}" class="btn-group" data-toggle="buttons">
-                        {% for tool in form.tool %}
-                            <label class="btn btn-outline-primary {{- tool.vars.checked ? ' active'  }}">
-                                {{ form_widget(tool) }} {{ tool.vars.label }}
-                            </label>
-                        {% endfor %}
-                    </div>
-                </fieldset>
+                <div id="{{ form.tool.vars.id }}" class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+                    {% for tool in form.tool %}
+                        <label class="btn btn-outline-primary{{- tool.vars.checked ? ' active'  }}">
+                            {{ form_widget(tool, { 'attr': { 'autocomplete': 'off' } }) }} {{ tool.vars.label }}
+                        </label>
+                    {% endfor %}
+                </div>
 
-                <fieldset class="form-group">
-                    <div id="{{ form.database.vars.id }}" class="btn-group" data-toggle="buttons">
-                        {% for database in form.database %}
-                            <label class="btn btn-outline-primary {{- database.vars.checked or database.vars.attr.checked is defined ? ' active' }} {{- database.vars.attr.disabled is defined ? ' disabled' }}">
-                                {{ form_widget(database) }} {{ database.vars.label }}
-                            </label>
-                        {% endfor %}
-                    </div>
-                </fieldset>
+                <div id="{{ form.database.vars.id }}" class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+                    {% for database in form.database %}
+                        <label class="btn btn-outline-primary{{- database.vars.checked or database.vars.attr.checked is defined ? ' active' }} {{- database.vars.attr.disabled is defined ? ' disabled' }}">
+                            {{ form_widget(database) }} {{ database.vars.label }}
+                        </label>
+                    {% endfor %}
+                </div>
 
             {% form_theme form 'form/fields.html.twig' %}
 
