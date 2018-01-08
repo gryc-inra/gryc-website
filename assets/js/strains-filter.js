@@ -1,7 +1,7 @@
 function strainsFilter(strainsFilterSelect, strainsCheckBoxesContainer) {
 
     // Define var that contains fields
-    var strainsCheckboxes = strainsCheckBoxesContainer.find( 'label' );
+    var strainsCheckboxes = strainsCheckBoxesContainer.find( 'div.custom-control.custom-checkbox' );
 
     //********************************//
     //  Add the links (check/uncheck) //
