@@ -118,8 +118,9 @@ class NeighborhoodExtention extends \Twig_Extension
 
                 // Define the intergene
                 $intergene = $nextNeightbour->getNeighbour()->getStart() - $neighbour->getNeighbour()->getEnd() - 1;
+                $title = $intergene < 0 ? '<u>Intergene:</u> overlap ('.abs($intergene).' bp)' : '<u>Intergene:</u> '.$intergene.' bp';
 
-                $svg .= '<rect x="'.$x1.'" y="'.($height / 2 - $arrowWidth / 2).'" width="'.$width.'" height="'.$arrowWidth.'" fill="transparent" data-toggle="tooltip" data-html="true" title="<u>Intergene:</u> '.$intergene.' bp"/>';
+                $svg .= '<rect x="'.$x1.'" y="'.($height / 2 - $arrowWidth / 2).'" width="'.$width.'" height="'.$arrowWidth.'" fill="transparent" data-toggle="tooltip" data-html="true" title="'.$title.'"/>';
             }
         }
 
