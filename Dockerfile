@@ -29,8 +29,8 @@ RUN curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/5
 RUN docker-php-source extract && \
     docker-php-ext-configure intl --with-icu-dir=/usr/local && \
     docker-php-ext-install intl pdo pdo_mysql zip bcmath && \
-    pecl install apcu-5.1.8 redis-3.1.5 && \
-    docker-php-ext-enable opcache apcu redis && \
+    pecl install apcu-5.1.8 && \
+    docker-php-ext-enable opcache apcu && \
     docker-php-source delete
 
 # Install Composer

@@ -32,7 +32,8 @@ framework:
     default_locale:  '%locale%'
     trusted_hosts:   ~
     session:
-        handler_id: snc_redis.session.handler
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
     fragments: ~
     http_method_override: true
     assets:
@@ -130,13 +131,3 @@ old_sound_rabbit_mq:
             callback:         AppBundle\Consumer\MultipleAlignmentConsumer
             qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
             enable_logger: true
-
-# Redis
-snc_redis:
-    clients:
-        default:
-            type: phpredis
-            alias: default
-            dsn: redis://redis
-    session:
-        client: default
