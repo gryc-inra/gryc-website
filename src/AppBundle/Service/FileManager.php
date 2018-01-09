@@ -50,9 +50,9 @@ class FileManager
 
         // 2 possibilities for FileName
         // 1. common files, just a token and the extension
-        // 2. blastFiles, need to keep the old name as suffix
+        // 2. blastFiles, need to keep the old name as suffix (replace spaces by _)
         if ($file instanceof BlastFile) {
-            $fileName = mb_strtolower($file->getStrain()->getName()).'_'.$httpFile->getFilename();
+            $fileName = mb_strtolower(str_replace(' ', '_', $file->getStrain()->getName())).'_'.$httpFile->getFilename();
         } else {
             $fileName = $this->tokenGenerator->generateToken().'.'.$httpFile->getExtension();
         }

@@ -112,7 +112,7 @@ class BlastManager
         // Get the blastable files
         $db = '';
         foreach ($blast->getStrains() as $strain) {
-            $db .= ' '.$this->projectDir.'/files/blast/'.mb_strtolower($strain->getName()).'_'.$blast->getDatabase();
+            $db .= ' '.$this->projectDir.'/files/blast/'.mb_strtolower(str_replace(' ', '_', $strain->getName())).'_'.$blast->getDatabase();
         }
 
         // Create a tempFile with the query
