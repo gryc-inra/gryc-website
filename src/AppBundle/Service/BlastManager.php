@@ -144,6 +144,7 @@ class BlastManager
             $blast->setOutput($process->getOutput());
         }
 
+        $blast->setCommandLine($process->getCommandLine());
         $blast->setExitCode($process->getExitCode());
 
         // Flush the database

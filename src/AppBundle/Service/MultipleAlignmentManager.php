@@ -80,6 +80,7 @@ class MultipleAlignmentManager
             $multipleAlignment->setOutput($process->getOutput());
         }
 
+        $multipleAlignment->setCommandLine($process->getCommandLine());
         $multipleAlignment->setExitCode($process->getExitCode());
 
         $this->em->merge($multipleAlignment);

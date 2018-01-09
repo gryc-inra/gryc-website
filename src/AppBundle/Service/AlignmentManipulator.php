@@ -9,6 +9,13 @@ class AlignmentManipulator
     const COLORATION_TYPES = ['identities', 'similarities', 'none'];
     const IDENTITIE_LEVELS = [1, 2, 3];
 
+    private $sequenceManipulator;
+
+    public function __construct(SequenceManipulator $sequenceManipulator)
+    {
+        $this->sequenceManipulator = $sequenceManipulator;
+    }
+
     public function getAlignment($fasta)
     {
         // Transform fasta un an array of sequences

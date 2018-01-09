@@ -29,6 +29,13 @@ class QueuingEntitySuperclass
     /**
      * @var string
      *
+     * @ORM\Column(name="command_line", type="text", nullable=true)
+     */
+    private $commandLine;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="output", type="text", nullable=true)
      */
     private $output;
@@ -73,6 +80,7 @@ class QueuingEntitySuperclass
     {
         $this->name = null;
         $this->status = 'pending';
+        $this->commandLine = null;
         $this->output = null;
         $this->errorOutput = null;
         $this->exitCode = null;
@@ -102,6 +110,18 @@ class QueuingEntitySuperclass
     public function getStatus()
     {
         return $this->status;
+    }
+
+    public function setCommandLine($commandLine)
+    {
+        $this->commandLine = $commandLine;
+
+        return $this;
+    }
+
+    public function getCommandLine()
+    {
+        return $this->commandLine;
     }
 
     public function setOutput($output)
