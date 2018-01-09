@@ -54,8 +54,9 @@ class FastaGenerator
                     'name' => $locus->getName(),
                     'sequence' => $locus->getSequence(true, true, $upstream, $downstream, false),
                 ];
+            }
             // Else, do a while on Features
-            } else {
+            else {
                 foreach ($locus->getFeatures() as $feature) {
                     // If the user want feature, compute it
                     if ('feature' === $feature) {
@@ -63,8 +64,9 @@ class FastaGenerator
                             'name' => $feature->getName(),
                             'sequence' => $feature->getSequence(false, !$intronSplicing, $upstream, $downstream, false),
                         ];
+                    }
                     // Else, do a while on Products and compute it
-                    } else {
+                    else {
                         foreach ($feature->getProductsFeatures() as $product) {
                             $fastaData[] = [
                                 'name' => $product->getName(),
