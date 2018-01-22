@@ -82,7 +82,7 @@ class NeighborhoodExtention extends \Twig_Extension
                 'species_slug' => $neighbourLocus->getChromosome()->getStrain()->getSpecies()->getSlug(),
                 'strain_slug' => $neighbourLocus->getChromosome()->getStrain()->getSlug(),
                 'chromosome_slug' => $neighbourLocus->getChromosome()->getSlug(),
-                'locus_name' => $neighbourLocus->getName(),
+                'locus_slug' => $neighbourLocus->getSlug(),
             ]);
             $svg .= '<a xlink:href="'.$locusUrl.'">';
 

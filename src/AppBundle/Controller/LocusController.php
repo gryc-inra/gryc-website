@@ -28,8 +28,8 @@ use Symfony\Component\HttpFoundation\Request;
 class LocusController extends Controller
 {
     /**
-     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_name}", name="locus_view")
-     * @Entity("locus", expr="repository.findLocusWithAllData(locus_name)")
+     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_slug}", name="locus_view")
+     * @Entity("locus", expr="repository.findLocusWithAllData(locus_slug)")
      * @Security("is_granted('VIEW', locus.getChromosome().getStrain())")
      */
     public function viewAction(Locus $locus, Request $request)

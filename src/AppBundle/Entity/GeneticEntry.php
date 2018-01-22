@@ -19,6 +19,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Service\SequenceManipulator;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * GeneticEntry.
@@ -56,6 +57,14 @@ class GeneticEntry
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
+
+    /**
+     * A slug, for url.
+     *
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
 
     /**
      * @var \stdClass
@@ -186,6 +195,30 @@ class GeneticEntry
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set slug.
+     *
+     * @param string $slug
+     *
+     * @return $this
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**

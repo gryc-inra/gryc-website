@@ -55,7 +55,7 @@
                         </tr>
                         {% for locus in cartElements if cartElements is not empty %}
                             <tr>
-                                <td><a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_name': locus.name }) }}">{{ locus.name }}</a></td>
+                                <td><a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_slug': locus.slug }) }}">{{ locus.name }}</a></td>
                                 <td>{{ locus.chromosome.strain.species.scientificName }}</td>
                                 <td>{{ locus.chromosome.strain.name }}</td>
                                 <td>{{ locus.chromosome.name }}</td>
