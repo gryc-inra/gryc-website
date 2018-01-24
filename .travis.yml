@@ -19,10 +19,18 @@ matrix:
     - php: nightly
 
 before_install:
+  # Manually compile the libsodium library
+  - git clone -b stable https://github.com/jedisct1/libsodium.git
+  - cd libsodium && sudo ./configure && sudo make check && sudo make install && cd ..
   - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
   - composer self-update
 
 install:
+  # Manually install libsodium, because the TravicCi image doesn't provide PHP7.2 with libsodium
+  - pecl install libsodium redis
+  - echo "extension=sodium.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension=redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # Continue like before
   - composer install
   - ./vendor/bin/simple-phpunit install
 
