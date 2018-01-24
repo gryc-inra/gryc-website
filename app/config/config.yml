@@ -131,3 +131,11 @@ old_sound_rabbit_mq:
             callback:         AppBundle\Consumer\MultipleAlignmentConsumer
             qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
             enable_logger: true
+
+# Redis
+snc_redis:
+    clients:
+        default:
+            type: phpredis
+            alias: default
+            dsn: redis://redis

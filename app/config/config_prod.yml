@@ -7,6 +7,26 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+# Redis
+snc_redis:
+    clients:
+        doctrine:
+            type: phpredis
+            alias: doctrine
+            dsn: redis://redis/1
+            logging: true
+    doctrine:
+        metadata_cache:
+            client: doctrine
+            entity_manager: default
+            document_manager: default
+        result_cache:
+            client: doctrine
+            entity_manager: [default]
+        query_cache:
+            client: doctrine
+            entity_manager: default
+
 monolog:
     handlers:
         main:
