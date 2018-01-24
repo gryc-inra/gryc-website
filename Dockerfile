@@ -2,7 +2,7 @@ FROM php:7.2.0-fpm
 
 # To avoid a bug with the intl extension compilation
 # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
-ENV MAFFT_VERSION=7.310 \
+ENV MAFFT_VERSION=7.313 \
     BLAST_VERSION=2.7.1 \
     PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11" \
     SYMFONY_ENV="prod" \
