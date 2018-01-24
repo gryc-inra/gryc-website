@@ -115,7 +115,7 @@ class SequenceManipulator
         // loop on sequences
         foreach ($sequences as &$sequence) {
             // Explode the sequence on newline
-            $explodedSequence = preg_split("/\\r\\n|\\r|\\n/", $sequence);
+            $explodedSequence = preg_split('/\\r\\n|\\r|\\n/', $sequence);
 
             $sequence = [];
             $sequence['name'] = array_shift($explodedSequence);
@@ -130,7 +130,7 @@ class SequenceManipulator
         $fasta = '';
         $nbSequences = count($sequencesArray);
 
-        for ($i=0; $i<$nbSequences; ++$i) {
+        for ($i = 0; $i < $nbSequences; ++$i) {
             // Add the sequence name
             $fasta .= '>'.$sequencesArray[$i]['name']."\n";
 
