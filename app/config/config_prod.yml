@@ -10,21 +10,21 @@ imports:
 # Redis
 snc_redis:
     clients:
-        doctrine:
+        cache:
             type: phpredis
-            alias: doctrine
+            alias: cache
             dsn: redis://redis/1
             logging: true
     doctrine:
         metadata_cache:
-            client: doctrine
+            client: cache
             entity_manager: default
             document_manager: default
         result_cache:
-            client: doctrine
+            client: cache
             entity_manager: [default]
         query_cache:
-            client: doctrine
+            client: cache
             entity_manager: default
 
 monolog:
