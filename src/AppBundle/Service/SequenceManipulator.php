@@ -115,7 +115,7 @@ class SequenceManipulator
         // loop on sequences
         foreach ($sequences as &$sequence) {
             // Explode the sequence on newline
-            $explodedSequence = explode(PHP_EOL, $sequence);
+            $explodedSequence = preg_split("/\\r\\n|\\r|\\n/", $sequence);
 
             $sequence = [];
             $sequence['name'] = array_shift($explodedSequence);
@@ -127,21 +127,24 @@ class SequenceManipulator
 
     public function arrayToFasta($sequencesArray)
     {
-        $i = 0;
         $fasta = '';
-        foreach ($sequencesArray as $sequence) {
-            if (0 !== $i) {
-                $fasta .= "\n\n";
-            }
+        $nbSequences = count($sequencesArray);
 
-            $fasta .= '>'.$sequence['name']."\n";
+        for ($i=0; $i<$nbSequences; ++$i) {
+            // Add the sequence name
+            $fasta .= '>'.$sequencesArray[$i]['name']."\n";
 
-            $sequence60 = str_split($sequence['sequence'], 60);
+            // Split the sequence in part of 60 nucs
+            $sequence60 = str_split($sequencesArray[$i]['sequence'], 60);
+
             foreach ($sequence60 as $seq60) {
                 $fasta .= $seq60."\n";
             }
 
-            ++$i;
+            // If it's not the last, add a new line
+            if ($i < $nbSequences - 1) {
+                $fasta .= "\n";
+            }
         }
 
         return $fasta;
