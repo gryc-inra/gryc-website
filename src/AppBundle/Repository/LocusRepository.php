@@ -52,8 +52,6 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('features')
             ->innerJoin('features.productsFeatures', 'products_features')
                 ->addSelect('products_features')
-            ->innerJoin('chromosome.dnaSequence', 'dna_sequence')
-                ->addSelect('dna_sequence')
             ->leftJoin('locus.references', 'locus_references')
                 ->addSelect('locus_references')
             ->leftJoin('strain.references', 'strain_references')
