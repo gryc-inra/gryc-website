@@ -93,6 +93,10 @@ class BlastManager
     {
         $blast = $this->em->getRepository('AppBundle:Blast')->findToBlast($blastId);
 
+        // Set status on running
+        $blast->setStatus('running');
+        $this->em->flush();
+
         $tool = $blast->getTool();
 
         // Define blast options

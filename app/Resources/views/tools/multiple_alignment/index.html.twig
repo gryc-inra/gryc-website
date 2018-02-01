@@ -68,7 +68,7 @@
                                     {{ alignment.created|date('Y/m/d H:i:s') }}
                                 </a> -
                                 {% if 'pending' == alignment.status %}
-                                    <span class="text-warning">Pending</span>
+                                    <span class="text-info">Pending</span>
                                 {% elseif 'running' == alignment.status %}
                                     <span class="text-info">Running</span>
                                 {% elseif 'failed' == alignment.status %}

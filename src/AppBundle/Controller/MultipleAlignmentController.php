@@ -49,10 +49,17 @@ class MultipleAlignmentController extends Controller
             $em->persist($multipleAlignment);
             $em->flush();
 
-            // Redirect the user on the result page
-            return $this->redirectToRoute('multiple_alignment_view', [
-                'name' => $multipleAlignment->getName(),
-            ]);
+            // If flush worked
+            if (null !== $multipleAlignmentId = $multipleAlignment->getId()) {
+                $this->get('old_sound_rabbit_mq.multiple_alignment_producer')->publish($multipleAlignmentId);
+                $this->get('session')->set('last_multiple_alignment', $multipleAlignmentId);
+
+                return $this->redirectToRoute('multiple_alignment_view', [
+                    'name' => $multipleAlignment->getName(),
+                ]);
+            }
+
+            $this->addFlash('error', 'An error occured!');
         }
 
         return $this->render('tools/multiple_alignment/index.html.twig', [

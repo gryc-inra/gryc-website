@@ -36,6 +36,6 @@ class BlastConsumer implements ConsumerInterface
         echo date('d/m/Y H:i:s'), ' [x] Received ', $msg->body, "\n";
         // Execute the blast
         $this->blastManager->blast($msg->body);
-        echo date('d/m/Y H:i:s'),' [x] Done ', "\n";
+        echo date('d/m/Y H:i:s'),' [x] Done ', $msg->body, "\n";
     }
 }

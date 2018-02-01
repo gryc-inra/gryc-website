@@ -77,8 +77,6 @@ services:
 
 # Listeners
     AppBundle\EventListener\BlastSubscriber:
-        arguments:
-            $producer: '@old_sound_rabbit_mq.blast_producer'
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 
@@ -95,8 +93,6 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
 
     AppBundle\EventListener\MultipleAlignmentSubscriber:
-        arguments:
-            $producer: '@old_sound_rabbit_mq.multiple_alignment_producer'
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 

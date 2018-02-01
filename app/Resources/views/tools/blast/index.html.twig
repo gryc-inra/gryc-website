@@ -106,6 +106,8 @@
                                     {{ blast.created|date('Y/m/d H:i:s') }}
                                 </a> -
                                 {% if 'pending' == blast.status %}
+                                    <span class="text-info">Pending</span>
+                                {% elseif 'running' == blast.status %}
                                     <span class="text-info">Running</span>
                                 {% elseif 'failed' == blast.status %}
                                     <span class="text-danger">Error</span>

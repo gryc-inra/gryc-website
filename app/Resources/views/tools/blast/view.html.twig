@@ -20,7 +20,7 @@
 
 {% block metaTags %}
     {{ parent() }}
-    {% if 'pending' == blast.status %}
+    {% if 'pending' == blast.status or 'running' == blast.status %}
         <meta http-equiv="refresh" content="{{ refreshTime }};">
     {% endif %}
 {% endblock %}
@@ -54,6 +54,16 @@
     </div>
 
     {% if 'pending' == blast.status %}
+        <div class="text-center text-primary">
+            <span class="fas fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
+            <span class="sr-only">Loading...</span>
+
+            <h2>
+                Your BLAST is pending...<br>
+                The page automatically refresh every {{ refreshTime }} seconds.
+            </h2>
+        </div>
+    {% elseif 'running' == blast.status %}
         <div class="text-center text-primary">
             <span class="fas fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
             <span class="sr-only">Loading...</span>

@@ -113,6 +113,7 @@ class Blast extends QueuingEntitySuperclass
     public function __construct()
     {
         parent::__construct();
+
         $this->strains = new ArrayCollection();
         $this->tool = self::DEFAULT_TOOL;
         $this->filter = false;

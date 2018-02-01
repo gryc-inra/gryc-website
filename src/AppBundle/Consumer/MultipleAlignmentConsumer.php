@@ -36,6 +36,6 @@ class MultipleAlignmentConsumer implements ConsumerInterface
         echo date('d/m/Y H:i:s'), ' [x] Received ', $msg->body, "\n";
         // Execute the multiple alignment
         $this->multipleAlignmentManager->align($msg->body);
-        echo date('d/m/Y H:i:s'),' [x] Done ', "\n";
+        echo date('d/m/Y H:i:s'),' [x] Done ', $msg->body, "\n";
     }
 }

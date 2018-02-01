@@ -49,10 +49,17 @@ class BlastController extends Controller
             $em->persist($blast);
             $em->flush();
 
-            // Redirect the user on the result page
-            return $this->redirectToRoute('blast_view', [
-                'name' => $blast->getName(),
-            ]);
+            // If flush worked
+            if (null !== $blastId = $blast->getId()) {
+                $this->get('old_sound_rabbit_mq.blast_producer')->publish($blastId);
+                $this->get('session')->set('last_blast', $blastId);
+
+                return $this->redirectToRoute('blast_view', [
+                    'name' => $blast->getName(),
+                ]);
+            }
+
+            $this->addFlash('error', 'An error occured!');
         }
 
         return $this->render('tools/blast/index.html.twig', [

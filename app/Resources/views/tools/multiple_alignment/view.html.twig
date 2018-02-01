@@ -53,7 +53,17 @@
         </div>
     </div>
 
-    {% if 'pending' == multipleAlignment.status or 'running' == multipleAlignment.status %}
+    {% if 'pending' == multipleAlignment.status %}
+        <div class="text-center text-primary">
+            <span class="fas fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
+            <span class="sr-only">Loading...</span>
+
+            <h2>
+                Your alignment is pending...<br>
+                The page automatically refresh every {{ refreshTime }} seconds.
+            </h2>
+        </div>
+    {% elseif 'running' == multipleAlignment.status %}
         <div class="text-center text-primary">
             <span class="fas fa-spinner fa-pulse fa-4x fa-fw" aria-hidden="true"></span>
             <span class="sr-only">Loading...</span>
@@ -66,97 +76,6 @@
     {% elseif 'failed' == multipleAlignment.status %}
         <div class="alert alert-danger" role="alert"><span class="fas fa-exclamation-circle" aria-hidden="true"></span> An error occured !</div>
     {% else %}
-
-        <div id="accordion" role="tablist" class="my-3">
-            <div class="card">
-                <div class="card-header" role="tab" id="headingOne">
-                    <h5 class="mb-0">
-                        <a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                            <span class="fas fa-paint-brush" aria-hidden="true"></span> Coloration
-                        </a>
-                    </h5>
-                </div>
-
-                <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="card-body">
-                        <div class="btn-group btn-group-sm mb-3 d-print-none" role="group" aria-label="Coloration selection buttons">
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-secondary dropdown-toggle {{ 'identities' == alignment.coloration ? 'active' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Identities
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': multipleAlignment.name, 'coloration': 'identities', 'level': 1 }) }}">
-                                        1 level
-                                    </a>
-                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': multipleAlignment.name, 'coloration': 'identities', 'level': 2 }) }}">
-                                        2 levels
-                                    </a>
-                                    <a class="dropdown-item" href="{{ path('multiple_alignment_view', { 'name': multipleAlignment.name, 'coloration': 'identities', 'level': 3 }) }}">
-                                        3 levels
-                                    </a>
-                                </div>
-                            </div>
-
-                            {% if false == alignment.isNucFasta %}
-                                <a class="btn btn-secondary {{ 'similarities' == alignment.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': multipleAlignment.name, 'coloration': 'similarities' }) }}" role="button">
-                                    Similarities
-                                </a>
-                            {% endif %}
-
-                            <a class="btn btn-secondary {{ 'none' == alignment.coloration ? 'active' }}" href="{{ path('multiple_alignment_view', { 'name': multipleAlignment.name, 'coloration': 'none' }) }}" role="button">
-                                None
-                            </a>
-                        </div>
-
-                        {% if 'none' != alignment.coloration %}
-                            <div class="alignment">
-                                {% if 'identities' == alignment.coloration %}
-                                    Conservation:<br>
-                                    <span class="identities-100">&nbsp;&nbsp;&nbsp;</span> = 100%<br>
-                                    {% if '2' == alignment.identities_coloration_level or '3' == alignment.identities_coloration_level %}
-                                        <span class="identities-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
-                                    {% endif %}
-                                    {% if '3' == alignment.identities_coloration_level %}
-                                        <span class="identities-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
-                                    {% endif %}
-                                {% elseif 'similarities' == alignment.coloration %}
-                                    Properties:<br>
-                                    {% spaceless %}
-                                        <span class="similarities-basic">&nbsp;&nbsp;&nbsp;</span> Basic<br>
-                                        <span class="similarities-nonpolar">&nbsp;&nbsp;&nbsp;</span> Nonpolar (hydrophobic)<br>
-                                        <span class="similarities-polar">&nbsp;&nbsp;&nbsp;</span> Polar, uncharged<br>
-                                        <span class="similarities-acidic">&nbsp;&nbsp;&nbsp;</span> Acidic
-                                    {% endspaceless %}
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">Alignment</div>
-            <div class="card-body alignment">
-                {% for row in alignment.alignmentRows %}
-                    <div class="alignment-row">
-                        {% for sequenceLine in row %}
-                            <div class="sequence-row">
-                                <span class="sequence-name">{{ sequenceLine.name }}</span>
-                                <span class="sequence-bases">
-                                    {%- for base in sequenceLine.sequence -%}
-                                        {%- if null != base.style -%}
-                                            <span class="{{ base.style }}">{{ base.base }}</span>
-                                        {%- else -%}
-                                            <span>{{ base.base }}</span>
-                                        {%- endif -%}
-                                    {%- endfor -%}
-                                </span>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
+        {% include 'tools/multiple_alignment/result.html.twig' %}
     {% endif %}
 {% endblock %}

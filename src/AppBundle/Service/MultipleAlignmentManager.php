@@ -63,8 +63,8 @@ class MultipleAlignmentManager
     {
         $multipleAlignment = $this->em->getRepository('AppBundle:MultipleAlignment')->findOneById($multipleAlignmentId);
 
+        // Set status on running
         $multipleAlignment->setStatus('running');
-        $this->em->merge($multipleAlignment);
         $this->em->flush();
 
         // Create a tempFile with the query
