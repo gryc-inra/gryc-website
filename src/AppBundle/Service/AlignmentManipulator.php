@@ -84,8 +84,6 @@ class AlignmentManipulator
 
     public function getGlobalAlignment($fasta, $colorationType = null, int $identitiesLevel = null)
     {
-        dump($identitiesLevel);
-
         // First, do a standard alignment
         $alignment = $this->getAlignment($fasta);
 
