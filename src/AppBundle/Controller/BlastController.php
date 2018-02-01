@@ -46,20 +46,11 @@ class BlastController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($blast);
-            $em->flush();
+            $blastManager->save($blast);
 
-            // If flush worked
-            if (null !== $blastId = $blast->getId()) {
-                $this->get('old_sound_rabbit_mq.blast_producer')->publish($blastId);
-                $this->get('session')->set('last_blast', $blastId);
-
-                return $this->redirectToRoute('blast_view', [
-                    'name' => $blast->getName(),
-                ]);
-            }
-
-            $this->addFlash('error', 'An error occured!');
+            return $this->redirectToRoute('blast_view', [
+                'name' => $blast->getName(),
+            ]);
         }
 
         return $this->render('tools/blast/index.html.twig', [

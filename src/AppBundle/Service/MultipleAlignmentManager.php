@@ -19,6 +19,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\MultipleAlignment;
 use Doctrine\ORM\EntityManagerInterface;
+use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
@@ -27,11 +28,13 @@ class MultipleAlignmentManager
 {
     private $em;
     private $session;
+    private $producer;
 
-    public function __construct(EntityManagerInterface $em, SessionInterface $session)
+    public function __construct(EntityManagerInterface $em, SessionInterface $session, ProducerInterface $producer)
     {
         $this->em = $em;
         $this->session = $session;
+        $this->producer = $producer;
     }
 
     public function initAlignment(MultipleAlignment $multipleAlignment = null)
@@ -59,9 +62,39 @@ class MultipleAlignmentManager
         return $multipleAlignment;
     }
 
+    /**
+     * Get alignment.
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function getAlignment(int $id)
+    {
+        return $this->em->getRepository('AppBundle:MultipleAlignment')->findOneById($id);
+    }
+
+    /**
+     * Save Multiple alignment.
+     *
+     * @param MultipleAlignment $multipleAlignment
+     *
+     * @return MultipleAlignment
+     */
+    public function save(MultipleAlignment $multipleAlignment)
+    {
+        $this->em->persist($multipleAlignment);
+        $this->em->flush();
+
+        $this->producer->publish($multipleAlignment->getId());
+        $this->session->set('last_multiple_alignment', $multipleAlignment->getId());
+
+        return $multipleAlignment;
+    }
+
     public function align($multipleAlignmentId)
     {
-        $multipleAlignment = $this->em->getRepository('AppBundle:MultipleAlignment')->findOneById($multipleAlignmentId);
+        $multipleAlignment = $this->getAlignment($multipleAlignmentId);
 
         // Set status on running
         $multipleAlignment->setStatus('running');

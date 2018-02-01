@@ -19,6 +19,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Blast;
 use Doctrine\ORM\EntityManagerInterface;
+use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Process\Exception\RuntimeException;
@@ -29,12 +30,14 @@ class BlastManager
     private $em;
     private $projectDir;
     private $session;
+    private $producer;
 
-    public function __construct(EntityManagerInterface $em, $projectDir, SessionInterface $session)
+    public function __construct(EntityManagerInterface $em, $projectDir, SessionInterface $session, ProducerInterface $producer)
     {
         $this->em = $em;
         $this->projectDir = $projectDir;
         $this->session = $session;
+        $this->producer = $producer;
     }
 
     /**
@@ -69,7 +72,7 @@ class BlastManager
     {
         // Get the last Blast Id in the user session, and retrieve the Blast object corresponding
         $lastBlastId = $this->session->get('last_blast');
-        $blast = $this->em->getRepository('AppBundle:Blast')->findOneById($lastBlastId);
+        $blast = $this->getBlast($lastBlastId);
 
         // If the Blast is not null, we Clone it and return it to the user
         if (null !== $blast) {
@@ -77,6 +80,36 @@ class BlastManager
         } else { // Else, the user have not previous Blast, we create a new Blast
             $blast = new Blast();
         }
+
+        return $blast;
+    }
+
+    /**
+     * Get blast.
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function getBlast(int $id)
+    {
+        return $this->em->getRepository('AppBundle:Blast')->findOneById($id);
+    }
+
+    /**
+     * Save blast.
+     *
+     * @param Blast $blast
+     *
+     * @return Blast
+     */
+    public function save(Blast $blast)
+    {
+        $this->em->persist($blast);
+        $this->em->flush();
+
+        $this->producer->publish($blast->getId());
+        $this->session->set('last_blast', $blast->getId());
 
         return $blast;
     }
@@ -91,7 +124,7 @@ class BlastManager
      */
     public function blast($blastId)
     {
-        $blast = $this->em->getRepository('AppBundle:Blast')->findToBlast($blastId);
+        $blast = $this->getBlast($blastId);
 
         // Set status on running
         $blast->setStatus('running');

@@ -46,20 +46,11 @@ class MultipleAlignmentController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($multipleAlignment);
-            $em->flush();
+            $multipleAlignmentManager->save($multipleAlignment);
 
-            // If flush worked
-            if (null !== $multipleAlignmentId = $multipleAlignment->getId()) {
-                $this->get('old_sound_rabbit_mq.multiple_alignment_producer')->publish($multipleAlignmentId);
-                $this->get('session')->set('last_multiple_alignment', $multipleAlignmentId);
-
-                return $this->redirectToRoute('multiple_alignment_view', [
-                    'name' => $multipleAlignment->getName(),
-                ]);
-            }
-
-            $this->addFlash('error', 'An error occured!');
+            return $this->redirectToRoute('multiple_alignment_view', [
+                'name' => $multipleAlignment->getName(),
+            ]);
         }
 
         return $this->render('tools/multiple_alignment/index.html.twig', [

@@ -48,6 +48,7 @@ services:
         public: true
         arguments:
             $projectDir: '%kernel.project_dir%'
+            $producer: '@old_sound_rabbit_mq.blast_producer'
 
     AppBundle\Service\CartManager:
         public: true
@@ -62,6 +63,8 @@ services:
 
     AppBundle\Service\MultipleAlignmentManager:
         public: true
+        arguments:
+            $producer: '@old_sound_rabbit_mq.multiple_alignment_producer'
 
     AppBundle\Service\ReferenceManager:
         public: true
