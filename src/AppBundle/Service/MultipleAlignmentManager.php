@@ -69,7 +69,7 @@ class MultipleAlignmentManager
      *
      * @return mixed
      */
-    public function getAlignment(int $id)
+    public function getAlignment($id)
     {
         return $this->em->getRepository('AppBundle:MultipleAlignment')->findOneById($id);
     }

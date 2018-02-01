@@ -91,7 +91,7 @@ class BlastManager
      *
      * @return mixed
      */
-    public function getBlast(int $id)
+    public function getBlast($id)
     {
         return $this->em->getRepository('AppBundle:Blast')->findOneById($id);
     }
