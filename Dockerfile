@@ -62,7 +62,6 @@ COPY . /var/www/html/
 RUN composer install --no-dev --no-scripts --no-progress --no-suggest --optimize-autoloader
 
 # Copy script and supervisor conf
-COPY ./docker/init.sh /opt/app/init.sh
 COPY ./docker/supervisor-programs.conf /etc/supervisor/conf.d/supervisor-programs.conf
 
 # Clean installation (remove the Docker folder and empty the /tmp)
