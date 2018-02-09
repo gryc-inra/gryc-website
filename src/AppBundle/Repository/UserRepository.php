@@ -25,4 +25,13 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAdmins()
+    {
+        $query = $this->createQueryBuilder('user')
+            ->where('user.roles LIKE :role')
+            ->setParameter('role', '%ADMIN%')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

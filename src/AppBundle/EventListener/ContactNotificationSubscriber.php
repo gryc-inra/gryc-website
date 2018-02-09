@@ -17,8 +17,8 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Entity\User;
 use AppBundle\Events;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Templating\EngineInterface;
@@ -39,6 +39,11 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
     private $templating;
 
     /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
      * @var string
      */
     private $senderMail;
@@ -55,10 +60,11 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
      * @param EngineInterface $templating
      * @param string          $sender
      */
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, $senderMail, $senderName)
+    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, EntityManagerInterface $em, $senderMail, $senderName)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->em = $em;
         $this->senderMail = $senderMail;
         $this->senderName = $senderName;
     }
@@ -92,9 +98,20 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
             'data' => $data,
         ]);
 
+        // Retrieve admins from DB
+        $admins = $this->em->getRepository('AppBundle:User')->getAdmins();
+        $adminsMails = [];
+        foreach ($admins as $admin) {
+            $adminsMails[$admin->getEmail()] = $admin->getFullName();
+        }
+
+        if (empty($adminsMails)) {
+            throw new \Exception('No admins mails');
+        }
+
         $message = \Swift_Message::newInstance()
             ->setFrom($this->senderMail, $this->senderName)
-            ->setTo($this->senderMail, $this->senderName)
+            ->setTo($adminsMails)
             ->setReplyTo($data['email'], $data['firstName'].' '.$data['lastName'])
             ->setSubject($subject)
             ->setContentType('text/plain; charset=UTF-8')
