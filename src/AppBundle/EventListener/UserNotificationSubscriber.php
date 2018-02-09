@@ -80,7 +80,10 @@ class UserNotificationSubscriber implements EventSubscriberInterface
         $user = $event->getSubject();
 
         $subject = 'Registration confirmation';
-        $body = $this->templating->render('mail/userConfirmation.html.twig', [
+        $textBody = $this->templating->render('mail/user_confirmation.txt.twig', [
+            'user' => $user,
+        ]);
+        $htmlBody = $this->templating->render('mail/user_confirmation.html.twig', [
             'user' => $user,
         ]);
 
@@ -88,7 +91,9 @@ class UserNotificationSubscriber implements EventSubscriberInterface
             ->setFrom($this->senderMail, $this->senderName)
             ->setTo($user->getEmail())
             ->setSubject($subject)
-            ->setBody($body, 'text/html')
+            ->setContentType('text/plain; charset=UTF-8')
+            ->setBody($textBody, 'text/plain')
+            ->addPart($htmlBody, 'text/html')
         ;
 
         $this->mailer->send($message);
@@ -103,7 +108,10 @@ class UserNotificationSubscriber implements EventSubscriberInterface
         $user = $event->getSubject();
 
         $subject = 'Password resetting';
-        $body = $this->templating->render('mail/passwordResetting.html.twig', [
+        $textBody = $this->templating->render('mail/password_resetting.txt.twig', [
+            'user' => $user,
+        ]);
+        $htmlBody = $this->templating->render('mail/password_resetting.html.twig', [
             'user' => $user,
         ]);
 
@@ -111,7 +119,9 @@ class UserNotificationSubscriber implements EventSubscriberInterface
             ->setFrom($this->senderMail, $this->senderName)
             ->setTo($user->getEmail())
             ->setSubject($subject)
-            ->setBody($body, 'text/html')
+            ->setContentType('text/plain; charset=UTF-8')
+            ->setBody($textBody, 'text/plain')
+            ->addPart($htmlBody, 'text/html')
         ;
 
         $this->mailer->send($message);

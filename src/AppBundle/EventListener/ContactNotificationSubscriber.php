@@ -85,7 +85,10 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
     private function sendToTeam($data)
     {
         $subject = '[GRYC Contact]['.$data['category'].'] '.$data['subject'];
-        $body = $this->templating->render('mail/contactMessage.html.twig', [
+        $textBody = $this->templating->render('mail/contact_message.txt.twig', [
+            'data' => $data,
+        ]);
+        $htmlBody = $this->templating->render('mail/contact_message.html.twig', [
             'data' => $data,
         ]);
 
@@ -94,7 +97,9 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
             ->setTo($this->senderMail, $this->senderName)
             ->setReplyTo($data['email'], $data['firstName'].' '.$data['lastName'])
             ->setSubject($subject)
-            ->setBody($body, 'text/html')
+            ->setContentType('text/plain; charset=UTF-8')
+            ->setBody($textBody, 'text/plain')
+            ->addPart($htmlBody, 'text/html')
         ;
 
         $this->mailer->send($message);
@@ -103,7 +108,10 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
     private function notifyUser($data)
     {
         $subject = 'Reception of your message';
-        $body = $this->templating->render('mail/confirmationContactMessage.html.twig', [
+        $textBody = $this->templating->render('mail/confirmation_contact_message.txt.twig', [
+                'data' => $data, ]
+        );
+        $htmlBody = $this->templating->render('mail/confirmation_contact_message.html.twig', [
         'data' => $data, ]
         );
 
@@ -111,7 +119,9 @@ class ContactNotificationSubscriber implements EventSubscriberInterface
             ->setFrom($this->senderMail, $this->senderName)
             ->setTo($data['email'], $data['firstName'].' '.$data['lastName'])
             ->setSubject($subject)
-            ->setBody($body, 'text/html')
+            ->setContentType('text/plain; charset=UTF-8')
+            ->setBody($textBody, 'text/plain')
+            ->addPart($htmlBody, 'text/html')
         ;
 
         $this->mailer->send($message);
