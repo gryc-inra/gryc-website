@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7569c005e7f9a9c8c2a5d549aca73f95",
+    "content-hash": "0467ed62982473e7f7cd686b5bf8eed6",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1051,16 +1051,16 @@
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
-            "version": "dev-master",
+            "version": "v5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "add341deb6ca3fc651d26eba3aec1b7d37de4ae9"
+                "reference": "ebf96f984c7f0b6bdc830accd722c76b80943a23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/add341deb6ca3fc651d26eba3aec1b7d37de4ae9",
-                "reference": "add341deb6ca3fc651d26eba3aec1b7d37de4ae9",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/ebf96f984c7f0b6bdc830accd722c76b80943a23",
+                "reference": "ebf96f984c7f0b6bdc830accd722c76b80943a23",
                 "shasum": ""
             },
             "require": {
@@ -1133,7 +1133,7 @@
                 "mongodb",
                 "search"
             ],
-            "time": "2018-02-08T15:49:57+00:00"
+            "time": "2018-02-07T12:32:48+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -3843,9 +3843,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "friendsofsymfony/elastica-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
