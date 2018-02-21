@@ -85,6 +85,7 @@
                     <div class="d-none d-sm-block" style="overflow: auto; overflow-y: hidden;">
                         <figure>
                             <svg width="{{ objectWidth }}" height="{{ height }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                <style>a { cursor: pointer; }</style>
                                 <line x1="{{ legendSpace }}" x2="{{ objectWidth - xPadding }}" y1="{{ yPadding }}" y2="{{ yPadding }}" style="stroke:rgb(0,0,0);stroke-width:1"></line>
 
                                 {% for i in 0..maxSizeLegend %}

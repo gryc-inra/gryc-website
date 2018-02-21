@@ -66,6 +66,10 @@ class NeighborhoodExtention extends \Twig_Extension
 
         // Create the SVG
         $svg = '<svg height="'.($height + $paddingV).'" width="'.($width + $paddingH).'" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">';
+
+        // Add styles
+        $svg .= '<style>a { cursor: pointer; }</style>';
+
         // Add the plasmid line
         $svg .= '<line x1="'.($paddingH / 2).'" y1="'.($height / 2).'" x2="'.($width + $paddingH / 2).'" y2="'.($height / 2).'" style="stroke: '.$baseLineStroke.';stroke-width: '.$baseLineStrokeWidth.'" />';
 
