@@ -46,6 +46,26 @@ class Locus extends GeneticEntry
      */
     private $neighbours;
 
+    /**
+     * @ORM\Column(name="context", type="string", length=255)
+     */
+    private $context;
+
+    /**
+     * @ORM\Column(name="sequence", type="text")
+     */
+    private $sequence;
+
+    /**
+     * @ORM\Column(name="upstream_sequence", type="text")
+     */
+    private $upstreamSequence;
+
+    /**
+     * @ORM\Column(name="downstream_sequence", type="text")
+     */
+    private $downstreamSequence;
+
     public function __construct()
     {
         $this->features = new ArrayCollection();
@@ -89,14 +109,31 @@ class Locus extends GeneticEntry
         return $this->features;
     }
 
-    public function countProductNumber()
+    public function countFeatures()
+    {
+        return $this->features->count();
+    }
+
+    public function countProductFeatures()
     {
         $nbProduct = 0;
         foreach ($this->features as $feature) {
-            $nbProduct += $feature->getProductsFeatures()->count();
+            $nbProduct += $feature->countProductFeatures();
         }
 
         return $nbProduct;
+    }
+
+    public function getProductFeatures()
+    {
+        $productFeatures = [];
+        foreach ($this->features as $feature) {
+            $productFeatures[] = $feature->getProductsFeatures()->toArray();
+        }
+
+        $productFeatures = call_user_func_array('array_merge', $productFeatures);
+
+        return new ArrayCollection($productFeatures);
     }
 
     public function addReference(Reference $reference)
@@ -151,5 +188,101 @@ class Locus extends GeneticEntry
     public function getNeighbours()
     {
         return $this->neighbours;
+    }
+
+    /**
+     * Set context.
+     *
+     * @param string $context
+     *
+     * @return Locus
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
+
+        return $this;
+    }
+
+    /**
+     * Get context.
+     *
+     * @return string
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * Set sequence.
+     *
+     * @param string $sequence
+     *
+     * @return Locus
+     */
+    public function setSequence($sequence)
+    {
+        $this->sequence = $sequence;
+
+        return $this;
+    }
+
+    /**
+     * Get locus sequence.
+     *
+     * @return string
+     */
+    public function getLocusSequence()
+    {
+        return $this->sequence;
+    }
+
+    /**
+     * Set upstreamSequence.
+     *
+     * @param string $upstreamSequence
+     *
+     * @return Locus
+     */
+    public function setUpstreamSequence($upstreamSequence)
+    {
+        $this->upstreamSequence = $upstreamSequence;
+
+        return $this;
+    }
+
+    /**
+     * Get upstreamSequence.
+     *
+     * @return string
+     */
+    public function getUpstreamSequence()
+    {
+        return $this->upstreamSequence;
+    }
+
+    /**
+     * Set downstreamSequence.
+     *
+     * @param string $downstreamSequence
+     *
+     * @return Locus
+     */
+    public function setDownstreamSequence($downstreamSequence)
+    {
+        $this->downstreamSequence = $downstreamSequence;
+
+        return $this;
+    }
+
+    /**
+     * Get downstreamSequence.
+     *
+     * @return string
+     */
+    public function getDownstreamSequence()
+    {
+        return $this->downstreamSequence;
     }
 }

@@ -17,7 +17,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Service\SequenceManipulator;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -26,7 +25,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\MappedSuperclass
  */
-class GeneticEntry
+abstract class GeneticEntry
 {
     /**
      * @var int
@@ -114,6 +113,15 @@ class GeneticEntry
      * @ORM\Column(name="note", type="text", nullable=true)
      */
     private $note;
+
+    const STRUCTURE_TYPES = [
+        'l' => 'locus',
+        'f' => 'feature',
+        'p' => 'product',
+        'i' => 'intron',
+        'r' => 'repeats',
+        'o' => 'other',
+    ];
 
     /**
      * Get id.
@@ -389,161 +397,87 @@ class GeneticEntry
         return $this->note;
     }
 
-    public function getSequence($showUtr = true, $showIntron = true, $upstream = 0, $downstream = 0, $html = true)
+    public function getSequence($showIntronUtr = true, $upstream = 0, $downstream = 0, $html = true)
     {
-        $class = explode('\\', get_class($this))[2];
-        switch ($class) {
-            case 'Locus':
-                $chromosomeDna = $this->getChromosome()->getDnaSequence()->getDna();
-                $locusStart = $this->start;
-                $locusEnd = $this->end;
-
-                break;
-            case 'Feature':
-                $chromosomeDna = $this->getLocus()->getChromosome()->getDnaSequence()->getDna();
-                $locusStart = $this->getLocus()->getStart();
-                $locusEnd = $this->getLocus()->getEnd();
-
-                break;
-            case 'Product':
-                $chromosomeDna = $this->getFeature()->getLocus()->getChromosome()->getDnaSequence()->getDna();
-                $locusStart = $this->getFeature()->getLocus()->getStart();
-                $locusEnd = $this->getFeature()->getLocus()->getEnd();
-
-                break;
+        if ($this instanceof Locus) {
+            $locusSequence = $this->getLocusSequence();
+            $upstreamSequence = $this->getUpstreamSequence();
+            $downstreamSequence = $this->getDownstreamSequence();
+            $structure = [['type' => 'o', 'start' => 0, 'end' => mb_strlen($this->getLocusSequence())]];
+        } elseif ($this instanceof Feature) {
+            $locusSequence = $this->getLocus()->getLocusSequence();
+            $upstreamSequence = $this->getLocus()->getUpstreamSequence();
+            $downstreamSequence = $this->getLocus()->getDownstreamSequence();
+            $structure = $this->getStructure();
+        } elseif ($this instanceof Product) {
+            $locusSequence = $this->getFeature()->getLocus()->getLocusSequence();
+            $upstreamSequence = $this->getFeature()->getLocus()->getUpstreamSequence();
+            $downstreamSequence = $this->getFeature()->getLocus()->getDownstreamSequence();
+            $structure = $this->getStructure();
         }
 
-        // Create a positionsArray
-        $positionsArray = [];
+        // If the structure is null, return
+        if (null === $structure) {
+            return null;
+        }
 
-        // First, define the upstream
-        if (($upstream > 0 && 1 === $this->strand) || ($downstream > 0 && 1 !== $this->strand)) {
-            $stream = (1 === $this->strand) ? $upstream : $downstream;
+        // Retrieve sequence parts
+        foreach ($structure as $key => $value) {
+            // If user don't want show UTR or/and intron and the type is intron or UTR, skip the loop
+            if ((!$showIntronUtr && 'i' === $value['type']) || (!$showIntronUtr && 'f' === $value['type'])) {
+                continue;
+            }
 
-            if (($locusStart - $stream) < 0) {
-                $positionsArray['upstream']['start'] = 1;
+            $sequences[$key]['type'] = Locus::STRUCTURE_TYPES[$value['type']];
+            $sequences[$key]['seq'] = mb_substr($locusSequence, $value['start'], $value['end'] - $value['start']);
+        }
+
+        // Add upstream and downstream parts
+        if ($upstream > 0) {
+            array_unshift($sequences, [
+                'type' => 'stream',
+                'seq' => mb_substr($upstreamSequence, -0, $upstream),
+            ]);
+        }
+
+        if ($downstream > 0) {
+            array_push($sequences, [
+                'type' => 'stream',
+                'seq' => mb_substr($downstreamSequence, 0, $downstream),
+            ]);
+        }
+
+        // Stick sequence parts to obtain the full sequence
+        $sequence = '';
+        foreach ($sequences as $sequencePart) {
+            if ($html) {
+                $sequence .= '<span class="'.$sequencePart['type'].'">'.$sequencePart['seq'].'</span>';
             } else {
-                $positionsArray['upstream']['start'] = $locusStart - $stream;
-            }
-            $positionsArray['upstream']['end'] = $locusStart - 1;
-            $positionsArray['upstream']['legend'] = 'stream';
-        } else {
-            $positionsArray['upstream'] = false;
-        }
-
-        // Is there 5'UTR region ?
-        $firstExonCoord = explode('..', $this->coordinates[0]);
-        // If the first exon start position is greater than the locus start position, there is a 5'UTR
-        if (true === $showUtr && $firstExonCoord[0] > $locusStart) {
-            $positionsArray['5UTR']['start'] = $locusStart;
-            $positionsArray['5UTR']['end'] = $firstExonCoord[0] - 1;
-            $positionsArray['5UTR']['legend'] = 'utr';
-        } else {
-            $positionsArray['5UTR'] = false;
-        }
-
-        // Do a while on coordinates to get all exon and determine introns
-        $i = 0;
-        $nbExons = count($this->coordinates);
-        $nbIntrons = $nbExons - 1;
-        $haveIntron = $nbIntrons > 0 ? true : false;
-        foreach ($this->coordinates as $coordinate) {
-            $coord = explode('..', $coordinate);
-
-            // If the strain have intron, had them
-            // Intron only between the 2nd and before last loop
-            if (true === $showIntron && $haveIntron && $i > 0 && $i < $nbExons) {
-                $positionsArray['intron-'.($i - 1)]['start'] = $positionsArray['exon-'.($i - 1)]['end'] + 1;
-                $positionsArray['intron-'.($i - 1)]['end'] = (int) $coord[0] - 1;
-                $positionsArray['intron-'.($i - 1)]['legend'] = 'intron';
-            }
-
-            // Set the exon
-            $positionsArray['exon-'.$i]['start'] = (int) $coord[0];
-            $positionsArray['exon-'.$i]['end'] = (int) $coord[1];
-            $positionsArray['exon-'.$i]['legend'] = 'exon';
-
-            ++$i;
-        }
-
-        // Is there 3'UTR region ?
-        $lastExonCoord = explode('..', $this->coordinates[$nbExons - 1]);
-        // If the last exon end position is smaller than the locus end position, there is a 3'UTR
-        if (true === $showUtr && $lastExonCoord[1] < $locusEnd) {
-            $positionsArray['3UTR']['start'] = $lastExonCoord[1] + 1;
-            $positionsArray['3UTR']['end'] = $locusEnd;
-            $positionsArray['3UTR']['legend'] = 'utr';
-        } else {
-            $positionsArray['3UTR'] = false;
-        }
-
-        // Then, define the downstream
-        if (($downstream > 0 && 1 === $this->strand) || ($upstream > 0 && 1 !== $this->strand)) {
-            $stream = (1 === $this->strand) ? $downstream : $upstream;
-
-            $positionsArray['downstream']['start'] = $locusEnd + 1;
-            $positionsArray['downstream']['legend'] = 'stream';
-
-            if (($locusEnd + $stream) > mb_strlen($chromosomeDna)) {
-                $positionsArray['downstream']['end'] = mb_strlen($chromosomeDna);
-            } else {
-                $positionsArray['downstream']['end'] = $locusEnd + $stream;
-            }
-        } else {
-            $positionsArray['downstream'] = false;
-        }
-
-        // Convert positions from human logic to computer logic
-        array_walk_recursive($positionsArray, function (&$item) {
-            --$item;
-        });
-
-        if (1 !== $this->strand) {
-            $positionsArray = array_reverse($positionsArray);
-            $sequenceManipulator = new SequenceManipulator();
-        }
-
-        $sequences = [];
-        foreach ($positionsArray as $position) {
-            if ($position) {
-                $sequenceLength = $position['end'] - $position['start'] + 1;
-                $sequence = mb_substr($chromosomeDna, $position['start'], $sequenceLength);
-
-                if (1 !== $this->strand) {
-                    $sequence = $sequenceManipulator->reverseComplement($sequence);
-                }
-
-                if ($html) {
-                    $sequences[] = '<span class="'.$position['legend'].'">'.$sequence.'</span>';
-                } else {
-                    $sequences[] = $sequence;
-                }
+                $sequence .= $sequencePart['seq'];
             }
         }
 
-        $sequence = implode($sequences);
-
-        // Cut the sequence in array with 60 nucleotides per line
+        // Transform to a FASTA format
         $letters = str_split($sequence, 1);
-        $sequence = [];
-        $sequence[0] = '';
-        $i = 0;
-        $l = 0;
-        foreach ($letters as $letter) {
-            $type = ctype_upper($letter);
+        $nbLetters = count($letters);
+        $currentLineLength = 0;
+        $sequence = '>'.$this->getName()."\n";
+        for ($i = 0; $i < $nbLetters; ++$i) {
+            $isUpper = ctype_upper($letters[$i]);
 
-            if (!$type) {
-                $sequence[$l] .= $letter;
-            } elseif ($type && $i < 60) {
-                ++$i;
-                $sequence[$l] .= $letter;
+            if (false === $isUpper) {
+                $sequence .= $letters[$i];
+            } elseif (true === $isUpper && $currentLineLength < 60) {
+                ++$currentLineLength;
+                $sequence .= $letters[$i];
             } else {
-                ++$l;
-                $i = 1;
-                $sequence[$l] = $letter;
+                $currentLineLength = 1;
+                $sequence .= "\n";
+                $sequence .= $letters[$i];
             }
         }
 
+        // Return the sequence
         return $sequence;
     }
 }

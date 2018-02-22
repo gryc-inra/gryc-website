@@ -48,15 +48,6 @@ class DnaSequence
     private $letterCount;
 
     /**
-     * The DNA sequence.
-     *
-     * @var string
-     *
-     * @ORM\Column(name="dna", type="text")
-     */
-    private $dna;
-
-    /**
      * Get id.
      *
      * @return int
@@ -88,29 +79,5 @@ class DnaSequence
     public function getLetterCount()
     {
         return $this->letterCount;
-    }
-
-    /**
-     * Set dna.
-     *
-     * @param string $dna
-     *
-     * @return DnaSequence
-     */
-    public function setDna($dna)
-    {
-        $this->dna = $dna;
-
-        return $this;
-    }
-
-    /**
-     * Get dna.
-     *
-     * @return string
-     */
-    public function getDna()
-    {
-        return $this->dna;
     }
 }

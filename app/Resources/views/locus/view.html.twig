@@ -114,7 +114,7 @@
             </tr>
             <tr>
                 <td><b>Product number</b></td>
-                <td>{{ locus.countProductNumber }}</td>
+                <td>{{ locus.countProductFeatures }}</td>
             </tr>
         </table>
     </div>
@@ -122,15 +122,12 @@
     <hr>
 
     <h2 class="mb-3">Sequence(s)</h2>
-    {% for feature in locus.features %}
-        <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-feature="{{ feature.name }}">
-            <h3>{{ feature.name }}</h3>
+
+    {% for name, sequence in sequences %}
+        <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-feature="{{ name }}">
             <div class="row">
                 <div class="col-lg-9 fasta fasta-nuc">
-                    <span class="header">>{{ feature.name }}</span>
-                    {% for line in sequences[feature.name] %}
-                        {{ line|raw }}<br>
-                    {% endfor %}
+                    {{ sequence|raw|nl2br }}
                 </div>
 
                 <hr class="d-md-none">
@@ -139,19 +136,21 @@
                     Legend:
                     <ul class="fasta-legend">
                         <li class="stream"><span class="fas fa-square"></span> Upstream/Downstream</li>
-                        <li class="utr"><span class="fas fa-square"></span> UTR</li>
-                        <li class="exon"><span class="fas fa-square"></span> Exon</li>
+                        <li class="feature"><span class="fas fa-square"></span> UTR</li>
+                        <li class="product"><span class="fas fa-square"></span> CDS (coding exon)</li>
                         <li class="intron"><span class="fas fa-square"></span> Intron</li>
+                        <li class="repeats"><span class="fas fa-square"></span> Repeats</li>
                     </ul>
 
                     <hr>
 
-                    {{ form_start(forms[feature.name]) }}
-                        {{ form_rest(forms[feature.name]) }}
+                    {{ form_start(forms[name]) }}
+                        {{ form_errors(forms[name]) }}
+                        {{ form_rest(forms[name]) }}
 
                         <button type="reset" class="btn btn-secondary" value="Reset">Reset</button>
                         <button type="submit" class="btn btn-primary">Valid</button>
-                    {{ form_end(forms[feature.name]) }}
+                    {{ form_end(forms[name]) }}
                 </div>
             </div>
         </div>

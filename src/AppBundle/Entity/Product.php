@@ -35,6 +35,11 @@ class Product extends GeneticEntry
      */
     private $translation;
 
+    /**
+     * @ORM\Column(name="structure", type="array", nullable=true)
+     */
+    private $structure;
+
     public function setFeature(Feature $feature)
     {
         $this->feature = $feature;
@@ -57,5 +62,29 @@ class Product extends GeneticEntry
     public function getTranslation()
     {
         return $this->translation;
+    }
+
+    /**
+     * Set structure.
+     *
+     * @param array $structure
+     *
+     * @return GeneticEntry
+     */
+    public function setStructure($structure)
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
+
+    /**
+     * Get structure.
+     *
+     * @return array
+     */
+    public function getStructure()
+    {
+        return $this->structure;
     }
 }

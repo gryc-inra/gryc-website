@@ -50,7 +50,7 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('users')
             ->innerJoin('locus.features', 'features')
                 ->addSelect('features')
-            ->innerJoin('features.productsFeatures', 'products_features')
+            ->leftJoin('features.productsFeatures', 'products_features')
                 ->addSelect('products_features')
             ->leftJoin('locus.references', 'locus_references')
                 ->addSelect('locus_references')
@@ -61,6 +61,8 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('neighbours')
             ->leftJoin('neighbours.neighbour', 'neighbours_neighbour')
                 ->addSelect('neighbours_neighbour')
+            ->orderBy('features.name', 'ASC')
+            ->addOrderBy('products_features.name', 'ASC')
             ->setParameter('slug', $slug)
             ->getQuery();
 

@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class FeatureDynamicSequenceType extends AbstractType
+class DynamicSequenceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -47,13 +47,9 @@ class FeatureDynamicSequenceType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('showUtr', CheckboxType::class, [
+            ->add('showIntronUtr', CheckboxType::class, [
                 'data' => true,
-                'label' => 'Show UTR',
-                'required' => false,
-            ])
-            ->add('showIntron', CheckboxType::class, [
-                'data' => true,
+                'label' => 'Show Intron/UTR',
                 'required' => false,
             ])
         ;
@@ -65,16 +61,8 @@ class FeatureDynamicSequenceType extends AbstractType
             'constraints' => [
                 new Callback([
                     'callback' => function ($data, ExecutionContextInterface $executionContectInterface) {
-                        if ($data['upstream'] > 0 && (!$data['showUtr'] || !$data['showIntron'])) {
-                            $executionContectInterface->buildViolation('You cannot set upstream if you do not display UTRs and introns.')
-                                ->atPath('[upstream]')
-                                ->addViolation()
-                            ;
-                        }
-
-                        if ($data['downstream'] > 0 && (!$data['showUtr'] || !$data['showIntron'])) {
-                            $executionContectInterface->buildViolation('You cannot set downstream if you do not display UTRs and introns.')
-                                ->atPath('[downstream]')
+                        if (($data['upstream'] > 0 && !$data['showIntronUtr']) || ($data['downstream'] > 0 && !$data['showIntronUtr'])) {
+                            $executionContectInterface->buildViolation('You can\'t set up/downstream and hide Introns/UTRs.')
                                 ->addViolation()
                             ;
                         }

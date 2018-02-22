@@ -65,35 +65,28 @@ class FastaGenerator
         foreach ($locusList as $locus) {
             // If the user want locus, compute it
             if ('locus' === $feature) {
-                $fastaData[] = [
-                    'name' => $locus->getName(),
-                    'sequence' => $locus->getSequence(true, true, $upstream, $downstream, false),
-                ];
+                $fastaData[] = $locus->getSequence(true, $upstream, $downstream, false);
             }
             // Else, do a while on Features
             else {
                 foreach ($locus->getFeatures() as $feature) {
                     // If the user want feature, compute it
                     if ('feature' === $feature) {
-                        $fastaData[] = [
-                            'name' => $feature->getName(),
-                            'sequence' => $feature->getSequence(false, !$intronSplicing, $upstream, $downstream, false),
-                        ];
+                        $fastaData[] = $feature->getSequence(!$intronSplicing, $upstream, $downstream, false);
                     }
                     // Else, do a while on Products and compute it
                     else {
                         foreach ($feature->getProductsFeatures() as $product) {
-                            $fastaData[] = [
-                                'name' => $product->getName(),
-                                'sequence' => $product->getSequence(false, !$intronSplicing, $upstream, $downstream, false),
-                            ];
+                            $fastaData[] = $product->getSequence(!$intronSplicing, $upstream, $downstream, false);
                         }
                     }
                 }
             }
         }
 
-        return $this->arrayToFasta($fastaData);
+        $fasta = implode("\n\n", $fastaData);
+
+        return $fasta;
     }
 
     private function aminoAcidsFasta(array $locusList)

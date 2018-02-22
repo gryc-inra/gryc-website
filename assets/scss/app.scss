@@ -236,16 +236,20 @@ nav#blast-scrollspy nav a.active + nav a.active {
   color: $sequence-stream-color;
 }
 
-.utr {
-  color: $sequence-utr-color;
+.feature {
+  color: $sequence-feature-color;
 }
 
-.exon {
-  color: $sequence-exon-color;
+.product {
+  color: $sequence-product-color;
 }
 
 .intron {
   color: $sequence-intron-color;
+}
+
+.repeats {
+  color: $sequence-repeats-color;
 }
 
 @media screen, print {
@@ -254,18 +258,23 @@ nav#blast-scrollspy nav a.active + nav a.active {
     -webkit-print-color-adjust: exact;
   }
 
-  .utr {
-    color: $sequence-utr-color !important;
+  .feature {
+    color: $sequence-feature-color !important;
     -webkit-print-color-adjust: exact;
   }
 
-  .exon {
-    color: $sequence-exon-color !important;
+  .product {
+    color: $sequence-product-color !important;
     -webkit-print-color-adjust: exact;
   }
 
   .intron {
     color: $sequence-intron-color !important;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .repeats {
+    color: $sequence-repeats-color !important;
     -webkit-print-color-adjust: exact;
   }
 }

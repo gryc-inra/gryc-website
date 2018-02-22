@@ -36,6 +36,11 @@ class Feature extends GeneticEntry
      */
     private $productsFeatures;
 
+    /**
+     * @ORM\Column(name="structure", type="array", nullable=true)
+     */
+    private $structure;
+
     public function __construct()
     {
         $this->productsFeatures = new ArrayCollection();
@@ -75,5 +80,34 @@ class Feature extends GeneticEntry
     public function getProductsFeatures()
     {
         return $this->productsFeatures;
+    }
+
+    public function countProductFeatures()
+    {
+        return $this->productsFeatures->count();
+    }
+
+    /**
+     * Set structure.
+     *
+     * @param array $structure
+     *
+     * @return GeneticEntry
+     */
+    public function setStructure($structure)
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
+
+    /**
+     * Get structure.
+     *
+     * @return array
+     */
+    public function getStructure()
+    {
+        return $this->structure;
     }
 }

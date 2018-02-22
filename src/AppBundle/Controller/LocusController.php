@@ -18,7 +18,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Locus;
-use AppBundle\Form\Type\FeatureDynamicSequenceType;
+use AppBundle\Form\Type\DynamicSequenceType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -34,26 +34,35 @@ class LocusController extends Controller
      */
     public function viewAction(Locus $locus, Request $request)
     {
+        // Retrieve sequences displayed in the view
+        if ($locus->countProductFeatures() > 0) {
+            $geneticEntries = $locus->getProductFeatures()->toArray();
+        } elseif ($locus->countFeatures() > 0) {
+            $geneticEntries = $locus->getFeatures()->toArray();
+        } else {
+            $geneticEntries = $locus;
+        }
+
         $forms = [];
         $sequences = [];
-        foreach ($locus->getFeatures() as $feature) {
+        foreach ($geneticEntries as $geneticEntry) {
             // Init form
-            $forms[$feature->getName()] = $this->get('form.factory')->createNamed('feature_dynamic_sequence_'.$feature->getName(), FeatureDynamicSequenceType::class);
+            $forms[$geneticEntry->getName()] = $this->get('form.factory')->createNamed('feature_dynamic_sequence_'.$geneticEntry->getName(), DynamicSequenceType::class);
 
             // Handle form
-            $forms[$feature->getName()]->handleRequest($request);
+            $forms[$geneticEntry->getName()]->handleRequest($request);
 
             // Valid form ?
-            if ($forms[$feature->getName()]->isSubmitted() && $forms[$feature->getName()]->isValid()) {
-                $data = $forms[$feature->getName()]->getData();
+            if ($forms[$geneticEntry->getName()]->isSubmitted() && $forms[$geneticEntry->getName()]->isValid()) {
+                $data = $forms[$geneticEntry->getName()]->getData();
 
-                $sequences[$feature->getName()] = $feature->getSequence($data['showUtr'], $data['showIntron'], $data['upstream'], $data['downstream']);
+                $sequences[$geneticEntry->getName()] = $geneticEntry->getSequence($data['showIntronUtr'], $data['upstream'], $data['downstream']);
             } else {
-                $sequences[$feature->getName()] = $feature->getSequence();
+                $sequences[$geneticEntry->getName()] = $geneticEntry->getSequence();
             }
 
             // Create form view
-            $forms[$feature->getName()] = $forms[$feature->getName()]->createView();
+            $forms[$geneticEntry->getName()] = $forms[$geneticEntry->getName()]->createView();
         }
 
         return $this->render('locus/view.html.twig', [

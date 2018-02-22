@@ -250,7 +250,6 @@ class ImportStrainCommand extends ContainerAwareCommand
             $dnaSequence = new DnaSequence();
             $chromosome->setDnaSequence($dnaSequence);
 
-            $dnaSequence->setDna(mb_strtoupper($chromosomeData['DnaSequence']['seq']));
             // The array in the json haven't key, but the positions in the array is:
             // A, C, G, T, N, other.
             $letterCountKeys = ['A', 'C', 'G', 'T', 'N', 'other'];
@@ -306,6 +305,10 @@ class ImportStrainCommand extends ContainerAwareCommand
                 $locus->setNote($locusData['note']);
                 $locus->setStart($locusData['start']);
                 $locus->setEnd($locusData['end']);
+                $locus->setContext($locusData['context']);
+                $locus->setSequence($locusData['locusSeq']);
+                $locus->setUpstreamSequence($locusData['upStreamSeq']);
+                $locus->setDownstreamSequence($locusData['downStreamSeq']);
 
                 foreach ($locusData['feature'] as $featureData) {
                     $feature = new Feature();
@@ -320,6 +323,7 @@ class ImportStrainCommand extends ContainerAwareCommand
                     $feature->setNote($featureData['note']);
                     $feature->setStart($featureData['start']);
                     $feature->setEnd($featureData['end']);
+                    $feature->setStructure($featureData['structure']);
 
                     foreach ($featureData['product_feature'] as $productData) {
                         $product = new Product();
@@ -335,6 +339,7 @@ class ImportStrainCommand extends ContainerAwareCommand
                         $product->setStart($productData['start']);
                         $product->setEnd($productData['end']);
                         isset($productData['translation']) ? $product->setTranslation($productData['translation']) : null;
+                        $product->setStructure($productData['structure']);
                     }
                 }
             }

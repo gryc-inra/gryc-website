@@ -21,9 +21,10 @@ $blue: #527EB1 !default;
 
 // DNA sequence coloration
 $sequence-stream-color: darkgrey;
-$sequence-utr-color: forestgreen;
-$sequence-exon-color: dodgerblue;
+$sequence-feature-color: forestgreen;
+$sequence-product-color: dodgerblue;
 $sequence-intron-color: #c0504d;
+$sequence-repeats-color: #ffc25b;
 
 // Protein similarities color
 $protein-similarities-basic: #57c4f2;

@@ -431,6 +431,10 @@ class Chromosome
      */
     public function setKeywords($keywords)
     {
+        if (null === $keywords) {
+            return $this;
+        }
+
         foreach ($keywords as $keyword) {
             $this->addKeyword($keyword);
         }
