@@ -44,14 +44,8 @@ class FastaGenerator
         return $fasta;
     }
 
-    private function nucleotideFasta(array $locusList, string $feature, bool $intronSplicing, int $upstream, int $downstream)
+    private function nucleotideFasta(array $locusList, string $featureType, bool $intronSplicing, int $upstream, int $downstream)
     {
-        // if feature is locus do not use intronSplicing
-        // Per security, we set it to false here
-        if ('locus' === $feature) {
-            $intronSplicing = false;
-        }
-
         // if the intron splicing is true, remove upstream and downstream
         if (true === $intronSplicing) {
             $upstream = 0;
@@ -64,14 +58,14 @@ class FastaGenerator
         // While on Locus
         foreach ($locusList as $locus) {
             // If the user want locus, compute it
-            if ('locus' === $feature) {
+            if ('locus' === $featureType) {
                 $fastaData[] = $locus->getSequence(true, $upstream, $downstream, false);
             }
             // Else, do a while on Features
             else {
                 foreach ($locus->getFeatures() as $feature) {
                     // If the user want feature, compute it
-                    if ('feature' === $feature) {
+                    if ('feature' === $featureType) {
                         $fastaData[] = $feature->getSequence(!$intronSplicing, $upstream, $downstream, false);
                     }
                     // Else, do a while on Products and compute it
