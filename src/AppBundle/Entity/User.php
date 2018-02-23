@@ -275,12 +275,28 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function removeRole($role)
     {
-        if (false !== $key = array_search($role, $this->roles, true)) {
+        if (false !== $key = array_search(mb_strtoupper($role), $this->roles, true)) {
             unset($this->roles[$key]);
             $this->roles = array_values($this->roles);
         }
 
         return $this;
+    }
+
+    /**
+     * Has role.
+     *
+     * @param $role
+     *
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        if (false === array_search(mb_strtoupper($role), $this->roles, true)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

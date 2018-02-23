@@ -53,6 +53,11 @@ class UserManager
         return $this->repository->findOneBy($criteria);
     }
 
+    public function findUserByEmail($email)
+    {
+        return $this->findUserBy(['email' => $email]);
+    }
+
     public function findUserByConfirmationToken($token)
     {
         return $this->findUserBy(['confirmationToken' => $token]);
