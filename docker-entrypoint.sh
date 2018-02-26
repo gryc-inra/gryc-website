@@ -12,15 +12,14 @@ if [ ! -f /var/www/html/app/config/parameters.yml ]; then
     # Execute scripts
     composer run-script post-install-cmd --no-interaction
 
-    # Clear and warmup the cache
-    bin/console cache:clear --no-warmup
-    bin/console cache:warmup
+    # Only for production
+    if [ $SYMFONY_ENV = "prod" ]; then
+        # Change owner of files created before
+        chown -R www-data:www-data /var/www/html
 
-    # Change owner of files created before
-    chown -R www-data:www-data /var/www/html
-
-    # Migrate databases
-    bin/console doctrine:migrations:migrate --no-interaction
+        # Migrate databases
+        bin/console doctrine:migrations:migrate --no-interaction
+    fi
 fi
 
 exec "$@"
