@@ -76,6 +76,13 @@ stof_doctrine_extensions:
             timestampable: true
             blameable: true
 
+# Doctrine migrations
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+
 # Swiftmailer Configuration
 swiftmailer:
     host: '%env(SMTP_HOST)%'

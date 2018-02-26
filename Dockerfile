@@ -140,8 +140,6 @@ RUN RUN set -ex; \
     composer install --no-dev --no-scripts --no-progress --no-suggest --optimize-autoloader; \
     chown -R www-data:www-data /var/www
 
-COPY docker-entrypoint.sh /usr/local/bin/
-
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
 
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
