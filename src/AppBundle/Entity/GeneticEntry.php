@@ -403,7 +403,7 @@ abstract class GeneticEntry
             $locusSequence = $this->getLocusSequence();
             $upstreamSequence = $this->getUpstreamSequence();
             $downstreamSequence = $this->getDownstreamSequence();
-            $structure = [['type' => 'o', 'start' => 0, 'end' => mb_strlen($this->getLocusSequence())]];
+            $structure = [['type' => 'o', 'start' => 0, 'end' => mb_strlen($this->getLocusSequence()) - 1]];
         } elseif ($this instanceof Feature) {
             $locusSequence = $this->getLocus()->getLocusSequence();
             $upstreamSequence = $this->getLocus()->getUpstreamSequence();
@@ -429,7 +429,7 @@ abstract class GeneticEntry
             }
 
             $sequences[$key]['type'] = Locus::STRUCTURE_TYPES[$value['type']];
-            $sequences[$key]['seq'] = mb_substr($locusSequence, $value['start'], $value['end'] - $value['start']);
+            $sequences[$key]['seq'] = mb_substr($locusSequence, $value['start'], $value['end'] - $value['start'] + 1);
         }
 
         // Add upstream and downstream parts
