@@ -19,6 +19,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Locus;
 use AppBundle\Form\Type\DynamicSequenceType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -29,10 +30,11 @@ class LocusController extends Controller
 {
     /**
      * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_slug}", name="locus_view")
-     * @Entity("locus", expr="repository.findLocusWithAllData(locus_slug)")
+     * @Entity("locus",  class="AppBundle:Locus", expr="repository.findLocusWithAllData(locus_slug)")
+     * @Entity("neighborhood", class="AppBundle:Neighbour", expr="repository.findNeighborhood(locus)")
      * @Security("is_granted('VIEW', locus.getChromosome().getStrain())")
      */
-    public function viewAction(Locus $locus, Request $request)
+    public function viewAction(Locus $locus, array $neighborhood, Request $request)
     {
         // Retrieve sequences displayed in the view
         if ($locus->countProductFeatures() > 0) {
@@ -67,6 +69,7 @@ class LocusController extends Controller
 
         return $this->render('locus/view.html.twig', [
             'locus' => $locus,
+            'neighborhood' => new ArrayCollection($neighborhood),
             'forms' => $forms,
             'sequences' => $sequences,
         ]);

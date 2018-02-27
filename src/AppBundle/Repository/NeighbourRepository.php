@@ -17,6 +17,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Locus;
+
 /**
  * NeighbourRepository.
  *
@@ -25,4 +27,14 @@ namespace AppBundle\Repository;
  */
 class NeighbourRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findNeighborhood(Locus $locus)
+    {
+        $query = $this->createQueryBuilder('neighbour')
+            ->where('neighbour.locus = :locus')
+            ->orderBy('neighbour.position', 'ASC')
+            ->setParameter('locus', $locus)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
