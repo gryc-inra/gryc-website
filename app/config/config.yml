@@ -45,7 +45,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes:
-        - bootstrap_4_layout.html.twig
+        - form/form.html.twig
     globals:
         fasta_generator: '@AppBundle\Service\FastaGenerator'
         blast_version: '%env(BLAST_VERSION)%'

@@ -1,0 +1,24 @@
+{% use "bootstrap_4_layout.html.twig" %}
+
+{# Rows #}
+
+{% block form_row -%}
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    <{{ element|default('div') }} class="form-group">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- block('form_help') -}}
+    </{{ element|default('div') }}>
+{%- endblock form_row %}
+
+{# Help #}
+
+{% block form_help -%}
+    {% for attrname, attrvalue in attr %}
+        {% if attrname == 'data-help' %}
+            <small class="form-text text-muted">{{ attrvalue|raw }}</small>
+        {% endif %}
+    {% endfor %}
+{%- endblock form_help %}

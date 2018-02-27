@@ -94,9 +94,6 @@ class RegistrationType extends AbstractType
                     ],
                 ],
             ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Register',
-            ])
         ;
     }
 
