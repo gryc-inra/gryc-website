@@ -1083,22 +1083,23 @@
         },
         {
             "name": "excelwebzone/recaptcha-bundle",
-            "version": "v1.5.2",
+            "version": "v1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/excelwebzone/EWZRecaptchaBundle.git",
-                "reference": "d41d6468eba6576fa52c8dbfc3dc49463fddc59b"
+                "reference": "ae542b3b5170646b8360d3437231ca1208195ea8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/excelwebzone/EWZRecaptchaBundle/zipball/d41d6468eba6576fa52c8dbfc3dc49463fddc59b",
-                "reference": "d41d6468eba6576fa52c8dbfc3dc49463fddc59b",
+                "url": "https://api.github.com/repos/excelwebzone/EWZRecaptchaBundle/zipball/ae542b3b5170646b8360d3437231ca1208195ea8",
+                "reference": "ae542b3b5170646b8360d3437231ca1208195ea8",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.6 || ^7.0",
                 "symfony/form": "^2.8 || ^3.0 || ^4.0",
                 "symfony/framework-bundle": "^2.8 || ^3.0 || ^4.0",
+                "symfony/security": "^2.8 || ^3.0 || ^4.0",
                 "symfony/validator": "^2.8 || ^3.0 || ^4.0"
             },
             "require-dev": {
@@ -1126,7 +1127,7 @@
             "keywords": [
                 "recaptcha"
             ],
-            "time": "2018-02-22T16:18:48+00:00"
+            "time": "2018-02-23T16:48:41+00:00"
         },
         {
             "name": "fig/link-util",
