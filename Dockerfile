@@ -74,68 +74,23 @@ RUN set -ex; \
     make install; \
     rm -R /tmp/*
 
-# Set php.ini configs
-RUN { \
-    	echo 'date.timezone = Europe/Paris'; \
-        echo 'short_open_tag = off'; \
-        echo 'expose_php = off'; \
-#        echo 'log_errors = on'; \
-#        echo 'error_log = /dev/stderr'; \
-        echo 'opcache.enable = 1'; \
-        echo 'opcache.enable_cli = 1'; \
-        echo 'opcache.memory_consumption = 256'; \
-        echo 'opcache.interned_strings_buffer = 16'; \
-        echo 'opcache.max_accelerated_files = 20011'; \
-        echo 'opcache.revalidate_freq=60'; \
-        echo 'opcache.fast_shutdown = 1'; \
-        echo 'realpath_cache_size = 4096K'; \
-        echo 'realpath_cache_ttl = 600'; \
-	} > /usr/local/etc/php/php.ini
+WORKDIR /var/www/html
 
-RUN { \
-		echo 'date.timezone = Europe/Paris'; \
-        echo 'short_open_tag = off'; \
-        echo 'memory_limit = 8192M;'; \
-	} > /usr/local/etc/php/php-cli.ini
+# Set php.ini configs
+COPY ["./docker/prod/php.ini", "./docker/prod/php_cli.ini", "/usr/local/etc/php/"]
 
 # Set supervisord.conf
-RUN { \
-        echo '[program:php-fpm]'; \
-        echo 'command=/usr/local/sbin/php-fpm'; \
-        echo 'numprocs=1'; \
-        echo 'autostart=true'; \
-        echo 'autorestart=true'; \
-#        echo 'stderr_logfile=/dev/stderr'; \
-#        echo 'stderr_logfile_maxbytes=0'; \
-        echo 'priority=100'; \
-        echo ''; \
-        echo '[program:blast_consumer]'; \
-        echo 'command=php /var/www/html/bin/console rabbitmq:consumer blast'; \
-        echo 'numprocs=2'; \
-        echo 'process_name = %(program_name)s_%(process_num)02d'; \
-        echo 'autostart=true'; \
-        echo 'autorestart=true'; \
-#        echo 'stderr_logfile=/dev/stderr'; \
-#        echo 'stderr_logfile_maxbytes=0'; \
-        echo 'priority=200'; \
-        echo ''; \
-        echo '[program:multiple_alignment_consumer]'; \
-        echo 'command=php /var/www/html/bin/console rabbitmq:consumer multiple_alignment'; \
-        echo ' numprocs=2'; \
-        echo 'process_name = %(program_name)s_%(process_num)02d'; \
-        echo 'autostart=true'; \
-        echo 'autorestart=true'; \
-#        echo 'stderr_logfile=/dev/stderr'; \
-#        echo 'stderr_logfile_maxbytes=0'; \
-        echo 'priority=200'; \
-	} > /etc/supervisor/conf.d/supervisor-programs.conf
-
-WORKDIR /var/www/html
+COPY ["./docker/supervisor-programs.conf", "/etc/supervisor/conf.d/supervisor-programs.conf"]
 
 # Install the application
 COPY . /var/www/html/
 
-RUN RUN set -ex; \
+# Remove useless folder
+RUN set -ex; \
+    \
+    rm -R ./docker
+
+RUN set -ex; \
     \
     composer install --no-dev --no-scripts --no-progress --no-suggest --optimize-autoloader; \
     chown -R www-data:www-data /var/www
