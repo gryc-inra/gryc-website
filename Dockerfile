@@ -1,4 +1,4 @@
-FROM php:7.2.1-fpm
+FROM php:7.2.2-fpm
 
 # PHP_CPPFLAGS is used by the docker-php-ext-* scripts (avoid bug during compilation)
 ENV MAFFT_VERSION=7.313 \
