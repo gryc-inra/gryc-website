@@ -25,3 +25,20 @@ Some commands:
    * View difference beetween your code and the corected code:
 
     php php-cs-fixer.phar fix --diff --dry-run path/yo/file.php
+
+## 3. Generate the Docker Image
+You must have a DockerHub account or a private repository to push and pull your images.
+
+  1. Build the image
+
+          cd /path/to/gryc/src/folder
+          docker build -t REPOSITORY_NAME/gryc:YYYY-MM-DD .
+
+  2. Tag the image with `latest`
+
+          docker tag REPOSITORY_NAME/gryc:YYYY-MM-DD REPOSITORY_NAME/gryc:latest
+
+  3. Push images on your Repository (you may just push the latest tagged image)
+  
+          docker push REPOSITORY_NAME/gryc:YYYY-MM-DD
+          docker push REPOSITORY_NAME/gryc:latest
