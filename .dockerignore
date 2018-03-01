@@ -29,6 +29,8 @@
 .php_cs.dist
 .travis.yml
 Dockerfile
+favicon.xcf
+logo.xcf
 package.json
 phpunit.xml.dist
 README.md
