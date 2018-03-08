@@ -114,14 +114,9 @@ class Locus extends GeneticEntry
         return $this->features->count();
     }
 
-    public function countProductFeatures()
+    public function hasFeatures()
     {
-        $nbProduct = 0;
-        foreach ($this->features as $feature) {
-            $nbProduct += $feature->countProductFeatures();
-        }
-
-        return $nbProduct;
+        return $this->countFeatures() > 0;
     }
 
     public function getProductFeatures()
@@ -134,6 +129,21 @@ class Locus extends GeneticEntry
         $productFeatures = call_user_func_array('array_merge', $productFeatures);
 
         return new ArrayCollection($productFeatures);
+    }
+
+    public function countProductFeatures()
+    {
+        $nbProduct = 0;
+        foreach ($this->features as $feature) {
+            $nbProduct += $feature->countProductFeatures();
+        }
+
+        return $nbProduct;
+    }
+
+    public function hasProductFeatures()
+    {
+        return $this->countProductFeatures() > 0;
     }
 
     public function addReference(Reference $reference)

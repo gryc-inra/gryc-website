@@ -47,19 +47,33 @@
                     <table class="table table-striped">
                         <tr>
                             <th>Locus</th>
-                            <th>Species</th>
                             <th>Strain</th>
-                            <th>Chromosome/Scaffold</th>
+                            <th>Chr/Scaff</th>
                             <th>Note</th>
+                            <th>Transcripts</th>
+                            <th>Products</th>
                             <th></th>
                         </tr>
                         {% for locus in cartElements if cartElements is not empty %}
                             <tr>
                                 <td><a href="{{ path('locus_view', { 'species_slug': locus.chromosome.strain.species.slug, 'strain_slug': locus.chromosome.strain.slug, 'chromosome_slug': locus.chromosome.slug, 'locus_slug': locus.slug }) }}">{{ locus.name }}</a></td>
-                                <td>{{ locus.chromosome.strain.species.scientificName }}</td>
-                                <td>{{ locus.chromosome.strain.name }}</td>
+                                <td>{{ locus.chromosome.strain.species.scientificName }} {{ locus.chromosome.strain.name }}</td>
                                 <td>{{ locus.chromosome.name }}</td>
                                 <td>{{ locus.note|truncate }}</td>
+                                <td class="text-center">
+                                    {% if locus.hasFeatures is same as(true) %}
+                                        <span class="fas fa-check text-success"></span>
+                                    {% else %}
+                                        <span class="fas fa-times text-danger"></span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center" >
+                                    {% if locus.hasProductFeatures is same as(true) %}
+                                        <span class="fas fa-check text-success"></span>
+                                    {% else %}
+                                        <span class="fas fa-times text-danger"></span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <a class="btn btn-secondary btn-sm cart-remove-btn" href="{{ path('cart_remove', {'id': locus.id}) }}" role="button">
                                         <span class="fas fa-times" aria-hidden="true"></span>
