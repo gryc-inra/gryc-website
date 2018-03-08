@@ -116,6 +116,7 @@ class Blast extends QueuingEntitySuperclass
 
         $this->strains = new ArrayCollection();
         $this->tool = self::DEFAULT_TOOL;
+        $this->database = self::TOOLS_DEFAULT_DATABASE[$this->tool];
         $this->filter = false;
         $this->evalue = 0.001;
         $this->gapped = true;
