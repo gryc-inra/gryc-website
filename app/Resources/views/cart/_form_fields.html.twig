@@ -17,8 +17,14 @@
 {{ form_row(form.type) }}
 
 <div id="cart-setup">
-    {{ form_row(form.feature) }}
+    <div class="form-group">
+        {{ form_label(form.feature) }} <span data-toggle="popover" data-trigger="hover" data-html="true" title="Feature level disclaimer" data-content="<b class='text-danger'>Be careful</b> when using the parameter &quot;Feature level&quot;.<br> If the locus does <b>not have</b> a &quot;Transcript&quot; or &quot;Product&quot;, the output will be <b>empty</b>. ​"><span class="fas fa-info-circle text-info" ></span></span>
+        {{ form_widget(form.feature) }}
+    </div>
+
     {{ form_row(form.intronSplicing) }}
+
     {{ form_row(form.upstream) }}
+
     {{ form_row(form.downstream) }}
 </div>

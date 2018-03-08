@@ -33,6 +33,7 @@ Encore
         './assets/js/locus-tooltip.js',
         './assets/js/modal-confirmation-message.js',
         './assets/js/password-control.js',
+        './assets/js/popover.js',
         './assets/js/search-highlight.js',
         './assets/js/strains-filter.js',
         './assets/js/user-instant-search.js'
