@@ -77,7 +77,7 @@ RUN set -ex; \
 WORKDIR /var/www/html
 
 # Set php.ini configs
-COPY ["./docker/prod/php.ini", "./docker/prod/php_cli.ini", "/usr/local/etc/php/"]
+COPY ["./docker/prod/php.ini", "./docker/prod/php-cli.ini", "/usr/local/etc/php/"]
 
 # Set supervisord.conf
 COPY ["./docker/supervisor-programs.conf", "/etc/supervisor/conf.d/supervisor-programs.conf"]
