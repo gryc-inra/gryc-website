@@ -40,18 +40,14 @@
                     </a>
                 </div>
 
-                {% if 'none' != alignment.coloration %}
+                {% if alignment.coloration.type is not null %}
                     <div class="alignment">
-                        {% if 'identities' == alignment.coloration %}
+                        {% if alignment.coloration.type is same as('identities') %}
                             Conservation:<br>
                             <span class="identities-100">&nbsp;&nbsp;&nbsp;</span> = 100%<br>
-                            {% if '2' == alignment.identities_coloration_level or '3' == alignment.identities_coloration_level %}
-                                <span class="identities-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
-                            {% endif %}
-                            {% if '3' == alignment.identities_coloration_level %}
-                                <span class="identities-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
-                            {% endif %}
-                        {% elseif 'similarities' == alignment.coloration %}
+                            <span class="identities-80">&nbsp;&nbsp;&nbsp;</span> &#8805; 80%<br>
+                            <span class="identities-60">&nbsp;&nbsp;&nbsp;</span> &#8805; 60%
+                        {% elseif alignment.coloration.type is same as('similarities') %}
                             Properties:<br>
                             {% spaceless %}
                                 <span class="similarities-basic">&nbsp;&nbsp;&nbsp;</span> Basic<br>
