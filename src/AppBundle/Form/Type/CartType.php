@@ -21,6 +21,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 
 class CartType extends AbstractType
 {
@@ -56,9 +57,19 @@ class CartType extends AbstractType
             ])
             ->add('upstream', IntegerType::class, [
                 'data' => 0,
+                'constraints' => [
+                    new LessThanOrEqual([
+                        'value' => 1000,
+                    ]),
+                ],
             ])
             ->add('downstream', IntegerType::class, [
                 'data' => 0,
+                'constraints' => [
+                    new LessThanOrEqual([
+                        'value' => 1000,
+                    ]),
+                ],
             ])
         ;
     }
