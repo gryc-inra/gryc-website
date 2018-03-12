@@ -64,10 +64,10 @@
                 <div class="card-header">Genomes informations</div>
                 <div class="card-body">
                     <p>Status: <b class="{{ 'complete' == strain.status|lower ? 'text-success' : 'text-warning' }}">{{ strain.status }}</b></p>
-                    <p>Total length: {{ strain.length|number_format }}</p>
+                    <p>Total length: {{ strain.length|number_format }} bp.</p>
                     <p>Number of CDS: {{ strain.cdsCount|number_format }}</p>
                     <p>Number of chromosomes: {{ strain.chromosomes|length }}</p>
-                    <p>G/C: {{ strain.gc|round(2) }}</p>
+                    <p>%GC: {{ strain.gc|round(2) }}</p>
 
                     {# Calculate and define all variables used in the design of the schema #}
                     {% set maxChromosomeLength = 0 %}

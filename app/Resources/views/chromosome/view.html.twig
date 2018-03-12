@@ -53,8 +53,8 @@
                 <p>{{ chromosome.numReleased }}</p>
                 <p>Version: {{ chromosome.numVersion is null ? "No version number" : chromosome.numVersion }}</p>
 
-                <p>Length: {{ chromosome.length|number_format }}</p>
-                <p>G/C: {{ chromosome.gc|round(2) }}</p>
+                <p>Length: {{ chromosome.length|number_format }} bp.</p>
+                <p>%GC: {{ chromosome.gc|round(2) }}</p>
                 <p>Number of CDS: {{ chromosome.cdsCount|number_format }}</p>
                 <p>{{ chromosome.mitochondrial == false ? "No mitochondrial" : "Mitochondrial" }}</p>
                 <p>Comment: {{ chromosome.comment }}</p>
