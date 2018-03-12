@@ -23,7 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\Validator\Constraints\LessThan;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class DynamicSequenceType extends AbstractType
@@ -34,7 +34,7 @@ class DynamicSequenceType extends AbstractType
             ->add('upstream', IntegerType::class, [
                 'data' => 0,
                 'constraints' => [
-                    new LessThan([
+                    new LessThanOrEqual([
                         'value' => 1000,
                     ]),
                 ],
@@ -42,7 +42,7 @@ class DynamicSequenceType extends AbstractType
             ->add('downstream', IntegerType::class, [
                 'data' => 0,
                 'constraints' => [
-                    new LessThan([
+                    new LessThanOrEqual([
                         'value' => 1000,
                     ]),
                 ],
