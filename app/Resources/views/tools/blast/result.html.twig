@@ -19,7 +19,7 @@
         {% if result.iterations|length > 1 %}
             <div class="row">
                 <div class="col-lg-4">
-                    <h2 id="job-hits">Hits</h2>
+                    <h2 id="job-hits">Queries</h2>
                     <table class="table table-striped">
                         <tr>
                             <th>Query name</th>
@@ -276,11 +276,11 @@
         <nav id="blast-scrollspy" class="navbar navbar-light bg-light scrollspy">
             <nav class="nav nav-pills flex-column">
                 {% if result.iterations|length > 1 %}
-                    <a class="nav-link" href="#job-hits">Hits</a>
+                    <a class="nav-link" href="#job-hits">Queries</a>
                 {% endif %}
 
                 {% for query in result.iterations %}
-                    <a class="nav-link" href="{{ '#query-' ~ query.query_num }}">{{ query.query_def|truncate(16) }}</a>
+                    <a class="nav-link" href="{{ '#query-' ~ query.query_num }}"><span class="fas fa-dna"></span> {{ query.query_def|truncate(16) }}</a>
                     <nav class="nav nav-pills flex-column">
                         {% if query.hits is not empty %}
                             <a class="nav-link ml-3 my-1" href="{{ '#query-' ~ query.query_num ~ '-summary' }}">Graphical Summary</a>
