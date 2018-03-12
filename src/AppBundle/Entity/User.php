@@ -80,26 +80,24 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @ORM\Column(name="first_name", type="string", length=255)
-     * @Assert\NotBlank(message="Please enter your first name.", groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="Please enter your first name.")
      * @Assert\Length(
      *     min=2,
      *     max=255,
      *     minMessage="The name is too short.",
      *     maxMessage="The name is too long.",
-     *     groups={"Registration", "Profile"}
      * )
      */
     private $firstName;
 
     /**
      * @ORM\Column(name="last_name", type="string", length=255)
-     * @Assert\NotBlank(message="Please enter your last name.", groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="Please enter your last name.")
      * @Assert\Length(
      *     min=2,
      *     max=255,
      *     minMessage="The name is too short.",
      *     maxMessage="The name is too long.",
-     *     groups={"Registration", "Profile"}
      * )
      */
     private $lastName;
@@ -110,7 +108,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="company", type="string", length=255)
-     * @Assert\NotBlank(message="Please enter your company's name.", groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="Please enter your company's name.")
      */
     private $company;
 
