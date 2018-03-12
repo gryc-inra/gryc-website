@@ -118,7 +118,7 @@ class NeighborhoodExtention extends \Twig_Extension
             }
 
             // Finish arrow
-            $svg .= 'data-toggle="tooltip" data-html="true" title="<u>Size:</u> '.($neighbourLocus->getEnd() - $neighbourLocus->getStart()).' bp"
+            $svg .= 'data-toggle="tooltip" data-html="true" title="<u>Locus size:</u> '.($neighbourLocus->getEnd() - $neighbourLocus->getStart()).' bp"
                     stroke="'.$arrowStroke.'"
                     stroke-width="'.$arrowStrokeWidth.'"px
                     fill="'.$arrowFill.'" />';
@@ -137,7 +137,7 @@ class NeighborhoodExtention extends \Twig_Extension
 
                 // Define the intergene
                 $intergene = $nextNeightbour->getNeighbour()->getStart() - $neighbour->getNeighbour()->getEnd() - 1;
-                $title = $intergene < 0 ? '<u>Intergene:</u> overlap ('.abs($intergene).' bp)' : '<u>Intergene:</u> '.$intergene.' bp';
+                $title = $intergene < 0 ? '<u>Interlocus:</u> overlap ('.abs($intergene).' bp)' : '<u>Interlocus:</u> '.$intergene.' bp';
 
                 $svg .= '<rect x="'.$x1.'" y="'.($height / 2 - $arrowWidth / 2).'" width="'.$width.'" height="'.$arrowWidth.'" fill="transparent" data-toggle="tooltip" data-html="true" title="'.$title.'"/>';
             }
