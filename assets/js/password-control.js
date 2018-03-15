@@ -24,7 +24,7 @@ $(function() {
     };
 
     // Set submitButton
-    var submit = $('#registration_submit, #change_password_submit, #resetting_submit');
+    var submit = $( "form[name=registration] :submit, form[name=reset_password] :submit, form[name=change_password] :submit" );
     submit.prop('disabled', true);
 
     // On each keyup, test
