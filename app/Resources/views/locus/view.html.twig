@@ -123,7 +123,7 @@
 
     <h2 class="mb-3">Sequence(s)</h2>
 
-    {% for name, sequence in sequences %}
+    {% for name, sequence in sequences if sequences is not null %}
         <div class="locus-feature" id="locus-feature-{{ loop.index }}" data-feature="{{ name }}">
             <div class="row">
                 <div class="col-lg-9 fasta fasta-nuc">
@@ -154,33 +154,35 @@
                 </div>
             </div>
         </div>
+    {% else %}
+        There are no sequences.
     {% endfor %}
 
     <hr>
 
     <h2 class="mb-3">Product(s)</h2>
-    {% for feature in locus.features %}
-        {% for product in feature.productsFeatures %}
-            <h3>{{ product.name }}</h3>
-            <p>
-                <b>Product type:</b> protein<br>
-                <b>Protein length:</b> {{ product.translation|length }} aa.<br>
-                <b>Product:</b> {{ product.product is not empty ? product.product|join(', '): product.note }}<br>
-                <b>Annotation:</b>
-            </p>
-            <ul>
-                {% if product.annotation['gene'] is defined %}
-                    <li>Gene: {{ product.annotation['gene']|join(', ') }}</li>
-                {% endif %}
-                {% if product.annotation['EC_number'] is defined %}
-                    <li>EC number: {{ product.annotation['EC_number']|join(', ') }}</li>
-                {% endif %}
-            </ul>
-            <div class="fasta">
-                <span class="header">>{{ product.name }}</span>
-                {{ product.translation|wordwrap(60, "\n")|nl2br }}
-            </div>
-        {% endfor %}
+    {% for product in locus.productFeatures if locus.productFeatures is not empty %}
+        <h3>{{ product.name }}</h3>
+        <p>
+            <b>Product type:</b> protein<br>
+            <b>Protein length:</b> {{ product.translation|length }} aa.<br>
+            <b>Product:</b> {{ product.product is not empty ? product.product|join(', '): product.note }}<br>
+            <b>Annotation:</b>
+        </p>
+        <ul>
+            {% if product.annotation['gene'] is defined %}
+                <li>Gene: {{ product.annotation['gene']|join(', ') }}</li>
+            {% endif %}
+            {% if product.annotation['EC_number'] is defined %}
+                <li>EC number: {{ product.annotation['EC_number']|join(', ') }}</li>
+            {% endif %}
+        </ul>
+        <div class="fasta">
+            <span class="header">>{{ product.name }}</span>
+            {{ product.translation|wordwrap(60, "\n")|nl2br }}
+        </div>
+    {% else %}
+        There are no products.
     {% endfor %}
 
     <hr>
@@ -221,7 +223,7 @@
                     {% endfor %}
                 </ul>
             {% else %}
-                There is not reference.
+                There are no reference.
             {% endif %}
         </div>
         {% include '_delete_confirmation.html.twig' %}

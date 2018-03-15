@@ -48,7 +48,7 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('species')
             ->leftJoin('strain.users', 'users')
                 ->addSelect('users')
-            ->innerJoin('locus.features', 'features')
+            ->leftJoin('locus.features', 'features')
                 ->addSelect('features')
             ->leftJoin('features.productsFeatures', 'products_features')
                 ->addSelect('products_features')
