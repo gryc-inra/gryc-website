@@ -10,8 +10,13 @@ env:
     - DOCKER_COMPOSE="docker-compose -f docker-compose.yml -f docker-compose.ci.yml"
     - EXEC="$DOCKER_COMPOSE exec -T app"
     - APP_DOCKER_IMAGE_NAME="mapiot/gryc"
-    - APP_DEV_DOCKER_IMAGE_TAG=`tar c docker/dev/app | md5sum | cut -d' ' -f1`
+    - APP_DEV_DOCKER_IMAGE_TAG="dev-`find docker/dev -type f -exec md5sum {} \; | sort -k 2 | md5sum | cut -d' ' -f1`"
     - APP_PROD_DOCKER_IMAGE_TAG=$TRAVIS_BRANCH-$TRAVIS_COMMIT
+
+cache:
+  directories:
+    - node_modules
+    - $HOME/.composer/cache/files
 
 before_script:
   - docker pull $APP_DOCKER_IMAGE_NAME:dev || true
@@ -26,3 +31,15 @@ script:
 
 before_deploy:
   - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: bash docker/scripts/deploy-dev
+    on:
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: bash docker/scripts/deploy-prod
+    on:
+      branch: master
