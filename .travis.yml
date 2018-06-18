@@ -1,48 +1,28 @@
-language: php
-sudo: false
+sudo: required
 
-cache:
-  directories:
-    - $HOME/.composer/cache/files
-    - $HOME/symfony-bridge/.phpunit
+language: generic
+
+services:
+  - docker
 
 env:
   global:
-    - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
+    - DOCKER_COMPOSE="docker-compose -f docker-compose.yml -f docker-compose.ci.yml"
+    - EXEC="$DOCKER_COMPOSE exec -T app"
+    - APP_DOCKER_IMAGE_NAME="mapiot/gryc"
+    - APP_DEV_DOCKER_IMAGE_TAG=`tar c docker/dev/app | md5sum | cut -d' ' -f1`
+    - APP_PROD_DOCKER_IMAGE_TAG=$TRAVIS_BRANCH-$TRAVIS_COMMIT
 
-matrix:
-  fast_finish: true
-  include:
-    - php: 7.2
-    - php: nightly
-  allow_failures:
-    - php: nightly
-
-before_install:
-  # Manually compile the libsodium library
-  - git clone -b stable https://github.com/jedisct1/libsodium.git
-  - cd libsodium && sudo ./configure && sudo make check && sudo make install && cd ..
-  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
-  - composer self-update
-
-install:
-  # Manually install libsodium, because the TravicCi image doesn't provide PHP7.2 with libsodium
-  - pecl install libsodium redis
-  - echo "extension=sodium.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "extension=redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  # Continue like before
-  - composer install
-  - ./vendor/bin/simple-phpunit install
+before_script:
+  - docker pull $APP_DOCKER_IMAGE_NAME:dev || true
+  - docker pull $APP_DOCKER_IMAGE_NAME:$APP_DEV_DOCKER_IMAGE_TAG || true
 
 script:
-  - ./vendor/bin/simple-phpunit
-  # this checks that the source code follows the Symfony Code Syntax rules
-  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
-  # this checks that the YAML config files contain no syntax errors
-  - ./bin/console lint:yaml app
-  # this checks that the Twig template files contain no syntax errors
-  - ./bin/console lint:twig app/Resources
-  # this checks that the application doesn't use dependencies with known security vulnerabilities
-  - ./bin/console security:check --end-point=http://security.sensiolabs.org/check_lock
-  # this checks that the composer.json and composer.lock files are valid
-  - composer validate
+  - make build
+  - make up
+  - make node_modules assets-prod
+  - make vendor clear-cache
+  - make lint security-check
+
+before_deploy:
+  - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD

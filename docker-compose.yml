@@ -1,0 +1,100 @@
+version: '3.2'
+
+services:
+    nginx:
+        build: docker/dev/nginx
+        depends_on:
+            - app
+        networks:
+            - frontend
+        volumes:
+            - .:/app
+
+    app:
+        build: docker/dev/app
+        depends_on:
+            - redis
+            - rabbitmq
+            - db
+            - es1
+        networks:
+            - frontend
+            - backend
+        volumes:
+            - .:/app
+
+    db:
+        image: mysql:5.7.21
+        environment:
+          - MYSQL_ROOT_PASSWORD=gryc
+          - MYSQL_USER=gryc
+          - MYSQL_PASSWORD=gryc
+          - MYSQL_DATABASE=gryc
+        volumes:
+            - db_data:/var/lib/mysql
+        networks:
+            - backend
+
+    es1:
+        build: ./docker/common/elasticsearch
+        environment:
+            - cluster.name=gryc-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - es1_data:/usr/share/elasticsearch/data
+        networks:
+            - backend
+
+    es2:
+        build: ./docker/common/elasticsearch
+        environment:
+            - cluster.name=gryc-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - "discovery.zen.ping.unicast.hosts=es1"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - es2_data:/usr/share/elasticsearch/data
+        networks:
+            - backend
+
+    rabbitmq:
+        image: rabbitmq:3.7.3
+        environment:
+            - RABBITMQ_DEFAULT_USER=gryc
+            - RABBITMQ_DEFAULT_PASS=gryc
+        volumes:
+            - rabbitmq_data:/var/lib/rabbitmq
+        networks:
+            - backend
+
+    redis:
+        image: redis:4.0.8
+        volumes:
+            - redis_data:/data
+        networks:
+            - backend
+
+volumes:
+    db_data:
+        driver: local
+    es1_data:
+        driver: local
+    es2_data:
+        driver: local
+    rabbitmq_data:
+        driver: local
+    redis_data:
+        driver: local
+
+networks:
+    frontend:
+    backend:

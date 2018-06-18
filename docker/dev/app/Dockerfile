@@ -3,6 +3,7 @@ FROM php:7.2.5-fpm
 # PHP_CPPFLAGS is used by the docker-php-ext-* scripts (avoid bug during compilation)
 ENV MAFFT_VERSION=7.313 \
     BLAST_VERSION=2.7.1 \
+    NODE_VERSION=10.1.0 \
     PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11" \
     COMPOSER_ALLOW_SUPERUSER=1
 
@@ -69,22 +70,15 @@ RUN set -ex; \
     make install; \
     rm -R /tmp/*
 
-COPY . /app
+# Install Node
+RUN set -ex; \
+    curl -L -o /tmp/nodejs.tar.gz https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz && \
+    tar xfvz /tmp/nodejs.tar.gz -C /usr/local --strip-components=1 && \
+    rm -f /tmp/nodejs.tar.gz && \
+    npm install yarn -g
 
-COPY docker/prod/app/entrypoint.sh /usr/local/bin/entrypoint.sh
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
-RUN SYMFONY_ENV=prod composer install --optimize-autoloader --no-interaction --no-ansi --no-dev && \
-    SYMFONY_ENV=prod bin/console cache:clear --no-warmup && \
-    SYMFONY_ENV=prod bin/console cache:warmup && \
-    \
-    chown -R www-data:www-data var files && \
-    \
-    rm -rf docker
-
-COPY docker/prod/app/php.ini /usr/local/etc/php/
-COPY docker/prod/app/php-cli.ini /usr/local/etc/php/
-COPY docker/prod/app/supervisord.conf /etc/supervisor/conf.d/
+COPY php.ini /usr/local/etc/php/
+COPY php-cli.ini /usr/local/etc/php/
+COPY supervisord.conf /etc/supervisor/conf.d/
 
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]

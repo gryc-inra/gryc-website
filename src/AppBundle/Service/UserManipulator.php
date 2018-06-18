@@ -17,8 +17,6 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Entity\User;
-
 class UserManipulator
 {
     private $userManager;

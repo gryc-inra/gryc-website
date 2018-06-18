@@ -93,7 +93,7 @@ class LoginBruteForce
 
         // Add clientIP
         if (array_key_exists($clientIp, $failedLogins['ip'])) {
-            $failedLogins['ip'][$clientIp]['nbAttempts'] += 1;
+            ++$failedLogins['ip'][$clientIp]['nbAttempts'];
             $failedLogins['ip'][$clientIp]['lastAttempt'] = new \DateTime('now');
         } else {
             $failedLogins['ip'][$clientIp]['nbAttempts'] = 1;
@@ -102,7 +102,7 @@ class LoginBruteForce
 
         // Add username
         if (array_key_exists($username, $failedLogins['username'])) {
-            $failedLogins['username'][$username]['nbAttempts'] += 1;
+            ++$failedLogins['username'][$username]['nbAttempts'];
             $failedLogins['username'][$username]['lastAttempt'] = new \DateTime('now');
         } else {
             $failedLogins['username'][$username]['nbAttempts'] = 1;

@@ -217,7 +217,7 @@ class AlignmentManipulator
                         // Do not count '-'
                         if ('-' !== $base) {
                             if (isset($basesStatistics[$key][$i][$base])) {
-                                $basesStatistics[$key][$i][$base] += 1;
+                                ++$basesStatistics[$key][$i][$base];
                             } else {
                                 $basesStatistics[$key][$i][$base] = 1;
                             }

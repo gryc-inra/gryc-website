@@ -1,0 +1,25 @@
+version: '3.2'
+
+services:
+    nginx:
+        ports:
+            - 127.0.0.1:8080:80
+        volumes:
+            - ./docker/dev/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
+    app:
+        volumes:
+            - ./docker/dev/app/php.ini:/usr/local/etc/php/php.ini:ro
+            - ./docker/dev/app/php-cli.ini:/usr/local/etc/php/php-cli.ini:ro
+
+    db:
+        ports:
+            - 127.0.0.1:3306:3306
+
+    es1:
+        volumes:
+            - ./docker/common/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+
+    es2:
+        volumes:
+            - ./docker/common/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
