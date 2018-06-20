@@ -151,5 +151,5 @@ node_modules: yarn.lock
 yarn.lock: package.json
 	@echo yarn.lock is not up to date.
 
-public/build: assets node_modules
+public/build: assets
 	$(EXEC) yarn dev
