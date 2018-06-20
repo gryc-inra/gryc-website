@@ -39,12 +39,10 @@ RUN set -ex; \
     ; \
     pecl install \
             apcu-5.1.8 \
-            redis-3.1.6 \
     ; \
     docker-php-ext-enable \
             opcache \
             apcu \
-            redis \
     ; \
     docker-php-source delete; \
     \

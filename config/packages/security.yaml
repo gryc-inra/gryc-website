@@ -1,0 +1,71 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: argon2i
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_REFERENCER]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        db_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/
+
+            guard:
+                authenticators:
+                    - App\Security\FormLoginAuthenticator
+
+            form_login:
+                # login and check paths
+                check_path: /login
+                login_path: /login
+
+                # login success redirecting options (read further below)
+                always_use_default_target_path: false
+                default_target_path:            /
+                use_referer:                    true
+
+                # csrf token options
+                csrf_token_generator: security.csrf.token_manager
+
+                # by default, the login form *must* be a POST, not a GET
+                post_only:      true
+                remember_me:    true
+
+                # by default, a session must exist before submitting an authentication request
+                # if false, then Request::hasPreviousSession is not called during authentication
+                require_previous_session: true
+
+            remember_me:
+                secret: "%env(APP_SECRET)%"
+                lifetime: 604800
+                path:     /
+
+            logout:
+                path:   /logout
+                target: /
+                csrf_token_generator: security.csrf.token_manager
+                invalidate_session: false
+
+            anonymous:    true
+            switch_user:  true
+            logout_on_user_change: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, role: ROLE_ADMIN }

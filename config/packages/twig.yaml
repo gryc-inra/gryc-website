@@ -1,0 +1,10 @@
+twig:
+    paths: ['%kernel.project_dir%/templates']
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes:
+        - form/form.html.twig
+    globals:
+        fasta_generator: '@App\Service\FastaGenerator'
+        blast_version: '%env(BLAST_VERSION)%'
+        mafft_version: '%env(MAFFT_VERSION)%'

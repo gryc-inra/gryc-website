@@ -1,7 +1,33 @@
-/app/config/parameters.yml
-/node_modules
-.php_cs.cache
+
+###> symfony/framework-bundle ###
+/.env
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/webpack-encore-pack ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-pack ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
 /phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php_cs
+/.php_cs.cache
+###< friendsofphp/php-cs-fixer ###
+
+###> app ###
 /files/*
 !/files/blast
 /files/blast/*
@@ -12,16 +38,9 @@
 !/files/temp
 /files/temp/*
 !/files/temp/.gitkeep
-/var/*
-!/var/cache
-/var/cache/*
-!var/cache/.gitkeep
-!/var/logs
-/var/logs/*
-!var/logs/.gitkeep
-!var/SymfonyRequirements.php
-/vendor
-/web/build
-/web/bundles
 /web/sitemap*
+###< app ###
+
+###> docker ###
 docker-compose.override.yml
+###< docker ###

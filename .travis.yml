@@ -24,7 +24,7 @@ before_script:
 script:
   - make build
   - make up
-  - make node_modules assets-prod
+  - make node_modules assets-build
   - make vendor clear-cache
   - make lint security-check
 

@@ -1,0 +1,16 @@
+parameters:
+    # Adds a fallback REDIS_URL if the env var is not set.
+    # This allows you to run cache:warmup even if your
+    # environment variables are not available yet.
+    # You should not need to change this value.
+    env(REDIS_URL): ''
+
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: "%env(REDIS_URL)%"
+            logging: "%kernel.debug%"
+    session:
+        client: default

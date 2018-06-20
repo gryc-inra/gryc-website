@@ -1,0 +1,132 @@
+{#
+   Copyright 2015-2018 Mathieu Piot
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+#}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    BLAST on yeasts genomes - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('tools') }}">Tools</a></li>
+    <li class="breadcrumb-item active">BLAST - Basic Local Alignment Search Tool</li>
+{% endblock %}
+
+{% block body %}
+    <h1>BLAST on yeast genomes</h1>
+    <p>Use the <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download" rel="nofollow">NCBI BLAST</a> {{ blast_version }} on our website to find regions of similarity in our sequences database.</p>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-lg-8">
+            {{ form_start(form) }}
+
+                {% form_theme form 'form_div_layout.html.twig' %}
+
+                <div id="{{ form.tool.vars.id }}" class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+                    {% for tool in form.tool %}
+                        <label class="btn btn-primary{{- tool.vars.checked is same as(true) ? ' active'  }}">
+                            {{ form_widget(tool, { 'attr': { 'autocomplete': 'off' } }) }} {{ tool.vars.label }}
+                        </label>
+                    {% endfor %}
+                </div>
+
+                <div id="{{ form.database.vars.id }}" class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+                    {% for database in form.database %}
+                        <label class="btn btn-primary{{- database.vars.checked is same as(true) ? ' active' }} {{- database.vars.attr.disabled is defined ? ' disabled' }}">
+                            {{ form_widget(database) }} {{ database.vars.label }}
+                        </label>
+                    {% endfor %}
+                </div>
+
+                {% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+                {{ form_row(form.query, {'attr': {'class': 'form-control fasta-input'}}) }}
+
+                <div class="btn-group" role="group">
+                    <button type="reset" class="btn btn-secondary" onclick="event.preventDefault();document.getElementById('blast_query').value='';">
+                        <span class="fas fa-eraser" aria-hidden="true"></span> Clear
+                    </button>
+
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cartFormModal">
+                        <span class="fas fa-copy" aria-hidden="true"></span> Use cart sequences
+                    </button>
+
+                    <button type="submit" class="btn btn-primary">
+                        <span class="fas fa-play" aria-hidden="true"></span> Run
+                    </button>
+                </div>
+
+                <div class="form-spotlight">
+                    <fieldset>
+                        <legend>Strains selection</legend>
+                        {{ form_row(form.strainsFiltered.filter) }}
+                        {{ form_row(form.strainsFiltered.strains) }}
+                    </fieldset>
+                </div>
+
+                <div class="form-spotlight">
+                    <fieldset>
+                        <legend>Options</legend>
+                        {{ form_row(form.filter) }}
+                        {{ form_row(form.gapped) }}
+                        {{ form_row(form.evalue) }}
+                    </fieldset>
+                </div>
+
+                {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+
+        {{ render(controller('App\\Controller\\CartController::fastaAction')) }}
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">BLAST history (10 last)</div>
+                <ul class="list-group list-group-flush">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        {% for blast in previousBlasts %}
+                            <li class="list-group-item">
+                                <a href="{{ path('blast_view', { 'name': blast.name }) }}">
+                                    {{ blast.created|date('Y/m/d H:i:s') }}
+                                </a> -
+                                {% if 'pending' == blast.status %}
+                                    <span class="text-info">Pending</span>
+                                {% elseif 'running' == blast.status %}
+                                    <span class="text-info">Running</span>
+                                {% elseif 'failed' == blast.status %}
+                                    <span class="text-danger">Error</span>
+                                {% elseif 'finished' == blast.status %}
+                                    <span class="text-success">Finished</span>
+                                {% endif %}
+                            </li>
+                        {% else %}
+                            <li class="list-group-item">
+                                <i>No BLAST found</i>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="list-group-item">
+                            Only available for <a href="{{ path('login') }}">logged users</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

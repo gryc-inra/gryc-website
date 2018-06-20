@@ -2,11 +2,9 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
-    ->exclude('app/DoctrineMigrations')
+    ->exclude('src/Migrations')
     ->exclude('var')
-    ->exclude('web/build')
-    ->exclude('web/bundles')
-    ->notPath('web/config.php')
+    ->exclude('public/build')
 ;
 
 return PhpCsFixer\Config::create()

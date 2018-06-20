@@ -1,0 +1,175 @@
+parameters:
+    # Adds a fallback ELASTICSEARCH_HOST ELASTICSEARCH_PORT
+    # and  if the env var is not set.
+    # This allows you to run cache:warmup even if your
+    # environment variables are not available yet.
+    # You should not need to change this value.
+    env(ELASTICSEARCH_HOST): ''
+    env(ELASTICSEARCH_PORT): ''
+
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/Resources/doc/setup.md
+fos_elastica:
+    clients:
+        default: { host: '%env(ELASTICSEARCH_HOST)%', port: '%env(ELASTICSEARCH_PORT)%' }
+    indexes:
+        app:
+            client: default
+            finder: ~
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            search:
+                                type: custom
+                                tokenizer: standard
+                                filter: [asciifolding, lowercase]
+                            edge_ngram:
+                                type: custom
+                                tokenizer: standard
+                                filter: [asciifolding, lowercase, edge_ngram]
+                            edge_ngram_locus_name:
+                                type: custom
+                                tokenizer: standard
+                                filter: [asciifolding, lowercase, edge_ngram_locus_name]
+                            english_light:
+                                type: custom
+                                tokenizer: standard
+                                filter: [asciifolding, lowercase]
+                            english_heavy:
+                                type: custom
+                                tokenizer: standard
+                                filter: [asciifolding, lowercase, english_stemmer]
+                        filter:
+                            edge_ngram:
+                                type: edgeNGram
+                                side: front
+                                min_gram: 1
+                                max_gram: 30
+                            edge_ngram_locus_name:
+                                type: edgeNGram
+                                side: front
+                                min_gram: 7
+                                max_gram: 30
+                            english_stemmer:
+                                type: stemmer
+                                name: light_english
+            types:
+                user:
+                    properties:
+                        email:
+                            type: string
+                            fields:
+                                ngramed:
+                                    type: string
+                                    analyzer: edge_ngram
+                                    search_analyzer: search
+                        fullName:
+                            type: string
+                            fielddata: true
+                            fields:
+                                ngramed:
+                                    type: string
+                                    analyzer : edge_ngram
+                                    search_analyzer: search
+                    persistence:
+                        driver: orm
+                        model: App\Entity\User
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                        repository: App\SearchRepository\UserRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+
+                strain:
+                    properties:
+                        id:
+                        public:
+                        usersId:
+                    persistence:
+                        driver: orm
+                        model: App\Entity\Strain
+                        provider: ~
+                        listener:
+                            insert: true
+                            update: true
+                            delete: false
+                        finder: ~
+                        repository: App\SearchRepository\StrainRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+
+                locus:
+                    properties:
+                        name:
+                            type: string
+                            fields:
+                                ngramed:
+                                    type: string
+                                    analyzer: edge_ngram_locus_name
+                                    search_analyzer: search
+                        annotation:
+                            type: object
+                        note:
+                            type: string
+                            analyzer: english_light
+                            fields:
+                                stemmed:
+                                    type: string
+                                    analyzer: english_heavy
+                        features:
+                            type: nested
+                            properties:
+                                name:
+                                    type: string
+                                    fields:
+                                        ngramed:
+                                            type: string
+                                            analyzer: edge_ngram_locus_name
+                                            search_analyzer: search
+                                annotation:
+                                    type: object
+                                note:
+                                    type: string
+                                    analyzer: english_light
+                                    fields:
+                                        stemmed:
+                                            type: string
+                                            analyzer: english_heavy
+                                products:
+                                    type: nested
+                                    property_path: productsFeatures
+                                    properties:
+                                        name:
+                                            type: string
+                                            fields:
+                                                ngramed:
+                                                    type: string
+                                                    analyzer: edge_ngram_locus_name
+                                                    search_analyzer: search
+                                        annotation:
+                                            type: object
+                                        note:
+                                            type: string
+                                            analyzer: english_light
+                                            fields:
+                                                stemmed:
+                                                    type: string
+                                                    analyzer: english_heavy
+                    _parent:
+                        type: "strain"
+                        property: "chromosome.strain"
+                        identifier: "id"
+                    persistence:
+                        driver: orm
+                        model: App\Entity\Locus
+                        provider: ~
+                        listener:
+                            insert: true
+                            update: true
+                            delete: false
+                        finder: ~
+                        repository: App\SearchRepository\LocusRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+                            query_builder_method: createSearchQueryBuilder

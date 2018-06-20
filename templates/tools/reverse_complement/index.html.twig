@@ -1,0 +1,54 @@
+{#
+   Copyright 2015-2018 Mathieu Piot
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+#}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Reverse complement tool - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('tools') }}">Tools</a></li>
+    <li class="breadcrumb-item active">Reverse complement</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Reverse complement</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.action) }}
+        {{ form_row(form.query, { 'attr' : { 'class': 'fasta-input' } }) }}
+        {{ form_rest(form) }}
+
+        <div class="btn-group" role="group">
+            <button type="reset" class="btn btn-secondary"  onclick="event.preventDefault();document.getElementById('reverse_complement_query').value='';">
+                <span class="fa fa-eraser" aria-hidden="true"></span> Clear
+            </button>
+
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cartFormModal">
+                <span class="fa fa-copy" aria-hidden="true"></span> Use cart sequences
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+                <span class="fa fa-play" aria-hidden="true"></span> Run
+            </button>
+        </div>
+
+    {{ form_end(form) }}
+
+    {{ render(controller('App\\Controller\\CartController:fastaAction')) }}
+{% endblock %}

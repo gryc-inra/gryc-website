@@ -7,7 +7,7 @@ PHPCSFIXER?=$(EXEC) php -d memory_limit=1024m vendor/bin/php-cs-fixer
 .DEFAULT_GOAL := help
 .PHONY: help start stop restart install uninstall reset clear-cache tty clear clean
 .PHONY: db-diff db-migrate db-rollback db-reset db-validate wait-for-db
-.PHONY: watch assets assets-prod
+.PHONY: watch assets assets-build
 .PHONY: lint lint-symfony lint-yaml lint-twig php-cs php-cs-fix security-check
 .PHONY: deps
 .PHONY: build up perm
@@ -28,7 +28,7 @@ stop:                                                                           
 restart:                                                                                               ## Restart docker containers
 	$(DOCKER_COMPOSE) restart
 
-install: build up app/config/parameters.yml db-migrate web/build perm                                          ## Create and start docker containers
+install: build up db-migrate public/build perm                                          ## Create and start docker containers
 
 uninstall: stop                                                                                        ## Remove docker containers
 	$(DOCKER_COMPOSE) rm -vf
@@ -45,8 +45,8 @@ tty:                                                                            
 clear: perm                                                                                            ## Remove all the cache, the logs, the sessions and the built assets
 	$(EXEC) rm -rf var/cache/*
 	$(EXEC) $(CONSOLE) redis:flushall -n
-	rm -rf var/logs/*
-	rm -rf web/build
+	rm -rf var/log/*
+	rm -rf public/build
 	rm -f var/.php_cs.cache
 
 clean: clear                                                                                           ## Clear and remove dependencies
@@ -88,8 +88,8 @@ watch: node_modules                                                             
 assets: node_modules                                                                                   ## Build the development version of the assets
 	$(EXEC) yarn dev
 
-assets-prod: node_modules                                                                              ## Build the production version of the assets
-	$(EXEC) yarn prod
+assets-build: node_modules                                                                              ## Build the production version of the assets
+	$(EXEC) yarn build
 
 ##
 ## Tests
@@ -100,10 +100,10 @@ lint: lint-symfony php-cs                                                       
 lint-symfony: lint-yaml lint-twig                                                                      ## Lint Symfony (Twig and YAML) files
 
 lint-yaml:                                                                                             ## Lint YAML files
-	$(EXEC) $(CONSOLE) lint:yaml app/config
+	$(EXEC) $(CONSOLE) lint:yaml config
 
 lint-twig:                                                                                             ## Lint Twig files
-	$(EXEC) $(CONSOLE) lint:twig app/Resources
+	$(EXEC) $(CONSOLE) lint:twig templates
 
 php-cs: vendor                                                                                         ## Lint PHP code
 	$(PHPCSFIXER) fix --diff --dry-run --no-interaction -v
@@ -118,7 +118,7 @@ security-check: vendor                                                          
 ## Dependencies
 ##---------------------------------------------------------------------------
 
-deps: vendor web/build                                                                                 ## Install the project PHP and JS dependencies
+deps: vendor public/build                                                                                 ## Install the project PHP and JS dependencies
 
 
 ##
@@ -134,8 +134,8 @@ up:
 	$(DOCKER_COMPOSE) up -d --remove-orphans
 
 perm:
-	$(EXEC) chmod -R 777 var files web/build node_modules vendor
-	$(EXEC) chown -R www-data:root var files web/build node_modules vendor
+	$(EXEC) chmod -R 777 var files public/build node_modules vendor
+	$(EXEC) chown -R www-data:root var files public/build node_modules vendor
 
 # Rules from files
 
@@ -145,14 +145,11 @@ vendor: composer.lock
 composer.lock: composer.json
 	@echo compose.lock is not up to date.
 
-app/config/parameters.yml: app/config/parameters.yml.dist vendor
-	$(EXEC) composer -n run-script post-install-cmd
-
 node_modules: yarn.lock
 	$(EXEC) yarn install
 
 yarn.lock: package.json
 	@echo yarn.lock is not up to date.
 
-web/build: assets node_modules
+public/build: assets node_modules
 	$(EXEC) yarn dev
