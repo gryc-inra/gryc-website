@@ -24,8 +24,8 @@ before_script:
 script:
   - make build
   - make up
-  - make node_modules assets-build
-  - make vendor clear-cache
+  - make assets-build
+  - make vendor
   - make lint security-check
 
 before_deploy:

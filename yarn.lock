@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@symfony/webpack-encore@^0.15.0":
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/@symfony/webpack-encore/-/webpack-encore-0.15.1.tgz#4097cb94fd831443126c75e97df6691f9e02b275"
+"@symfony/webpack-encore@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@symfony/webpack-encore/-/webpack-encore-0.19.0.tgz#f0725dbbede5ff9d9fdbd7a07f84accafc83ca14"
   dependencies:
     babel-core "^6.24.0"
     babel-loader "^7.1.0"
@@ -24,9 +24,32 @@
     resolve-url-loader "^2.0.2"
     style-loader "^0.13.2"
     webpack ">=2.2.0 <4"
-    webpack-chunk-hash "^0.4.0"
+    webpack-chunk-hash "^0.5.0"
     webpack-dev-server "^2.4.5"
     yargs "^8.0.1"
+
+"@types/node@*":
+  version "10.3.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.4.tgz#c74e8aec19e555df44609b8057311052a2c84d9e"
+
+"@types/tapable@^0":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-0.2.5.tgz#2443fc12da514c81346b1a665675559cee21fa75"
+
+"@types/uglify-js@*":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.0.2.tgz#f30c75458d18e8ee885c792c04adcb78a13bc286"
+  dependencies:
+    source-map "^0.6.1"
+
+"@types/webpack@^3.0.5":
+  version "3.8.12"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-3.8.12.tgz#c5db4f273fb8f2a4929db6c486e19e68c350e7ac"
+  dependencies:
+    "@types/node" "*"
+    "@types/tapable" "^0"
+    "@types/uglify-js" "*"
+    source-map "^0.6.0"
 
 abbrev@1:
   version "1.1.1"
@@ -4890,7 +4913,7 @@ source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.1:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 
-source-map@^0.6.1, source-map@~0.6.1:
+source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
@@ -5386,9 +5409,11 @@ wbuf@^1.1.0, wbuf@^1.7.2:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-webpack-chunk-hash@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/webpack-chunk-hash/-/webpack-chunk-hash-0.4.0.tgz#6b40c3070fbc9ff0cfe0fe781c7174af6c7c16a4"
+webpack-chunk-hash@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/webpack-chunk-hash/-/webpack-chunk-hash-0.5.0.tgz#1dba38203d73c1e6ab069b6810a5a37402399dec"
+  dependencies:
+    "@types/webpack" "^3.0.5"
 
 webpack-dev-middleware@1.12.2:
   version "1.12.2"

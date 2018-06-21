@@ -7,6 +7,7 @@ PHPCSFIXER?=$(EXEC) php -d memory_limit=1024m vendor/bin/php-cs-fixer
 .DEFAULT_GOAL := help
 .PHONY: help start stop restart install uninstall reset clear-cache tty clear clean
 .PHONY: db-diff db-migrate db-rollback db-reset db-validate wait-for-db
+.PHONY: es-populate wait-for-es
 .PHONY: watch assets assets-build
 .PHONY: lint lint-symfony lint-yaml lint-twig php-cs php-cs-fix security-check
 .PHONY: deps
@@ -28,7 +29,7 @@ stop:                                                                           
 restart:                                                                                               ## Restart docker containers
 	$(DOCKER_COMPOSE) restart
 
-install: build up db-migrate public/build perm                                          ## Create and start docker containers
+install: build up deps perm db-migrate es-populate                                                     ## Create and start docker containers
 
 uninstall: stop                                                                                        ## Remove docker containers
 	$(DOCKER_COMPOSE) rm -vf
@@ -79,6 +80,17 @@ db-validate: vendor wait-for-db                                                 
 
 
 ##
+## Elasticsearch
+##---------------------------------------------------------------------------
+
+wait-for-es:
+	$(EXEC) php -r "set_time_limit(60);for(;;){if(@fsockopen('es1',9200)){break;}echo \"Waiting for MySQL\n\";sleep(1);}"
+
+es-populate: vendor wait-for-es                                                                            ## Populate Elasticsearch
+	$(EXEC) $(CONSOLE) fos:elastica:populate
+
+
+##
 ## Assets
 ##---------------------------------------------------------------------------
 
@@ -118,7 +130,7 @@ security-check: vendor                                                          
 ## Dependencies
 ##---------------------------------------------------------------------------
 
-deps: vendor public/build                                                                                 ## Install the project PHP and JS dependencies
+deps: vendor assets                                                                                    ## Install the project PHP and JS dependencies
 
 
 ##
@@ -150,6 +162,3 @@ node_modules: yarn.lock
 
 yarn.lock: package.json
 	@echo yarn.lock is not up to date.
-
-public/build: assets
-	$(EXEC) yarn dev
