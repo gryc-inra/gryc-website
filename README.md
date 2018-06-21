@@ -1,13 +1,62 @@
 ![Gryc](https://github.com/mpiot/gryc/blob/master/assets/images/logo-40.png)
 
 ### Summary
-1. Follow the best practice
-2. How to control your code syntax ?
+1. Install the development app
+2. Follow the best practice
+3. How to control your code syntax ?
+4. About docker images
 
-## 1. Follow the best practice
+## 1. Install the development app
+
+### 1. Install Docker and docker-compose
+The development app use docker and docker-compose, before continue to follow the guide, please install these requirements.
+* https://docs.docker.com/install/
+* https://docs.docker.com/compose/install/
+
+### 2. Fork the app
+1. Fork
+
+    Click on the fork button at the top of the page.
+
+2. Clone your repository (after fork)
+
+        git clone git@github.com:USERNAME/gryc-website.git
+
+3. Create the upstream remote
+
+        cd gryc-website
+        git remote add upstream git://github.com/gryc-inra/gryc-website.git
+
+4. Some infos, to work with upstream and origin remote
+
+    https://symfony.com/doc/current/contributing/code/patches.html
+
+### 3. Configure the app
+
+Now, we will configure the application on your machine, there is 2 files that permit it:
+ - .env: configure credential for db, Google ReCaptcha, SMTP credentials, ...
+ - docker-compose.override.ym: configure daemon access like the forwarded ports of nginx to access your app, and db ports
+ for debug.
+ 
+ 
+    cp .env.dist .env
+    vi .env
+    
+    cp docker-compose.override.yml.dist docker-compose.override.yml
+    vi docker-compose.override.yml
+
+### 4. Install
+
+That's finish in a few time, now, just execute:
+
+    make install
+    
+And voilà !!! Your app is installed and ready to use.
+
+## 2. Follow the best practice
 There is a **beautiful** guide about the best practice :) You can find it on the [Symfony Documentation - Best Practice](http://symfony.com/doc/current/best_practices/index.html).
 
-## 2. How to control your code syntax ?
+## 3. How to control your code syntax ?
 For a better structure of the code, we use Coding standards: PSR-0, PSR-1, PSR-2 and PSR-4.
 You can found some informations on [the synfony documentation page](http://symfony.com/doc/current/contributing/code/standards.html).
 
@@ -16,29 +65,19 @@ In the project you have a php-cs-fixer.phar file, [the program's documentation](
 Some commands:
    * List files with mistakes
 
-    php php-cs-fixer.phar fix --dry-run
+    make php-cs
 
    * Fix files:
 
-    php php-cs-fixer.phar fix
+    make php-cs-fix
 
-   * View difference beetween your code and the corected code:
+## 3. About docker images
 
-    php php-cs-fixer.phar fix --diff --dry-run path/yo/file.php
+In the project, docker images are automatically generated. There is a *.travis-ci.yml* file, that execute some test on each
+PullRequest to validate the code. When the code is merged in the **master branch** of the project, then it save a new **dev** image
+and a **dev-{docker-folder-hash}**. If we add a tag on a commit, then Travis-Ci generate the **prod** image and a **prod-{TAG}** image.
 
-## 3. Generate the Docker Image
-You must have a DockerHub account or a private repository to push and pull your images.
+The **dev** and **dev-{docker-folder-hash}** are the same image, **dev** is the latest dev image. And in prod it's the 
+same **prod** and **prod-{TAG}** are identical. The **prod** image are always the latest prod image.
 
-  1. Build the image
-
-          cd /path/to/gryc/src/folder
-          docker build -t REPOSITORY_NAME/gryc:YYYY-MM-DD .
-
-  2. Tag the image with `latest`
-
-          docker tag REPOSITORY_NAME/gryc:YYYY-MM-DD REPOSITORY_NAME/gryc:latest
-
-  3. Push images on your Repository (you may just push the latest tagged image)
-  
-          docker push REPOSITORY_NAME/gryc:YYYY-MM-DD
-          docker push REPOSITORY_NAME/gryc:latest
+All this images are pushed on the docker hub repository:  https://hub.docker.com/r/mapiot/gryc/
