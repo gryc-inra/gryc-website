@@ -7,6 +7,7 @@
         "excelwebzone/recaptcha-bundle": "^1.5",
         "friendsofphp/php-cs-fixer": "^2.12",
         "friendsofsymfony/elastica-bundle": "^5.0",
+        "guzzlehttp/guzzle": "^6.3",
         "php-amqplib/rabbitmq-bundle": "^1.14",
         "predis/predis": "^1.0",
         "sensio/framework-extra-bundle": "^5.1",

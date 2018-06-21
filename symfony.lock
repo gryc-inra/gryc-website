@@ -119,6 +119,15 @@
             "ref": "ad1889cf16aa84af78e818710760546d2c45f69c"
         }
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.4.2"
+    },
     "guzzlehttp/ringphp": {
         "version": "1.1.0"
     },
@@ -172,6 +181,9 @@
     },
     "psr/container": {
         "version": "1.0.0"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
     },
     "psr/link": {
         "version": "1.0.0"
