@@ -33,9 +33,9 @@ module.exports = function(container, buttonText, buttonId, fieldStart, functions
     }
 
     // Delete the first label (the number of the field), and the required class
-    container.children('div').find('label:first').text('');
-    container.children('div').find('label:first').removeClass('required');
-    container.children('div').find('label:first').removeClass('required');
+    container.children('fieldset').find('legend:first').text('');
+    container.children('fieldset').find('legend:first').removeClass('required');
+    container.children('fieldset').find('legend:first').removeClass('required');
 
     // Create and add a button to add new field
     if (buttonId) {
@@ -56,11 +56,11 @@ module.exports = function(container, buttonText, buttonId, fieldStart, functions
     });
 
     // Define an index to count the number of added field (used to give name to fields)
-    var index = container.children('div').length;
+    var index = container.children('fieldset').length;
 
     // If the index is > 0, fields already exists, then, add a deleteButton to this fields
     if (index > 0) {
-        container.children('div').each(function() {
+        container.children('fieldset').each(function() {
             addDeleteButton($(this));
             addFunctions($(this));
         });

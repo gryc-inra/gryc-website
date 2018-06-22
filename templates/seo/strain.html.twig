@@ -42,12 +42,3 @@
 
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-
-    <script type="text/javascript">
-        $(function () {
-            collectionType($('div#strain_seo_seos'), 'Add a SEO', null, true);
-        });
-    </script>
-{% endblock %}

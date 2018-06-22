@@ -41,13 +41,3 @@
     {{ form_end(form) }}
 
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-
-    <script type="text/javascript">
-        $(function () {
-            collectionType($('div#species_seo_seos'), 'Add a SEO', null, true);
-        });
-    </script>
-{% endblock %}
