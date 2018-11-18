@@ -1,3 +1,12 @@
+parameters:
+    # Adds a fallback APP_VERSION if the env var is not set.
+    # This allows you to run cache:warmup even if your
+    # environment variables are not available yet.
+    # You should not need to change this value.
+    env(APP_VERSION): ''
+    env(BLAST_VERSION): ''
+    env(MAFFT_VERSION): ''
+
 twig:
     paths: ['%kernel.project_dir%/templates']
     debug: '%kernel.debug%'
@@ -6,5 +15,6 @@ twig:
         - form/form.html.twig
     globals:
         fasta_generator: '@App\Service\FastaGenerator'
+        app_version: '%env(APP_VERSION)%'
         blast_version: '%env(BLAST_VERSION)%'
         mafft_version: '%env(MAFFT_VERSION)%'
