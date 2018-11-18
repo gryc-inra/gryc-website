@@ -29,9 +29,6 @@ script:
   - make vendor
   - make lint security-check
 
-before_deploy:
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD; fi'
-
 deploy:
   - provider: script
     skip_cleanup: true
