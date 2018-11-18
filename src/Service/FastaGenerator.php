@@ -123,7 +123,7 @@ class FastaGenerator
 
     private function streamFasta(string $fasta)
     {
-        $handle = fopen('php://output', 'w+');
+        $handle = fopen('php://output', 'w+b');
         fwrite($handle, $fasta);
         fclose($handle);
 

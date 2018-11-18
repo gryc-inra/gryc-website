@@ -45,7 +45,7 @@ class LoginBruteForce
         $failedLogins = $failedLoginsItem->get();
 
         // If the failedLogins is not an array, contruct it
-        if (!is_array($failedLogins)) {
+        if (!\is_array($failedLogins)) {
             $failedLogins = [
                 'ip' => [],
                 'username' => [],

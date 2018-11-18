@@ -289,7 +289,7 @@ class Chromosome
      */
     public function addAccession($accession)
     {
-        if (!empty($accession) && !in_array($accession, $this->accessions, true)) {
+        if (!empty($accession) && !\in_array($accession, $this->accessions, true)) {
             $this->accessions[] = $accession;
         }
 
@@ -386,7 +386,7 @@ class Chromosome
      */
     public function addKeyword($keyword)
     {
-        if (!empty($keyword) && !in_array($keyword, $this->keywords, true)) {
+        if (!empty($keyword) && !\in_array($keyword, $this->keywords, true)) {
             $this->keywords[] = $keyword;
         }
 

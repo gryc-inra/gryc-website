@@ -227,7 +227,7 @@ class BlastManager
         // For each Iteration
         $crawler->filterXPath('//BlastOutput/BlastOutput_iterations/Iteration')->each(function (Crawler $node) use (&$result) {
             // Init the count
-            $i = isset($result['iterations']) ? count($result['iterations']) : 0;
+            $i = isset($result['iterations']) ? \count($result['iterations']) : 0;
 
             // Add params to the iteration
             $iteration['query_num'] = $node->filterXPath('//Iteration_iter-num')->text();
@@ -257,7 +257,7 @@ class BlastManager
             $result['iterations'][$i]['hits'] = [];
             $node->filterXPath('//Hit')->each(function (Crawler $node) use (&$result, $i) {
                 // Init the count
-                $j = isset($result['iterations'][$i]['hits']) ? count($result['iterations'][$i]['hits']) : 0;
+                $j = isset($result['iterations'][$i]['hits']) ? \count($result['iterations'][$i]['hits']) : 0;
 
                 // Add param to the hit
                 $hit['num'] = $node->filterXPath('//Hit_num')->text();
@@ -275,7 +275,7 @@ class BlastManager
                 $previousDrawedHSPQueryTo = 0;
                 $node->filterXPath('//Hsp')->each(function (Crawler $node) use (&$result, $i, $j, &$previousDrawedHSPQueryFrom, &$previousDrawedHSPQueryTo) {
                     // Init the count
-                    $k = isset($result['iterations'][$i]['hits'][$j]['hsps']) ? count($result['iterations'][$i]['hits'][$j]['hsps']) : 0;
+                    $k = isset($result['iterations'][$i]['hits'][$j]['hsps']) ? \count($result['iterations'][$i]['hits'][$j]['hsps']) : 0;
 
                     // Add param to the HSP
                     $hsp['num'] = $node->filterXPath('//Hsp_num')->text();
@@ -461,7 +461,7 @@ class BlastManager
         $hits = [];
         foreach ($blastResult['iterations'] as $query) {
             foreach ($query['hits'] as $hit) {
-                if (!in_array($hit['name'], $hits, true)) {
+                if (!\in_array($hit['name'], $hits, true)) {
                     $hits[] = $hit['name'];
                 }
             }
