@@ -19,7 +19,6 @@ cache:
     - $HOME/.composer/cache/files
 
 before_script:
-  - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
   - docker pull $APP_DEV_IMAGE_NAME:latest || true
   - docker pull $APP_DEV_IMAGE_NAME:$APP_DEV_IMAGE_TAG || true
 
@@ -31,7 +30,7 @@ script:
   - make lint security-check
 
 before_deploy:
-  - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD; fi'
 
 deploy:
   - provider: script
