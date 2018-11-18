@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Entity;
@@ -189,10 +190,8 @@ class Strain
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -201,10 +200,8 @@ class Strain
      * Set name.
      *
      * @param string $name
-     *
-     * @return Strain
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -213,10 +210,8 @@ class Strain
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -225,10 +220,8 @@ class Strain
      * Add synonym.
      *
      * @param string $synonym
-     *
-     * @return Strain
      */
-    public function addSynonym($synonym)
+    public function addSynonym($synonym): self
     {
         if (!empty($synonym) && !\in_array($synonym, $this->synonymes, true)) {
             $this->synonymes[] = $synonym;
@@ -241,10 +234,8 @@ class Strain
      * Remove synonym.
      *
      * @param string $synonym
-     *
-     * @return Strain
      */
-    public function removeSynonym($synonym)
+    public function removeSynonym($synonym): self
     {
         if (false !== $key = array_search($synonym, $this->synonymes, true)) {
             unset($this->synonymes[$key]);
@@ -256,10 +247,8 @@ class Strain
 
     /**
      * Empty synonymes.
-     *
-     * @return Strain
      */
-    public function emptySynonymes()
+    public function emptySynonymes(): self
     {
         $this->synonymes = [];
 
@@ -270,10 +259,8 @@ class Strain
      * Set synonymes.
      *
      * @param array $synonymes
-     *
-     * @return Strain
      */
-    public function setSynonymes($synonymes)
+    public function setSynonymes($synonymes): self
     {
         foreach ($synonymes as $synonym) {
             $this->addSynonym($synonym);
@@ -284,10 +271,8 @@ class Strain
 
     /**
      * Get synonymes.
-     *
-     * @return array
      */
-    public function getSynonymes()
+    public function getSynonymes(): array
     {
         return $this->synonymes;
     }
@@ -296,10 +281,8 @@ class Strain
      * Set length.
      *
      * @param int $length
-     *
-     * @return Strain
      */
-    public function setLength($length)
+    public function setLength($length): self
     {
         $this->length = $length;
 
@@ -308,10 +291,8 @@ class Strain
 
     /**
      * Get length.
-     *
-     * @return int
      */
-    public function getLength()
+    public function getLength(): int
     {
         return $this->length;
     }
@@ -320,10 +301,8 @@ class Strain
      * Set gc.
      *
      * @param float $gc
-     *
-     * @return Strain
      */
-    public function setGc($gc)
+    public function setGc($gc): self
     {
         $this->gc = $gc;
 
@@ -332,10 +311,8 @@ class Strain
 
     /**
      * Get gc.
-     *
-     * @return float
      */
-    public function getGc()
+    public function getGc(): float
     {
         return $this->gc;
     }
@@ -344,10 +321,8 @@ class Strain
      * Set status.
      *
      * @param string $status
-     *
-     * @return Strain
      */
-    public function setStatus($status)
+    public function setStatus($status): self
     {
         $this->status = $status;
 
@@ -356,10 +331,8 @@ class Strain
 
     /**
      * Get status.
-     *
-     * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -368,10 +341,8 @@ class Strain
      * Set cdsCount.
      *
      * @param int $cdsCount
-     *
-     * @return Strain
      */
-    public function setCdsCount($cdsCount)
+    public function setCdsCount($cdsCount): self
     {
         $this->cdsCount = $cdsCount;
 
@@ -380,10 +351,8 @@ class Strain
 
     /**
      * Get cdsCount.
-     *
-     * @return int
      */
-    public function getCdsCount()
+    public function getCdsCount(): int
     {
         return $this->cdsCount;
     }
@@ -391,7 +360,6 @@ class Strain
     /**
      * Add chromosomes.
      *
-     * @param Chromosome $chromosome
      *
      * @return $this
      */
@@ -408,7 +376,6 @@ class Strain
     /**
      * Remove chromosomes.
      *
-     * @param Chromosome $chromosome
      *
      * @return $this
      */
@@ -434,7 +401,6 @@ class Strain
     /**
      * Set species.
      *
-     * @param Species $species
      *
      * @return $this
      */
@@ -447,22 +413,16 @@ class Strain
 
     /**
      * Get species.
-     *
-     * @return Species
      */
-    public function getSpecies()
+    public function getSpecies(): Species
     {
         return $this->species;
     }
 
     /**
      * Add Seo.
-     *
-     * @param Seo $seo
-     *
-     * @return Strain
      */
-    public function addSeo(Seo $seo)
+    public function addSeo(Seo $seo): self
     {
         if (!$this->seos->contains($seo)) {
             $this->seos[] = $seo;
@@ -474,8 +434,6 @@ class Strain
 
     /**
      * Remove Seo.
-     *
-     * @param Seo $seo
      */
     public function removeSeo(Seo $seo)
     {
@@ -500,10 +458,8 @@ class Strain
      * Set slug.
      *
      * @param string $slug
-     *
-     * @return Strain
      */
-    public function setSlug($slug)
+    public function setSlug($slug): self
     {
         $this->slug = $slug;
 
@@ -512,10 +468,8 @@ class Strain
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -536,40 +490,32 @@ class Strain
 
     /**
      * Get public.
-     *
-     * @return bool
      */
-    public function getPublic()
+    public function getPublic(): bool
     {
         return $this->public;
     }
 
     /**
      * Is public?
-     *
-     * @return bool
      */
-    public function isPublic()
+    public function isPublic(): bool
     {
         return $this->public;
     }
 
     /**
      * Is private?
-     *
-     * @return bool
      */
-    public function isPrivate()
+    public function isPrivate(): bool
     {
         return !$this->isPublic();
     }
 
     /**
      * Return if the strain is public or no, in letter.
-     *
-     * @return string
      */
-    public function isPublicToString()
+    public function isPublicToString(): string
     {
         if ($this->isPublic()) {
             return 'yes';
@@ -580,10 +526,8 @@ class Strain
 
     /**
      * Return if the strain is private or no, in letter.
-     *
-     * @return string
      */
-    public function isPrivateToString()
+    public function isPrivateToString(): string
     {
         if ($this->isPrivate()) {
             return 'yes';
@@ -595,7 +539,6 @@ class Strain
     /**
      * Add user.
      *
-     * @param User $user
      *
      * @return $this
      */
@@ -611,7 +554,6 @@ class Strain
     /**
      * Remove user.
      *
-     * @param User $user
      *
      * @return $this
      */
@@ -636,10 +578,8 @@ class Strain
 
     /**
      * Get users id.
-     *
-     * @return array
      */
-    public function getUsersId()
+    public function getUsersId(): array
     {
         $usersId = [];
 
@@ -654,10 +594,8 @@ class Strain
      * Is allowed user ?
      *
      * @param User $user
-     *
-     * @return bool
      */
-    public function isAllowedUser(User $user = null)
+    public function isAllowedUser(User $user = null): bool
     {
         return $this->users->contains($user);
     }
@@ -678,30 +616,24 @@ class Strain
 
     /**
      * Get type.
-     *
-     * @return bool
      */
-    public function getTypeStrain()
+    public function getTypeStrain(): bool
     {
         return $this->typeStrain;
     }
 
     /**
      * Is a type strain?
-     *
-     * @return bool
      */
-    public function isTypeStrain()
+    public function isTypeStrain(): bool
     {
         return $this->typeStrain;
     }
 
     /**
      * Return if the strain is a type strain or not, in letter.
-     *
-     * @return string
      */
-    public function isTypeStrainToString()
+    public function isTypeStrainToString(): string
     {
         if ($this->isTypeStrain()) {
             return 'yes';
@@ -736,7 +668,6 @@ class Strain
     /**
      * Add BlastFile.
      *
-     * @param BlastFile $blastFile
      *
      * @return $this
      */
@@ -753,7 +684,6 @@ class Strain
     /**
      * Remove BlastFile.
      *
-     * @param BlastFile $flatFile
      *
      * @return $this
      */

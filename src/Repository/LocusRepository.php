@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Repository;
@@ -30,11 +31,8 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
     /**
      * Get locus with all linked data.
      *
-     * @param $locusName
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
-     *
-     * @return mixed
      */
     public function findLocusWithAllData($slug)
     {
@@ -68,8 +66,6 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
      * @param $locusName
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
-     *
-     * @return mixed
      */
     public function findLocus($locusName)
     {
@@ -97,8 +93,6 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
      * @param $featureName
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
-     *
-     * @return mixed
      */
     public function findLocusFromFeature($featureName)
     {
@@ -126,8 +120,6 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
      * @param $productName
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
-     *
-     * @return mixed
      */
     public function findLocusFromProduct($productName)
     {
@@ -153,10 +145,8 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * @param $productName
-     *
-     * @return array
      */
-    public function findLocusFromProductWithoutDnaSequence($productName)
+    public function findLocusFromProductWithoutDnaSequence($productName): array
     {
         $query = $this->createQueryBuilder('locus')
             ->leftJoin('locus.features', 'features')
@@ -177,12 +167,7 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    /**
-     * @param array $ids
-     *
-     * @return array
-     */
-    public function findLocusById(array $ids)
+    public function findLocusById(array $ids): array
     {
         $query = $this->createQueryBuilder('locus')
             ->leftJoin('locus.chromosome', 'chromosome')
@@ -199,12 +184,7 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    /**
-     * @param Strain $strain
-     *
-     * @return array
-     */
-    public function findLocusFromStrain(Strain $strain)
+    public function findLocusFromStrain(Strain $strain): array
     {
         $query = $this->createQueryBuilder('locus')
             ->leftJoin('locus.chromosome', 'chromosome')
@@ -224,10 +204,8 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @param $offset
      * @param $limit
-     *
-     * @return array
      */
-    public function findPublicLocus($offset, $limit)
+    public function findPublicLocus($offset, $limit): array
     {
         $query = $this->createQueryBuilder('locus')
             ->select('partial locus.{id, name, chromosome}, partial chromosome.{id, slug, strain}, partial strain.{id, slug, species}, partial species.{id, slug}')
@@ -245,8 +223,6 @@ class LocusRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
-     *
-     * @return mixed
      */
     public function countPublicLocus()
     {

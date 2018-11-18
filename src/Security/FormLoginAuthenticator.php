@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Security;
@@ -101,13 +102,9 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
     /**
      * Override to change what happens after successful authentication.
      *
-     * @param Request        $request
-     * @param TokenInterface $token
-     * @param string         $providerKey
-     *
-     * @return RedirectResponse
+     * @param string $providerKey
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
     {
         $targetPath = null;
 
@@ -126,10 +123,8 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * Override to change what happens after a bad username/password is submitted.
-     *
-     * @return RedirectResponse
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): RedirectResponse
     {
         if ($request->getSession() instanceof SessionInterface) {
             $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
@@ -143,10 +138,8 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
     /**
      * Override to control what happens when the user hits a secure page
      * but isn't logged in yet.
-     *
-     * @return RedirectResponse
      */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
         $url = $this->getLoginUrl();
 
@@ -160,10 +153,8 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * Return the URL to the login page.
-     *
-     * @return string
      */
-    protected function getLoginUrl()
+    protected function getLoginUrl(): string
     {
         return $this->router->generate('login');
     }

@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Entity;
@@ -80,10 +81,8 @@ class Seo
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -92,10 +91,8 @@ class Seo
      * Set name.
      *
      * @param string $name
-     *
-     * @return Seo
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -104,10 +101,8 @@ class Seo
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -116,10 +111,8 @@ class Seo
      * Set content.
      *
      * @param string $content
-     *
-     * @return Seo
      */
-    public function setContent($content)
+    public function setContent($content): self
     {
         $this->content = $content;
 
@@ -128,22 +121,16 @@ class Seo
 
     /**
      * Get content.
-     *
-     * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
     /**
      * Set strain.
-     *
-     * @param Strain $strain
-     *
-     * @return Seo
      */
-    public function setStrain(Strain $strain)
+    public function setStrain(Strain $strain): self
     {
         $this->strain = $strain;
 
@@ -152,22 +139,16 @@ class Seo
 
     /**
      * Get strain.
-     *
-     * @return Strain
      */
-    public function getStrain()
+    public function getStrain(): Strain
     {
         return $this->strain;
     }
 
     /**
      * Set species.
-     *
-     * @param Species $species
-     *
-     * @return Seo
      */
-    public function setSpecies(Species $species)
+    public function setSpecies(Species $species): self
     {
         $this->species = $species;
 
@@ -176,10 +157,8 @@ class Seo
 
     /**
      * Get species.
-     *
-     * @return Species
      */
-    public function getSpecies()
+    public function getSpecies(): Species
     {
         return $this->species;
     }

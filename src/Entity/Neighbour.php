@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Entity;
@@ -64,22 +65,16 @@ class Neighbour
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
      * Set locus.
-     *
-     * @param Locus $locus
-     *
-     * @return Neighbour
      */
-    public function setLocus(Locus $locus)
+    public function setLocus(Locus $locus): self
     {
         $this->locus = $locus;
 
@@ -88,10 +83,8 @@ class Neighbour
 
     /**
      * Get locus.
-     *
-     * @return \App\Entity\Locus
      */
-    public function getLocus()
+    public function getLocus(): \App\Entity\Locus
     {
         return $this->locus;
     }
@@ -100,10 +93,8 @@ class Neighbour
      * Set neighbour.
      *
      * @param Locus $neighbour
-     *
-     * @return Neighbour
      */
-    public function setNeighbour(Locus $neighbour = null)
+    public function setNeighbour(Locus $neighbour = null): self
     {
         $this->neighbour = $neighbour;
 
@@ -112,10 +103,8 @@ class Neighbour
 
     /**
      * Get neighbour.
-     *
-     * @return \App\Entity\Locus
      */
-    public function getNeighbour()
+    public function getNeighbour(): \App\Entity\Locus
     {
         return $this->neighbour;
     }
@@ -124,10 +113,8 @@ class Neighbour
      * Set position.
      *
      * @param string $position
-     *
-     * @return Neighbour
      */
-    public function setPosition($position)
+    public function setPosition($position): self
     {
         $this->position = $position;
 
@@ -136,10 +123,8 @@ class Neighbour
 
     /**
      * Get position.
-     *
-     * @return string
      */
-    public function getPosition()
+    public function getPosition(): string
     {
         return $this->position;
     }
@@ -160,10 +145,8 @@ class Neighbour
 
     /**
      * Get number of neighbours.
-     *
-     * @return int
      */
-    public function getNumberNeighbours()
+    public function getNumberNeighbours(): int
     {
         return $this->numberNeighbours;
     }

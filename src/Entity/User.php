@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 // src/App/Entity/User.php
@@ -135,10 +136,8 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Get ID.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -159,20 +158,16 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Get email.
-     *
-     * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
      * Get username.
-     *
-     * @return string
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->email;
     }
@@ -189,8 +184,6 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Get plain password.
-     *
-     * @return mixed
      */
     public function getPlainPassword()
     {
@@ -213,10 +206,8 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Get password.
-     *
-     * @return string
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -285,10 +276,8 @@ class User implements AdvancedUserInterface, \Serializable
      * Has role.
      *
      * @param $role
-     *
-     * @return bool
      */
-    public function hasRole($role)
+    public function hasRole($role): bool
     {
         if (false === array_search(mb_strtoupper($role), $this->roles, true)) {
             return false;
@@ -299,10 +288,8 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Get roles.
-     *
-     * @return array
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         $roles = $this->roles;
         $roles[] = static::ROLE_DEFAULT;
@@ -314,10 +301,8 @@ class User implements AdvancedUserInterface, \Serializable
      * Set enabled.
      *
      * @param bool $enabled
-     *
-     * @return User
      */
-    public function setEnabled($enabled)
+    public function setEnabled($enabled): self
     {
         $this->enabled = $enabled;
         $this->confirmationToken = null;
@@ -329,10 +314,8 @@ class User implements AdvancedUserInterface, \Serializable
      * Set confirmation token.
      *
      * @param string $confirmationToken
-     *
-     * @return User
      */
-    public function setConfirmationToken($confirmationToken)
+    public function setConfirmationToken($confirmationToken): self
     {
         $this->confirmationToken = $confirmationToken;
 
@@ -341,10 +324,8 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Get confirmation token.
-     *
-     * @return string
      */
-    public function getConfirmationToken()
+    public function getConfirmationToken(): string
     {
         return $this->confirmationToken;
     }
@@ -359,38 +340,30 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Is account non expired ?
-     *
-     * @return bool
      */
-    public function isAccountNonExpired()
+    public function isAccountNonExpired(): bool
     {
         return true;
     }
 
     /**
      * Is account non locked ?
-     *
-     * @return bool
      */
-    public function isAccountNonLocked()
+    public function isAccountNonLocked(): bool
     {
         return true;
     }
 
     /**
      * Is credential non expired ?
-     *
-     * @return bool
      */
-    public function isCredentialsNonExpired()
+    public function isCredentialsNonExpired(): bool
     {
         return true;
     }
 
     /**
      * Is enabled ?
-     *
-     * @return mixed
      */
     public function isEnabled()
     {
@@ -399,10 +372,8 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Serialize.
-     *
-     * @return string
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize([
             $this->id,
@@ -443,8 +414,6 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Get firstName.
-     *
-     * @return mixed
      */
     public function getFirstName()
     {
@@ -454,7 +423,6 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Set lastName.
      *
-     * @param $firstName
      *
      * @return $this
      */
@@ -467,8 +435,6 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Get lastName.
-     *
-     * @return mixed
      */
     public function getLastName()
     {
@@ -477,10 +443,8 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Get fullName.
-     *
-     * @return string
      */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->firstName.' '.$this->lastName;
     }
@@ -489,10 +453,8 @@ class User implements AdvancedUserInterface, \Serializable
      * Set company.
      *
      * @param string $company
-     *
-     * @return User
      */
-    public function setCompany($company)
+    public function setCompany($company): self
     {
         $this->company = $company;
 
@@ -501,10 +463,8 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * Get company.
-     *
-     * @return string
      */
-    public function getCompany()
+    public function getCompany(): string
     {
         return $this->company;
     }
@@ -512,7 +472,6 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Add a strain.
      *
-     * @param Strain $strain
      *
      * @return $this
      */
@@ -529,7 +488,6 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Remove a strain.
      *
-     * @param Strain $strain
      *
      * @return $this
      */

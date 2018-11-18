@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Entity;
@@ -204,10 +205,8 @@ class Locus extends GeneticEntry
      * Set context.
      *
      * @param string $context
-     *
-     * @return Locus
      */
-    public function setContext($context)
+    public function setContext($context): self
     {
         $this->context = $context;
 
@@ -216,10 +215,8 @@ class Locus extends GeneticEntry
 
     /**
      * Get context.
-     *
-     * @return string
      */
-    public function getContext()
+    public function getContext(): string
     {
         return $this->context;
     }
@@ -228,10 +225,8 @@ class Locus extends GeneticEntry
      * Set sequence.
      *
      * @param string $sequence
-     *
-     * @return Locus
      */
-    public function setSequence($sequence)
+    public function setSequence($sequence): self
     {
         $this->sequence = $sequence;
 
@@ -240,10 +235,8 @@ class Locus extends GeneticEntry
 
     /**
      * Get locus sequence.
-     *
-     * @return string
      */
-    public function getLocusSequence()
+    public function getLocusSequence(): string
     {
         return $this->sequence;
     }
@@ -252,10 +245,8 @@ class Locus extends GeneticEntry
      * Set upstreamSequence.
      *
      * @param string $upstreamSequence
-     *
-     * @return Locus
      */
-    public function setUpstreamSequence($upstreamSequence)
+    public function setUpstreamSequence($upstreamSequence): self
     {
         $this->upstreamSequence = $upstreamSequence;
 
@@ -264,10 +255,8 @@ class Locus extends GeneticEntry
 
     /**
      * Get upstreamSequence.
-     *
-     * @return string
      */
-    public function getUpstreamSequence()
+    public function getUpstreamSequence(): string
     {
         return $this->upstreamSequence;
     }
@@ -276,10 +265,8 @@ class Locus extends GeneticEntry
      * Set downstreamSequence.
      *
      * @param string $downstreamSequence
-     *
-     * @return Locus
      */
-    public function setDownstreamSequence($downstreamSequence)
+    public function setDownstreamSequence($downstreamSequence): self
     {
         $this->downstreamSequence = $downstreamSequence;
 
@@ -288,10 +275,8 @@ class Locus extends GeneticEntry
 
     /**
      * Get downstreamSequence.
-     *
-     * @return string
      */
-    public function getDownstreamSequence()
+    public function getDownstreamSequence(): string
     {
         return $this->downstreamSequence;
     }

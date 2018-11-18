@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Service;
@@ -42,12 +43,8 @@ class BlastManager
 
     /**
      * Initialize Blast.
-     *
-     * @param Blast|null $blast
-     *
-     * @return Blast
      */
-    public function initBlast(Blast $blast = null)
+    public function initBlast(Blast $blast = null): Blast
     {
         // 3 possibilities:
         // - The user don't give a blast, we call getLastBlast (return the last blast or create a new if don't exists)
@@ -65,10 +62,8 @@ class BlastManager
 
     /**
      * Retrieve the last Blast object for the current user.
-     *
-     * @return Blast
      */
-    public function getLastBlast()
+    public function getLastBlast(): Blast
     {
         // Get the last Blast Id in the user session, and retrieve the Blast object corresponding
         $lastBlastId = $this->session->get('last_blast');
@@ -88,8 +83,6 @@ class BlastManager
      * Get blast.
      *
      * @param int $id
-     *
-     * @return mixed
      */
     public function getBlast($id)
     {
@@ -98,12 +91,8 @@ class BlastManager
 
     /**
      * Save blast.
-     *
-     * @param Blast $blast
-     *
-     * @return Blast
      */
-    public function save(Blast $blast)
+    public function save(Blast $blast): Blast
     {
         $this->em->persist($blast);
         $this->em->flush();
@@ -119,8 +108,6 @@ class BlastManager
      * This method was called by a RabbitMq consumer.
      *
      * @param $blastId
-     *
-     * @return mixed
      */
     public function blast($blastId)
     {
@@ -210,12 +197,8 @@ class BlastManager
 
     /**
      * Convert the Blast XML output in an array.
-     *
-     * @param Blast $blast
-     *
-     * @return array
      */
-    public function xmlToArray(Blast $blast)
+    public function xmlToArray(Blast $blast): array
     {
         $crawler = new Crawler();
         $crawler->addXmlContent($blast->getOutput());
@@ -331,7 +314,7 @@ class BlastManager
      *
      * @return array $hsp
      */
-    private function prepareAlignment($hsp, $blastTool)
+    private function prepareAlignment($hsp, $blastTool): array
     {
         /*
          * LEGEND
@@ -446,12 +429,10 @@ class BlastManager
     /**
      * Get the locus entities for each hit, to permit display link in result view.
      *
-     * @param array $blastResult
-     * @param Blast $blast
      *
      * @return array $blastResult
      */
-    private function getLocusEntities(array $blastResult, Blast $blast)
+    private function getLocusEntities(array $blastResult, Blast $blast): array
     {
         // If the user don't blast against CDS, return
         if ('chr' === $blast->getDatabase()) {

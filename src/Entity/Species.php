@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Entity;
@@ -193,22 +194,16 @@ class Species
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
      * Set clade.
-     *
-     * @param Clade $clade
-     *
-     * @return Species
      */
-    public function setClade(Clade $clade)
+    public function setClade(Clade $clade): self
     {
         $this->clade = $clade;
 
@@ -217,10 +212,8 @@ class Species
 
     /**
      * Get clade.
-     *
-     * @return Clade
      */
-    public function getClade()
+    public function getClade(): Clade
     {
         return $this->clade;
     }
@@ -229,10 +222,8 @@ class Species
      * Set scientificName.
      *
      * @param string $scientificName
-     *
-     * @return Species
      */
-    public function setScientificName($scientificName)
+    public function setScientificName($scientificName): self
     {
         $this->scientificName = $scientificName;
 
@@ -241,10 +232,8 @@ class Species
 
     /**
      * Get scientificName.
-     *
-     * @return string
      */
-    public function getScientificName()
+    public function getScientificName(): string
     {
         return $this->scientificName;
     }
@@ -253,10 +242,8 @@ class Species
      * Set species.
      *
      * @param string $species
-     *
-     * @return Species
      */
-    public function setSpecies($species)
+    public function setSpecies($species): self
     {
         $this->species = $species;
 
@@ -265,10 +252,8 @@ class Species
 
     /**
      * Get species.
-     *
-     * @return string
      */
-    public function getSpecies()
+    public function getSpecies(): string
     {
         return $this->species;
     }
@@ -277,10 +262,8 @@ class Species
      * Set genus.
      *
      * @param string $genus
-     *
-     * @return Species
      */
-    public function setGenus($genus)
+    public function setGenus($genus): self
     {
         $this->genus = $genus;
 
@@ -289,10 +272,8 @@ class Species
 
     /**
      * Get genus.
-     *
-     * @return string
      */
-    public function getGenus()
+    public function getGenus(): string
     {
         return $this->genus;
     }
@@ -301,10 +282,8 @@ class Species
      * Add lineage.
      *
      * @param string $lineage
-     *
-     * @return Species
      */
-    public function addLineage($lineage)
+    public function addLineage($lineage): self
     {
         if (!empty($lineage) && !\in_array($lineage, $this->lineages, true)) {
             $this->lineages[] = $lineage;
@@ -317,10 +296,8 @@ class Species
      * Remove lineage.
      *
      * @param string $lineage
-     *
-     * @return Species
      */
-    public function removeLineage($lineage)
+    public function removeLineage($lineage): self
     {
         if (false !== $key = array_search($lineage, $this->lineages, true)) {
             unset($this->lineages[$key]);
@@ -334,10 +311,8 @@ class Species
      * Set lineages.
      *
      * @param array $lineages
-     *
-     * @return Species
      */
-    public function setLineages($lineages)
+    public function setLineages($lineages): self
     {
         $this->lineages = [];
 
@@ -350,10 +325,8 @@ class Species
 
     /**
      * Empty lineages.
-     *
-     * @return Species
      */
-    public function emptyLineages()
+    public function emptyLineages(): self
     {
         $this->lineages = [];
 
@@ -362,10 +335,8 @@ class Species
 
     /**
      * Get lineage.
-     *
-     * @return array
      */
-    public function getLineages()
+    public function getLineages(): array
     {
         return $this->lineages;
     }
@@ -374,10 +345,8 @@ class Species
      * Set taxId.
      *
      * @param int $taxId
-     *
-     * @return Species
      */
-    public function setTaxId($taxId)
+    public function setTaxId($taxId): self
     {
         $this->taxId = $taxId;
 
@@ -386,10 +355,8 @@ class Species
 
     /**
      * Get taxId.
-     *
-     * @return int
      */
-    public function getTaxId()
+    public function getTaxId(): int
     {
         return $this->taxId;
     }
@@ -398,10 +365,8 @@ class Species
      * Set geneticCode.
      *
      * @param int $geneticCode
-     *
-     * @return Species
      */
-    public function setGeneticCode($geneticCode)
+    public function setGeneticCode($geneticCode): self
     {
         $this->geneticCode = $geneticCode;
 
@@ -410,10 +375,8 @@ class Species
 
     /**
      * Get geneticCode.
-     *
-     * @return int
      */
-    public function getGeneticCode()
+    public function getGeneticCode(): int
     {
         return $this->geneticCode;
     }
@@ -422,10 +385,8 @@ class Species
      * Set mitoCode.
      *
      * @param int $mitoCode
-     *
-     * @return Species
      */
-    public function setMitoCode($mitoCode)
+    public function setMitoCode($mitoCode): self
     {
         $this->mitoCode = $mitoCode;
 
@@ -434,10 +395,8 @@ class Species
 
     /**
      * Get mitoCode.
-     *
-     * @return int
      */
-    public function getMitoCode()
+    public function getMitoCode(): int
     {
         return $this->mitoCode;
     }
@@ -446,10 +405,8 @@ class Species
      * Add synonym.
      *
      * @param string $synonym
-     *
-     * @return Species
      */
-    public function addSynonym($synonym)
+    public function addSynonym($synonym): self
     {
         if (!empty($synonym) && !\in_array($synonym, $this->synonyms, true)) {
             $this->synonyms[] = $synonym;
@@ -462,10 +419,8 @@ class Species
      * Remove synonym.
      *
      * @param string $synonym
-     *
-     * @return Species
      */
-    public function removeSynonym($synonym)
+    public function removeSynonym($synonym): self
     {
         if (false !== $key = array_search($synonym, $this->synonyms, true)) {
             unset($this->synonyms[$key]);
@@ -477,10 +432,8 @@ class Species
 
     /**
      * Empty synonyms.
-     *
-     * @return Species
      */
-    public function emptySynonyms()
+    public function emptySynonyms(): self
     {
         $this->synonyms = [];
 
@@ -491,10 +444,8 @@ class Species
      * Set synonyms.
      *
      * @param array $synonyms
-     *
-     * @return Species
      */
-    public function setSynonyms($synonyms)
+    public function setSynonyms($synonyms): self
     {
         $this->synonyms = [];
 
@@ -507,10 +458,8 @@ class Species
 
     /**
      * Get synonyms.
-     *
-     * @return array
      */
-    public function getSynonyms()
+    public function getSynonyms(): array
     {
         return $this->synonyms;
     }
@@ -519,10 +468,8 @@ class Species
      * Set description.
      *
      * @param string $description
-     *
-     * @return Species
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -531,10 +478,8 @@ class Species
 
     /**
      * Get description.
-     *
-     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -542,7 +487,6 @@ class Species
     /**
      * Add strain.
      *
-     * @param Strain $strain
      *
      * @return $this
      */
@@ -558,8 +502,6 @@ class Species
 
     /**
      * Remove strain.
-     *
-     * @param Strain $strain
      */
     public function removeStrain(Strain $strain)
     {
@@ -582,8 +524,6 @@ class Species
 
     /**
      * Add Seo.
-     *
-     * @param Seo $seo
      */
     public function addSeo(Seo $seo)
     {
@@ -597,8 +537,6 @@ class Species
 
     /**
      * Remove Seo.
-     *
-     * @param Seo $seo
      */
     public function removeSeo(Seo $seo)
     {
@@ -623,10 +561,8 @@ class Species
      * Set slug.
      *
      * @param string $slug
-     *
-     * @return Species
      */
-    public function setSlug($slug)
+    public function setSlug($slug): self
     {
         $this->slug = $slug;
 
@@ -635,10 +571,8 @@ class Species
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }

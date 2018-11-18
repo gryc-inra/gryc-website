@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Entity;
@@ -85,10 +86,8 @@ class Dbxref
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -97,10 +96,8 @@ class Dbxref
      * Set name.
      *
      * @param string $name
-     *
-     * @return Dbxref
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -109,10 +106,8 @@ class Dbxref
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -121,10 +116,8 @@ class Dbxref
      * Set description.
      *
      * @param string $description
-     *
-     * @return Dbxref
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -133,10 +126,8 @@ class Dbxref
 
     /**
      * Get description.
-     *
-     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -145,10 +136,8 @@ class Dbxref
      * Set pattern.
      *
      * @param string $pattern
-     *
-     * @return Dbxref
      */
-    public function setPattern($pattern)
+    public function setPattern($pattern): self
     {
         $this->pattern = $pattern;
 
@@ -157,10 +146,8 @@ class Dbxref
 
     /**
      * Get pattern.
-     *
-     * @return string
      */
-    public function getPattern()
+    public function getPattern(): string
     {
         return $this->pattern;
     }
@@ -169,10 +156,8 @@ class Dbxref
      * Set url.
      *
      * @param string $url
-     *
-     * @return Dbxref
      */
-    public function setUrl($url)
+    public function setUrl($url): self
     {
         $this->url = $url;
 
@@ -181,10 +166,8 @@ class Dbxref
 
     /**
      * Get url.
-     *
-     * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -193,10 +176,8 @@ class Dbxref
      * Set source.
      *
      * @param string $source
-     *
-     * @return Dbxref
      */
-    public function setSource($source)
+    public function setSource($source): self
     {
         $this->source = $source;
 
@@ -205,10 +186,8 @@ class Dbxref
 
     /**
      * Get source.
-     *
-     * @return string
      */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
