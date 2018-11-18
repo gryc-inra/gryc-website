@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Entity;
@@ -92,10 +93,8 @@ class Reference
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -104,10 +103,8 @@ class Reference
      * Set authors.
      *
      * @param array $authors
-     *
-     * @return Reference
      */
-    public function setAuthors($authors)
+    public function setAuthors($authors): self
     {
         $this->authors = $authors;
 
@@ -116,10 +113,8 @@ class Reference
 
     /**
      * Get authors.
-     *
-     * @return array
      */
-    public function getAuthors()
+    public function getAuthors(): array
     {
         return $this->authors;
     }
@@ -128,10 +123,8 @@ class Reference
      * Set container.
      *
      * @param string $container
-     *
-     * @return Reference
      */
-    public function setContainer($container)
+    public function setContainer($container): self
     {
         $this->container = $container;
 
@@ -140,10 +133,8 @@ class Reference
 
     /**
      * Get container.
-     *
-     * @return string
      */
-    public function getContainer()
+    public function getContainer(): string
     {
         return $this->container;
     }
@@ -152,10 +143,8 @@ class Reference
      * Set doi.
      *
      * @param string $doi
-     *
-     * @return Reference
      */
-    public function setDoi($doi)
+    public function setDoi($doi): self
     {
         $this->doi = $doi;
 
@@ -164,10 +153,8 @@ class Reference
 
     /**
      * Get doi.
-     *
-     * @return string
      */
-    public function getDoi()
+    public function getDoi(): string
     {
         return $this->doi;
     }
@@ -176,10 +163,8 @@ class Reference
      * Set url.
      *
      * @param string $url
-     *
-     * @return Reference
      */
-    public function setUrl($url)
+    public function setUrl($url): self
     {
         $this->url = $url;
 
@@ -188,10 +173,8 @@ class Reference
 
     /**
      * Get url.
-     *
-     * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -200,10 +183,8 @@ class Reference
      * Set issued.
      *
      * @param int $issued
-     *
-     * @return Reference
      */
-    public function setIssued($issued)
+    public function setIssued($issued): self
     {
         $this->issued = $issued;
 
@@ -212,10 +193,8 @@ class Reference
 
     /**
      * Get issued.
-     *
-     * @return int
      */
-    public function getIssued()
+    public function getIssued(): int
     {
         return $this->issued;
     }

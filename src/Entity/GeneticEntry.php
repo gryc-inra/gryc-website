@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Entity;
@@ -125,10 +126,8 @@ abstract class GeneticEntry
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -137,10 +136,8 @@ abstract class GeneticEntry
      * Set strand.
      *
      * @param int $strand
-     *
-     * @return GeneticEntry
      */
-    public function setStrand($strand)
+    public function setStrand($strand): self
     {
         $this->strand = $strand;
 
@@ -149,10 +146,8 @@ abstract class GeneticEntry
 
     /**
      * Get strand.
-     *
-     * @return int
      */
-    public function getStrand()
+    public function getStrand(): int
     {
         return $this->strand;
     }
@@ -161,10 +156,8 @@ abstract class GeneticEntry
      * Set product.
      *
      * @param array $product
-     *
-     * @return GeneticEntry
      */
-    public function setProduct($product)
+    public function setProduct($product): self
     {
         $this->product = $product;
 
@@ -173,10 +166,8 @@ abstract class GeneticEntry
 
     /**
      * Get product.
-     *
-     * @return array
      */
-    public function getProduct()
+    public function getProduct(): array
     {
         return $this->product;
     }
@@ -185,10 +176,8 @@ abstract class GeneticEntry
      * Set name.
      *
      * @param string $name
-     *
-     * @return GeneticEntry
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -197,10 +186,8 @@ abstract class GeneticEntry
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -221,10 +208,8 @@ abstract class GeneticEntry
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -233,10 +218,8 @@ abstract class GeneticEntry
      * Set dbXref.
      *
      * @param \stdClass $dbXref
-     *
-     * @return GeneticEntry
      */
-    public function setDbXref($dbXref)
+    public function setDbXref($dbXref): self
     {
         $this->dbXref = $dbXref;
 
@@ -245,10 +228,8 @@ abstract class GeneticEntry
 
     /**
      * Get dbXref.
-     *
-     * @return \stdClass
      */
-    public function getDbXref()
+    public function getDbXref(): \stdClass
     {
         return $this->dbXref;
     }
@@ -257,10 +238,8 @@ abstract class GeneticEntry
      * Set annotation.
      *
      * @param array $annotation
-     *
-     * @return GeneticEntry
      */
-    public function setAnnotation($annotation)
+    public function setAnnotation($annotation): self
     {
         $this->annotation = $annotation;
 
@@ -269,10 +248,8 @@ abstract class GeneticEntry
 
     /**
      * Get annotation.
-     *
-     * @return array
      */
-    public function getAnnotation()
+    public function getAnnotation(): array
     {
         return $this->annotation;
     }
@@ -281,10 +258,8 @@ abstract class GeneticEntry
      * Set type.
      *
      * @param string $type
-     *
-     * @return GeneticEntry
      */
-    public function setType($type)
+    public function setType($type): self
     {
         $this->type = $type;
 
@@ -293,10 +268,8 @@ abstract class GeneticEntry
 
     /**
      * Get type.
-     *
-     * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -305,10 +278,8 @@ abstract class GeneticEntry
      * Set coordinates.
      *
      * @param array $coordinates
-     *
-     * @return GeneticEntry
      */
-    public function setCoordinates($coordinates)
+    public function setCoordinates($coordinates): self
     {
         $this->coordinates = $coordinates;
 
@@ -317,10 +288,8 @@ abstract class GeneticEntry
 
     /**
      * Get coordinates.
-     *
-     * @return array
      */
-    public function getCoordinates()
+    public function getCoordinates(): array
     {
         return $this->coordinates;
     }
@@ -329,10 +298,8 @@ abstract class GeneticEntry
      * Set start.
      *
      * @param int $start
-     *
-     * @return GeneticEntry
      */
-    public function setStart($start)
+    public function setStart($start): self
     {
         $this->start = $start;
 
@@ -341,10 +308,8 @@ abstract class GeneticEntry
 
     /**
      * Get start.
-     *
-     * @return int
      */
-    public function getStart()
+    public function getStart(): int
     {
         return $this->start;
     }
@@ -353,10 +318,8 @@ abstract class GeneticEntry
      * Set end.
      *
      * @param int $end
-     *
-     * @return GeneticEntry
      */
-    public function setEnd($end)
+    public function setEnd($end): self
     {
         $this->end = $end;
 
@@ -365,10 +328,8 @@ abstract class GeneticEntry
 
     /**
      * Get end.
-     *
-     * @return int
      */
-    public function getEnd()
+    public function getEnd(): int
     {
         return $this->end;
     }
@@ -377,10 +338,8 @@ abstract class GeneticEntry
      * Set note.
      *
      * @param string $note
-     *
-     * @return GeneticEntry
      */
-    public function setNote($note)
+    public function setNote($note): self
     {
         $this->note = $note;
 
@@ -389,10 +348,8 @@ abstract class GeneticEntry
 
     /**
      * Get note.
-     *
-     * @return string
      */
-    public function getNote()
+    public function getNote(): string
     {
         return $this->note;
     }

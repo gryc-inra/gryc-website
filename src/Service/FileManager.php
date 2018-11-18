@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Service;
@@ -41,9 +42,7 @@ class FileManager
     /**
      * FileManager constructor.
      *
-     * @param Filesystem     $filesystem
-     * @param TokenGenerator $tokenGenerator
-     * @param string         $projectDir
+     * @param string $projectDir
      */
     public function __construct(Filesystem $filesystem, TokenGenerator $tokenGenerator, $projectDir)
     {
@@ -54,8 +53,6 @@ class FileManager
 
     /**
      * Prepare file to be moved.
-     *
-     * @param File $file
      */
     public function prepareMoveFile(File $file)
     {
@@ -77,8 +74,6 @@ class FileManager
 
     /**
      * Move the file.
-     *
-     * @param File $file
      */
     public function moveFile(File $file)
     {
@@ -101,8 +96,6 @@ class FileManager
 
     /**
      * Prepare file to be removed.
-     *
-     * @param File $file
      */
     public function prepareRemoveFile(File $file)
     {
@@ -114,8 +107,6 @@ class FileManager
 
     /**
      * Remove the file.
-     *
-     * @param File $file
      */
     public function removeFile(File $file)
     {
@@ -126,12 +117,8 @@ class FileManager
 
     /**
      * Get absolute path of a file.
-     *
-     * @param File $file
-     *
-     * @return string
      */
-    public function getAbsolutePath(File $file)
+    public function getAbsolutePath(File $file): string
     {
         // Prepare the full storage path
         $storageDir = $this->projectDir.'/files/'.$file->getStorageDir();
@@ -141,12 +128,8 @@ class FileManager
 
     /**
      * Get the sendFile location of a file.
-     *
-     * @param File $file
-     *
-     * @return string
      */
-    public function getSendFilePath(File $file)
+    public function getSendFilePath(File $file): string
     {
         return '/protected-files/'.$file->getStorageDir().'/'.$file->getPath();
     }

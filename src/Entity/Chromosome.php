@@ -1,18 +1,19 @@
 <?php
-/**
- *    Copyright 2015-2018 Mathieu Piot.
+
+/*
+ * Copyright 2015-2018 Mathieu Piot.
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace App\Entity;
@@ -248,10 +249,8 @@ class Chromosome
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -260,10 +259,8 @@ class Chromosome
      * Set name.
      *
      * @param string $name
-     *
-     * @return Chromosome
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -272,10 +269,8 @@ class Chromosome
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -284,10 +279,8 @@ class Chromosome
      * Add accession.
      *
      * @param string $accession
-     *
-     * @return Chromosome
      */
-    public function addAccession($accession)
+    public function addAccession($accession): self
     {
         if (!empty($accession) && !\in_array($accession, $this->accessions, true)) {
             $this->accessions[] = $accession;
@@ -300,10 +293,8 @@ class Chromosome
      * Remove accession.
      *
      * @param string $accession
-     *
-     * @return Chromosome
      */
-    public function removeAccession($accession)
+    public function removeAccession($accession): self
     {
         if (false !== $key = array_search($accession, $this->accessions, true)) {
             unset($this->accessions[$key]);
@@ -315,10 +306,8 @@ class Chromosome
 
     /**
      * Empty accessions.
-     *
-     * @return Chromosome
      */
-    public function emptyAccessions()
+    public function emptyAccessions(): self
     {
         $this->accessions = [];
 
@@ -329,10 +318,8 @@ class Chromosome
      * Set accession.
      *
      * @param array $accessions
-     *
-     * @return Chromosome
      */
-    public function setAccession($accessions)
+    public function setAccession($accessions): self
     {
         if (null !== $accessions) {
             foreach ($accessions as $accession) {
@@ -345,10 +332,8 @@ class Chromosome
 
     /**
      * Get accession.
-     *
-     * @return array
      */
-    public function getAccessions()
+    public function getAccessions(): array
     {
         return $this->accessions;
     }
@@ -357,10 +342,8 @@ class Chromosome
      * Set description.
      *
      * @param string $description
-     *
-     * @return Chromosome
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -369,10 +352,8 @@ class Chromosome
 
     /**
      * Get description.
-     *
-     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -381,10 +362,8 @@ class Chromosome
      * Add keyword.
      *
      * @param string $keyword
-     *
-     * @return Chromosome
      */
-    public function addKeyword($keyword)
+    public function addKeyword($keyword): self
     {
         if (!empty($keyword) && !\in_array($keyword, $this->keywords, true)) {
             $this->keywords[] = $keyword;
@@ -397,10 +376,8 @@ class Chromosome
      * Remove keyword.
      *
      * @param string $keyword
-     *
-     * @return Chromosome
      */
-    public function removeKeyword($keyword)
+    public function removeKeyword($keyword): self
     {
         if (false !== $key = array_search($keyword, $this->keywords, true)) {
             unset($this->keywords[$key]);
@@ -412,10 +389,8 @@ class Chromosome
 
     /**
      * Empty keywords.
-     *
-     * @return Chromosome
      */
-    public function emptyKeywords()
+    public function emptyKeywords(): self
     {
         $this->keywords = [];
 
@@ -426,10 +401,8 @@ class Chromosome
      * Set keywords.
      *
      * @param array $keywords
-     *
-     * @return Chromosome
      */
-    public function setKeywords($keywords)
+    public function setKeywords($keywords): self
     {
         if (null === $keywords) {
             return $this;
@@ -444,10 +417,8 @@ class Chromosome
 
     /**
      * Get keywords.
-     *
-     * @return array
      */
-    public function getKeywords()
+    public function getKeywords(): array
     {
         return $this->keywords;
     }
@@ -456,10 +427,8 @@ class Chromosome
      * Set projectId.
      *
      * @param string $projectId
-     *
-     * @return Chromosome
      */
-    public function setProjectId($projectId = null)
+    public function setProjectId($projectId = null): self
     {
         $this->projectId = $projectId;
 
@@ -468,22 +437,16 @@ class Chromosome
 
     /**
      * Get projectId.
-     *
-     * @return string
      */
-    public function getProjectId()
+    public function getProjectId(): string
     {
         return $this->projectId;
     }
 
     /**
      * Set dateCreated.
-     *
-     * @param \DateTime $dateCreated
-     *
-     * @return Chromosome
      */
-    public function setDateCreated(\DateTime $dateCreated)
+    public function setDateCreated(\DateTime $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
 
@@ -492,10 +455,8 @@ class Chromosome
 
     /**
      * Get dateCreated.
-     *
-     * @return \DateTime
      */
-    public function getDateCreated()
+    public function getDateCreated(): \DateTime
     {
         return $this->dateCreated;
     }
@@ -504,10 +465,8 @@ class Chromosome
      * Set numCreated.
      *
      * @param int $numCreated
-     *
-     * @return Chromosome
      */
-    public function setNumCreated($numCreated)
+    public function setNumCreated($numCreated): self
     {
         $this->numCreated = $numCreated;
 
@@ -516,22 +475,16 @@ class Chromosome
 
     /**
      * Get numCreated.
-     *
-     * @return int
      */
-    public function getNumCreated()
+    public function getNumCreated(): int
     {
         return $this->numCreated;
     }
 
     /**
      * Set dateReleased.
-     *
-     * @param \DateTime $dateReleased
-     *
-     * @return Chromosome
      */
-    public function setDateReleased(\DateTime $dateReleased)
+    public function setDateReleased(\DateTime $dateReleased): self
     {
         $this->dateReleased = $dateReleased;
 
@@ -540,10 +493,8 @@ class Chromosome
 
     /**
      * Get dateReleased.
-     *
-     * @return \DateTime
      */
-    public function getDateReleased()
+    public function getDateReleased(): \DateTime
     {
         return $this->dateReleased;
     }
@@ -552,10 +503,8 @@ class Chromosome
      * Set numReleased.
      *
      * @param int $numReleased
-     *
-     * @return Chromosome
      */
-    public function setNumReleased($numReleased)
+    public function setNumReleased($numReleased): self
     {
         $this->numReleased = $numReleased;
 
@@ -564,10 +513,8 @@ class Chromosome
 
     /**
      * Get numReleased.
-     *
-     * @return int
      */
-    public function getNumReleased()
+    public function getNumReleased(): int
     {
         return $this->numReleased;
     }
@@ -576,10 +523,8 @@ class Chromosome
      * Set numVersion.
      *
      * @param int $numVersion
-     *
-     * @return Chromosome
      */
-    public function setNumVersion($numVersion)
+    public function setNumVersion($numVersion): self
     {
         $this->numVersion = $numVersion;
 
@@ -588,10 +533,8 @@ class Chromosome
 
     /**
      * Get numVersion.
-     *
-     * @return int
      */
-    public function getNumVersion()
+    public function getNumVersion(): int
     {
         return $this->numVersion;
     }
@@ -600,10 +543,8 @@ class Chromosome
      * Set length.
      *
      * @param int $length
-     *
-     * @return Chromosome
      */
-    public function setLength($length)
+    public function setLength($length): self
     {
         $this->length = $length;
 
@@ -612,10 +553,8 @@ class Chromosome
 
     /**
      * Get length.
-     *
-     * @return int
      */
-    public function getLength()
+    public function getLength(): int
     {
         return $this->length;
     }
@@ -624,10 +563,8 @@ class Chromosome
      * Set gc.
      *
      * @param float $gc
-     *
-     * @return Chromosome
      */
-    public function setGc($gc)
+    public function setGc($gc): self
     {
         $this->gc = $gc;
 
@@ -636,10 +573,8 @@ class Chromosome
 
     /**
      * Get gc.
-     *
-     * @return float
      */
-    public function getGc()
+    public function getGc(): float
     {
         return $this->gc;
     }
@@ -648,10 +583,8 @@ class Chromosome
      * Set cdsCount.
      *
      * @param int $cdsCount
-     *
-     * @return Chromosome
      */
-    public function setCdsCount($cdsCount)
+    public function setCdsCount($cdsCount): self
     {
         $this->cdsCount = $cdsCount;
 
@@ -660,10 +593,8 @@ class Chromosome
 
     /**
      * Get cdsCount.
-     *
-     * @return int
      */
-    public function getCdsCount()
+    public function getCdsCount(): int
     {
         return $this->cdsCount;
     }
@@ -672,10 +603,8 @@ class Chromosome
      * Set mitochondrial.
      *
      * @param bool $mitochondrial
-     *
-     * @return Chromosome
      */
-    public function setMitochondrial($mitochondrial)
+    public function setMitochondrial($mitochondrial): self
     {
         $this->mitochondrial = $mitochondrial;
 
@@ -684,10 +613,8 @@ class Chromosome
 
     /**
      * Get mitochondrial.
-     *
-     * @return bool
      */
-    public function getMitochondrial()
+    public function getMitochondrial(): bool
     {
         return $this->mitochondrial;
     }
@@ -696,10 +623,8 @@ class Chromosome
      * Set comment.
      *
      * @param string $comment
-     *
-     * @return Chromosome
      */
-    public function setComment($comment = null)
+    public function setComment($comment = null): self
     {
         $this->comment = $comment;
 
@@ -708,10 +633,8 @@ class Chromosome
 
     /**
      * Get comment.
-     *
-     * @return string
      */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
@@ -719,7 +642,6 @@ class Chromosome
     /**
      * Set strain.
      *
-     * @param Strain $strain
      *
      * @return $this
      */
@@ -732,10 +654,8 @@ class Chromosome
 
     /**
      * Get strain.
-     *
-     * @return Strain
      */
-    public function getStrain()
+    public function getStrain(): Strain
     {
         return $this->strain;
     }
@@ -743,7 +663,6 @@ class Chromosome
     /**
      * Set DnaSequence.
      *
-     * @param DnaSequence $dnaSequence
      *
      * @return $this
      */
@@ -756,10 +675,8 @@ class Chromosome
 
     /**
      * Get DnaSequence.
-     *
-     * @return DnaSequence
      */
-    public function getDnaSequence()
+    public function getDnaSequence(): DnaSequence
     {
         return $this->dnaSequence;
     }
@@ -767,7 +684,6 @@ class Chromosome
     /**
      * Add FlatFile.
      *
-     * @param FlatFile $flatFile
      *
      * @return $this
      */
@@ -784,7 +700,6 @@ class Chromosome
     /**
      * Remove FlatFile.
      *
-     * @param FlatFile $flatFile
      *
      * @return $this
      */
@@ -811,10 +726,8 @@ class Chromosome
      * Set slug.
      *
      * @param string $slug
-     *
-     * @return Chromosome
      */
-    public function setSlug($slug)
+    public function setSlug($slug): self
     {
         $this->slug = $slug;
 
@@ -823,22 +736,16 @@ class Chromosome
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
     /**
      * Set source.
-     *
-     * @param string $slug
-     *
-     * @return Chromosome
      */
-    public function setSource($source)
+    public function setSource($source): self
     {
         $this->source = $source;
 
@@ -847,10 +754,8 @@ class Chromosome
 
     /**
      * Get source.
-     *
-     * @return string
      */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
@@ -858,7 +763,6 @@ class Chromosome
     /**
      * Add Locus.
      *
-     * @param Locus $locus
      *
      * @return $this
      */
@@ -875,7 +779,6 @@ class Chromosome
     /**
      * Remove Locus.
      *
-     * @param FlatFile $flatFile
      *
      * @return $this
      */
