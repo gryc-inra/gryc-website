@@ -1,7 +1,10 @@
 #!/bin/bash
 
-docker pull $APP_DOCKER_IMAGE_NAME:prod
-docker build --cache-from=$APP_DOCKER_IMAGE_NAME:prod -t $APP_DOCKER_IMAGE_NAME:prod-$TRAVIS_TAG .
-docker tag $APP_DOCKER_IMAGE_NAME:prod-$TRAVIS_TAG $APP_DOCKER_IMAGE_NAME:prod
-docker push $APP_DOCKER_IMAGE_NAME:prod-$TRAVIS_TAG
-docker push $APP_DOCKER_IMAGE_NAME:prod
+docker pull $APP_PROD_IMAGE_NAME:latest
+
+docker build --target app-prod --cache-from=$APP_PROD_IMAGE_NAME:latest -t $APP_PROD_IMAGE_NAME:$TRAVIS_TAG .
+
+docker tag $APP_PROD_IMAGE_NAME:$TRAVIS_TAG $APP_PROD_IMAGE_NAME:latest
+
+docker push $APP_PROD_IMAGE_NAME:$TRAVIS_TAG
+docker push $APP_PROD_IMAGE_NAME:latest

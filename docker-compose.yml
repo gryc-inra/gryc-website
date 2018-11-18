@@ -1,8 +1,10 @@
-version: '3.2'
+version: '3.4'
 
 services:
     nginx:
-        build: docker/common/nginx
+        build:
+            context: docker
+            dockerfile: NginxDockerfile
         depends_on:
             - app
         networks:
@@ -11,10 +13,10 @@ services:
             - .:/app
 
     app:
-        build: docker/dev/app
+        build:
+            context: .
+            target: app-dev
         depends_on:
-            - redis
-            - rabbitmq
             - db
             - es1
         networks:
@@ -26,19 +28,21 @@ services:
     db:
         image: mysql:5.7.21
         environment:
-          - MYSQL_ROOT_PASSWORD=gryc
-          - MYSQL_USER=gryc
-          - MYSQL_PASSWORD=gryc
-          - MYSQL_DATABASE=gryc
+          - MYSQL_ROOT_PASSWORD=gryc-website
+          - MYSQL_USER=gryc-website
+          - MYSQL_PASSWORD=gryc-website
+          - MYSQL_DATABASE=gryc-website
         volumes:
             - db_data:/var/lib/mysql
         networks:
             - backend
 
     es1:
-        build: ./docker/common/elasticsearch
+        build:
+            context: docker
+            dockerfile: ElasticsearchDockerfile
         environment:
-            - cluster.name=gryc-cluster
+            - cluster.name=gryc-website-cluster
             - bootstrap.memory_lock=true
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         ulimits:
@@ -51,9 +55,11 @@ services:
             - backend
 
     es2:
-        build: ./docker/common/elasticsearch
+        build:
+            context: docker
+            dockerfile: ElasticsearchDockerfile
         environment:
-            - cluster.name=gryc-cluster
+            - cluster.name=gryc-website-cluster
             - bootstrap.memory_lock=true
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
             - "discovery.zen.ping.unicast.hosts=es1"
@@ -69,8 +75,8 @@ services:
     rabbitmq:
         image: rabbitmq:3.7.3
         environment:
-            - RABBITMQ_DEFAULT_USER=gryc
-            - RABBITMQ_DEFAULT_PASS=gryc
+            - RABBITMQ_DEFAULT_USER=gryc-website
+            - RABBITMQ_DEFAULT_PASS=gryc-website
         volumes:
             - rabbitmq_data:/var/lib/rabbitmq
         networks:

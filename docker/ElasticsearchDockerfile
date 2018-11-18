@@ -1,0 +1,15 @@
+FROM docker.elastic.co/elasticsearch/elasticsearch:5.6.8
+
+# set elasticsearch config
+RUN rm /usr/share/elasticsearch/config/elasticsearch.yml
+
+RUN { \
+        echo 'network.host: 0.0.0.0'; \
+        echo 'discovery.zen.minimum_master_nodes: 1'; \
+        echo 'xpack.security.enabled: false'; \
+        echo 'xpack.monitoring.enabled: false'; \
+        echo 'xpack.watcher.enabled: false'; \
+        echo 'xpack.ml.enabled: false'; \
+    } > /usr/share/elasticsearch/config/elasticsearch.yml
+
+RUN chown elasticsearch:elasticsearch /usr/share/elasticsearch/config/elasticsearch.yml

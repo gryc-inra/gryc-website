@@ -80,4 +80,4 @@ and a **dev-{docker-folder-hash}**. If we add a tag on a commit, then Travis-Ci 
 The **dev** and **dev-{docker-folder-hash}** are the same image, **dev** is the latest dev image. And in prod it's the 
 same **prod** and **prod-{TAG}** are identical. The **prod** image are always the latest prod image.
 
-All this images are pushed on the docker hub repository:  https://hub.docker.com/r/mapiot/gryc/
+All this images are pushed on the docker hub repository:  https://hub.docker.com/r/grycinra/gryc/
