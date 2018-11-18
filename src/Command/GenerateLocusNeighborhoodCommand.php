@@ -81,7 +81,7 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
         }
 
         // Verify the number of neighbours
-        if (!is_int($input->getArgument('nbNeighbours')) && !$input->getArgument('nbNeighbours') > 0) {
+        if (!\is_int($input->getArgument('nbNeighbours')) && !$input->getArgument('nbNeighbours') > 0) {
             $error = true;
             $io->error('The number of neighbours must be an integer and > to 0 !');
         }
@@ -120,7 +120,7 @@ class GenerateLocusNeighborhoodCommand extends ContainerAwareCommand
                 ['start' => 'ASC']
             );
 
-            $nbLocus = count($locusList);
+            $nbLocus = \count($locusList);
 
             // For each Locus
             for ($i = 0; $i < $nbLocus; ++$i) {

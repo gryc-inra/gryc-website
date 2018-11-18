@@ -459,7 +459,7 @@ abstract class GeneticEntry
 
         // Transform to a FASTA format
         $letters = str_split($sequence, 1);
-        $nbLetters = count($letters);
+        $nbLetters = \count($letters);
         $currentLineLength = 0;
         $sequence = '>'.$this->getName()."\n";
         for ($i = 0; $i < $nbLetters; ++$i) {

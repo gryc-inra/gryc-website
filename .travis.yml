@@ -7,10 +7,11 @@ services:
 
 env:
   global:
-    - DOCKER_COMPOSE="docker-compose -f docker-compose.yml -f docker-compose.ci.yml"
+    - DOCKER_COMPOSE="docker-compose -f docker-compose.ci.yml"
     - EXEC="$DOCKER_COMPOSE exec -T app"
-    - APP_DOCKER_IMAGE_NAME="mapiot/gryc"
-    - APP_DEV_DOCKER_IMAGE_TAG="dev-`find docker/dev -type f -exec md5sum {} \; | sort -k 2 | md5sum | cut -d' ' -f1`"
+    - APP_PROD_IMAGE_NAME="grycinra/gryc-website"
+    - APP_DEV_IMAGE_NAME="grycinra/gryc-website-dev"
+    - APP_DEV_IMAGE_TAG="`{ find docker -type f -exec sha1sum {} \; && find Dockerfile -exec sha1sum {} \;; } | sort -k 2 | sha1sum | cut -d' ' -f 1 | cut -c1-7`"
 
 cache:
   directories:
@@ -18,8 +19,8 @@ cache:
     - $HOME/.composer/cache/files
 
 before_script:
-  - docker pull $APP_DOCKER_IMAGE_NAME:dev || true
-  - docker pull $APP_DOCKER_IMAGE_NAME:$APP_DEV_DOCKER_IMAGE_TAG || true
+  - docker pull $APP_DEV_IMAGE_NAME:latest || true
+  - docker pull $APP_DEV_IMAGE_NAME:$APP_DEV_IMAGE_TAG || true
 
 script:
   - make build
@@ -29,18 +30,18 @@ script:
   - make lint security-check
 
 before_deploy:
-  - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD; fi'
 
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash docker/scripts/deploy-dev
+    script: bash docker/scripts/deploy-dev.sh
     on:
       repo: gryc-inra/gryc-website
-      branch: master
+      branch: develop
   - provider: script
     skip_cleanup: true
-    script: bash docker/scripts/deploy-prod
+    script: bash docker/scripts/deploy-prod.sh
     on:
       repo: gryc-inra/gryc-website
       tags: true

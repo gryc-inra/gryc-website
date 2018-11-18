@@ -90,7 +90,7 @@ class SequenceManipulator
             $totalCount += $val;
 
             // If the letter is a a, t, c, g, add it to the nucCount
-            if (in_array($i, [65, 97, 67, 99, 71, 103, 84, 116], true)) {
+            if (\in_array($i, [65, 97, 67, 99, 71, 103, 84, 116], true)) {
                 $nucCount += $val;
             }
         }
@@ -119,7 +119,7 @@ class SequenceManipulator
 
             $sequence = [];
             $sequence['name'] = array_shift($explodedSequence);
-            $sequence['sequence'] = implode($explodedSequence);
+            $sequence['sequence'] = implode('', $explodedSequence);
         }
 
         return $sequences;
@@ -128,7 +128,7 @@ class SequenceManipulator
     public function arrayToFasta($sequencesArray)
     {
         $fasta = '';
-        $nbSequences = count($sequencesArray);
+        $nbSequences = \count($sequencesArray);
 
         for ($i = 0; $i < $nbSequences; ++$i) {
             // Add the sequence name

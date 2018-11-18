@@ -28,6 +28,6 @@ class IsValidDoi extends Constraint
 
     public function validatedBy()
     {
-        return get_class($this).'Validator';
+        return \get_class($this).'Validator';
     }
 }

@@ -48,12 +48,12 @@ class CartManager
         $this->cart['limit'] = $itemsLimit;
 
         // If the cart already contains the max
-        if (count($this->cart['items']) >= $itemsLimit) {
+        if (\count($this->cart['items']) >= $itemsLimit) {
             // Switch the error key to true
             $this->cart['reached_limit'] = true;
         }
         // elseif the locus is not already in the cart, add it
-        elseif (!in_array($locus->getId(), $this->cart['items'], true)) {
+        elseif (!\in_array($locus->getId(), $this->cart['items'], true)) {
             $this->cart['items'][] = $locus->getId();
         }
 

@@ -57,8 +57,8 @@ class AlignmentManipulator
 
         // Define the number of row and sequences line in an alignment
         // It is the same for all sequences, do it for the first
-        $nbRows = count($fastaArray[0]['sequence']);
-        $nbSequenceLines = count($fastaArray);
+        $nbRows = \count($fastaArray[0]['sequence']);
+        $nbSequenceLines = \count($fastaArray);
 
         // Do the alignment
         $alignment = [
@@ -95,9 +95,9 @@ class AlignmentManipulator
 
         // Generate the legend, then add it to the alignment
         // Because in an alignment all sequence lines have the same size, we just use the first in each row
-        $nbRow = count($alignment['alignmentRows']);
+        $nbRow = \count($alignment['alignmentRows']);
         for ($i = 0; $i < $nbRow; ++$i) {
-            $sequenceLength = count($alignment['alignmentRows'][$i][0]['sequence']);
+            $sequenceLength = \count($alignment['alignmentRows'][$i][0]['sequence']);
             $legendPositions = ['name' => '', 'sequence' => ''];
             $legendFrame = ['name' => '', 'sequence' => []];
             $positions = [];
@@ -138,7 +138,7 @@ class AlignmentManipulator
             }
 
             // Convert positions in text (permit use str_pad, to place legend correctly)
-            $nbPositions = count($positions);
+            $nbPositions = \count($positions);
             for ($j = 0; $j < $nbPositions; ++$j) {
                 // If it's the first, do not add spaces before
                 if (0 === $j) {
@@ -185,10 +185,10 @@ class AlignmentManipulator
     private function colorAlignment($alignment, $colorationType = null, $identitiesColorationLevel = null)
     {
         // Define the number of sequences
-        $nbSequences = count($alignment['alignmentRows'][0]);
+        $nbSequences = \count($alignment['alignmentRows'][0]);
 
         // Define a default value for coloration
-        if (!in_array($colorationType, self::COLORATION_TYPES, true)) {
+        if (!\in_array($colorationType, self::COLORATION_TYPES, true)) {
             if ($alignment['isNucFasta']) {
                 $colorationType = 'identities';
             } else {
@@ -207,8 +207,8 @@ class AlignmentManipulator
             // Make a statistic array (count bases)
             $basesStatistics = [];
             foreach ($alignment['alignmentRows'] as $key => $row) {
-                $sequenceLength = count($row[0]['sequence']);
-                $nbSequences = count($row);
+                $sequenceLength = \count($row[0]['sequence']);
+                $nbSequences = \count($row);
 
                 for ($i = 0; $i < $sequenceLength; ++$i) {
                     for ($j = 0; $j < $nbSequences; ++$j) {
@@ -232,7 +232,7 @@ class AlignmentManipulator
             $identities60 = floor($nbSequences * 0.6);
 
             // Set the $identitiesColorationLevel default value
-            if (null === $identitiesColorationLevel || !in_array($identitiesColorationLevel, self::IDENTITIE_LEVELS, true)) {
+            if (null === $identitiesColorationLevel || !\in_array($identitiesColorationLevel, self::IDENTITIE_LEVELS, true)) {
                 $identitiesColorationLevel = 3;
             }
 
@@ -276,7 +276,7 @@ class AlignmentManipulator
                         // Define the syle for each letter
                         if ('-' !== $base['base']) {
                             foreach ($styleTable as $style => $aas) {
-                                if (in_array($base['base'], $aas, true)) {
+                                if (\in_array($base['base'], $aas, true)) {
                                     $base['style'] = $style;
 
                                     break;

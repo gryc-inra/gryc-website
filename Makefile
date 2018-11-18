@@ -12,6 +12,7 @@ PHPCSFIXER?=$(EXEC) php -d memory_limit=1024m vendor/bin/php-cs-fixer
 .PHONY: lint lint-symfony lint-yaml lint-twig php-cs php-cs-fix security-check
 .PHONY: deps
 .PHONY: build up perm
+.PHONY: docker-compose.override.yml
 
 help:
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
@@ -29,7 +30,7 @@ stop:                                                                           
 restart:                                                                                               ## Restart docker containers
 	$(DOCKER_COMPOSE) restart
 
-install: build up deps perm db-migrate es-populate                                                     ## Create and start docker containers
+install: docker-compose.override.yml build up deps perm db-migrate es-populate                                                     ## Create and start docker containers
 
 uninstall: stop                                                                                        ## Remove docker containers
 	$(DOCKER_COMPOSE) rm -vf
@@ -139,7 +140,7 @@ deps: vendor assets                                                             
 # Internal rules
 
 build:
-	$(DOCKER_COMPOSE) pull --parallel --ignore-pull-failures
+	$(DOCKER_COMPOSE) pull --ignore-pull-failures
 	$(DOCKER_COMPOSE) build --force-rm
 
 up:
@@ -148,6 +149,13 @@ up:
 perm:
 	$(EXEC) chmod -R 777 var files public/build node_modules vendor
 	$(EXEC) chown -R www-data:root var files public/build node_modules vendor
+
+docker-compose.override.yml:
+ifneq ($(wildcard docker-compose.override.yml),docker-compose.override.yml)
+	@echo docker-compose.override.yml do not exists, copy docker-compose.override.yml.dist to create it, and fill it.
+	exit 1
+endif
+
 
 # Rules from files
 

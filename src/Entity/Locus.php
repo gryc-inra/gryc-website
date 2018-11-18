@@ -126,7 +126,7 @@ class Locus extends GeneticEntry
             $productFeatures[] = $feature->getProductsFeatures()->toArray();
         }
 
-        $productFeatures = !empty($productFeatures) ? call_user_func_array('array_merge', $productFeatures) : [];
+        $productFeatures = !empty($productFeatures) ? \call_user_func_array('array_merge', $productFeatures) : [];
 
         return new ArrayCollection($productFeatures);
     }
