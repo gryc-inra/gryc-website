@@ -36,7 +36,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SeoController extends Controller
 {
     /**
-     * @Route("/", name="seo_homepage")
+     * @Route("/", methods={"GET"}, name="seo_homepage")
      */
     public function indexAction()
     {
@@ -49,7 +49,7 @@ class SeoController extends Controller
     }
 
     /**
-     * @Route("/species/{slug}", name="seo_species")
+     * @Route("/species/{slug}", methods={"GET", "POST"}, name="seo_species")
      */
     public function speciesAction(Species $species, Request $request)
     {
@@ -72,7 +72,7 @@ class SeoController extends Controller
     }
 
     /**
-     * @Route("/strain/{slug}", name="seo_strain")
+     * @Route("/strain/{slug}", methods={"GET", "POST"}, name="seo_strain")
      */
     public function strainAction(Strain $strain, Request $request)
     {

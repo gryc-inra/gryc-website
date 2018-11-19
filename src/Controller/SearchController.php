@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SearchController extends Controller
 {
     /**
-     * @Route("/search", name="quick-search")
+     * @Route("/search", methods={"GET"}, name="quick-search")
      */
     public function quickSearchAction(Request $request)
     {
@@ -48,7 +48,7 @@ class SearchController extends Controller
     }
 
     /**
-     * @Route("/advanced-search", name="advanced-search")
+     * @Route("/advanced-search", methods={"GET", "POST"}, name="advanced-search")
      */
     public function advancedSearchAction(Request $request)
     {

@@ -34,7 +34,7 @@ use Symfony\Component\HttpFoundation\Request;
 class StrainAdminController extends Controller
 {
     /**
-     * @Route("/admin/strain", name="strain_admin_index")
+     * @Route("/admin/strain", methods={"GET"}, name="strain_admin_index")
      */
     public function indexAction()
     {
@@ -47,7 +47,7 @@ class StrainAdminController extends Controller
     }
 
     /**
-     * @Route("/admin/strain/{id}/edit", name="strain_edit")
+     * @Route("/admin/strain/{id}/edit", methods={"GET", "POST"}, name="strain_edit")
      */
     public function editAction(Request $request, Strain $strain)
     {
@@ -70,7 +70,7 @@ class StrainAdminController extends Controller
     }
 
     /**
-     * @route("/admin/strain/{id}/user-rights", name="strain_user_rights")
+     * @route("/admin/strain/{id}/user-rights", methods={"GET", "POST"}, name="strain_user_rights")
      */
     public function userRightsAction(Request $request, Strain $strain)
     {

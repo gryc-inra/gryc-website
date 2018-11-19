@@ -30,8 +30,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class StrainController extends Controller
 {
     /**
-     * @Route("/db/{species_slug}/{strain_slug}", name="strain_view")
-     * @Route("strain/{strain_slug}")
+     * @Route("/db/{species_slug}/{strain_slug}", methods={"GET"}, name="strain_view")
+     * @Route("strain/{strain_slug}", methods={"GET"})
      * @Entity("strain", expr="repository.getStrainWithFlatFiles(strain_slug)")
      * @Security("is_granted('VIEW', strain)")
      */
@@ -43,7 +43,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/strain", name="strain_index")
+     * @Route("/strain", methods={"GET"}, name="strain_index")
      */
     public function listAction()
     {

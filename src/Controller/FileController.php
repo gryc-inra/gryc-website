@@ -40,7 +40,7 @@ class FileController extends Controller
      * @param $type
      *
      *
-     * @Route("/{strainName}-{type}.zip", name="file_downloadZipFlatFile")
+     * @Route("/{strainName}-{type}.zip", methods={"GET"}, name="file_downloadZipFlatFile")
      */
     public function downloadZipFlatFileAction($strainName, $type): BinaryFileResponse
     {
@@ -83,7 +83,7 @@ class FileController extends Controller
      * Serve flat file.
      * The method return a X-Accel header, then nginx serve the file after control by the controller.
      *
-     * @Route("/{slug}", name="file_downloadFlatFile")
+     * @Route("/{slug}", methods={"GET"}, name="file_downloadFlatFile")
      * @Security("is_granted('VIEW', file.getChromosome().getStrain())")
      */
     public function downloadFlatFileAction(FlatFile $file)

@@ -34,7 +34,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserAdminController extends Controller
 {
     /**
-     * @Route("/admin/users", options={"expose"=true}, name="user_index")
+     * @Route("/admin/users", methods={"GET"}, options={"expose"=true}, name="user_index")
      */
     public function indexAction(Request $request)
     {
@@ -51,6 +51,7 @@ class UserAdminController extends Controller
      *     "/admin/users/list",
      *     options={"expose"=true},
      *     condition="request.isXmlHttpRequest()",
+     *     methods={"GET"},
      *     name="user_index_ajax"
      * )
      */
@@ -76,7 +77,7 @@ class UserAdminController extends Controller
     }
 
     /**
-     * @Route("/admin/user/roles/{id}", name="user_roles")
+     * @Route("/admin/user/roles/{id}", methods={"GET", "POST"}, name="user_roles")
      */
     public function rolesAction(User $user, Request $request)
     {
@@ -99,7 +100,7 @@ class UserAdminController extends Controller
     }
 
     /**
-     * @Route("/admin/user/strain-access-rights/{id}", name="user_strains")
+     * @Route("/admin/user/strain-access-rights/{id}", methods={"GET", "POST"}, name="user_strains")
      */
     public function strainAction(Request $request, User $user)
     {

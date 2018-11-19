@@ -24,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HomepageController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", methods={"GET"}, name="homepage")
      */
     public function indexAction()
     {

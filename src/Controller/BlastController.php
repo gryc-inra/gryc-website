@@ -27,8 +27,8 @@ use Symfony\Component\HttpFoundation\Request;
 class BlastController extends Controller
 {
     /**
-     * @Route("/blast", name="blast_index")
-     * @Route("/blast/{name}", name="blast_index_prefilled")
+     * @Route("/blast", methods={"GET", "POST"}, name="blast_index")
+     * @Route("/blast/{name}", methods={"GET", "POST"}, name="blast_index_prefilled")
      */
     public function indexAction(Blast $blast = null, Request $request)
     {
@@ -61,7 +61,7 @@ class BlastController extends Controller
     }
 
     /**
-     * @Route("/blast/view/{name}", name="blast_view")
+     * @Route("/blast/view/{name}", methods={"GET"}, name="blast_view")
      */
     public function viewAction(Blast $blast)
     {

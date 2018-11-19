@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ProfileController extends Controller
 {
     /**
-     * @Route("/my-profile", name="user_profile")
+     * @Route("/my-profile", methods={"GET"}, name="user_profile")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function profileAction()
@@ -42,7 +42,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/my-profile/edit", name="user_profile_edit")
+     * @Route("/my-profile/edit", methods={"GET", "POST"}, name="user_profile_edit")
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function profileEditAction(Request $request)
@@ -66,7 +66,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/my-profile/password/edit", name="user_password_edit")
+     * @Route("/my-profile/password/edit", methods={"GET", "POST"}, name="user_password_edit")
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function editPasswordAction(Request $request)
@@ -90,7 +90,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/my-profile/delete", name="user_profile_delete")
+     * @Route("/my-profile/delete", methods={"GET", "POST"}, name="user_profile_delete")
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function profileDeleteAction(Request $request)

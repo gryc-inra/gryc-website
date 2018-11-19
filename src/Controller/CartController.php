@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CartController extends Controller
 {
     /**
-     * @Route("/cart/add/{id}", name="cart_add")
+     * @Route("/cart/add/{id}", methods={"GET"}, name="cart_add")
      * @Security("is_granted('VIEW', locus.getChromosome().getStrain())")
      */
     public function addAction(Locus $locus, Request $request)
@@ -57,7 +57,7 @@ class CartController extends Controller
     }
 
     /**
-     * @Route("/cart/remove/{id}", name="cart_remove")
+     * @Route("/cart/remove/{id}", methods={"GET"}, name="cart_remove")
      */
     public function removeAction($id, Request $request)
     {
@@ -73,7 +73,7 @@ class CartController extends Controller
     }
 
     /**
-     * @Route("/cart/empty", name="cart_empty")
+     * @Route("/cart/empty", methods={"GET"}, name="cart_empty")
      */
     public function emptyAction(Request $request)
     {
@@ -84,7 +84,7 @@ class CartController extends Controller
     }
 
     /**
-     * @Route("/cart", name="cart_view")
+     * @Route("/cart", methods={"GET", "POST"}, name="cart_view")
      */
     public function viewAction(Request $request)
     {
@@ -130,7 +130,8 @@ class CartController extends Controller
      *          "intronSplicing": "0",
      *          "upstream": "0",
      *          "downstream": "0"
-     *     }
+     *     },
+     *     methods={"GET"},
      * )
      */
     public function downloadAction(string $type, string $feature, bool $intronSplicing, int $upstream, int $downstream)
@@ -148,7 +149,7 @@ class CartController extends Controller
     }
 
     /**
-     * @Route("/cart/fasta", name="cart_fasta", condition="request.isXmlHttpRequest()")
+     * @Route("/cart/fasta", methods={"GET", "POST"}, name="cart_fasta", condition="request.isXmlHttpRequest()")
      */
     public function fastaAction(Request $request)
     {

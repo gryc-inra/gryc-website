@@ -35,8 +35,8 @@ use Symfony\Component\HttpFoundation\Request;
 class ReferenceController extends Controller
 {
     /**
-     * @Route("/reference/add/strain/{slug}", name="reference_add_strain")
-     * @Route("/reference/add/locus/{name}", name="reference_add_locus")
+     * @Route("/reference/add/strain/{slug}", methods={"GET", "POST"}, name="reference_add_strain")
+     * @Route("/reference/add/locus/{name}", methods={"GET", "POST"}, name="reference_add_locus")
      * @Security("is_granted('ROLE_REFERENCER') and ((null != strain and is_granted('VIEW', strain)) or (null != locus and is_granted('VIEW', locus.getChromosome().getStrain())))")
      */
     public function addAction(Strain $strain = null, Locus $locus = null, Request $request)
@@ -85,8 +85,8 @@ class ReferenceController extends Controller
     }
 
     /**
-     * @Route("/reference/delete/{reference_id}/strain/{strain_id}", name="reference_delete_strain")
-     * @Route("/reference/delete/{reference_id}/locus/{locus_id}", name="reference_delete_locus")
+     * @Route("/reference/delete/{reference_id}/strain/{strain_id}", methods={"GET"}, name="reference_delete_strain")
+     * @Route("/reference/delete/{reference_id}/locus/{locus_id}", methods={"GET"}, name="reference_delete_locus")
      * @Entity("strain", class="App:Strain", options={
      *   "mapping": {"strain_id": "id"},
      * })
