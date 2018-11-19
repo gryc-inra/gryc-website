@@ -27,8 +27,8 @@ use Symfony\Component\HttpFoundation\Request;
 class MultipleAlignmentController extends Controller
 {
     /**
-     * @Route("/tool/multiple-alignment", name="multiple_alignment_index")
-     * @Route("/tool/multiple-alignment/{name}", name="multiple_alignment_index_prefilled")
+     * @Route("/tool/multiple-alignment", methods={"GET", "POST"}, name="multiple_alignment_index")
+     * @Route("/tool/multiple-alignment/{name}", methods={"GET", "POST"}, name="multiple_alignment_index_prefilled")
      */
     public function indexAction(MultipleAlignment $multipleAlignment = null, Request $request)
     {
@@ -61,7 +61,7 @@ class MultipleAlignmentController extends Controller
     }
 
     /**
-     * @Route("/tool/multiple-alignment/view/{name}", name="multiple_alignment_view")
+     * @Route("/tool/multiple-alignment/view/{name}", methods={"GET"}, name="multiple_alignment_view")
      */
     public function viewAction(MultipleAlignment $multipleAlignment, Request $request)
     {

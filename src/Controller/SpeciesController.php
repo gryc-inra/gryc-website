@@ -27,7 +27,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class SpeciesController extends Controller
 {
     /**
-     * @Route("/db/{species_slug}", name="species_view")
+     * @Route("/db/{species_slug}", methods={"GET"}, name="species_view")
      * @Route("/species/{species_slug}")
      */
     public function viewAction($species_slug)

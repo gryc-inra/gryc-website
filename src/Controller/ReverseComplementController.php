@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ReverseComplementController extends Controller
 {
     /**
-     * @Route("/tool/reverse-complement", name="reverse_complement")
+     * @Route("/tool/reverse-complement", methods={"GET", "POST"}, name="reverse_complement")
      */
     public function indexAction(Request $request)
     {

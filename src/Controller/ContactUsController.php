@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ContactUsController extends Controller
 {
     /**
-     * @Route("/contact", name="contact_us")
+     * @Route("/contact", methods={"GET", "POST"}, name="contact_us")
      */
     public function contactAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {

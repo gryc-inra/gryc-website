@@ -27,8 +27,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ChromosomeController extends Controller
 {
     /**
-     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}", name="chromosome_view")
-     * @Route("/chromosome/{chromosome_slug}")
+     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}", methods={"GET"}, name="chromosome_view")
+     * @Route("/chromosome/{chromosome_slug}", methods={"GET"})
      * @Entity("chromosome", expr="repository.getChromosomeWithStrainAndSpecies(chromosome_slug)")
      * @Security("is_granted('VIEW', chromosome.getStrain())")
      */

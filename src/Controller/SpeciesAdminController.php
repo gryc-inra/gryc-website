@@ -43,7 +43,7 @@ class SpeciesAdminController extends Controller
     /**
      * List all the species in the admin section.
      *
-     * @Route("/admin/species", name="species_list")
+     * @Route("/admin/species", methods={"GET"}, name="species_list")
      */
     public function indexAction()
     {
@@ -58,7 +58,7 @@ class SpeciesAdminController extends Controller
     /**
      * Add a species.
      *
-     * @Route("/admin/species/add", name="species_add")
+     * @Route("/admin/species/add", methods={"GET", "POST"}, name="species_add")
      */
     public function addAction(Request $request)
     {
@@ -84,7 +84,7 @@ class SpeciesAdminController extends Controller
     /**
      * Edit a species.
      *
-     * @Route("/admin/species/{id}/edit", name="species_edit")
+     * @Route("/admin/species/{id}/edit", methods={"GET", "POST"}, name="species_edit")
      */
     public function editAction(Request $request, Species $species)
     {
@@ -109,7 +109,7 @@ class SpeciesAdminController extends Controller
     /**
      * Delete a species.
      *
-     * @Route("/admin/species/{id}/delete", name="species_delete")
+     * @Route("/admin/species/{id}/delete", methods={"GET", "POST"}, name="species_delete")
      */
     public function deleteAction(Request $request, Species $species)
     {
@@ -141,7 +141,7 @@ class SpeciesAdminController extends Controller
      * Consult the ncbi taxonomy api, and return a json with the interesting data.
      * Used in AddSpecies for the autocomplete method.
      *
-     * @Route("/admin/species/json/{taxid}", name="species_getjson", condition="request.isXmlHttpRequest()")
+     * @Route("/admin/species/json/{taxid}", methods={"GET"}, name="species_getjson", condition="request.isXmlHttpRequest()")
      */
     public function getJsonAction($taxid)
     {

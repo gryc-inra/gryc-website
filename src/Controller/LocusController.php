@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
 class LocusController extends Controller
 {
     /**
-     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_slug}", name="locus_view")
+     * @Route("/db/{species_slug}/{strain_slug}/{chromosome_slug}/{locus_slug}", methods={"GET"}, name="locus_view")
      * @Entity("locus",  class="App:Locus", expr="repository.findLocusWithAllData(locus_slug)")
      * @Entity("neighborhood", class="App:Neighbour", expr="repository.findNeighborhood(locus)")
      * @Security("is_granted('VIEW', locus.getChromosome().getStrain())")
@@ -77,7 +77,7 @@ class LocusController extends Controller
     }
 
     /**
-     * @Route("/locus/{locus_name}", name="locus_view_short")
+     * @Route("/locus/{locus_name}", methods={"GET"}, name="locus_view_short")
      */
     public function redirectAction($locus_name)
     {

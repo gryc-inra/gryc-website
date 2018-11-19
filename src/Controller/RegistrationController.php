@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 class RegistrationController extends Controller
 {
     /**
-     * @Route("/register", name="user_registration")
+     * @Route("/register", methods={"GET", "POST"}, name="user_registration")
      */
     public function registerAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
@@ -58,7 +58,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/register/confirm/{token}", name="user_activation")
+     * @Route("/register/confirm/{token}", methods={"GET"}, name="user_activation")
      */
     public function activateAction($token)
     {

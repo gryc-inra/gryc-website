@@ -24,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class StaticPagesController extends Controller
 {
     /**
-     * @Route("/publisher", name="publisher")
+     * @Route("/publisher", methods={"GET"}, name="publisher")
      */
     public function publisherAction()
     {
@@ -32,7 +32,7 @@ class StaticPagesController extends Controller
     }
 
     /**
-     * @Route("/privacy-policy", name="privacy-policy")
+     * @Route("/privacy-policy", methods={"GET"}, name="privacy-policy")
      */
     public function privacyPolicyAction()
     {
@@ -40,7 +40,7 @@ class StaticPagesController extends Controller
     }
 
     /**
-     * @Route("/faq", name="faq")
+     * @Route("/faq", methods={"GET"}, name="faq")
      */
     public function faqAction()
     {
@@ -48,7 +48,7 @@ class StaticPagesController extends Controller
     }
 
     /**
-     * @Route("/tools", name="tools")
+     * @Route("/tools", methods={"GET"}, name="tools")
      */
     public function toolsAction()
     {

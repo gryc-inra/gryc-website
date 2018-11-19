@@ -34,7 +34,7 @@ use Symfony\Component\Validator\Constraints\Regex;
 class CladeController extends Controller
 {
     /**
-     * @Route("/admin/clade", name="clade_index")
+     * @Route("/admin/clade", methods={"GET"}, name="clade_index")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function indexAction()
@@ -48,7 +48,7 @@ class CladeController extends Controller
     }
 
     /**
-     * @Route("/admin/clade/add", name="clade_add")
+     * @Route("/admin/clade/add", methods={"GET", "POST"}, name="clade_add")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
@@ -74,7 +74,7 @@ class CladeController extends Controller
     }
 
     /**
-     * @Route("/admin/clade/{id}/edit", name="clade_edit")
+     * @Route("/admin/clade/{id}/edit", methods={"GET", "POST"}, name="clade_edit")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function editAction(Request $request, Clade $clade)
@@ -98,7 +98,7 @@ class CladeController extends Controller
     }
 
     /**
-     * @Route("/admin/clade/{id}/delete", name="clade_delete")
+     * @Route("/admin/clade/{id}/delete", methods={"GET", "POST"}, name="clade_delete")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Request $request, Clade $clade)

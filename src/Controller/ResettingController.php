@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ResettingController extends Controller
 {
     /**
-     * @Route("/resetting/request", name="user_resetting_request")
+     * @Route("/resetting/request", methods={"GET", "POST"}, name="user_resetting_request")
      */
     public function resettingRequestAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
@@ -67,7 +67,7 @@ class ResettingController extends Controller
     }
 
     /**
-     * @Route("/resetting/{username}/{token}", name="user_resetting")
+     * @Route("/resetting/{username}/{token}", methods={"GET", "POST"}, name="user_resetting")
      */
     public function resettingAction($username, $token, Request $request)
     {
