@@ -19,6 +19,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,19 +48,19 @@ class Feature extends GeneticEntry
         $this->productsFeatures = new ArrayCollection();
     }
 
-    public function setLocus(Locus $locus)
+    public function setLocus(Locus $locus): self
     {
         $this->locus = $locus;
 
         return $this;
     }
 
-    public function getLocus()
+    public function getLocus(): ?Locus
     {
         return $this->locus;
     }
 
-    public function addProductsFeatures(Product $product)
+    public function addProductsFeatures(Product $product): self
     {
         if (!$this->productsFeatures->contains($product)) {
             $this->productsFeatures->add($product);
@@ -69,7 +70,7 @@ class Feature extends GeneticEntry
         return $this;
     }
 
-    public function removeProductsFeatures(Product $product)
+    public function removeProductsFeatures(Product $product): self
     {
         if ($this->productsFeatures->contains($product)) {
             $this->productsFeatures->removeElement($product);
@@ -78,31 +79,23 @@ class Feature extends GeneticEntry
         return $this;
     }
 
-    public function getProductsFeatures()
+    public function getProductsFeatures(): Collection
     {
         return $this->productsFeatures;
     }
 
-    public function countProductFeatures()
+    public function countProductFeatures(): int
     {
         return $this->productsFeatures->count();
     }
 
-    /**
-     * Set structure.
-     *
-     * @param array $structure
-     */
-    public function setStructure($structure): GeneticEntry
+    public function setStructure(array $structure): self
     {
         $this->structure = $structure;
 
         return $this;
     }
 
-    /**
-     * Get structure.
-     */
     public function getStructure(): array
     {
         return $this->structure;

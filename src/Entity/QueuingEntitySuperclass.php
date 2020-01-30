@@ -22,65 +22,47 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * QueuingEntitySuperclass.
- *
  * @ORM\MappedSuperclass
  */
 class QueuingEntitySuperclass
 {
     /**
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="status", type="string", length=255)
      */
     private $status;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="command_line", type="text", nullable=true)
      */
     private $commandLine;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="output", type="text", nullable=true)
      */
     private $output;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="error_output", type="text", nullable=true)
      */
     private $errorOutput;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="exit_code", type="integer", nullable=true)
      */
     private $exitCode;
 
     /**
-     * @var \DateTime
-     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     private $created;
 
     /**
-     * @var User
-     *
      * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
@@ -104,84 +86,84 @@ class QueuingEntitySuperclass
         $this->createdBy = null;
     }
 
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setStatus($status)
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
         return $this;
     }
 
-    public function getStatus()
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setCommandLine($commandLine)
+    public function setCommandLine(?string $commandLine): self
     {
         $this->commandLine = $commandLine;
 
         return $this;
     }
 
-    public function getCommandLine()
+    public function getCommandLine(): ?string
     {
         return $this->commandLine;
     }
 
-    public function setOutput($output)
+    public function setOutput(?string $output): self
     {
         $this->output = $output;
 
         return $this;
     }
 
-    public function getOutput()
+    public function getOutput(): ?string
     {
         return $this->output;
     }
 
-    public function setErrorOutput($errorOutput)
+    public function setErrorOutput(?string $errorOutput): self
     {
         $this->errorOutput = $errorOutput;
 
         return $this;
     }
 
-    public function getErrorOutput()
+    public function getErrorOutput(): ?string
     {
         return $this->errorOutput;
     }
 
-    public function setExitCode($exitCode)
+    public function setExitCode(?int $exitCode): self
     {
         $this->exitCode = $exitCode;
 
         return $this;
     }
 
-    public function getExitCode()
+    public function getExitCode(): ?int
     {
         return $this->exitCode;
     }
 
-    public function getCreated()
+    public function getCreated(): ?\DateTime
     {
         return $this->created;
     }
 
-    public function getCreatedBy()
+    public function getCreatedBy(): ?User
     {
         return $this->createdBy;
     }

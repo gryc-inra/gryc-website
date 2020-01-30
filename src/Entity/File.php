@@ -21,8 +21,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * A general class inherit by other files.
- *
  * @ORM\Entity
  * @ORM\Table(name="file")
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -32,8 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class File
 {
     /**
-     * The ID in the database.
-     *
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -41,62 +37,32 @@ abstract class File
     private $id;
 
     /**
-     * The path of the file on the server.
-     *
-     * @var string
-     *
      * @ORM\Column(name="path", type="string", length=255, unique=true)
      */
     private $path;
 
-    /**
-     * The path of the file on the system (befor import).
-     *
-     * @var string
-     */
     private $fileSystemPath;
 
-    /**
-     * A temporaty path, before deletion.
-     *
-     * @var string
-     */
     private $tempPath;
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set path.
-     *
-     * @param string $path
-     */
-    public function setPath($path): string
+    public function setPath(string $path): self
     {
         $this->path = $path;
 
         return $this;
     }
 
-    /**
-     * Get path.
-     */
-    public function getPath(): string
+    public function getPath(): ?string
     {
         return $this->path;
     }
 
-    /**
-     * Set fileSystemPath.
-     *
-     * @param string $fileSystemPath
-     */
-    public function setFileSystemPath($fileSystemPath)
+    public function setFileSystemPath(string $fileSystemPath): self
     {
         $this->fileSystemPath = $fileSystemPath;
 
@@ -108,42 +74,26 @@ abstract class File
             // On réinitialise le path
             $this->path = null;
         }
+
+        return $this;
     }
 
-    /**
-     * Get file.
-     */
-    public function getFileSystemPath()
+    public function getFileSystemPath(): ?string
     {
         return $this->fileSystemPath;
     }
 
-    /**
-     * Set temp path.
-     *
-     * @param $tempPath
-     *
-     * @return $this
-     */
-    public function setTempPath($tempPath)
+    public function setTempPath(?string $tempPath): self
     {
         $this->tempPath = $tempPath;
 
         return $this;
     }
 
-    /**
-     * Get temp path.
-     */
-    public function getTempPath(): string
+    public function getTempPath(): ?string
     {
         return $this->tempPath;
     }
 
-    /**
-     * Get upload dir.
-     *
-     * Return the directory name where files are moved.
-     */
-    abstract public function getStorageDir(): string;
+    abstract public function getStorageDir(): ?string;
 }

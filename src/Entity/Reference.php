@@ -19,20 +19,17 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Reference.
- *
  * @ORM\Table(name="reference")
  * @ORM\Entity(repositoryClass="App\Repository\ReferenceRepository")
  */
 class Reference
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -40,37 +37,27 @@ class Reference
     private $id;
 
     /**
-     * @var array
-     *
      * @ORM\Column(name="authors", type="array")
      */
     private $authors;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="container", type="string", length=255)
      */
     private $container;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="doi", type="string", length=255, unique=true)
      * @Assert\NotBlank()
      */
     private $doi;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="url", type="string", length=255, unique=true)
      */
     private $url;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="issued", type="integer")
      */
     private $issued;
@@ -91,115 +78,72 @@ class Reference
         $this->strains = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set authors.
-     *
-     * @param array $authors
-     */
-    public function setAuthors($authors): self
+    public function setAuthors(array $authors): self
     {
         $this->authors = $authors;
 
         return $this;
     }
 
-    /**
-     * Get authors.
-     */
     public function getAuthors(): array
     {
         return $this->authors;
     }
 
-    /**
-     * Set container.
-     *
-     * @param string $container
-     */
-    public function setContainer($container): self
+    public function setContainer(string $container): self
     {
         $this->container = $container;
 
         return $this;
     }
 
-    /**
-     * Get container.
-     */
-    public function getContainer(): string
+    public function getContainer(): ?string
     {
         return $this->container;
     }
 
-    /**
-     * Set doi.
-     *
-     * @param string $doi
-     */
-    public function setDoi($doi): self
+    public function setDoi(string $doi): self
     {
         $this->doi = $doi;
 
         return $this;
     }
 
-    /**
-     * Get doi.
-     */
-    public function getDoi(): string
+    public function getDoi(): ?string
     {
         return $this->doi;
     }
 
-    /**
-     * Set url.
-     *
-     * @param string $url
-     */
-    public function setUrl($url): self
+    public function setUrl(string $url): self
     {
         $this->url = $url;
 
         return $this;
     }
 
-    /**
-     * Get url.
-     */
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    /**
-     * Set issued.
-     *
-     * @param int $issued
-     */
-    public function setIssued($issued): self
+    public function setIssued(int $issued): self
     {
         $this->issued = $issued;
 
         return $this;
     }
 
-    /**
-     * Get issued.
-     */
-    public function getIssued(): int
+    public function getIssued(): ?int
     {
         return $this->issued;
     }
 
-    public function addLocus(Locus $locus)
+    public function addLocus(Locus $locus): self
     {
         if (!$this->locus->contains($locus)) {
             $this->locus->add($locus);
@@ -209,7 +153,7 @@ class Reference
         return $this;
     }
 
-    public function removeLocus(Locus $locus)
+    public function removeLocus(Locus $locus): self
     {
         if ($this->locus->contains($locus)) {
             $this->locus->removeElement($locus);
@@ -218,12 +162,12 @@ class Reference
         return $this;
     }
 
-    public function getLocus()
+    public function getLocus(): Collection
     {
         return $this->locus;
     }
 
-    public function addStrain(Strain $strain)
+    public function addStrain(Strain $strain): self
     {
         if (!$this->strains->contains($strain)) {
             $this->strains->add($strain);
@@ -233,7 +177,7 @@ class Reference
         return $this;
     }
 
-    public function removeStrain(Strain $strain)
+    public function removeStrain(Strain $strain): self
     {
         if ($this->strains->contains($strain)) {
             $this->strains->removeElement($strain);
@@ -242,7 +186,7 @@ class Reference
         return $this;
     }
 
-    public function getStrains()
+    public function getStrains(): Collection
     {
         return $this->strains;
     }

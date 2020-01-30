@@ -21,18 +21,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DnaSequence.
- *
  * @ORM\Table(name="dna_sequence")
  * @ORM\Entity(repositoryClass="App\Repository\DnaSequenceRepository")
  */
 class DnaSequence
 {
     /**
-     * The ID in the database.
-     *
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -40,37 +34,27 @@ class DnaSequence
     private $id;
 
     /**
-     * The number of letters in the sequence.
-     *
-     * @var array
-     *
      * @ORM\Column(name="letterCount", type="array")
      */
     private $letterCount;
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function __construct()
+    {
+        $this->letterCount = [];
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set letterCount.
-     *
-     * @param array $letterCount
-     */
-    public function setLetterCount($letterCount): self
+    public function setLetterCount(array $letterCount): self
     {
         $this->letterCount = $letterCount;
 
         return $this;
     }
 
-    /**
-     * Get letterCount.
-     */
     public function getLetterCount(): array
     {
         return $this->letterCount;

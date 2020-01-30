@@ -19,6 +19,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -74,19 +75,19 @@ class Locus extends GeneticEntry
         $this->neighbours = new ArrayCollection();
     }
 
-    public function setChromosome(Chromosome $chromosome)
+    public function setChromosome(Chromosome $chromosome): self
     {
         $this->chromosome = $chromosome;
 
         return $this;
     }
 
-    public function getChromosome()
+    public function getChromosome(): Chromosome
     {
         return $this->chromosome;
     }
 
-    public function addFeature(Feature $feature)
+    public function addFeature(Feature $feature): self
     {
         if (!$this->features->contains($feature)) {
             $this->features->add($feature);
@@ -96,7 +97,7 @@ class Locus extends GeneticEntry
         return $this;
     }
 
-    public function removeFeature(Feature $feature)
+    public function removeFeature(Feature $feature): self
     {
         if ($this->features->contains($feature)) {
             $this->features->removeElement($feature);
@@ -105,22 +106,22 @@ class Locus extends GeneticEntry
         return $this;
     }
 
-    public function getFeatures()
+    public function getFeatures(): ?Feature
     {
         return $this->features;
     }
 
-    public function countFeatures()
+    public function countFeatures(): int
     {
         return $this->features->count();
     }
 
-    public function hasFeatures()
+    public function hasFeatures(): bool
     {
         return $this->countFeatures() > 0;
     }
 
-    public function getProductFeatures()
+    public function getProductFeatures(): Collection
     {
         $productFeatures = [];
         foreach ($this->features as $feature) {
@@ -132,7 +133,7 @@ class Locus extends GeneticEntry
         return new ArrayCollection($productFeatures);
     }
 
-    public function countProductFeatures()
+    public function countProductFeatures(): int
     {
         $nbProduct = 0;
         foreach ($this->features as $feature) {
@@ -142,12 +143,12 @@ class Locus extends GeneticEntry
         return $nbProduct;
     }
 
-    public function hasProductFeatures()
+    public function hasProductFeatures(): bool
     {
         return $this->countProductFeatures() > 0;
     }
 
-    public function addReference(Reference $reference)
+    public function addReference(Reference $reference): self
     {
         if (!$this->references->contains($reference)) {
             $this->references->add($reference);
@@ -156,7 +157,7 @@ class Locus extends GeneticEntry
         return $this;
     }
 
-    public function removeReference(Reference $reference)
+    public function removeReference(Reference $reference): self
     {
         if ($this->references->contains($reference)) {
             $this->references->removeElement($reference);
@@ -165,12 +166,12 @@ class Locus extends GeneticEntry
         return $this;
     }
 
-    public function getReferences()
+    public function getReferences(): ?Reference
     {
         return $this->references;
     }
 
-    public function addNeighbour(Neighbour $neighbour)
+    public function addNeighbour(Neighbour $neighbour): self
     {
         if (!$this->neighbours->contains($neighbour)) {
             $neighbour->setLocus($this);
@@ -180,7 +181,7 @@ class Locus extends GeneticEntry
         return $this;
     }
 
-    public function removeNeighbour(Neighbour $neighbour)
+    public function removeNeighbour(Neighbour $neighbour): self
     {
         if ($this->neighbours->contains($neighbour)) {
             $this->neighbours->removeElement($neighbour);
@@ -189,94 +190,62 @@ class Locus extends GeneticEntry
         return $this;
     }
 
-    public function clearNeighbours()
+    public function clearNeighbours(): self
     {
         $this->neighbours->clear();
 
         return $this;
     }
 
-    public function getNeighbours()
+    public function getNeighbours(): Collection
     {
         return $this->neighbours;
     }
 
-    /**
-     * Set context.
-     *
-     * @param string $context
-     */
-    public function setContext($context): self
+    public function setContext(string $context): self
     {
         $this->context = $context;
 
         return $this;
     }
 
-    /**
-     * Get context.
-     */
-    public function getContext(): string
+    public function getContext(): ?string
     {
         return $this->context;
     }
 
-    /**
-     * Set sequence.
-     *
-     * @param string $sequence
-     */
-    public function setSequence($sequence): self
+    public function setSequence(string $sequence): self
     {
         $this->sequence = $sequence;
 
         return $this;
     }
 
-    /**
-     * Get locus sequence.
-     */
-    public function getLocusSequence(): string
+    public function getLocusSequence(): ?string
     {
         return $this->sequence;
     }
 
-    /**
-     * Set upstreamSequence.
-     *
-     * @param string $upstreamSequence
-     */
-    public function setUpstreamSequence($upstreamSequence): self
+    public function setUpstreamSequence(string $upstreamSequence): self
     {
         $this->upstreamSequence = $upstreamSequence;
 
         return $this;
     }
 
-    /**
-     * Get upstreamSequence.
-     */
-    public function getUpstreamSequence(): string
+    public function getUpstreamSequence(): ?string
     {
         return $this->upstreamSequence;
     }
 
-    /**
-     * Set downstreamSequence.
-     *
-     * @param string $downstreamSequence
-     */
-    public function setDownstreamSequence($downstreamSequence): self
+    public function setDownstreamSequence(string $downstreamSequence): self
     {
         $this->downstreamSequence = $downstreamSequence;
 
         return $this;
     }
 
-    /**
-     * Get downstreamSequence.
-     */
-    public function getDownstreamSequence(): string
+    public function getDownstreamSequence(): ?string
     {
         return $this->downstreamSequence;
     }

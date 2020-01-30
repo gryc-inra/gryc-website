@@ -21,18 +21,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Dbxref.
- *
  * @ORM\Table(name="dbxref")
  * @ORM\Entity(repositoryClass="App\Repository\DbxrefRepository")
  */
 class Dbxref
 {
     /**
-     * The ID in the database.
-     *
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -40,154 +34,91 @@ class Dbxref
     private $id;
 
     /**
-     * The name of the dbxref.
-     *
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
     /**
-     * The description.
-     *
-     * @var string
-     *
      * @ORM\Column(name="description", type="text")
      */
     private $description;
 
     /**
-     * The pattern of the DBXREF.
-     *
-     * @var string
-     *
      * @ORM\Column(name="pattern", type="string", length=255, unique=true)
      */
     private $pattern;
 
     /**
-     * The URL.
-     *
-     * @var string
-     *
      * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
 
     /**
-     * The source.
-     *
-     * @var string
-     *
      * @ORM\Column(name="source", type="string", length=255)
      */
     private $source;
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * Set description.
-     *
-     * @param string $description
-     */
-    public function setDescription($description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * Get description.
-     */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * Set pattern.
-     *
-     * @param string $pattern
-     */
-    public function setPattern($pattern): self
+    public function setPattern(string $pattern): self
     {
         $this->pattern = $pattern;
 
         return $this;
     }
 
-    /**
-     * Get pattern.
-     */
-    public function getPattern(): string
+    public function getPattern(): ?string
     {
         return $this->pattern;
     }
 
-    /**
-     * Set url.
-     *
-     * @param string $url
-     */
-    public function setUrl($url): self
+    public function setUrl(string $url): self
     {
         $this->url = $url;
 
         return $this;
     }
 
-    /**
-     * Get url.
-     */
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    /**
-     * Set source.
-     *
-     * @param string $source
-     */
-    public function setSource($source): self
+    public function setSource(string $source): self
     {
         $this->source = $source;
 
         return $this;
     }
 
-    /**
-     * Get source.
-     */
-    public function getSource(): string
+    public function getSource(): ?string
     {
         return $this->source;
     }

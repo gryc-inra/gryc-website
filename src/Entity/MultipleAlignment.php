@@ -29,10 +29,6 @@ class MultipleAlignment extends QueuingEntitySuperclass
     const NB_KEPT_ALIGNMENT = 10;
 
     /**
-     * The ID in the database.
-     *
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -40,8 +36,6 @@ class MultipleAlignment extends QueuingEntitySuperclass
     private $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="query", type="text")
      */
     private $query;
@@ -60,22 +54,19 @@ class MultipleAlignment extends QueuingEntitySuperclass
         $this->id = null;
     }
 
-    /**
-     * Get id.
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function setQuery($query)
+    public function setQuery(string $query)
     {
         $this->query = $query;
 
         return $this;
     }
 
-    public function getQuery()
+    public function getQuery(): ?string
     {
         return $this->query;
     }

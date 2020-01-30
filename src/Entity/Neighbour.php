@@ -26,8 +26,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Neighbour
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -35,45 +33,31 @@ class Neighbour
     private $id;
 
     /**
-     * @var Locus
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Locus", inversedBy="neighbours")
      * @ORM\JoinColumn(nullable=false)
      */
     private $locus;
 
     /**
-     * @var Locus
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Locus")
      */
     private $neighbour;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="position", type="integer")
      */
     private $position;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="number_neighbours", type="integer")
      */
     private $numberNeighbours;
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set locus.
-     */
     public function setLocus(Locus $locus): self
     {
         $this->locus = $locus;
@@ -81,61 +65,35 @@ class Neighbour
         return $this;
     }
 
-    /**
-     * Get locus.
-     */
-    public function getLocus(): \App\Entity\Locus
+    public function getLocus(): ?Locus
     {
         return $this->locus;
     }
 
-    /**
-     * Set neighbour.
-     *
-     * @param Locus $neighbour
-     */
-    public function setNeighbour(Locus $neighbour = null): self
+    public function setNeighbour(?Locus $neighbour): self
     {
         $this->neighbour = $neighbour;
 
         return $this;
     }
 
-    /**
-     * Get neighbour.
-     */
-    public function getNeighbour(): \App\Entity\Locus
+    public function getNeighbour(): ?Locus
     {
         return $this->neighbour;
     }
 
-    /**
-     * Set position.
-     *
-     * @param string $position
-     */
-    public function setPosition($position): self
+    public function setPosition(string $position): self
     {
         $this->position = $position;
 
         return $this;
     }
 
-    /**
-     * Get position.
-     */
-    public function getPosition(): string
+    public function getPosition(): ?string
     {
         return $this->position;
     }
 
-    /**
-     * Set number of neighbours.
-     *
-     * @param $numberNeighbours
-     *
-     * @return $this
-     */
     public function setNumberNeighbours(int $numberNeighbours)
     {
         $this->numberNeighbours = $numberNeighbours;
@@ -143,10 +101,7 @@ class Neighbour
         return $this;
     }
 
-    /**
-     * Get number of neighbours.
-     */
-    public function getNumberNeighbours(): int
+    public function getNumberNeighbours(): ?int
     {
         return $this->numberNeighbours;
     }

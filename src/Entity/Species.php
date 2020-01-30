@@ -19,14 +19,13 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Species.
- *
  * @ORM\Table(name="species")
  * @ORM\Entity(repositoryClass="App\Repository\SpeciesRepository")
  * @UniqueEntity(fields="scientificName", message="A species already exists with this scientific name.")
@@ -35,10 +34,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Species
 {
     /**
-     * The ID in the database.
-     *
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -46,61 +41,36 @@ class Species
     private $id;
 
     /**
-     * The clade including the species.
-     *
-     * @var Clade
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Clade", inversedBy="species")
      * @ORM\JoinColumn(nullable=false)
      */
     private $clade;
 
     /**
-     * The scientific name of the species.
-     *
-     * @var string
-     *
      * @ORM\Column(name="scientificName", type="string", length=255, unique=true)
      * @Assert\Regex("#^[A-Z][a-z]* [a-z]*$#", message="The scientific name is in two word, the first begin with a capital letter and the second word is in small letters. (eg: Saccharomyces cerevisiae)")
      */
     private $scientificName;
 
     /**
-     * The genus of the species.
-     *
-     * @var string
-     *
      * @ORM\Column(name="genus", type="string", length=255)
      * @Assert\Regex("#^[A-Z][a-z]*$#", message="The genus begin with a capital letter. (eg: Saccharomyces)")
      */
     private $genus;
 
     /**
-     * The species name.
-     *
-     * @var string
-     *
      * @ORM\Column(name="species", type="string", length=255, unique=true)
      * @Assert\Regex("#^[a-z]*$#", message="The species is in small letters. (eg: cerevisiae)")
      */
     private $species;
 
     /**
-     * An array of lineages.
-     *
-     * @var array
-     *
      * @ORM\Column(name="lineages", type="array")
      */
     private $lineages;
 
     /**
-     * The taxon ID of the species.
-     *
-     * @var int
-     *
      * @ORM\Column(name="tax_id", type="integer", nullable=true, unique=true)
-     *
      * @Assert\Type(
      *     type="integer",
      *     message="The value {{ value }} is not a valid {{ type }}."
@@ -109,12 +79,7 @@ class Species
     private $taxId;
 
     /**
-     * The genetic code of the species.
-     *
-     * @var int
-     *
      * @ORM\Column(name="geneticCode", type="integer")
-     *
      * @Assert\Type(
      *     type="integer",
      *     message="The value {{ value }} is not a valid {{ type }}."
@@ -123,10 +88,6 @@ class Species
     private $geneticCode;
 
     /**
-     * The mito code of the species.
-     *
-     * @var int
-     *
      * @ORM\Column(name="mitoCode", type="integer")
      * @Assert\Type(
      *     type="integer",
@@ -136,52 +97,31 @@ class Species
     private $mitoCode;
 
     /**
-     * An array of synonyms for the species.
-     *
-     * @var array
-     *
      * @ORM\Column(name="synonyms", type="array", nullable=true)
      */
     private $synonyms;
 
     /**
-     * The description of the species.
-     *
-     * @var string
-     *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
-     * A collection of strains owned by the species.
-     *
-     * @var Strain|ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Strain", mappedBy="species", cascade={"persist", "remove"})
      */
     private $strains;
 
     /**
-     * A collection of Seo linked to the species.
-     *
-     * @var Seo|ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Seo", mappedBy="species", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $seos;
 
     /**
-     * A slug, for url.
-     *
      * @Gedmo\Slug(fields={"scientificName"})
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
      */
     private $slug;
 
-    /**
-     * Species constructor.
-     */
     public function __construct()
     {
         $this->mitoCode = 3;
@@ -192,17 +132,11 @@ class Species
         $this->seos = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set clade.
-     */
     public function setClade(Clade $clade): self
     {
         $this->clade = $clade;
@@ -210,80 +144,48 @@ class Species
         return $this;
     }
 
-    /**
-     * Get clade.
-     */
-    public function getClade(): Clade
+    public function getClade(): ?Clade
     {
         return $this->clade;
     }
 
-    /**
-     * Set scientificName.
-     *
-     * @param string $scientificName
-     */
-    public function setScientificName($scientificName): self
+    public function setScientificName(string $scientificName): self
     {
         $this->scientificName = $scientificName;
 
         return $this;
     }
 
-    /**
-     * Get scientificName.
-     */
-    public function getScientificName(): string
+    public function getScientificName(): ?string
     {
         return $this->scientificName;
     }
 
-    /**
-     * Set species.
-     *
-     * @param string $species
-     */
-    public function setSpecies($species): self
+    public function setSpecies(string $species): self
     {
         $this->species = $species;
 
         return $this;
     }
 
-    /**
-     * Get species.
-     */
-    public function getSpecies(): string
+    public function getSpecies(): ?string
     {
         return $this->species;
     }
 
-    /**
-     * Set genus.
-     *
-     * @param string $genus
-     */
-    public function setGenus($genus): self
+    public function setGenus(string $genus): self
     {
         $this->genus = $genus;
 
         return $this;
     }
 
-    /**
-     * Get genus.
-     */
-    public function getGenus(): string
+    public function getGenus(): ?string
     {
         return $this->genus;
     }
 
-    /**
-     * Add lineage.
-     *
-     * @param string $lineage
-     */
-    public function addLineage($lineage): self
+    public function addLineage(string $lineage): self
     {
         if (!empty($lineage) && !\in_array($lineage, $this->lineages, true)) {
             $this->lineages[] = $lineage;
@@ -292,12 +194,7 @@ class Species
         return $this;
     }
 
-    /**
-     * Remove lineage.
-     *
-     * @param string $lineage
-     */
-    public function removeLineage($lineage): self
+    public function removeLineage(string $lineage): self
     {
         if (false !== $key = array_search($lineage, $this->lineages, true)) {
             unset($this->lineages[$key]);
@@ -307,12 +204,7 @@ class Species
         return $this;
     }
 
-    /**
-     * Set lineages.
-     *
-     * @param array $lineages
-     */
-    public function setLineages($lineages): self
+    public function setLineages(array $lineages): self
     {
         $this->lineages = [];
 
@@ -323,9 +215,6 @@ class Species
         return $this;
     }
 
-    /**
-     * Empty lineages.
-     */
     public function emptyLineages(): self
     {
         $this->lineages = [];
@@ -333,80 +222,48 @@ class Species
         return $this;
     }
 
-    /**
-     * Get lineage.
-     */
     public function getLineages(): array
     {
         return $this->lineages;
     }
 
-    /**
-     * Set taxId.
-     *
-     * @param int $taxId
-     */
-    public function setTaxId($taxId): self
+    public function setTaxId(?int $taxId): self
     {
         $this->taxId = $taxId;
 
         return $this;
     }
 
-    /**
-     * Get taxId.
-     */
-    public function getTaxId(): int
+    public function getTaxId(): ?int
     {
         return $this->taxId;
     }
 
-    /**
-     * Set geneticCode.
-     *
-     * @param int $geneticCode
-     */
-    public function setGeneticCode($geneticCode): self
+    public function setGeneticCode(int $geneticCode): self
     {
         $this->geneticCode = $geneticCode;
 
         return $this;
     }
 
-    /**
-     * Get geneticCode.
-     */
-    public function getGeneticCode(): int
+    public function getGeneticCode(): ?int
     {
         return $this->geneticCode;
     }
 
-    /**
-     * Set mitoCode.
-     *
-     * @param int $mitoCode
-     */
-    public function setMitoCode($mitoCode): self
+    public function setMitoCode(int $mitoCode): self
     {
         $this->mitoCode = $mitoCode;
 
         return $this;
     }
 
-    /**
-     * Get mitoCode.
-     */
-    public function getMitoCode(): int
+    public function getMitoCode(): ?int
     {
         return $this->mitoCode;
     }
 
-    /**
-     * Add synonym.
-     *
-     * @param string $synonym
-     */
-    public function addSynonym($synonym): self
+    public function addSynonym(string $synonym): self
     {
         if (!empty($synonym) && !\in_array($synonym, $this->synonyms, true)) {
             $this->synonyms[] = $synonym;
@@ -415,12 +272,7 @@ class Species
         return $this;
     }
 
-    /**
-     * Remove synonym.
-     *
-     * @param string $synonym
-     */
-    public function removeSynonym($synonym): self
+    public function removeSynonym(string $synonym): self
     {
         if (false !== $key = array_search($synonym, $this->synonyms, true)) {
             unset($this->synonyms[$key]);
@@ -430,9 +282,6 @@ class Species
         return $this;
     }
 
-    /**
-     * Empty synonyms.
-     */
     public function emptySynonyms(): self
     {
         $this->synonyms = [];
@@ -440,12 +289,7 @@ class Species
         return $this;
     }
 
-    /**
-     * Set synonyms.
-     *
-     * @param array $synonyms
-     */
-    public function setSynonyms($synonyms): self
+    public function setSynonyms(array $synonyms): self
     {
         $this->synonyms = [];
 
@@ -456,41 +300,24 @@ class Species
         return $this;
     }
 
-    /**
-     * Get synonyms.
-     */
     public function getSynonyms(): array
     {
         return $this->synonyms;
     }
 
-    /**
-     * Set description.
-     *
-     * @param string $description
-     */
-    public function setDescription($description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * Get description.
-     */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * Add strain.
-     *
-     *
-     * @return $this
-     */
-    public function addStrain(Strain $strain)
+    public function addStrain(Strain $strain): self
     {
         if (!$this->strains->contains($strain)) {
             $this->strains[] = $strain;
@@ -500,10 +327,7 @@ class Species
         return $this;
     }
 
-    /**
-     * Remove strain.
-     */
-    public function removeStrain(Strain $strain)
+    public function removeStrain(Strain $strain): self
     {
         if ($this->strains->contains($strain)) {
             $this->strains->removeElement($strain);
@@ -512,20 +336,12 @@ class Species
         return $this;
     }
 
-    /**
-     * Get strain.
-     *
-     * @return Strain|ArrayCollection
-     */
-    public function getStrains()
+    public function getStrains(): Collection
     {
         return $this->strains;
     }
 
-    /**
-     * Add Seo.
-     */
-    public function addSeo(Seo $seo)
+    public function addSeo(Seo $seo): self
     {
         if (!$this->seos->contains($seo)) {
             $this->seos[] = $seo;
@@ -535,10 +351,7 @@ class Species
         return $this;
     }
 
-    /**
-     * Remove Seo.
-     */
-    public function removeSeo(Seo $seo)
+    public function removeSeo(Seo $seo): self
     {
         if ($this->seos->contains($seo)) {
             $this->seos->removeElement($seo);
@@ -547,32 +360,19 @@ class Species
         return $this;
     }
 
-    /**
-     * Get Seo.
-     *
-     * @return Seo|ArrayCollection
-     */
-    public function getSeos()
+    public function getSeos(): Collection
     {
         return $this->seos;
     }
 
-    /**
-     * Set slug.
-     *
-     * @param string $slug
-     */
-    public function setSlug($slug): self
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
 
-    /**
-     * Get slug.
-     */
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }

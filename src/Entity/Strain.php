@@ -19,12 +19,11 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Strain.
- *
  * @ORM\Table(name="strain")
  * @ORM\Entity(repositoryClass="App\Repository\StrainRepository")
  * @ORM\HasLifecycleCallbacks
@@ -32,10 +31,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Strain
 {
     /**
-     * The ID in the database.
-     *
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -43,114 +38,64 @@ class Strain
     private $id;
 
     /**
-     * The name of the strain.
-     *
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
     /**
-     * An array of synonymes.
-     *
-     * @var array
-     *
      * @ORM\Column(name="synonymes", type="array")
      */
     private $synonymes;
 
     /**
-     * The length of the strain. (Total of chromosomes length).
-     *
-     * @var int
-     *
      * @ORM\Column(name="length", type="integer")
      */
     private $length;
 
     /**
-     * The G/C percentage.
-     *
-     * @var float
-     *
      * @ORM\Column(name="gc", type="float")
      */
     private $gc;
 
     /**
-     * The status of the strain.
-     * Eg: complete.
-     *
-     * @var string
-     *
      * @ORM\Column(name="status", type="string", length=255)
      */
     private $status;
 
     /**
-     * The number of CDS.
-     *
-     * @var int
-     *
      * @ORM\Column(name="cdsCount", type="integer")
      */
     private $cdsCount;
 
     /**
-     * The owned chromosomes.
-     *
-     * @var Chromosome|ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Chromosome", mappedBy="strain", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $chromosomes;
 
     /**
-     * The parent species.
-     *
-     * @var Species
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Species", inversedBy="strains")
      * @ORM\JoinColumn(nullable=false)
      */
     private $species;
 
     /**
-     * The Seo linked on the species.
-     *
-     * @var Seo|ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Seo", mappedBy="strain", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $seos;
 
     /**
-     * The slug, for url.
-     *
-     * @var string
-     *
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
      */
     private $slug;
 
     /**
-     * Is the strain public ?
-     * Eg: true (public) or false (private).
-     *
-     * @var bool
-     *
      * @ORM\Column(name="public", type="boolean")
      */
     private $public = false;
 
     /**
-     * The users for this strain.
-     *
-     * @var User|ArrayCollection
-     *
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="strains")
      */
     private $users;
@@ -166,18 +111,11 @@ class Strain
     private $references;
 
     /**
-     * Blast.
-     *
-     * @var BlastFile|ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\BlastFile", mappedBy="strain", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $blastFiles;
 
-    /**
-     * Strain constructor.
-     */
     public function __construct()
     {
         $this->synonymes = [];
@@ -188,40 +126,24 @@ class Strain
         $this->blastFiles = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * Add synonym.
-     *
-     * @param string $synonym
-     */
-    public function addSynonym($synonym): self
+    public function addSynonym(string $synonym): self
     {
         if (!empty($synonym) && !\in_array($synonym, $this->synonymes, true)) {
             $this->synonymes[] = $synonym;
@@ -230,12 +152,7 @@ class Strain
         return $this;
     }
 
-    /**
-     * Remove synonym.
-     *
-     * @param string $synonym
-     */
-    public function removeSynonym($synonym): self
+    public function removeSynonym(string $synonym): self
     {
         if (false !== $key = array_search($synonym, $this->synonymes, true)) {
             unset($this->synonymes[$key]);
@@ -245,9 +162,6 @@ class Strain
         return $this;
     }
 
-    /**
-     * Empty synonymes.
-     */
     public function emptySynonymes(): self
     {
         $this->synonymes = [];
@@ -255,13 +169,10 @@ class Strain
         return $this;
     }
 
-    /**
-     * Set synonymes.
-     *
-     * @param array $synonymes
-     */
-    public function setSynonymes($synonymes): self
+    public function setSynonymes(array $synonymes): self
     {
+        $this->synonymes = [];
+
         foreach ($synonymes as $synonym) {
             $this->addSynonym($synonym);
         }
@@ -269,101 +180,60 @@ class Strain
         return $this;
     }
 
-    /**
-     * Get synonymes.
-     */
     public function getSynonymes(): array
     {
         return $this->synonymes;
     }
 
-    /**
-     * Set length.
-     *
-     * @param int $length
-     */
-    public function setLength($length): self
+    public function setLength(int $length): self
     {
         $this->length = $length;
 
         return $this;
     }
 
-    /**
-     * Get length.
-     */
-    public function getLength(): int
+    public function getLength(): ?int
     {
         return $this->length;
     }
 
-    /**
-     * Set gc.
-     *
-     * @param float $gc
-     */
-    public function setGc($gc): self
+    public function setGc(float $gc): self
     {
         $this->gc = $gc;
 
         return $this;
     }
 
-    /**
-     * Get gc.
-     */
-    public function getGc(): float
+    public function getGc(): ?float
     {
         return $this->gc;
     }
 
-    /**
-     * Set status.
-     *
-     * @param string $status
-     */
-    public function setStatus($status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
         return $this;
     }
 
-    /**
-     * Get status.
-     */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    /**
-     * Set cdsCount.
-     *
-     * @param int $cdsCount
-     */
-    public function setCdsCount($cdsCount): self
+    public function setCdsCount(int $cdsCount): self
     {
         $this->cdsCount = $cdsCount;
 
         return $this;
     }
 
-    /**
-     * Get cdsCount.
-     */
-    public function getCdsCount(): int
+    public function getCdsCount(): ?int
     {
         return $this->cdsCount;
     }
 
-    /**
-     * Add chromosomes.
-     *
-     *
-     * @return $this
-     */
-    public function addChromosome(Chromosome $chromosome)
+    public function addChromosome(Chromosome $chromosome): self
     {
         if (!$this->chromosomes->contains($chromosome)) {
             $this->chromosomes[] = $chromosome;
@@ -373,13 +243,7 @@ class Strain
         return $this;
     }
 
-    /**
-     * Remove chromosomes.
-     *
-     *
-     * @return $this
-     */
-    public function removeChromosome(Chromosome $chromosome)
+    public function removeChromosome(Chromosome $chromosome): self
     {
         if ($this->chromosomes->contains($chromosome)) {
             $this->chromosomes->removeElement($chromosome);
@@ -388,40 +252,23 @@ class Strain
         return $this;
     }
 
-    /**
-     * Get chromosomes.
-     *
-     * @return Chromosome|ArrayCollection
-     */
-    public function getChromosomes()
+    public function getChromosomes(): Collection
     {
         return $this->chromosomes;
     }
 
-    /**
-     * Set species.
-     *
-     *
-     * @return $this
-     */
-    public function setSpecies(Species $species)
+    public function setSpecies(Species $species): self
     {
         $this->species = $species;
 
         return $this;
     }
 
-    /**
-     * Get species.
-     */
-    public function getSpecies(): Species
+    public function getSpecies(): ?Species
     {
         return $this->species;
     }
 
-    /**
-     * Add Seo.
-     */
     public function addSeo(Seo $seo): self
     {
         if (!$this->seos->contains($seo)) {
@@ -432,10 +279,7 @@ class Strain
         return $this;
     }
 
-    /**
-     * Remove Seo.
-     */
-    public function removeSeo(Seo $seo)
+    public function removeSeo(Seo $seo): self
     {
         if ($this->seos->contains($seo)) {
             $this->seos->removeElement($seo);
@@ -444,77 +288,45 @@ class Strain
         return $this;
     }
 
-    /**
-     * Get Seo.
-     *
-     * @return Seo|ArrayCollection
-     */
-    public function getSeos()
+    public function getSeos(): Collection
     {
         return $this->seos;
     }
 
-    /**
-     * Set slug.
-     *
-     * @param string $slug
-     */
-    public function setSlug($slug): self
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
 
-    /**
-     * Get slug.
-     */
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    /**
-     * Set public.
-     *
-     * @param bool $bool
-     *
-     * @return $this
-     */
-    public function setPublic($bool)
+    public function setPublic(bool $bool): self
     {
         $this->public = $bool;
 
         return $this;
     }
 
-    /**
-     * Get public.
-     */
     public function getPublic(): bool
     {
         return $this->public;
     }
 
-    /**
-     * Is public?
-     */
     public function isPublic(): bool
     {
         return $this->public;
     }
 
-    /**
-     * Is private?
-     */
     public function isPrivate(): bool
     {
         return !$this->isPublic();
     }
 
-    /**
-     * Return if the strain is public or no, in letter.
-     */
     public function isPublicToString(): string
     {
         if ($this->isPublic()) {
@@ -524,9 +336,6 @@ class Strain
         return 'no';
     }
 
-    /**
-     * Return if the strain is private or no, in letter.
-     */
     public function isPrivateToString(): string
     {
         if ($this->isPrivate()) {
@@ -536,13 +345,7 @@ class Strain
         return 'no';
     }
 
-    /**
-     * Add user.
-     *
-     *
-     * @return $this
-     */
-    public function addUser(User $user)
+    public function addUser(User $user): self
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
@@ -551,13 +354,7 @@ class Strain
         return $this;
     }
 
-    /**
-     * Remove user.
-     *
-     *
-     * @return $this
-     */
-    public function removeUser(User $user)
+    public function removeUser(User $user): self
     {
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
@@ -566,19 +363,11 @@ class Strain
         return $this;
     }
 
-    /**
-     * Get users.
-     *
-     * @return User|ArrayCollection
-     */
-    public function getUsers()
+    public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    /**
-     * Get users id.
-     */
     public function getUsersId(): array
     {
         $usersId = [];
@@ -590,49 +379,28 @@ class Strain
         return $usersId;
     }
 
-    /**
-     * Is allowed user ?
-     *
-     * @param User $user
-     */
     public function isAllowedUser(User $user = null): bool
     {
         return $this->users->contains($user);
     }
 
-    /**
-     * Set type.
-     *
-     * @param bool $bool
-     *
-     * @return $this
-     */
-    public function setTypeStrain($bool)
+    public function setTypeStrain(bool $bool): self
     {
         $this->typeStrain = $bool;
 
         return $this;
     }
 
-    /**
-     * Get type.
-     */
     public function getTypeStrain(): bool
     {
         return $this->typeStrain;
     }
 
-    /**
-     * Is a type strain?
-     */
     public function isTypeStrain(): bool
     {
         return $this->typeStrain;
     }
 
-    /**
-     * Return if the strain is a type strain or not, in letter.
-     */
     public function isTypeStrainToString(): string
     {
         if ($this->isTypeStrain()) {
@@ -642,7 +410,7 @@ class Strain
         return 'no';
     }
 
-    public function addReference(Reference $reference)
+    public function addReference(Reference $reference): self
     {
         if (!$this->references->contains($reference)) {
             $this->references->add($reference);
@@ -651,7 +419,7 @@ class Strain
         return $this;
     }
 
-    public function removeReference(Reference $reference)
+    public function removeReference(Reference $reference): self
     {
         if ($this->references->contains($reference)) {
             $this->references->removeElement($reference);
@@ -660,18 +428,12 @@ class Strain
         return $this;
     }
 
-    public function getReferences()
+    public function getReferences(): Collection
     {
         return $this->references;
     }
 
-    /**
-     * Add BlastFile.
-     *
-     *
-     * @return $this
-     */
-    public function addBlastFile(BlastFile $blastFile)
+    public function addBlastFile(BlastFile $blastFile): self
     {
         if (!$this->blastFiles->contains($blastFile)) {
             $this->blastFiles[] = $blastFile;
@@ -681,13 +443,7 @@ class Strain
         return $this;
     }
 
-    /**
-     * Remove BlastFile.
-     *
-     *
-     * @return $this
-     */
-    public function removeBlastFile(BlastFile $blastFile)
+    public function removeBlastFile(BlastFile $blastFile): self
     {
         if ($this->blastFiles->contains($blastFile)) {
             $this->blastFiles->removeElement($blastFile);
@@ -696,12 +452,7 @@ class Strain
         return $this;
     }
 
-    /**
-     * Get BlastFiles.
-     *
-     * @return BlastFile|ArrayCollection
-     */
-    public function getBlastFiles()
+    public function getBlastFiles(): Collection
     {
         return $this->blastFiles;
     }

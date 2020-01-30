@@ -21,36 +21,27 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * The flat files, linked by chromosomes.
- *
  * @ORM\Entity(repositoryClass="App\Repository\BlastFileRepository")
  */
 class BlastFile extends File
 {
     /**
-     * Strain.
-     *
-     * @var Strain
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Strain", inversedBy="blastFiles")
      */
     private $strain;
 
-    public function setStrain(Strain $strain)
+    public function setStrain(Strain $strain): self
     {
         $this->strain = $strain;
+
+        return $this;
     }
 
-    public function getStrain(): Strain
+    public function getStrain(): ?Strain
     {
         return $this->strain;
     }
 
-    /**
-     * Get upload dir.
-     *
-     * Return the directory name where files are moved.
-     */
     public function getStorageDir(): string
     {
         return 'blast';

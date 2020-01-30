@@ -19,22 +19,17 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Clade.
- *
  * @ORM\Table(name="clade")
  * @ORM\Entity(repositoryClass="App\Repository\CladeRepository")
  */
 class Clade
 {
     /**
-     * The ID in the database.
-     *
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -42,10 +37,6 @@ class Clade
     private $id;
 
     /**
-     * The name of the clade.
-     *
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @Assert\Length(min=2)
      * @Assert\Regex("#^[A-Z]#")
@@ -53,53 +44,32 @@ class Clade
     private $name;
 
     /**
-     * The description of the clade.
-     *
-     * @var string
-     *
      * @ORM\Column(name="description", type="text")
      * @Assert\NotNull()
      */
     private $description;
 
     /**
-     * Is it a main clade ?
-     * true -> yes, false -> no.
-     *
-     * @var bool
-     *
      * @ORM\Column(name="mainClade", type="boolean")
      */
     private $mainClade;
 
     /**
-     * A collection of species in this clade.
-     *
-     * @var Species|ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Species", mappedBy="clade", cascade={"remove"})
      */
     private $species;
 
-    /**
-     * Clade constructor.
-     */
     public function __construct()
     {
         $this->species = new ArrayCollection();
+        $this->mainClade = false;
     }
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -107,17 +77,11 @@ class Clade
         return $this;
     }
 
-    /**
-     * Get name.
-     */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * Set description.
-     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -125,17 +89,11 @@ class Clade
         return $this;
     }
 
-    /**
-     * Get description.
-     */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * Set mainClade.
-     */
     public function setMainClade(bool $mainClade): self
     {
         $this->mainClade = $mainClade;
@@ -143,17 +101,11 @@ class Clade
         return $this;
     }
 
-    /**
-     * Get mainClade.
-     */
     public function getMainClade(): bool
     {
         return $this->mainClade;
     }
 
-    /**
-     * isMainCladeToString.
-     */
     public function isMainCladeToString(): string
     {
         if ($this->mainClade) {
@@ -163,12 +115,7 @@ class Clade
         return 'No';
     }
 
-    /**
-     * Get species.
-     *
-     * @return Species|ArrayCollection
-     */
-    public function getSpecies()
+    public function getSpecies(): Collection
     {
         return $this->species;
     }

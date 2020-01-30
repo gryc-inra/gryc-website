@@ -21,88 +21,61 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * The flat files, linked by chromosomes.
- *
  * @ORM\Entity(repositoryClass="App\Repository\FlatFileRepository")
  */
 class FlatFile extends File
 {
     /**
-     * A human readable name.
-     *
-     * @var string
-     *
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
 
     /**
-     * The file type.
-     *
-     * @var string
-     *
      * @ORM\Column(name="type", type="string", length=255)
      */
     private $type;
 
     /**
-     * Chromosome.
-     *
-     * @var Chromosome
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Chromosome", inversedBy="flatFiles")
      */
     private $chromosome;
 
-    /**
-     * @param $slug
-     *
-     * @return $this
-     */
-    public function setSlug($slug)
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
 
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    /**
-     * @param $type
-     *
-     * @return $this
-     */
-    public function setType($type)
+    public function setType(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setChromosome(Chromosome $chromosome)
+    public function setChromosome(Chromosome $chromosome): self
     {
         $this->chromosome = $chromosome;
+
+        return $this;
     }
 
-    public function getChromosome(): Chromosome
+    public function getChromosome(): ?Chromosome
     {
         return $this->chromosome;
     }
 
-    /**
-     * Get upload dir.
-     *
-     * Return the directory name where files are moved.
-     */
     public function getStorageDir(): string
     {
         return 'flat';

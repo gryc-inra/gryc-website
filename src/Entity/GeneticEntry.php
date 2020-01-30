@@ -22,15 +22,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * GeneticEntry.
- *
  * @ORM\MappedSuperclass
  */
 abstract class GeneticEntry
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -38,79 +34,57 @@ abstract class GeneticEntry
     private $id;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="strand", type="smallint")
      */
     private $strand;
 
     /**
-     * @var array
-     *
      * @ORM\Column(name="product", type="array")
      */
     private $product;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
-     * A slug, for url.
-     *
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
 
     /**
-     * @var \stdClass
-     *
      * @ORM\Column(name="dbXref", type="object", nullable=true)
      */
     private $dbXref;
 
     /**
-     * @var array
-     *
      * @ORM\Column(name="annotation", type="array")
      */
     private $annotation;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="type", type="string", length=255)
      */
     private $type;
 
     /**
-     * @var array
-     *
      * @ORM\Column(name="coordinates", type="array")
      */
     private $coordinates;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="start", type="integer")
      */
     private $start;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="end", type="integer")
      */
     private $end;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="note", type="text", nullable=true)
      */
     private $note;
@@ -124,237 +98,144 @@ abstract class GeneticEntry
         'o' => 'other',
     ];
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set strand.
-     *
-     * @param int $strand
-     */
-    public function setStrand($strand): self
+    public function setStrand(int $strand): self
     {
         $this->strand = $strand;
 
         return $this;
     }
 
-    /**
-     * Get strand.
-     */
-    public function getStrand(): int
+    public function getStrand(): ?int
     {
         return $this->strand;
     }
 
-    /**
-     * Set product.
-     *
-     * @param array $product
-     */
-    public function setProduct($product): self
+    public function setProduct(array $product): self
     {
         $this->product = $product;
 
         return $this;
     }
 
-    /**
-     * Get product.
-     */
     public function getProduct(): array
     {
         return $this->product;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * Set slug.
-     *
-     * @param string $slug
-     *
-     * @return $this
-     */
-    public function setSlug($slug)
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
 
-    /**
-     * Get slug.
-     */
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    /**
-     * Set dbXref.
-     *
-     * @param \stdClass $dbXref
-     */
-    public function setDbXref($dbXref): self
+    public function setDbXref(Dbxref $dbXref): self
     {
         $this->dbXref = $dbXref;
 
         return $this;
     }
 
-    /**
-     * Get dbXref.
-     */
-    public function getDbXref(): \stdClass
+    public function getDbXref(): Dbxref
     {
         return $this->dbXref;
     }
 
-    /**
-     * Set annotation.
-     *
-     * @param array $annotation
-     */
-    public function setAnnotation($annotation): self
+    public function setAnnotation(array $annotation): self
     {
         $this->annotation = $annotation;
 
         return $this;
     }
 
-    /**
-     * Get annotation.
-     */
     public function getAnnotation(): array
     {
         return $this->annotation;
     }
 
-    /**
-     * Set type.
-     *
-     * @param string $type
-     */
-    public function setType($type): self
+    public function setType(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    /**
-     * Get type.
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * Set coordinates.
-     *
-     * @param array $coordinates
-     */
-    public function setCoordinates($coordinates): self
+    public function setCoordinates(array $coordinates): self
     {
         $this->coordinates = $coordinates;
 
         return $this;
     }
 
-    /**
-     * Get coordinates.
-     */
     public function getCoordinates(): array
     {
         return $this->coordinates;
     }
 
-    /**
-     * Set start.
-     *
-     * @param int $start
-     */
-    public function setStart($start): self
+    public function setStart(int $start): self
     {
         $this->start = $start;
 
         return $this;
     }
 
-    /**
-     * Get start.
-     */
     public function getStart(): int
     {
         return $this->start;
     }
 
-    /**
-     * Set end.
-     *
-     * @param int $end
-     */
-    public function setEnd($end): self
+    public function setEnd(int $end): self
     {
         $this->end = $end;
 
         return $this;
     }
 
-    /**
-     * Get end.
-     */
     public function getEnd(): int
     {
         return $this->end;
     }
 
-    /**
-     * Set note.
-     *
-     * @param string $note
-     */
-    public function setNote($note): self
+    public function setNote(?string $note): self
     {
         $this->note = $note;
 
         return $this;
     }
 
-    /**
-     * Get note.
-     */
-    public function getNote(): string
+    public function getNote(): ?string
     {
         return $this->note;
     }
 
-    public function getSequence($showIntronUtr = true, $upstream = 0, $downstream = 0, $html = true)
+    public function getSequence($showIntronUtr = true, $upstream = 0, $downstream = 0, $html = true): ?string
     {
         if ($this instanceof Locus) {
             $locusSequence = $this->getLocusSequence();

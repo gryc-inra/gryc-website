@@ -19,6 +19,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,10 +55,6 @@ class Blast extends QueuingEntitySuperclass
     const DEFAULT_TOOL = 'blastp';
 
     /**
-     * The ID in the database.
-     *
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -65,15 +62,11 @@ class Blast extends QueuingEntitySuperclass
     private $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="tool", type="string", length=255)
      */
     private $tool;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="db", type="string", length=255)
      */
     private $database;
@@ -84,29 +77,21 @@ class Blast extends QueuingEntitySuperclass
     private $strains;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="query", type="text")
      */
     private $query;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(name="filter", type="boolean")
      */
     private $filter;
 
     /**
-     * @var float
-     *
      * @ORM\Column(name="evalue", type="float")
      */
     private $evalue;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(name="gapped", type="boolean")
      */
     private $gapped;
@@ -130,94 +115,91 @@ class Blast extends QueuingEntitySuperclass
         $this->id = null;
     }
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setTool($tool)
+    public function setTool(string $tool): self
     {
         $this->tool = $tool;
 
         return $this;
     }
 
-    public function getTool()
+    public function getTool(): ?string
     {
         return $this->tool;
     }
 
-    public function setDatabase($database)
+    public function setDatabase(string $database): self
     {
         $this->database = $database;
 
         return $this;
     }
 
-    public function getDatabase()
+    public function getDatabase(): ?string
     {
         return $this->database;
     }
 
-    public function setStrains($strains)
+    public function setStrains(Collection $strains): self
     {
         $this->strains = $strains;
 
         return $this;
     }
 
-    public function getStrains()
+    public function getStrains(): Collection
     {
         return $this->strains;
     }
 
-    public function setQuery($query)
+    public function setQuery(string $query): self
     {
         $this->query = $query;
 
         return $this;
     }
 
-    public function getQuery()
+    public function getQuery(): ?string
     {
         return $this->query;
     }
 
-    public function setFilter($filter)
+    public function setFilter(bool $filter): self
     {
         $this->filter = $filter;
 
         return $this;
     }
 
-    public function getFilter()
+    public function getFilter(): bool
     {
         return $this->filter;
     }
 
-    public function setEvalue($evalue)
+    public function setEvalue(float $evalue): self
     {
         $this->evalue = $evalue;
 
         return $this;
     }
 
-    public function getEvalue()
+    public function getEvalue(): ?float
     {
         return $this->evalue;
     }
 
-    public function setGapped($gapped)
+    public function setGapped(bool $gapped): self
     {
         $this->gapped = $gapped;
 
         return $this;
     }
 
-    public function getGapped()
+    public function getGapped(): bool
     {
         return $this->gapped;
     }

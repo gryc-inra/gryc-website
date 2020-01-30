@@ -19,22 +19,17 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Chromosome entity.
- *
  * @ORM\Table(name="chromosome")
  * @ORM\Entity(repositoryClass="App\Repository\ChromosomeRepository")
  */
 class Chromosome
 {
     /**
-     * The ID in the database.
-     *
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -42,202 +37,114 @@ class Chromosome
     private $id;
 
     /**
-     * The name of the chromosome.
-     *
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
-     * An array of accessions.
-     *
-     * @var array
-     *
      * @ORM\Column(name="accessions", type="array", nullable=true)
      */
     private $accessions;
 
     /**
-     * The chromosome description.
-     *
-     * @var string
-     *
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
 
     /**
-     * An array of keywords for the chromosome.
-     *
-     * @var array
-     *
      * @ORM\Column(name="keywords", type="array")
      */
     private $keywords;
 
     /**
-     * The project ID.
-     *
-     * @var string
-     *
      * @ORM\Column(name="projectId", type="string", length=255, nullable=true)
      */
     private $projectId;
 
     /**
-     * When the chromosome was created.
-     *
-     * @var \DateTime
-     *
      * @ORM\Column(name="dateCreated", type="datetime")
      */
     private $dateCreated;
 
     /**
-     * The num created.
-     *
-     * @var int
-     *
      * @ORM\Column(name="numCreated", type="integer", nullable=true)
      */
     private $numCreated;
 
     /**
-     * When the chromosome was released.
-     *
-     * @var \DateTime
-     *
      * @ORM\Column(name="dateReleased", type="datetime")
      */
     private $dateReleased;
 
     /**
-     * The numReleased.
-     *
-     * @var int
-     *
      * @ORM\Column(name="numReleased", type="integer", nullable=true)
      */
     private $numReleased;
 
     /**
-     * The version of the chromosome.
-     *
-     * @var int
-     *
      * @ORM\Column(name="numVersion", type="integer", nullable=true)
      */
     private $numVersion;
 
     /**
-     * The length of the chromosome.
-     *
-     * @var int
-     *
      * @ORM\Column(name="length", type="integer")
      */
     private $length;
 
     /**
-     * The G/C percent.
-     *
-     * @var float
-     *
      * @ORM\Column(name="gc", type="float")
      */
     private $gc;
 
     /**
-     * The number of CDS.
-     *
-     * @var int
-     *
      * @ORM\Column(name="cdsCount", type="integer")
      */
     private $cdsCount;
 
     /**
-     * Is it mitochondrial ?
-     * true -> yes, false -> no.
-     *
-     * @var bool
-     *
      * @ORM\Column(name="mitochondrial", type="boolean")
      */
     private $mitochondrial;
 
     /**
-     * A comment on this chromosome.
-     *
-     * @var string
-     *
      * @ORM\Column(name="comment", type="text", nullable=true)
      */
     private $comment;
 
     /**
-     * The strain that owned the chromosome.
-     *
-     * @var Strain
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Strain", inversedBy="chromosomes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $strain;
 
     /**
-     * The DNA sequence of the chromosome.
-     *
-     * @var DnaSequence
-     *
      * @ORM\OneToOne(targetEntity="App\Entity\DnaSequence", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $dnaSequence;
 
     /**
-     * Flat files of the chromsomes.
-     *
-     * @var FlatFile|ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\FlatFile", mappedBy="chromosome", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $flatFiles;
 
     /**
-     * A slug for url.
-     *
-     * @var string
-     *
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
      */
     private $slug;
 
     /**
-     * The source.
-     *
-     * @var string
-     *
      * @ORM\Column(name="source", type="string", length=255)
      */
     private $source;
 
     /**
-     * Locus.
-     *
-     * @var Locus|ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Locus", mappedBy="chromosome", cascade={"persist", "remove"})
      */
     private $locus;
 
-    /**
-     * Chromosome constructor.
-     */
     public function __construct()
     {
         $this->accessions = [];
@@ -247,40 +154,24 @@ class Chromosome
         $this->locus = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * Add accession.
-     *
-     * @param string $accession
-     */
-    public function addAccession($accession): self
+    public function addAccession(string $accession): self
     {
         if (!empty($accession) && !\in_array($accession, $this->accessions, true)) {
             $this->accessions[] = $accession;
@@ -289,12 +180,7 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Remove accession.
-     *
-     * @param string $accession
-     */
-    public function removeAccession($accession): self
+    public function removeAccession(string $accession): self
     {
         if (false !== $key = array_search($accession, $this->accessions, true)) {
             unset($this->accessions[$key]);
@@ -304,9 +190,6 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Empty accessions.
-     */
     public function emptyAccessions(): self
     {
         $this->accessions = [];
@@ -314,12 +197,7 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Set accession.
-     *
-     * @param array $accessions
-     */
-    public function setAccession($accessions): self
+    public function setAccession(array $accessions): self
     {
         if (null !== $accessions) {
             foreach ($accessions as $accession) {
@@ -330,40 +208,24 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Get accession.
-     */
     public function getAccessions(): array
     {
         return $this->accessions;
     }
 
-    /**
-     * Set description.
-     *
-     * @param string $description
-     */
-    public function setDescription($description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * Get description.
-     */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * Add keyword.
-     *
-     * @param string $keyword
-     */
-    public function addKeyword($keyword): self
+    public function addKeyword(string $keyword): self
     {
         if (!empty($keyword) && !\in_array($keyword, $this->keywords, true)) {
             $this->keywords[] = $keyword;
@@ -372,12 +234,7 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Remove keyword.
-     *
-     * @param string $keyword
-     */
-    public function removeKeyword($keyword): self
+    public function removeKeyword(string $keyword): self
     {
         if (false !== $key = array_search($keyword, $this->keywords, true)) {
             unset($this->keywords[$key]);
@@ -387,9 +244,6 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Empty keywords.
-     */
     public function emptyKeywords(): self
     {
         $this->keywords = [];
@@ -397,12 +251,7 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Set keywords.
-     *
-     * @param array $keywords
-     */
-    public function setKeywords($keywords): self
+    public function setKeywords(array $keywords): self
     {
         if (null === $keywords) {
             return $this;
@@ -415,37 +264,23 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Get keywords.
-     */
     public function getKeywords(): array
     {
         return $this->keywords;
     }
 
-    /**
-     * Set projectId.
-     *
-     * @param string $projectId
-     */
-    public function setProjectId($projectId = null): self
+    public function setProjectId(?string $projectId): self
     {
         $this->projectId = $projectId;
 
         return $this;
     }
 
-    /**
-     * Get projectId.
-     */
-    public function getProjectId(): string
+    public function getProjectId(): ?string
     {
         return $this->projectId;
     }
 
-    /**
-     * Set dateCreated.
-     */
     public function setDateCreated(\DateTime $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
@@ -453,37 +288,23 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Get dateCreated.
-     */
     public function getDateCreated(): \DateTime
     {
         return $this->dateCreated;
     }
 
-    /**
-     * Set numCreated.
-     *
-     * @param int $numCreated
-     */
-    public function setNumCreated($numCreated): self
+    public function setNumCreated(?int $numCreated): self
     {
         $this->numCreated = $numCreated;
 
         return $this;
     }
 
-    /**
-     * Get numCreated.
-     */
-    public function getNumCreated(): int
+    public function getNumCreated(): ?int
     {
         return $this->numCreated;
     }
 
-    /**
-     * Set dateReleased.
-     */
     public function setDateReleased(\DateTime $dateReleased): self
     {
         $this->dateReleased = $dateReleased;
@@ -491,203 +312,120 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Get dateReleased.
-     */
     public function getDateReleased(): \DateTime
     {
         return $this->dateReleased;
     }
 
-    /**
-     * Set numReleased.
-     *
-     * @param int $numReleased
-     */
-    public function setNumReleased($numReleased): self
+    public function setNumReleased(?int $numReleased): self
     {
         $this->numReleased = $numReleased;
 
         return $this;
     }
 
-    /**
-     * Get numReleased.
-     */
-    public function getNumReleased(): int
+    public function getNumReleased(): ?int
     {
         return $this->numReleased;
     }
 
-    /**
-     * Set numVersion.
-     *
-     * @param int $numVersion
-     */
-    public function setNumVersion($numVersion): self
+    public function setNumVersion(?int $numVersion): self
     {
         $this->numVersion = $numVersion;
 
         return $this;
     }
 
-    /**
-     * Get numVersion.
-     */
-    public function getNumVersion(): int
+    public function getNumVersion(): ?int
     {
         return $this->numVersion;
     }
 
-    /**
-     * Set length.
-     *
-     * @param int $length
-     */
-    public function setLength($length): self
+    public function setLength(int $length): self
     {
         $this->length = $length;
 
         return $this;
     }
 
-    /**
-     * Get length.
-     */
-    public function getLength(): int
+    public function getLength(): ?int
     {
         return $this->length;
     }
 
-    /**
-     * Set gc.
-     *
-     * @param float $gc
-     */
-    public function setGc($gc): self
+    public function setGc(float $gc): self
     {
         $this->gc = $gc;
 
         return $this;
     }
 
-    /**
-     * Get gc.
-     */
-    public function getGc(): float
+    public function getGc(): ?float
     {
         return $this->gc;
     }
 
-    /**
-     * Set cdsCount.
-     *
-     * @param int $cdsCount
-     */
-    public function setCdsCount($cdsCount): self
+    public function setCdsCount(int $cdsCount): self
     {
         $this->cdsCount = $cdsCount;
 
         return $this;
     }
 
-    /**
-     * Get cdsCount.
-     */
-    public function getCdsCount(): int
+    public function getCdsCount(): ?int
     {
         return $this->cdsCount;
     }
 
-    /**
-     * Set mitochondrial.
-     *
-     * @param bool $mitochondrial
-     */
-    public function setMitochondrial($mitochondrial): self
+    public function setMitochondrial(bool $mitochondrial): self
     {
         $this->mitochondrial = $mitochondrial;
 
         return $this;
     }
 
-    /**
-     * Get mitochondrial.
-     */
-    public function getMitochondrial(): bool
+    public function getMitochondrial(): ?bool
     {
         return $this->mitochondrial;
     }
 
-    /**
-     * Set comment.
-     *
-     * @param string $comment
-     */
-    public function setComment($comment = null): self
+    public function setComment(?string $comment): self
     {
         $this->comment = $comment;
 
         return $this;
     }
 
-    /**
-     * Get comment.
-     */
-    public function getComment(): string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
 
-    /**
-     * Set strain.
-     *
-     *
-     * @return $this
-     */
-    public function setStrain(Strain $strain)
+    public function setStrain(Strain $strain): self
     {
         $this->strain = $strain;
 
         return $this;
     }
 
-    /**
-     * Get strain.
-     */
-    public function getStrain(): Strain
+    public function getStrain(): ?Strain
     {
         return $this->strain;
     }
 
-    /**
-     * Set DnaSequence.
-     *
-     *
-     * @return $this
-     */
-    public function setDnaSequence(DnaSequence $dnaSequence)
+    public function setDnaSequence(DnaSequence $dnaSequence): self
     {
         $this->dnaSequence = $dnaSequence;
 
         return $this;
     }
 
-    /**
-     * Get DnaSequence.
-     */
-    public function getDnaSequence(): DnaSequence
+    public function getDnaSequence(): ?DnaSequence
     {
         return $this->dnaSequence;
     }
 
-    /**
-     * Add FlatFile.
-     *
-     *
-     * @return $this
-     */
-    public function addFlatFile(FlatFile $flatFile)
+    public function addFlatFile(FlatFile $flatFile): self
     {
         if (!$this->flatFiles->contains($flatFile)) {
             $this->flatFiles[] = $flatFile;
@@ -697,13 +435,7 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Remove FlatFile.
-     *
-     *
-     * @return $this
-     */
-    public function removeFlatFile(FlatFile $flatFile)
+    public function removeFlatFile(FlatFile $flatFile): self
     {
         if ($this->flatFiles->contains($flatFile)) {
             $this->flatFiles->removeElement($flatFile);
@@ -712,61 +444,36 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Get FlatFile.
-     *
-     * @return FlatFile|ArrayCollection
-     */
-    public function getFlatFiles()
+    public function getFlatFiles(): Collection
     {
         return $this->flatFiles;
     }
 
-    /**
-     * Set slug.
-     *
-     * @param string $slug
-     */
-    public function setSlug($slug): self
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
 
-    /**
-     * Get slug.
-     */
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    /**
-     * Set source.
-     */
-    public function setSource($source): self
+    public function setSource(string $source): self
     {
         $this->source = $source;
 
         return $this;
     }
 
-    /**
-     * Get source.
-     */
-    public function getSource(): string
+    public function getSource(): ?string
     {
         return $this->source;
     }
 
-    /**
-     * Add Locus.
-     *
-     *
-     * @return $this
-     */
-    public function addLocus(Locus $locus)
+    public function addLocus(Locus $locus): self
     {
         if (!$this->locus->contains($locus)) {
             $this->locus[] = $locus;
@@ -776,13 +483,7 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Remove Locus.
-     *
-     *
-     * @return $this
-     */
-    public function removeLocus(Locus $locus)
+    public function removeLocus(Locus $locus): self
     {
         if ($this->locus->contains($locus)) {
             $this->locus->removeElement($locus);
@@ -791,12 +492,7 @@ class Chromosome
         return $this;
     }
 
-    /**
-     * Get Locus.
-     *
-     * @return Locus|ArrayCollection
-     */
-    public function getLocus()
+    public function getLocus(): Collection
     {
         return $this->locus;
     }

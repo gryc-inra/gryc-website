@@ -41,46 +41,38 @@ class Product extends GeneticEntry
      */
     private $structure;
 
-    public function setFeature(Feature $feature)
+    public function setFeature(Feature $feature): self
     {
         $this->feature = $feature;
 
         return $this;
     }
 
-    public function getFeature()
+    public function getFeature(): ?Feature
     {
         return $this->feature;
     }
 
-    public function setTranslation($translation)
+    public function setTranslation(?string $translation)
     {
         $this->translation = $translation;
 
         return $this;
     }
 
-    public function getTranslation()
+    public function getTranslation(): ?string
     {
         return $this->translation;
     }
 
-    /**
-     * Set structure.
-     *
-     * @param array $structure
-     */
-    public function setStructure($structure): GeneticEntry
+    public function setStructure(?array $structure): self
     {
         $this->structure = $structure;
 
         return $this;
     }
 
-    /**
-     * Get structure.
-     */
-    public function getStructure(): array
+    public function getStructure(): ?array
     {
         return $this->structure;
     }
